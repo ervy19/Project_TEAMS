@@ -18,7 +18,7 @@ class CreatePositionsTable extends Migration {
 			$table->text(‘title’, 100);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

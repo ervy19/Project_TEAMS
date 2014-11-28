@@ -21,7 +21,7 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 			$table->foreign(‘schools_colleges_id’)->references(‘id’)-on(‘schools_colleges’);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

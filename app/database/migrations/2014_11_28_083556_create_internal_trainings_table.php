@@ -34,7 +34,7 @@ class CreateInternalTrainingsTable extends Migration {
 			$table->foreign(‘organizer_department_id’)->references(‘id’)->on(‘departments’);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

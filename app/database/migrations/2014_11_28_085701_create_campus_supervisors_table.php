@@ -21,8 +21,7 @@ class CreateCampusSupervisorsTable extends Migration {
 			$table->foreign(‘campus_id’)->references(‘id’)->on(‘campuses’);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
-
+			$table->timestamps();
 		});
 	}
 

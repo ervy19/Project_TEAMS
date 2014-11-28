@@ -18,7 +18,7 @@ class CreateSchoolsCollegesTable extends Migration {
 			$table->text(‘name’, 100);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

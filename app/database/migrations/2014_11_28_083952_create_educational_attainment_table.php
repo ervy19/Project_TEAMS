@@ -24,7 +24,7 @@ class CreateEducationalAttainmentTable extends Migration {
 			$table->foreign('employee_id')->references('id')->on('employees');
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

@@ -22,7 +22,7 @@ class CreateEmployeesTable extends Migration {
 			$table->tinyInteger('tenure');
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

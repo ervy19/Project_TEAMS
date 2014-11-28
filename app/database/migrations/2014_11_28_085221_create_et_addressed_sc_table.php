@@ -23,7 +23,7 @@ class CreateEtAddressedScTable extends Migration {
 			$table->foreign('external_training_id')->references('id')->on('external_trainings');
 			
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

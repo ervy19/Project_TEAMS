@@ -27,7 +27,7 @@ class CreateExternalTrainingsTable extends Migration {
 			$table->foreign(‘designation_id’)->references(‘id’)on->on(‘employee_designations’);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

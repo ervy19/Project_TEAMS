@@ -19,7 +19,7 @@ class CreateCampusesTable extends Migration {
 			$table->text('address', 255);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

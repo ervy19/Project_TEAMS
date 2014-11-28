@@ -23,7 +23,7 @@ class CreatePositionScTable extends Migration {
 			$table->foreign('position_id')->references('id')->on('positions');
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

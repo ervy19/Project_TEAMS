@@ -19,7 +19,7 @@ class CreateSupervisorsTable extends Migration {
 			$table->char(‘supervisor_type’, 2);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

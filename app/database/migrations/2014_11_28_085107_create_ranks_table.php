@@ -20,7 +20,7 @@ class CreateRanksTable extends Migration {
 			$table->text('level', 255);
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

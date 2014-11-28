@@ -38,7 +38,7 @@ class CreateActivityEvaluationsTable extends Migration {
 			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 

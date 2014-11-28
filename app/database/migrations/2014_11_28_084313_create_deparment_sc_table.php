@@ -23,7 +23,7 @@ class CreateDeparmentScTable extends Migration {
 			$table->foreign('department_id')->references('id')->on('departments');
 
 			$table->boolean(‘isActive’)->default(true);
-			$table->timestamps;
+			$table->timestamps();
 		});
 	}
 
