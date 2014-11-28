@@ -1,0 +1,40 @@
+.row {
+	margin-top: 50px;
+}
+
+.navbar {
+    background: #F5A3BD;
+    border: none;
+    border-radius: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    -webkit-box-shadow: 0 3px 2px -2px #999;
+       -moz-box-shadow: 0 3px 2px -2px #999;
+            box-shadow: 0 3px 2px -2px #999;
+}
+
+.navbar-default .navbar-brand {
+	color: #FFF;
+}
+
+.navbar-default .nav>li {
+    padding: 4px 3px;
+}
+
+.navbar-default .nav>li>a {
+    color: #FFF;
+    font-size: 0.9em;
+    font-weight: 300;
+}
+
+.navbar-default .navbar-nav>.active>a, 
+.navbar-default .navbar-nav>.active>a:hover, 
+.navbar-default .navbar-nav>.active>a:focus
+{
+    color: #008D98;
+    font-weight: 400;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #008D98;
+}
