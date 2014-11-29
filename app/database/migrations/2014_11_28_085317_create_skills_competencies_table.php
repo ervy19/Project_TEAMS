@@ -12,7 +12,7 @@ class CreateSkillsCompetenciesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('skills_competencies', function(Blueprint $table)
+		Schema::create('skills_competencies', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 255);

@@ -12,7 +12,7 @@ class CreateEtQueuesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”et_queues”', function(Blueprint $table)
+		Schema::create('et_queues', function($table)
 		{
 			$table->increments('id');
 			$table->text('title', 255);
@@ -24,11 +24,15 @@ class CreateEtQueuesTable extends Migration {
 			$table->date('date_end');
 
 			$table->integer('designation_id')->unsigned();
-			$table->foreign('designation_id')->references('id')->on('employee_designations');
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('et_queues', function($table) 
+		{
+			$table->foreign('designation_id')->references('id')->on('employee_designations');
+  		});
 	}
 
 	/**

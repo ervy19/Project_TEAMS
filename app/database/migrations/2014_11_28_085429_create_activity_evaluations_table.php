@@ -12,7 +12,7 @@ class CreateActivityEvaluationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('activity_evaluations', function(Blueprint $table)
+		Schema::create('activity_evaluations', function($table)
 		{
 			$table->increments('id');
 			$table->decimal('planning_criterion1', 1, 4);
@@ -35,11 +35,15 @@ class CreateActivityEvaluationsTable extends Migration {
 			$table->text('comments');
 			
 			$table->integer('training_id')->unsigned();
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('activity_evaluations', function($table) 
+		{
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
+  		});
 	}
 
 	/**

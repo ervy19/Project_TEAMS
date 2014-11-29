@@ -12,7 +12,7 @@ class CreateFocusAreaTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”focus_area”', function(Blueprint $table)
+		Schema::create('focus_area', function($table)
 		{
 			$table->increments('id');
 			$table->boolean('instructional_strategy');
@@ -24,11 +24,15 @@ class CreateFocusAreaTable extends Migration {
 			$table->text('others', 255);
 
 			$table->integer('training_id')->unsigned();
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('focus_area', function($table) 
+		{
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
+  		});
 	}
 
 	/**

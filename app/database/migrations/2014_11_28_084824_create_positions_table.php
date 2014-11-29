@@ -12,7 +12,7 @@ class CreatePositionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('positions', function(Blueprint $table)
+		Schema::create('positions', function($table)
 		{
 			$table->increments('id');
 			$table->text('title', 100);

@@ -12,7 +12,7 @@ class CreateSupervisorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('supervisors', function(Blueprint $table)
+		Schema::create('supervisors', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 255);

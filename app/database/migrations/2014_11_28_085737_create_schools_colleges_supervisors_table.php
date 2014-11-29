@@ -12,17 +12,21 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”schools_colleges_supervisors”', function(Blueprint $table)
+		Schema::create('schools_colleges_supervisors', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 100);
 
 			$table->integer('schools_colleges_id')->unsigned();
-			$table->foreign('schools_colleges_id')->references('id')-on('schools_colleges');
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('schools_colleges_supervisors', function($table) 
+		{
+			$table->foreign('schools_colleges_id')->references('id')-on('schools_colleges');
+  		});
 	}
 
 	/**

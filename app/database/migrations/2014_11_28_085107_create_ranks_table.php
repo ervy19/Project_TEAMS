@@ -12,7 +12,7 @@ class CreateRanksTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ranks', function(Blueprint $table)
+		Schema::create('ranks', function($table)
 		{
 			$table->increments('id');
 			$table->text('code', 255);

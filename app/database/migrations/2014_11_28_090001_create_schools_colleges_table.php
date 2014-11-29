@@ -12,7 +12,7 @@ class CreateSchoolsCollegesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”schools_colleges”', function(Blueprint $table)
+		Schema::create('”schools_colleges”', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 100);

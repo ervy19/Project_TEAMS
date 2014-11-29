@@ -12,19 +12,22 @@ class CreateDeparmentScTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('department_sc', function(Blueprint $table)
+		Schema::create('department_sc', function($table)
 		{
 			$table->increments('id');
 	
 			$table->integer('skills_competencies_id')->unsigned();
-			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
-			
 			$table->integer('department_id')->unsigned();
-			$table->foreign('department_id')->references('id')->on('departments');
-
+			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('department_sc', function($table) 
+		{
+			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
+			$table->foreign('department_id')->references('id')->on('departments');
+  		});
 	}
 
 	/**

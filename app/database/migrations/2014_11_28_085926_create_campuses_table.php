@@ -12,7 +12,7 @@ class CreateCampusesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('campuses', function(Blueprint $table)
+		Schema::create('campuses', function($table)
 		{
 			$table->increments('id');
 			$table->text('title', 100);

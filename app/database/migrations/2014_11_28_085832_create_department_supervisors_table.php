@@ -12,17 +12,21 @@ class CreateDepartmentSupervisorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”department_supervisors”', function(Blueprint $table)
+		Schema::create('department_supervisors', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 100);
 			
 			$table->integer('deparment_id')->unsigned();
-			$table->foreign('department_id')->references('id')->on('departments');
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('department_supervisors', function($table) 
+		{
+			$table->foreign('department_id')->references('id')->on('departments');
+  		});
 	}
 
 	/**

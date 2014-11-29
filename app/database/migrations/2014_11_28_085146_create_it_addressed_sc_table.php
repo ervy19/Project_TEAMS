@@ -12,19 +12,22 @@ class CreateItAddressedScTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('it_addressed_sc', function(Blueprint $table)
+		Schema::create('it_addressed_sc', function($table)
 		{
 			$table->increments('id');
 	
 			$table->integer('skills_competencies_id')->unsigned();
-			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
-			
 			$table->integer('internal_training_id')->unsigned();
-			$table->foreign('internal_training_id')->references('id')->on('internal_trainings');
-
+			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('it_addressed_sc', function($table) 
+		{
+			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
+			$table->foreign('internal_training_id')->references('id')->on('internal_trainings');
+  		});
 	}
 
 	/**
