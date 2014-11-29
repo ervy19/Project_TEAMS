@@ -15,25 +15,25 @@ class CreateInternalTrainingsTable extends Migration {
 		Schema::create('internal_trainings', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text('title', 255);
+			$table->text('title', 255)->nullable();
 			$table->text('theme_topic', 255);
-			$table->text('venue', 255);
-			$table->date('date_start');
-			$table->date(‘date_end’);
-			$table->time('time_start');
-			$table->time('time_end');
+			$table->text('venue', 255)->nullable();
+			$table->date('date_start')->nullable();
+			$table->date('date_end')->nullable();
+			$table->time('time_start')->nullable();
+			$table->time('time_end')->nullable();
 			$table->text('objectives');
-			$table->text('expected_outcome');
-			$table->text('evaluation_narrative');
-			$table->text('recommendations');
+			$table->text('expected_outcome')->nullable();
+			$table->text('evaluation_narrative')->nullable();
+			$table->text('recommendations')->nullable();
 
-			$table->integer(‘organizer_schools_colleges_id’)->unsigned();
-			$table->foreign(‘organizer_schools_colleges_id’)->references(‘id’)->on(‘schools_colleges’);
+			$table->integer('organizer_schools_colleges_id')->unsigned();
 
-			$table->integer(‘organizer_department_id’)->unsigned();
-			$table->foreign(‘organizer_department_id’)->references(‘id’)->on(‘departments’);
+			$table->integer('organizer_department_id')->unsigned();
+			$table->foreign('organizer_department_id')->references('id')->on('departments');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isTrainingPlan')->default(false);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
