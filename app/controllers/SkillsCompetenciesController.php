@@ -10,10 +10,9 @@ class SkillsCompetenciesController extends \BaseController {
 	public function index()
 	{
 
-		//$scs = DB::table('skills_competencies')->get();
+		//$scs = SkillsCompetencies::all();
 
-		//
-		return View::make('skills_competencies.index');
+		return View::make('skills_competencies.index')
 	}
 
 
