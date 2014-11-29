@@ -1,8 +1,8 @@
 <?php
 
-class Skill_Competency extends Eloquent {
+class SkillsCompetencies extends Eloquent {
 
-	protected $table ='skills_competencies';
+	protected $table = 'skills_competencies';
 
 	protected $fillable = array('id', 'name', 'isActive');
 
@@ -23,5 +23,3 @@ class Skill_Competency extends Eloquent {
 	}
 	
 }
-
-?>

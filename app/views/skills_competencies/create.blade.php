@@ -8,11 +8,16 @@
 
 	<h1>Add Skill or Competency</h1>
 
-	{{ Form::open(['route' =>  'skills_competencies.store']) }}
+	<a href="{{ URL::to('skills_competencies') }}" class="btn btn-primary">Back</a>
+
+	<!-- if there are creation errors, they will show here -->
+	{{ HTML::ul($errors->all()) }}
+
+	{{ Form::open(array('url' => 'skills_competencies')) }}
 
 		<div class="form-group">
 			{{ Form::label('skill_competency','Skill or Competency: ') }}
-			{{ Form::text('skill_competency') }}
+			{{ Form::text('skill_competency', Input::old('skill_competency')) }}
 		</div>
 
 		{{ Form::submit('Add Skill/Competency') }}

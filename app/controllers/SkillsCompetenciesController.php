@@ -10,9 +10,10 @@ class SkillsCompetenciesController extends \BaseController {
 	public function index()
 	{
 
-		//$scs = SkillsCompetencies::all();
+		$scs = SkillsCompetencies::all();
 
 		return View::make('skills_competencies.index')
+			->with('scs', $scs );
 	}
 
 
@@ -23,7 +24,6 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
 		return View::make('skills_competencies.create');
 	}
 
@@ -35,7 +35,28 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'skill_competency' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('skills_competencies/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $scs = new SkillsCompetencies;
+            $scs->name = Input::get('skill_competency');
+            $scs->save();
+
+            // redirect
+            Session::flash('message', 'Successfully created Skill/Competency!');
+            return Redirect::to('skills_competencies');
+        }
 	}
 
 
@@ -47,9 +68,10 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+        $scs = SkillsCompetencies::find($id);
 
-		return View::make('skills_competencies.show');
+		return View::make('skills_competencies.show')
+			->with('scs', $scs );
 	}
 
 
@@ -61,11 +83,11 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+        $scs = SkillsCompetencies::find($id);
 
-		return View::make('skills_competencies.edit');
+		return View::make('skills_competencies.edit')
+			->with('scs', $scs );
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -75,9 +97,29 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
-	}
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'skill_competency' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
 
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('skills_competencies/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $scs = SkillsCompetencies::find($id);
+            $scs->name = Input::get('skill_competency');
+            $scs->save();
+
+            // redirect
+            Session::flash('message', 'Successfully updated Skill/Competency!');
+            return Redirect::to('skills_competencies');
+        }
+	}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -87,8 +129,12 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
-	}
+		$scs = SkillsCompetencies::find($id);
+        $scs->delete();
 
+        // redirect
+        Session::flash('message', 'Successfully deleted Skill/Competency!');
+        return Redirect::to('skills_competencies');
+	}
 
 }
