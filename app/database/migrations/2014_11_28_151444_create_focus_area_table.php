@@ -16,7 +16,7 @@ class CreateFocusAreaTable extends Migration {
 		{
 			$table->increments('id');
 			$table->boolean('instructional_strategy');
-			$table->boolean('evalutaion_of_learning');
+			$table->boolean('evaluation_of_learning');
 			$table->boolean('curriculum_enrichment');
 			$table->boolean('research_aid_instruction');
 			$table->boolean('content_update');
