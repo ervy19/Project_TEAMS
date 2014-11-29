@@ -23,22 +23,15 @@ class CreateExternalTrainingsTable extends Migration {
 			$table->date('date_start');
 			$table->date('date_end');
 
-<<<<<<< HEAD
-			$table->integer(‘designation_id’)->unsigned();
-			
-			$table->boolean(‘isActive’)->default(true);
-=======
 			$table->integer('designation_id')->unsigned();
-			$table->foreign('designation_id')->references('id')->on('employee_designations');
-
+			
 			$table->boolean('isActive')->default(true);
->>>>>>> origin/master
 			$table->timestamps();
 		});
 
 		Schema::table('external_trainings', function($table) 
 		{
-			$table->foreign('designation_id')->references('id')on->on('employee_designations');
+			$table->foreign('designation_id')->references('id')->on('employee_designations');
   		});
 	}
 
