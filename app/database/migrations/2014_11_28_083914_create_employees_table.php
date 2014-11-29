@@ -15,13 +15,13 @@ class CreateEmployeesTable extends Migration {
 		Schema::create('employees', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text(‘employee_number’, 6);
+			$table->text('employee_number', 6);
 			$table->text('name', 255);
-			$table->text(‘email’,255);
+			$table->text('email',255);
 			$table->tinyInteger('age');
 			$table->tinyInteger('tenure');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

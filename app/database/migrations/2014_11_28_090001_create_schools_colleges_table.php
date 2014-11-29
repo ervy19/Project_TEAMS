@@ -14,10 +14,10 @@ class CreateSchoolsCollegesTable extends Migration {
 	{
 		Schema::create('”schools_colleges”', function(Blueprint $table)
 		{
-			$table->increments(‘id’);
-			$table->text(‘name’, 100);
+			$table->increments('id');
+			$table->text('name', 100);
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
@@ -29,7 +29,7 @@ class CreateSchoolsCollegesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('”schools_colleges”');
+		Schema::drop('schools_colleges');
 	}
 
 }

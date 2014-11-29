@@ -28,7 +28,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 			$table->integer('training_id')->unsigned();
 			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

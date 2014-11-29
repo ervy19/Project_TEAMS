@@ -23,7 +23,7 @@ class CreateEducationalAttainmentTable extends Migration {
 			$table->integer('employee_id')->unsigned();
 			$table->foreign('employee_id')->references('id')->on('employees');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

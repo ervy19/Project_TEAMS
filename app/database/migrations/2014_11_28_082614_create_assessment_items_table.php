@@ -21,7 +21,7 @@ class CreateAssessmentItemsTable extends Migration {
 			$table->integer('participant_assessment_id')->unsigned();
 			$table->foreign('participant_assessment_id')->references('id')->on('participant_assessments');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 
 		});

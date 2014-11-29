@@ -14,19 +14,19 @@ class CreateFocusAreaTable extends Migration {
 	{
 		Schema::create('”focus_area”', function(Blueprint $table)
 		{
-			$table->increments(‘id’);
-			$table->boolean(‘instructional_strategy’);
-			$table->boolean(‘evalutaion_of_learning’);
-			$table->boolean(‘curriculum_enrichment’);
-			$table->boolean(‘research_aid_instruction);
-			$table->boolean(‘content_update’);
-			$table->boolean(‘materials_production’);
-			$table->text(‘others’, 255);
+			$table->increments('id');
+			$table->boolean('instructional_strategy');
+			$table->boolean('evalutaion_of_learning');
+			$table->boolean('curriculum_enrichment');
+			$table->boolean('research_aid_instruction');
+			$table->boolean('content_update');
+			$table->boolean('materials_production');
+			$table->text('others', 255);
 
-			$table->integer(‘training_id’)->unsigned();
-			$table->foreign(‘training_id’)->references(‘id’)->on(‘internal_trainings’);
+			$table->integer('training_id')->unsigned();
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
@@ -38,7 +38,7 @@ class CreateFocusAreaTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('”focus_area”');
+		Schema::drop('focus_area');
 	}
 
 }

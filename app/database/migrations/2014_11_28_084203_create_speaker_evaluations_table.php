@@ -25,7 +25,7 @@ class CreateSpeakerEvaluationsTable extends Migration {
 			$table->integer('speaker_id')->unsigned();
 			$table->foreign('speaker_id')->references('id')->on('speakers');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

@@ -15,10 +15,10 @@ class CreateSupervisorsTable extends Migration {
 		Schema::create('supervisors', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text(‘name’, 255);
-			$table->char(‘supervisor_type’, 2);
+			$table->text('name', 255);
+			$table->char('supervisor_type', 2);
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

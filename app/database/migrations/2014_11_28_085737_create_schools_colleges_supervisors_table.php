@@ -14,13 +14,13 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 	{
 		Schema::create('”schools_colleges_supervisors”', function(Blueprint $table)
 		{
-			$table->increments(‘id’);
-			$table->text(‘name’, 100);
+			$table->increments('id');
+			$table->text('name', 100);
 
-			$table->integer(‘schools_colleges_id’)->unsigned();
-			$table->foreign(‘schools_colleges_id’)->references(‘id’)-on(‘schools_colleges’);
+			$table->integer('schools_colleges_id')->unsigned();
+			$table->foreign('schools_colleges_id')->references('id')-on('schools_colleges');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
@@ -32,7 +32,7 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('”schools_colleges_supervisors”');
+		Schema::drop('schools_colleges_supervisors');
 	}
 
 }

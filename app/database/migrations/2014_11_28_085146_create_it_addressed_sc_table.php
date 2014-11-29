@@ -22,7 +22,7 @@ class CreateItAddressedScTable extends Migration {
 			$table->integer('internal_training_id')->unsigned();
 			$table->foreign('internal_training_id')->references('id')->on('internal_trainings');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

@@ -15,7 +15,7 @@ class CreateEmployeeDesignationsTable extends Migration {
 		Schema::create('employee_designations', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text(‘type’, 50);
+			$table->text('type', 50);
 			
 			$table->integer('employee_id')->unsigned();
 			$table->foreign('employee_id')->references('id')->on('employees');
@@ -26,8 +26,8 @@ class CreateEmployeeDesignationsTable extends Migration {
 			$table->integer('rank_id')->unsigned();
 			$table->foreign('rank_id')->references('id')->on('ranks');
 			
-			$table->integer(‘schools_colleges_id’)->unsigned();
-			$table->foreign(‘schools_colleges_id’)->references(‘id’)-on(‘schools_colleges’);	
+			$table->integer('schools_colleges_id')->unsigned();
+			$table->foreign('schools_colleges_id')->references('id')-on('schools_colleges');	
 
 			$table->integer('department_id')->unsigned();
 			$table->foreign('department_id')->references('id')->on('departments');
@@ -35,7 +35,7 @@ class CreateEmployeeDesignationsTable extends Migration {
 			$table->integer('campus_id')->unsigned();
 			$table->foreign('campus_id')->references('id')->on('campuses');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
