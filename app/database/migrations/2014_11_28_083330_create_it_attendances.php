@@ -12,20 +12,23 @@ class CreateItAttendances extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('”it_attendances”', function(Blueprint $table)
+		Schema::create('it_attendances', function($table)
 		{
 			$table->increments(‘id’);
 			$table->datetime(‘Time’);
 
 			$table->integer(‘employee_id’)->unsigned();
-			$table->foreign(‘employee_id’)->references(‘id’)->on(‘employees’);
-
 			$table->integer(‘internal_training_id’)->unsigned();
-			$table->foreign(‘internal_training_id’)->references(‘id’)->on(‘internal_trainings’);
-
+			
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('it_attendances', function($table) 
+		{
+      		$table->foreign(‘employee_id’)->references(‘id’)->on(‘employees’);
+      		$table->foreign(‘internal_training_id’)->references(‘id’)->on(‘internal_trainings’);
+  		});
 	}
 
 	/**

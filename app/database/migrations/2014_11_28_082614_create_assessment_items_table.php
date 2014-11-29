@@ -12,19 +12,22 @@ class CreateAssessmentItemsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('assessment_items', function(Blueprint $table)
+		Schema::create('assessment_items', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 255);
 			$table->decimal('rating', 1, 4);
 		
 			$table->integer('participant_assessment_id')->unsigned();
-			$table->foreign('participant_assessment_id')->references('id')->on('participant_assessments');
 
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
-
 		});
+
+		Schema::table('assessment_items', function($table) 
+		{
+      		 $table->foreign('participant_assessment_id')->references('id')->on('participant_assessments');
+  		});
 	}
 
 	/**

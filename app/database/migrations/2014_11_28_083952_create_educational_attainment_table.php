@@ -12,7 +12,7 @@ class CreateEducationalAttainmentTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('educational_attainment', function(Blueprint $table)
+		Schema::create('educational_attainment', function($table)
 		{
 			$table->increments('id');
 			$table->text('degree_title', 100);
@@ -21,11 +21,15 @@ class CreateEducationalAttainmentTable extends Migration {
 			$table->text('year_attained', 4);
 			
 			$table->integer('employee_id')->unsigned();
-			$table->foreign('employee_id')->references('id')->on('employees');
-
+			
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('educational_attainment', function($table) 
+		{
+			$table->foreign('employee_id')->references('id')->on('employees');
+  		});
 	}
 
 	/**

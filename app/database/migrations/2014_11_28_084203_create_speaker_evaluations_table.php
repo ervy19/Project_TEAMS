@@ -12,7 +12,7 @@ class CreateSpeakerEvaluationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('speaker_evaluations', function(Blueprint $table)
+		Schema::create('speaker_evaluations', function($table)
 		{
 			$table->increments('id');
 			$table->decimal('evaluation_criterion1', 1, 4);
@@ -20,14 +20,17 @@ class CreateSpeakerEvaluationsTable extends Migration {
 			$table->decimal('evaluation_criterion3', 1, 4);
 			
 			$table->integer('training_id')->unsigned();
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
-			
 			$table->integer('speaker_id')->unsigned();
-			$table->foreign('speaker_id')->references('id')->on('speakers');
 
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('speaker_evaluations', function($table) 
+		{
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
+			$table->foreign('speaker_id')->references('id')->on('speakers');
+  		});
 	}
 
 	/**

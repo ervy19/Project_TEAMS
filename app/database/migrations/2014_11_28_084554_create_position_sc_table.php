@@ -12,19 +12,22 @@ class CreatePositionScTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('position_sc', function(Blueprint $table)
+		Schema::create('position_sc', function($table)
 		{
 			$table->increments('id');
 	
 			$table->integer('skills_competencies_id')->unsigned();
-			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
-			
 			$table->integer('position_id')->unsigned();
-			$table->foreign('position_id')->references('id')->on('positions');
 
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('position_sc', function($table) 
+		{
+			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
+			$table->foreign('position_id')->references('id')->on('positions');
+  		});
 	}
 
 	/**

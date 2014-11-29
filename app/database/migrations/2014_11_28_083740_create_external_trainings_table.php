@@ -12,7 +12,7 @@ class CreateExternalTrainingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('external_trainings', function(Blueprint $table)
+		Schema::create('external_trainings', function($table)
 		{
 			$table->increments('id');
 			$table->text(‘title’, 255);
@@ -24,11 +24,15 @@ class CreateExternalTrainingsTable extends Migration {
 			$table->date(‘date_end’);
 
 			$table->integer(‘designation_id’)->unsigned();
-			$table->foreign(‘designation_id’)->references(‘id’)on->on(‘employee_designations’);
-
+			
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('external_trainings', function($table) 
+		{
+			$table->foreign('designation_id')->references('id')on->on('employee_designations');
+  		});
 	}
 
 	/**

@@ -12,7 +12,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('participant_assessments', function(Blueprint $table)
+		Schema::create('participant_assessments', function($table)
 		{
 			$table->increments('id');
 			$table->text('type', 5);
@@ -20,17 +20,19 @@ class CreateParticipantAssessmentsTable extends Migration {
 			$table->text('verbal_interpretation', 255);
 			
 			$table->integer('employee_id')->unsigned();
-			$table->foreign('employee_id')->references('id')->on('employees');
-			
 			$table->integer('supervisor_id')->unsigned();
-			$table->foreign('supervisor_id')->references('id')->on('supervisors');
-			
 			$table->integer('training_id')->unsigned();
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
 
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('participant_assessments', function($table) 
+		{
+      		$table->foreign('employee_id')->references('id')->on('employees');
+      		$table->foreign('supervisor_id')->references('id')->on('supervisors');
+      		$table->foreign('training_id')->references('id')->on('internal_trainings');
+  		});
 	}
 
 	/**

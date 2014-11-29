@@ -12,7 +12,7 @@ class CreateSpeakersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('speakers', function(Blueprint $table)
+		Schema::create('speakers', function($table)
 		{
 			$table->increments('id');
 			$table->text('name', 255);
@@ -21,11 +21,15 @@ class CreateSpeakersTable extends Migration {
 			$table->text('work_background', 255);
 			
 			$table->integer('training_id')->unsigned();
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
-
+			
 			$table->boolean(‘isActive’)->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('speakers', function($table) 
+		{
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
+  		});
 	}
 
 	/**
