@@ -17,7 +17,7 @@ class CreateDepartmentsTable extends Migration {
 			$table->increments('id');
 			$table->text('name', 100);
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}

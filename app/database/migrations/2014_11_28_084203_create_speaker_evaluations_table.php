@@ -22,7 +22,7 @@ class CreateSpeakerEvaluationsTable extends Migration {
 			$table->integer('training_id')->unsigned();
 			$table->integer('speaker_id')->unsigned();
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 

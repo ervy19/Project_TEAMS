@@ -14,13 +14,13 @@ class CreateCampusSupervisorsTable extends Migration {
 	{
 		Schema::create('”campus_supervisors”', function(Blueprint $table)
 		{
-			$table->increments(‘id’);
-			$table->text(‘name’, 100);
+			$table->increments('id');
+			$table->text('name', 100);
 
-			$table->integer(‘campus_id’)->unsigned();
-			$table->foreign(‘campus_id’)->references(‘id’)->on(‘campuses’);
+			$table->integer('campus_id')->unsigned();
+			$table->foreign('campus_id')->references('id')->on('campuses');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
@@ -32,7 +32,7 @@ class CreateCampusSupervisorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('”campus_supervisors”');
+		Schema::drop('campus_supervisors');
 	}
 
 }

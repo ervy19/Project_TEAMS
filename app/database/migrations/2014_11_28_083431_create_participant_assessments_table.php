@@ -23,7 +23,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 			$table->integer('supervisor_id')->unsigned();
 			$table->integer('training_id')->unsigned();
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 

@@ -21,8 +21,14 @@ class CreateEducationalAttainmentTable extends Migration {
 			$table->text('year_attained', 4);
 			
 			$table->integer('employee_id')->unsigned();
+<<<<<<< HEAD
 			
 			$table->boolean(‘isActive’)->default(true);
+=======
+			$table->foreign('employee_id')->references('id')->on('employees');
+
+			$table->boolean('isActive')->default(true);
+>>>>>>> origin/master
 			$table->timestamps();
 		});
 

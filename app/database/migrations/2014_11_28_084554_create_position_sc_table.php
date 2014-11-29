@@ -19,7 +19,7 @@ class CreatePositionScTable extends Migration {
 			$table->integer('skills_competencies_id')->unsigned();
 			$table->integer('position_id')->unsigned();
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 

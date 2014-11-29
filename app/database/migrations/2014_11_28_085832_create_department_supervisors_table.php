@@ -14,13 +14,13 @@ class CreateDepartmentSupervisorsTable extends Migration {
 	{
 		Schema::create('”department_supervisors”', function(Blueprint $table)
 		{
-			$table->increments(‘id’);
-			$table->text(‘name’, 100);
+			$table->increments('id');
+			$table->text('name', 100);
 			
-			$table->integer(‘deparment_id’)->unsigned();
-			$table->foreign(‘department_id’)->references(‘id’)->on(‘departments’);
+			$table->integer('deparment_id')->unsigned();
+			$table->foreign('department_id')->references('id')->on('departments');
 
-			$table->boolean(‘isActive’)->default(true);
+			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 	}
@@ -32,7 +32,7 @@ class CreateDepartmentSupervisorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('”department_supervisors”');
+		Schema::drop('department_supervisors');
 	}
 
 }

@@ -21,8 +21,14 @@ class CreateSpeakersTable extends Migration {
 			$table->text('work_background', 255);
 			
 			$table->integer('training_id')->unsigned();
+<<<<<<< HEAD
 			
 			$table->boolean(‘isActive’)->default(true);
+=======
+			$table->foreign('training_id')->references('id')->on('internal_trainings');
+
+			$table->boolean('isActive')->default(true);
+>>>>>>> origin/master
 			$table->timestamps();
 		});
 
