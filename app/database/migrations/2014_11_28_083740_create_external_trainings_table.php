@@ -15,11 +15,11 @@ class CreateExternalTrainingsTable extends Migration {
 		Schema::create('external_trainings', function($table)
 		{
 			$table->increments('id');
-			$table->text('title', 255);
-			$table->text('theme_topic', 255);
-			$table->text('participation', 255);
-			$table->text('organizer', 255);
-			$table->text('venue', 255);
+			$table->string('title', 255);
+			$table->string('theme_topic', 255);
+			$table->string('participation', 255);
+			$table->string('organizer', 255);
+			$table->string('venue', 255);
 			$table->date('date_start');
 			$table->date('date_end');
 

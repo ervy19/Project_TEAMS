@@ -15,9 +15,9 @@ class CreateRanksTable extends Migration {
 		Schema::create('ranks', function($table)
 		{
 			$table->increments('id');
-			$table->text('code', 255);
-			$table->text('title', 255);
-			$table->text('level', 255);
+			$table->string('code', 6);
+			$table->string('title', 255);
+			$table->string('level', 2);
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

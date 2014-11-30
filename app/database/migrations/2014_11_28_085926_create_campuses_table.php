@@ -15,8 +15,8 @@ class CreateCampusesTable extends Migration {
 		Schema::create('campuses', function($table)
 		{
 			$table->increments('id');
-			$table->text('title', 100);
-			$table->text('address', 255);
+			$table->string('title', 100);
+			$table->string('address', 255);
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

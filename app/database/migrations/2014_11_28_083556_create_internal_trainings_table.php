@@ -15,9 +15,9 @@ class CreateInternalTrainingsTable extends Migration {
 		Schema::create('internal_trainings', function($table)
 		{
 			$table->increments('id');
-			$table->text('title', 255)->nullable();
-			$table->text('theme_topic', 255);
-			$table->text('venue', 255)->nullable();
+			$table->string('title', 255)->nullable();
+			$table->string('theme_topic', 255);
+			$table->string('venue', 255)->nullable();
 			$table->date('date_start')->nullable();
 			$table->date('date_end')->nullable();
 			$table->time('time_start')->nullable();

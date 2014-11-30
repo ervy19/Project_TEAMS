@@ -15,7 +15,7 @@ class CreatePositionsTable extends Migration {
 		Schema::create('positions', function($table)
 		{
 			$table->increments('id');
-			$table->text('title', 100);
+			$table->string('title', 100);
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

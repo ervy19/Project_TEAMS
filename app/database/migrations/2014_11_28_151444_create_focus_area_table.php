@@ -21,7 +21,7 @@ class CreateFocusAreaTable extends Migration {
 			$table->boolean('research_aid_instruction');
 			$table->boolean('content_update');
 			$table->boolean('materials_production');
-			$table->text('others', 255);
+			$table->string('others', 255);
 
 			$table->integer('training_id')->unsigned();
 

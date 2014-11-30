@@ -15,7 +15,7 @@ class CreateCampusSupervisorsTable extends Migration {
 		Schema::create('campus_supervisors', function($table)
 		{
 			$table->increments('id');
-			$table->text('name', 100);
+			$table->string('name', 255);
 
 			$table->integer('campus_id')->unsigned();
 

@@ -15,7 +15,7 @@ class CreateEmployeeDesignationsTable extends Migration {
 		Schema::create('employee_designations', function($table)
 		{
 			$table->increments('id');
-			$table->text('type', 50);
+			$table->string('type', 50);
 			
 			$table->integer('employee_id')->unsigned();
 			$table->integer('position_id')->unsigned();

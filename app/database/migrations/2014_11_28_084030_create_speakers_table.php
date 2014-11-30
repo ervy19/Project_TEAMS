@@ -15,10 +15,10 @@ class CreateSpeakersTable extends Migration {
 		Schema::create('speakers', function($table)
 		{
 			$table->increments('id');
-			$table->text('name', 255);
-			$table->text('topic', 255);
-			$table->text('educational_background', 255);
-			$table->text('work_background', 255);
+			$table->string('name', 255);
+			$table->string('topic', 255);
+			$table->string('educational_background', 255);
+			$table->string('work_background', 255);
 			
 			$table->integer('training_id')->unsigned();
 			

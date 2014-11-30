@@ -15,7 +15,7 @@ class CreateAssessmentItemsTable extends Migration {
 		Schema::create('assessment_items', function($table)
 		{
 			$table->increments('id');
-			$table->text('name', 255);
+			$table->string('name', 255);
 			$table->decimal('rating', 1, 4);
 		
 			$table->integer('participant_assessment_id')->unsigned();

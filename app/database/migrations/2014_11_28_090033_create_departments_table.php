@@ -15,7 +15,7 @@ class CreateDepartmentsTable extends Migration {
 		Schema::create('departments', function($table)
 		{
 			$table->increments('id');
-			$table->text('name', 100);
+			$table->string('name', 255);
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

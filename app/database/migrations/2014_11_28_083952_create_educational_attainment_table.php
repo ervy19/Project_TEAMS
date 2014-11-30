@@ -15,10 +15,10 @@ class CreateEducationalAttainmentTable extends Migration {
 		Schema::create('educational_attainment', function($table)
 		{
 			$table->increments('id');
-			$table->text('degree_title', 100);
-			$table->text('degree_course', 255);
-			$table->text('institution', 255);
-			$table->text('year_attained', 4);
+			$table->string('degree_title', 100);
+			$table->string('degree_course', 255);
+			$table->string('institution', 255);
+			$table->string('year_attained', 4);
 			
 			$table->integer('employee_id')->unsigned();
 			
