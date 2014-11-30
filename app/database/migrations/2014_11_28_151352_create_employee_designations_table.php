@@ -20,9 +20,9 @@ class CreateEmployeeDesignationsTable extends Migration {
 			$table->integer('employee_id')->unsigned();
 			$table->integer('position_id')->unsigned();
 			$table->integer('rank_id')->unsigned();
-			$table->integer('schools_colleges_id')->unsigned();
-			$table->integer('department_id')->unsigned();
-			$table->integer('campus_id')->unsigned();
+			$table->integer('campus_id')->unsigned()->nullable();
+			$table->integer('schools_colleges_id')->unsigned()->nullable();
+			$table->integer('department_id')->unsigned()->nullable();
 			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
