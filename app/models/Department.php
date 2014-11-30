@@ -10,7 +10,7 @@ class Department extends Eloquent {
 		return $this->hasMany('Employee_Designation');
 	}
 
-	public function department_sc()) {
+	public function department_sc() {
 		return $this->hasMany('Department_SC');
 	}
 	

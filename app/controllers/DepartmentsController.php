@@ -10,10 +10,10 @@ class DepartmentsController extends \BaseController {
 	public function index()
 	{
 
-		//$scs = DB::table('departments')->get();
+		$departments = Department::all();
 
-		//
-		return View::make('departments.index');
+		return View::make('departments.index')
+			->with('departments', $departments );
 	}
 
 
@@ -24,7 +24,6 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
 		return View::make('departments.create');
 	}
 
@@ -36,7 +35,27 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'departments' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('departments/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $departments = new Department;
+            $departments->name = Input::get('departments');
+            $departments->save();
+            // redirect
+            Session::flash('message', 'Successfully created Department!');
+            return Redirect::to('departments');
+        }
 	}
 
 
@@ -48,9 +67,10 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$departments = Department::find($id);
 
-		return View::make('departments.show');
+		return View::make('departments.show')
+			->with('departments', $departments );
 	}
 
 
@@ -62,9 +82,10 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$departments = Department::find($id);
 
-		return View::make('departments.edit');
+		return View::make('departments.edit')
+			->with('departments', $departments );
 	}
 
 
@@ -76,7 +97,28 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'departments' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('departments/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $departments = Department::find($id);
+            $departments->name = Input::get('departments');
+            $departments->save();
+
+            // redirect
+            Session::flash('message', 'Successfully updated Department!');
+            return Redirect::to('departments');
+        }
 	}
 
 
@@ -88,7 +130,12 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$departments = Department::find($id);
+        $departments->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted Department!');
+        return Redirect::to('departments');
 	}
 
 
