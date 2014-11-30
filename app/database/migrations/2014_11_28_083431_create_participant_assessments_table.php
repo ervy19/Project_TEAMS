@@ -15,9 +15,10 @@ class CreateParticipantAssessmentsTable extends Migration {
 		Schema::create('participant_assessments', function($table)
 		{
 			$table->increments('id');
-			$table->string('type', 5);
-			$table->decimal('rating', 1, 4);
-			$table->text('verbal_interpretation');
+			$table->string('type', 20);
+			$table->decimal('rating', 1, 4)->nullable();
+			$table->text('verbal_interpretation')->nullable();
+			$table->text('remarks')->nullable();
 			
 			$table->integer('employee_id')->unsigned();
 			$table->integer('supervisor_id')->unsigned();
