@@ -9,7 +9,10 @@ class EmployeesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$employees = Employee::all();
+
+		return View::make('employees.index')
+			->with('employees', $employees );
 	}
 
 
@@ -20,7 +23,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('employees.create');
 	}
 
 
@@ -31,7 +34,26 @@ class EmployeesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		//validation
+		$rules = array(
+            'employees' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('employees/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $employees = new Employee;
+            $employees->name = Input::get('employees');
+            $employees->save();
+            // redirect
+            Session::flash('message', 'Successfully created the Employee!');
+            return Redirect::to('employees');
+        }
 	}
 
 
@@ -43,7 +65,10 @@ class EmployeesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$employees = Employee::find($id);
+
+		return View::make('employee.show')
+			->with('employee', $employees );
 	}
 
 
@@ -55,7 +80,10 @@ class EmployeesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$employees = Employee::find($id);
+
+		return View::make('employees.edit')
+			->with('employees', $employee );
 	}
 
 
@@ -67,7 +95,28 @@ class EmployeesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'employees' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('employees/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $employees = Employee::find($id);
+            $employees->name = Input::get('employees');
+            $employees->save();
+
+            // redirect
+            Session::flash('message', 'Successfully updated the Employee!');
+            return Redirect::to('employees');
+        }
 	}
 
 
@@ -79,7 +128,13 @@ class EmployeesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$employees = Employee::find($id);
+        $employees->isActive = false;
+        $employees->save();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted the Employee!');
+        return Redirect::to('employees');
 	}
 
 

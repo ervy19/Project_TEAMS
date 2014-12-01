@@ -10,3 +10,7 @@ app/controllers/CampusesController.php
 app/views/skills_competencies/show.blade.php
 
 bootstrap/paths.php
+
+app/controllers/CampusesController.php
+
+app/database/migrations/2014_11_28_17_create_assessment_items_table.php
