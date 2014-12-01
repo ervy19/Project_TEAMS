@@ -10,10 +10,10 @@ class CampusesController extends \BaseController {
 	public function index()
 	{
 
-		//$scs = DB::table('campuses')->get();
+		$campuses = Campus::all();
 
-		//
-		return View::make('campuses.index');
+		return View::make('campuses.index')
+			->with('campuses', $campuses);
 	}
 
 
