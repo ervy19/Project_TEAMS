@@ -16,7 +16,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('type', 20);
-			$table->decimal('rating', 1, 4)->nullable();
+			$table->decimal('rating', 4, 1)->nullable();
 			$table->text('verbal_interpretation')->nullable();
 			$table->text('remarks')->nullable();
 			

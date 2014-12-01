@@ -15,9 +15,9 @@ class CreateSpeakerEvaluationsTable extends Migration {
 		Schema::create('speaker_evaluations', function($table)
 		{
 			$table->increments('id');
-			$table->decimal('evaluation_criterion1', 1, 4);
-			$table->decimal('evaluation_criterion2', 1, 4);
-			$table->decimal('evaluation_criterion3', 1, 4);
+			$table->decimal('evaluation_criterion1', 4, 1);
+			$table->decimal('evaluation_criterion2', 4, 1);
+			$table->decimal('evaluation_criterion3', 4, 1);
 			
 			$table->integer('training_id')->unsigned();
 			$table->integer('speaker_id')->unsigned();
