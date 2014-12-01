@@ -10,11 +10,11 @@ class Position extends Eloquent {
 		return $this->hasMany('Rank');
 	}
 
-	public function employee_designation()) {
+	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');
 	}
 
-	public function position_SC()) {
+	public function position_SC() {
 		return $this->hasMany('Position_SC');
 	}
 	
