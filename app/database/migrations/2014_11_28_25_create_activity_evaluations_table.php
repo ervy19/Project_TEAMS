@@ -15,23 +15,23 @@ class CreateActivityEvaluationsTable extends Migration {
 		Schema::create('activity_evaluations', function($table)
 		{
 			$table->increments('id');
-			$table->decimal('planning_criterion1', 4, 1);
-			$table->decimal('planning_criterion2', 4, 1);
-			$table->decimal('objectives_criterion1', 4, 1);
-			$table->decimal('objectives_criterion2', 4, 1);
-			$table->decimal('objectives_criterion3', 4, 1);
-			$table->decimal('content_criterion1', 4, 1);
-			$table->decimal('content_criterion2', 4, 1);
-			$table->decimal('materials_criterion1', 4, 1);
-			$table->decimal('materials_criterion2', 4, 1);
-			$table->decimal('schedule_criterion1', 4, 1);
+			$table->decimal('planning_criterion1', 1, 4);
+			$table->decimal('planning_criterion2', 1, 4);
+			$table->decimal('objectives_criterion1', 1, 4);
+			$table->decimal('objectives_criterion2', 1, 4);
+			$table->decimal('objectives_criterion3', 1, 4);
+			$table->decimal('content_criterion1', 1, 4);
+			$table->decimal('content_criterion2', 1, 4);
+			$table->decimal('materials_criterion1', 1, 4);
+			$table->decimal('materials_criterion2', 1, 4);
+			$table->decimal('schedule_criterion1', 1, 4);
 			$table->decimal('schedule_criterion2', 1 ,4);
-			$table->decimal('schedule_criterion3', 4, 1);
-			$table->decimal('openForum_criterion1', 4, 1);
-			$table->decimal('openForum_criterion2', 4, 1);
-			$table->decimal('openForum_criterion3', 4, 1);
-			$table->decimal('venue_criterion1', 4, 1);
-			$table->decimal('venue_criterion2', 4, 1);
+			$table->decimal('schedule_criterion3', 1, 4);
+			$table->decimal('openForum_criterion1', 1, 4);
+			$table->decimal('openForum_criterion2', 1, 4);
+			$table->decimal('openForum_criterion3', 1, 4);
+			$table->decimal('venue_criterion1', 1, 4);
+			$table->decimal('venue_criterion2', 1, 4);
 			$table->text('comments');
 			
 			$table->integer('training_id')->unsigned();
