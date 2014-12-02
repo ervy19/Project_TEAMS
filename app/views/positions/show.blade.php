@@ -1,11 +1,11 @@
 @extends('layouts.index')
 
 @section('title')
-	Department 
+	Campus
 @stop
 
 @section('content')
 
-	<h1>Departments</h1>
+	<h1>Campus</h1>
 
 @stop

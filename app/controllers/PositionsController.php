@@ -1,6 +1,6 @@
 <?php
 
-class CampusesController extends \BaseController {
+class PositionsController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,10 +9,10 @@ class CampusesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$campuses = Campus::all();
+		$positions = Position::all();
 
-		return View::make('campuses.index')
-			->with('campuses', $campuses );
+		return View::make('positions.index')
+			->with('positions', $positions );
 	}
 
 
@@ -23,7 +23,7 @@ class CampusesController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('campuses.create');
+		return View::make('positions.create');
 	}
 
 
@@ -37,24 +37,23 @@ class CampusesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'campuses', 'address' => 'required'
+            'positions' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('campuses/create')
+            return Redirect::to('positions/create')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $campuses = new Campus;
-            $campuses->title = Input::get('campuses');
-            $campuses->address = Input::get('address');
-            $campuses->save();
+            $positions = new Position;
+            $positions->title = Input::get('positions');
+            $positions->save();
             // redirect
-            Session::flash('message', 'Successfully created Campus!');
-            return Redirect::to('campuses');
+            Session::flash('message', 'Successfully created Position!');
+            return Redirect::to('positions');
         }
 	}
 
@@ -67,10 +66,10 @@ class CampusesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$campuses = Campus::find($id);
+		$positions = Position::find($id);
 
-		return View::make('campuses.show')
-			->with('campuses', $campuses );
+		return View::make('positions.show')
+			->with('positions', $positions );
 	}
 
 
@@ -82,10 +81,10 @@ class CampusesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$campuses = Campus::find($id);
+		$positions = Position::find($id);
 
-		return View::make('campuses.edit')
-			->with('campuses', $campuses );
+		return View::make('positions.edit')
+			->with('positions', $positions );
 	}
 
 
@@ -100,25 +99,24 @@ class CampusesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'campuses' => 'required'
+            'positions' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('campuses/create')
+            return Redirect::to('positions/create')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $campuses = Campus::find($id);
-            $campuses->title = Input::get('campuses');
-            $campuses->address = Input::get('address');
-            $campuses->save();
+            $positions = Position::find($id);
+            $positions->title = Input::get('positions');
+            $positions->save();
 
             // redirect
-            Session::flash('message', 'Successfully updated Campus!');
-            return Redirect::to('campuses');
+            Session::flash('message', 'Successfully updated Position!');
+            return Redirect::to('positions');
         }
 	}
 
@@ -131,12 +129,12 @@ class CampusesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$campuses = Campus::find($id);
-        $campuses->delete();
+		$positions = Position::find($id);
+        $positions->delete();
 
         // redirect
-        Session::flash('message', 'Successfully deleted Campus!');
-        return Redirect::to('campuses');
+        Session::flash('message', 'Successfully deleted Position!');
+        return Redirect::to('positions');
 	}
 
 

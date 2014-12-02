@@ -8,17 +8,18 @@
 
 	<h1>Add Department Information</h1>
 
-	{{ Form::open() }}
+	<a href="{{ URL::to('departments') }}" class="btn btn-primary">Back</a>
 
-		<div class="form-group">
-			{{ Form::label('department','Department Name: ') }}
-			{{ Form::text('department') }}
-		</div>
+	<!-- if there are creation errors, they will show here -->
+	{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			{{ Form::label('department','Department Supervisor: ') }}
-			{{ Form::text('department') }}
-		</div>
+		{{ Form::open(array('url' => 'departments')) }}
+
+			<div class="form-group">
+				{{ Form::label('departments','Department Name: ') }}
+				{{ Form::text('departments', Input::old('departments')) }}
+
+			</div>
 
 		{{ Form::submit('Add Department') }}
 
