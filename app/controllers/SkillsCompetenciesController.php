@@ -9,7 +9,6 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function index()
 	{
-
 		$scs = SkillsCompetencies::all();
 
 		return View::make('skills_competencies.index')
