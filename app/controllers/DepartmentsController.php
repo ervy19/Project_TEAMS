@@ -131,7 +131,8 @@ class DepartmentsController extends \BaseController {
 	public function destroy($id)
 	{
 		$departments = Department::find($id);
-        $departments->delete();
+        $departments->isActive = false;
+        $departments->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Department!');

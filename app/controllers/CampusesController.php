@@ -132,7 +132,8 @@ class CampusesController extends \BaseController {
 	public function destroy($id)
 	{
 		$campuses = Campus::find($id);
-        $campuses->delete();
+        $campuses->isActive = false;
+        $campuses->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Campus!');

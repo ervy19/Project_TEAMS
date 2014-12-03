@@ -130,7 +130,8 @@ class PositionsController extends \BaseController {
 	public function destroy($id)
 	{
 		$positions = Position::find($id);
-        $positions->delete();
+        $positions->isActive = false;
+        $positions->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Position!');
