@@ -56,6 +56,7 @@ class EmployeesController extends \BaseController {
             // redirect
             Session::flash('message', 'Successfully added the employee!');
             return Redirect::to('employees');
+		}
 	}
 
 
