@@ -25,7 +25,7 @@ class CreateActivityEvaluationsTable extends Migration {
 			$table->decimal('materials_criterion1', 4, 1);
 			$table->decimal('materials_criterion2', 4, 1);
 			$table->decimal('schedule_criterion1', 4, 1);
-			$table->decimal('schedule_criterion2', 1 ,4);
+			$table->decimal('schedule_criterion2', 4, 1);
 			$table->decimal('schedule_criterion3', 4, 1);
 			$table->decimal('openForum_criterion1', 4, 1);
 			$table->decimal('openForum_criterion2', 4, 1);
