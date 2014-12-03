@@ -9,7 +9,10 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$externaltrainings = External_Training::all();
+
+		return View::make('external_trainings.index')
+			->with('external_trainings', $externaltrainings );
 	}
 
 
@@ -20,7 +23,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('external_trainings.create');
 	}
 
 
@@ -31,7 +34,28 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'external_training' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('external_trainings/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $externaltrainings = new External_Training;
+            $externaltrainings->name = Input::get('external_training');
+            $externaltrainings->save();
+
+            // redirect
+            Session::flash('message', 'Successfully created the External Training!');
+            return Redirect::to('external_trainings');
+        }
 	}
 
 
@@ -43,7 +67,10 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		 $externaltrainings = External_Training::find($id);
+
+		return View::make('external_trainings.show')
+			->with('external_trainings', $externaltrainings);
 	}
 
 
@@ -55,7 +82,10 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$externaltrainings = External_Training::find($id);
+
+		return View::make('external_trainings.edit')
+			->with('external_trainings', $externaltrainings );
 	}
 
 
@@ -67,7 +97,28 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'external_trainings' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('external_trainings/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $externaltrainings = External_Training::find($id);
+            $externaltrainings->name = Input::get('external_training');
+            $externaltrainings->save();
+
+            // redirect
+            Session::flash('message', 'Successfully updated the External Training!');
+            return Redirect::to('external_trainings');
+        }
 	}
 
 
@@ -79,7 +130,13 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$externaltrainings = External_Training::find($id);
+        $externaltrainings->isActive = false;
+        $externaltrainings->save();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted External Training!');
+        return Redirect::to('external_trainings');
 	}
 
 
