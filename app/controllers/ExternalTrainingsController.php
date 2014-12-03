@@ -12,7 +12,7 @@ class ExternalTrainingsController extends \BaseController {
 		$externaltrainings = External_Training::all();
 
 		return View::make('external_trainings.index')
-			->with('externaltrainings', $externaltrainings);
+			->with('external_trainings', $externaltrainings );
 	}
 
 
@@ -70,7 +70,7 @@ class ExternalTrainingsController extends \BaseController {
 		 $externaltrainings = External_Training::find($id);
 
 		return View::make('external_trainings.show')
-			->with('externaltrainings', $externaltrainings);
+			->with('external_trainings', $externaltrainings);
 	}
 
 
@@ -85,7 +85,7 @@ class ExternalTrainingsController extends \BaseController {
 		$externaltrainings = External_Training::find($id);
 
 		return View::make('external_trainings.edit')
-			->with('externaltrainings', $externaltrainings );
+			->with('external_trainings', $externaltrainings );
 	}
 
 

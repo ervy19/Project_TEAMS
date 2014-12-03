@@ -25,7 +25,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($externaltrainings as $key => $value)
+			@foreach($externaltraining as $key => $value)
 			<tr>
 				<td>{{ $value->name }}</td>
 				<td>Sample</td>
