@@ -9,7 +9,7 @@ class CampusesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$campuses = Campus::all();
+		$campuses = DB::table('campuses')->where('isActive', '=', true)->get();
 
 		return View::make('campuses.index')
 			->with('campuses', $campuses );

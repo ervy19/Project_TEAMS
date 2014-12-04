@@ -9,7 +9,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$employees = Employee::all();
+		$employees = DB::table('employees')->where('isActive', '=', true)->get();
 
 		return View::make('employees.index')
 			->with('employees', $employees );
@@ -37,7 +37,7 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employees', 'name' => 'required'
+            'employees' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -48,13 +48,11 @@ class EmployeesController extends \BaseController {
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $employees = new Campus;
-            $employees->employee_number = Input::get('employee_number');
-            $employees->name = Input::get('name');
-            $employees->email = Input::get('email');
+            $employees = new Employee;
+            $employees->name = Input::get('employees');
             $employees->save();
             // redirect
-            Session::flash('message', 'Successfully added the employee!');
+            Session::flash('message', 'Successfully added Employee!');
             return Redirect::to('employees');
 		}
 	}
@@ -113,13 +111,11 @@ class EmployeesController extends \BaseController {
         } else {
             // store
             $employees = Employee::find($id);
-            $employees->title = Input::get('employee_number');
-            $employees->address = Input::get('name');
-            $employees->email = Input::get('email');
+            $employees->name = Input::get('employees');
             $employees->save();
 
             // redirect
-            Session::flash('message', 'Successfully updated the employee!');
+            Session::flash('message', 'Successfully updated Employee!');
             return Redirect::to('employees');
         }
 	}
@@ -138,7 +134,7 @@ class EmployeesController extends \BaseController {
         $employees->save();
 
         // redirect
-        Session::flash('message', 'Successfully deleted the employee!');
+        Session::flash('message', 'Successfully deleted Employee!');
         return Redirect::to('employees');
 	}
 

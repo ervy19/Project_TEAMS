@@ -9,8 +9,7 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function index()
 	{
-
-		$departments = Department::all();
+		$departments = DB::table('departments')->where('isActive', '=', true)->get();
 
 		return View::make('departments.index')
 			->with('departments', $departments );

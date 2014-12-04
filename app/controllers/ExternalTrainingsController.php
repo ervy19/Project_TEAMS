@@ -9,7 +9,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$externaltrainings = External_Training::all();
+		$externaltrainings = DB::table('external_trainings')->where('isActive', '=', true)->get();
 
 		return View::make('external_trainings.index')
 			->with('externaltrainings', $externaltrainings );
@@ -37,7 +37,7 @@ class ExternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'external_training' => 'required'
+            'externaltrainings' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +49,7 @@ class ExternalTrainingsController extends \BaseController {
         } else {
             // store
             $externaltrainings = new External_Training;
-            $externaltrainings->name = Input::get('external_training');
+            $externaltrainings->title = Input::get('externaltrainings');
             $externaltrainings->save();
 
             // redirect
@@ -100,7 +100,7 @@ class ExternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'external_trainings' => 'required'
+            'externaltrainings' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -112,7 +112,7 @@ class ExternalTrainingsController extends \BaseController {
         } else {
             // store
             $externaltrainings = External_Training::find($id);
-            $externaltrainings->name = Input::get('external_training');
+            $externaltrainings->title = Input::get('externaltrainings');
             $externaltrainings->save();
 
             // redirect
