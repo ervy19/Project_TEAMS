@@ -16,8 +16,8 @@
 	{{ Form::open(array('url' => 'employees')) }}
 
 		<div class="form-group">
-			{{ Form::label('employee','Employee: ') }}
-			{{ Form::text('employee', Input::old('employee')) }}
+			{{ Form::label('employees','Employee: ') }}
+			{{ Form::text('employees', Input::old('employees')) }}
 		</div>
 
 		{{ Form::submit('Add Employee') }}

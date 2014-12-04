@@ -16,8 +16,8 @@
 	{{ Form::model($employees, array('route' => array('employees.update', $employees->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('employee','Employee: ') }}
-			{{ Form::text('employee', $employees->name, array('class' => 'form-control')) }}
+			{{ Form::label('employees','Employee: ') }}
+			{{ Form::text('employees', $employees->name, array('class' => 'form-control')) }}
 		</div>
 
 		{{ Form::submit('Edit Employee') }}

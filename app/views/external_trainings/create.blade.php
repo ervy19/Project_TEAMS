@@ -16,8 +16,8 @@
 	{{ Form::open(array('url' => 'external_trainings')) }}
 
 		<div class="form-group">
-			{{ Form::label('externaltraining','External Trining: ') }}
-			{{ Form::text('externaltraining', Input::old('externaltraining')) }}
+			{{ Form::label('externaltrainings','External Training: ') }}
+			{{ Form::text('externaltrainings', Input::old('externaltrainings')) }}
 		</div>
 
 		{{ Form::submit('Add External Training') }}

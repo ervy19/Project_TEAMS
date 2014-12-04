@@ -17,7 +17,7 @@
 
 		<div class="form-group">
 			{{ Form::label('externaltrainings','External Training: ') }}
-			{{ Form::text('externaltrainings', $externaltraining->name, array('class' => 'form-control')) }}
+			{{ Form::text('externaltrainings', $externaltrainings->title, array('class' => 'form-control')) }}
 		</div>
 
 		{{ Form::submit('Edit External Training') }}

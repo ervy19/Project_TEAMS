@@ -21,12 +21,15 @@
 				<th>Age</th>
 				<th>Email</th>
 				<th>Tenure</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($employees as $key => $value)
 			<tr>
 				<td>{{ $value->name }}</td>
+				<td>Sample</td>
+				<td>Sample</td>
 				<td>Sample</td>
 				<td>Sample</td>
 				<td>Sample</td>

@@ -22,12 +22,16 @@
 				<th>Venue</th>
 				<th>Date Start</th>
 				<th>Date End</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($externaltrainings as $key => $value)
 			<tr>
-				<td>{{ $value->name }}</td>
+				@foreach($externaltrainings as $key => $value)
+				<td>{{ $value->title }}</td>
+				<td>Sample</td>
+				<td>Sample</td>
+				<td>Sample</td>
 				<td>Sample</td>
 				<td>Sample</td>
 				<td>Sample</td>
