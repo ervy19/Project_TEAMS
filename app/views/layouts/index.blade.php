@@ -12,6 +12,8 @@
 
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
 
+    {{ HTML::style('assets/css/font-awesome.min.css'); }}
+
     {{ HTML::style('assets/css/style.css'); }}
 
   </head>
@@ -39,7 +41,7 @@
 <div class="container-fluid breadcrumb-header">
   <div class="row">
     <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>
+            <li><a href="#"><i class="fa fa-home fa-lg"></i><a></li>
             @yield('breadcrumb')
     </ol>
   </div>
