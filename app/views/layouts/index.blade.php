@@ -36,11 +36,20 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="row">
-        @yield('content')
-      </div>
-    </div>
+<div class="container-fluid breadcrumb-header">
+  <div class="row">
+    <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            @yield('breadcrumb')
+    </ol>
+  </div>
+</div>
+    
+<div class="container">
+  <div class="row">
+    @yield('content')
+  </div>
+</div>
 
     <footer class="footer">
       <div class="container">

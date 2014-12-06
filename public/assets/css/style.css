@@ -1,22 +1,54 @@
+/**************************************
+    Standard CSS Components
+**************************************/
+
 body {
-    background: #EBEBEB;
+    background: #F8F8F8;
 }
 
 a {
     color: #FE8BF2;
 }
 
-.navbar-brand {
-    padding: 2px;
+/**************************************
+    Nreadcrumb
+**************************************/
+
+.breadcrumb-header {
+    background: #EBEBEB;
+	margin-top: 60px;
 }
 
-.navbar-brand img {
-    width: 60px;
+.breadcrumb {
+    background: transparent;
+    width: 100%;
+    min-height: 50px;
+    margin: 0 50px;
 }
 
-.row {
-	margin-top: 75px;
+.breadcrumb li {
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
 }
+
+.breadcrumb li>a {
+    color: #888;
+}
+
+.breadcrumb li>a:hover {
+    color: #FE8BF2;
+    text-decoration: none;
+}
+
+.breadcrumb>li+li:before {
+    content: ">\00a0";
+}
+
+
+/**************************************
+    Navigational Bar
+**************************************/
 
 .navbar {
     min-height: 65px;
@@ -32,6 +64,11 @@ a {
 
 .navbar-default .navbar-brand {
 	color: #FE8BF2;
+    padding: 2px;
+}
+
+.navbar-default .navbar-brand img {
+    width: 60px;
 }
 
 .navbar-default .nav>li {
