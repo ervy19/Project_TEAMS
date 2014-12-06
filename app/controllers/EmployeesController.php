@@ -9,7 +9,10 @@ class EmployeesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$employees = DB::table('employees')->where('isActive', '=', true)->get();
+
+		return View::make('employees.index')
+			->with('employees', $employees );
 	}
 
 
@@ -20,7 +23,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('employees.create');
 	}
 
 
@@ -31,7 +34,27 @@ class EmployeesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'employees' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('employees/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $employees = new Employee;
+            $employees->name = Input::get('employees');
+            $employees->save();
+            // redirect
+            Session::flash('message', 'Successfully added Employee!');
+            return Redirect::to('employees');
+		}
 	}
 
 
@@ -41,9 +64,12 @@ class EmployeesController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($id) 
 	{
-		//
+		$employees = Employee::find($id);
+
+		return View::make('employees.show')
+			->with('employees', $employees );
 	}
 
 
@@ -55,7 +81,10 @@ class EmployeesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$employees = Employee::find($id);
+
+		return View::make('employees.edit')
+			->with('employees', $employees );
 	}
 
 
@@ -67,7 +96,28 @@ class EmployeesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'employees' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('employees/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $employees = Employee::find($id);
+            $employees->name = Input::get('employees');
+            $employees->save();
+
+            // redirect
+            Session::flash('message', 'Successfully updated Employee!');
+            return Redirect::to('employees');
+        }
 	}
 
 
@@ -79,7 +129,13 @@ class EmployeesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$employees = Employee::find($id);
+        $employees->isActive = false;
+        $employees->save();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted Employee!');
+        return Redirect::to('employees');
 	}
 
 

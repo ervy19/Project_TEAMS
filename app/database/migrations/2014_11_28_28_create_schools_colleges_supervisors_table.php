@@ -25,7 +25,7 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 
 		Schema::table('schools_colleges_supervisors', function($table) 
 		{
-			$table->foreign('schools_colleges_id')->references('id')-on('schools_colleges');
+			$table->foreign('schools_colleges_id')->references('id')->on('schools_colleges');
   		});
 	}
 

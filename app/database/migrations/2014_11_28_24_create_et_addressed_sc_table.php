@@ -17,7 +17,7 @@ class CreateEtAddressedScTable extends Migration {
 			$table->increments('id');
 	
 			$table->integer('skills_competencies_id')->unsigned();
-			$table->integer('internal_training_id')->unsigned();
+			$table->integer('external_training_id')->unsigned();
 			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

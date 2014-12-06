@@ -9,7 +9,7 @@ class PositionsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$positions = Position::all();
+		$positions = DB::table('positions')->where('isActive', '=', true)->get();
 
 		return View::make('positions.index')
 			->with('positions', $positions );
@@ -130,7 +130,8 @@ class PositionsController extends \BaseController {
 	public function destroy($id)
 	{
 		$positions = Position::find($id);
-        $positions->delete();
+        $positions->isActive = false;
+        $positions->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Position!');

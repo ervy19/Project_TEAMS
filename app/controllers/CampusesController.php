@@ -9,7 +9,7 @@ class CampusesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$campuses = Campus::all();
+		$campuses = DB::table('campuses')->where('isActive', '=', true)->get();
 
 		return View::make('campuses.index')
 			->with('campuses', $campuses );
@@ -132,7 +132,8 @@ class CampusesController extends \BaseController {
 	public function destroy($id)
 	{
 		$campuses = Campus::find($id);
-        $campuses->delete();
+        $campuses->isActive = false;
+        $campuses->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Campus!');

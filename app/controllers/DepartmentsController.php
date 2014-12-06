@@ -9,8 +9,7 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function index()
 	{
-
-		$departments = Department::all();
+		$departments = DB::table('departments')->where('isActive', '=', true)->get();
 
 		return View::make('departments.index')
 			->with('departments', $departments );
@@ -131,7 +130,8 @@ class DepartmentsController extends \BaseController {
 	public function destroy($id)
 	{
 		$departments = Department::find($id);
-        $departments->delete();
+        $departments->isActive = false;
+        $departments->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Department!');

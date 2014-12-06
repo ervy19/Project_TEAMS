@@ -17,7 +17,7 @@ class CreateDepartmentSupervisorsTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 255);
 			
-			$table->integer('deparment_id')->unsigned();
+			$table->integer('department_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

@@ -9,8 +9,7 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function index()
 	{
-
-		$scs = SkillsCompetencies::all();
+		$scs = DB::table('skills_competencies')->where('isActive', '=', true)->get();
 
 		return View::make('skills_competencies.index')
 			->with('scs', $scs );
@@ -130,7 +129,8 @@ class SkillsCompetenciesController extends \BaseController {
 	public function destroy($id)
 	{
 		$scs = SkillsCompetencies::find($id);
-        $scs->delete();
+        $scs->isActive = false;
+        $scs->save();
 
         // redirect
         Session::flash('message', 'Successfully deleted Skill/Competency!');
