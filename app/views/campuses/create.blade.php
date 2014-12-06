@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="form-group">
-				{{ Form::label('address','Campus Name: ') }}
+				{{ Form::label('address','Address: ') }}
 				{{ Form::text('address', Input::old('address')) }}
 		</div>
 
