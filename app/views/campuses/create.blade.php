@@ -16,13 +16,13 @@
 	{{ Form::open(array('url' => 'campuses')) }}
 
 		<div class="form-group">
-				{{ Form::label('campuses','Campus Name: ') }}
-				{{ Form::text('campuses', Input::old('campuses')) }}
+				{{ Form::label('title','Campus Name: ') }}
+				{{ Form::text('title') }}
 		</div>
 
 		<div class="form-group">
 				{{ Form::label('address','Address: ') }}
-				{{ Form::text('address', Input::old('address')) }}
+				{{ Form::text('address') }}
 		</div>
 
 		{{ Form::submit('Add Campus') }}

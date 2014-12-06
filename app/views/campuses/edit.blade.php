@@ -16,13 +16,13 @@
 	{{ Form::model($campuses, array('route' => array('campuses.update', $campuses->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('campuses','Campus Name: ') }}
-			{{ Form::text('campuses', $campuses->title, array('class' => 'form-control')) }}
+			{{ Form::label('title','Campus Name: ') }}
+				{{ Form::text('title') }}
 		</div>
 
 		<div class="form-group">
-			{{ Form::label('address','Campus Address: ') }}
-			{{ Form::text('address', $campuses->address, array('class' => 'form-control')) }}
+			{{ Form::label('address','Address: ') }}
+				{{ Form::text('address') }}
 		</div>
 
 		{{ Form::submit('Edit Campus') }}

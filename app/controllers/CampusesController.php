@@ -49,7 +49,7 @@ class CampusesController extends \BaseController {
         } else {
             // store
             $campuses = new Campus;
-            $campuses->title = Input::get('campuses');
+            $campuses->title = Input::get('title');
             $campuses->address = Input::get('address');
             $campuses->save();
             // redirect
@@ -112,7 +112,7 @@ class CampusesController extends \BaseController {
         } else {
             // store
             $campuses = Campus::find($id);
-            $campuses->title = Input::get('campuses');
+            $campuses->title = Input::get('title');
             $campuses->address = Input::get('address');
             $campuses->save();
 
