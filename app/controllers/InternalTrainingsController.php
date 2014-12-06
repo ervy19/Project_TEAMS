@@ -9,7 +9,7 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$internaltrainings = DB::table('internal_trainings')->where('isActive', '=', true)->get();
+		$internaltrainings = Internal_Training::where('isActive', '=', true)->get();
 
 		return View::make('internal_trainings.index')
 			->with('internaltrainings', $internaltrainings );
@@ -37,7 +37,9 @@ class InternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'internaltrainings' => 'required'
+            'theme_topic' => 'required',
+            'objectives' => 'required',
+            'isTrainingPlan' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -45,13 +47,23 @@ class InternalTrainingsController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::to('internal_trainings/create')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
             // store
             $internaltrainings = new Internal_Training;
-            $internaltrainings->title = Input::get('internaltrainings');
+            $internaltrainings->title = Input::get('title');
+            $internaltrainings->theme_topic = Input::get('theme_topic');
+            $internaltrainings->date_start = Input::get('date_start');
+            $internaltrainings->date_end = Input::get('date_end');
+            $internaltrainings->time_start = Input::get('time_start');
+            $internaltrainings->time_end = Input::get('time_end');
+            $internaltrainings->objectives = Input::get('objectives');
+            $internaltrainings->expected_outcome = Input::get('expected_outcome');
+            $internaltrainings->evaluation_narrative = Input::get('evaluation_narrative');
+            $internaltrainings->recommendations = Input::get('recommendations');
             $internaltrainings->organizer_schools_colleges_id = Input::get('school_college_id');
             $internaltrainings->organizer_department_id = Input::get('department_id');
+            $internaltrainings->isTrainingPlan = Input::get('isTrainingPlan');
             $internaltrainings->save();
 
             // redirect
@@ -59,7 +71,6 @@ class InternalTrainingsController extends \BaseController {
             return Redirect::to('internal_trainings');
         }
 	}
-
 
 	/**
 	 * Display the specified resource.
@@ -102,23 +113,37 @@ class InternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'internaltrainings' => 'required'
+            'theme_topic' => 'required',
+            'objectives' => 'required',
+            'isTrainingPlan' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/create')
+            return Redirect::to('internal_trainings/' . $id . '/edit')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
             // store
             $internaltrainings = Internal_Training::find($id);
-            $internaltrainings->title = Input::get('internaltrainings');
+            $internaltrainings->title = Input::get('title');
+            $internaltrainings->theme_topic = Input::get('theme_topic');
+            $internaltrainings->date_start = Input::get('date_start');
+            $internaltrainings->date_end = Input::get('date_end');
+            $internaltrainings->time_start = Input::get('time_start');
+            $internaltrainings->time_end = Input::get('time_end');
+            $internaltrainings->objectives = Input::get('objectives');
+            $internaltrainings->expected_outcome = Input::get('expected_outcome');
+            $internaltrainings->evaluation_narrative = Input::get('evaluation_narrative');
+            $internaltrainings->recommendations = Input::get('recommendations');
+            $internaltrainings->organizer_schools_colleges_id = Input::get('school_college_id');
+            $internaltrainings->organizer_department_id = Input::get('department_id');
+            $internaltrainings->isTrainingPlan = Input::get('isTrainingPlan');
             $internaltrainings->save();
 
             // redirect
-            Session::flash('message', 'Successfully updated the Internal Training!');
+            Session::flash('message', 'Successfully edited the Internal Training!');
             return Redirect::to('internal_trainings');
         }
 	}
