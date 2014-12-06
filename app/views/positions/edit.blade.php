@@ -16,8 +16,8 @@
 	{{ Form::model($positions, array('route' => array('positions.update', $positions->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('positions','Position Name: ') }}
-			{{ Form::text('positions', $positions->title, array('class' => 'form-control')) }}
+			{{ Form::label('title','Position Name: ') }}
+			{{ Form::text('title') }}
 		</div>
 
 		{{ Form::submit('Edit Position') }}

@@ -16,8 +16,8 @@
 	{{ Form::open(array('url' => 'positions')) }}
 
 		<div class="form-group">
-				{{ Form::label('positions','Position Name: ') }}
-				{{ Form::text('positions', Input::old('positions')) }}
+				{{ Form::label('title','Position Name: ') }}
+			{{ Form::text('title') }}
 		</div>
 
 		{{ Form::submit('Add Position') }}

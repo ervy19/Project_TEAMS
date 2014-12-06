@@ -37,7 +37,7 @@ class PositionsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'positions' => 'required'
+            'title' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +49,7 @@ class PositionsController extends \BaseController {
         } else {
             // store
             $positions = new Position;
-            $positions->title = Input::get('positions');
+            $positions->title = Input::get('title');
             $positions->save();
             // redirect
             Session::flash('message', 'Successfully created Position!');
@@ -99,7 +99,7 @@ class PositionsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'positions' => 'required'
+            'title' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -111,7 +111,7 @@ class PositionsController extends \BaseController {
         } else {
             // store
             $positions = Position::find($id);
-            $positions->title = Input::get('positions');
+            $positions->title = Input::get('title');
             $positions->save();
 
             // redirect
