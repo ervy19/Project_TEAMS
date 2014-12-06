@@ -16,8 +16,8 @@
 	{{ Form::open(array('url' => 'schools_colleges')) }}
 
 		<div class="form-group">
-				{{ Form::label('schools_colleges','School/College Name: ') }}
-				{{ Form::text('schools_colleges', Input::old('schools_colleges')) }}
+				{{ Form::label('name','School/College Name: ') }}
+				{{ Form::text('name') }}
 		</div>
 
 		{{ Form::submit('Add School/Colleges') }}

@@ -16,8 +16,8 @@
 	{{ Form::model($schools_colleges, array('route' => array('schools_colleges.update', $schools_colleges->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('schools_colleges','School/College Name: ') }}
-			{{ Form::text('schools_colleges', $schools_colleges->name, array('class' => 'form-control')) }}
+			{{ Form::label('name','School/College Name: ') }}
+				{{ Form::text('name') }}
 		</div>
 
 		{{ Form::submit('Edit School/College') }}

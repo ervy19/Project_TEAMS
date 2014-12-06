@@ -37,7 +37,7 @@ class SchoolsCollegesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'schools_colleges' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +49,7 @@ class SchoolsCollegesController extends \BaseController {
         } else {
             // store
             $schools_colleges = new School_College;
-            $schools_colleges->name = Input::get('schools_colleges');
+            $schools_colleges->name = Input::get('name');
             $schools_colleges->save();
             // redirect
             Session::flash('message', 'Successfully created School/College!');
@@ -99,7 +99,7 @@ class SchoolsCollegesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'schools_colleges' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -111,7 +111,7 @@ class SchoolsCollegesController extends \BaseController {
         } else {
             // store
             $schools_colleges = School_College::find($id);
-            $schools_colleges->name = Input::get('schools_colleges');
+            $schools_colleges->name = Input::get('name');
             $schools_colleges->save();
 
             // redirect
