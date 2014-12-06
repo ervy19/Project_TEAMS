@@ -37,7 +37,7 @@ class SkillsCompetenciesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'skill_competency' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +49,7 @@ class SkillsCompetenciesController extends \BaseController {
         } else {
             // store
             $scs = new SkillsCompetencies;
-            $scs->name = Input::get('skill_competency');
+            $scs->name = Input::get('name');
             $scs->save();
 
             // redirect
@@ -99,7 +99,7 @@ class SkillsCompetenciesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'skill_competency' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -111,7 +111,7 @@ class SkillsCompetenciesController extends \BaseController {
         } else {
             // store
             $scs = SkillsCompetencies::find($id);
-            $scs->name = Input::get('skill_competency');
+            $scs->name = Input::get('name');
             $scs->save();
 
             // redirect

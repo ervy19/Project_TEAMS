@@ -16,8 +16,8 @@
 	{{ Form::open(array('url' => 'skills_competencies')) }}
 
 		<div class="form-group">
-			{{ Form::label('skill_competency','Skill or Competency: ') }}
-			{{ Form::text('skill_competency', Input::old('skill_competency')) }}
+			{{ Form::label('name','Skill/Competency: ') }}
+			{{ Form::text('name') }}
 		</div>
 
 		{{ Form::submit('Add Skill/Competency') }}

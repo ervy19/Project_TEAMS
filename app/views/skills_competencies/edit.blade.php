@@ -16,8 +16,8 @@
 	{{ Form::model($scs, array('route' => array('skills_competencies.update', $scs->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('skill_competency','Skill or Competency: ') }}
-			{{ Form::text('skill_competency', $scs->name, array('class' => 'form-control')) }}
+			{{ Form::label('name','Skill/Competency: ') }}
+			{{ Form::text('name') }}
 		</div>
 
 		{{ Form::submit('Edit Skill/Competency') }}
