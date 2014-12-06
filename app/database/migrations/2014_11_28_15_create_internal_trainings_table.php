@@ -27,8 +27,8 @@ class CreateInternalTrainingsTable extends Migration {
 			$table->text('evaluation_narrative')->nullable();
 			$table->text('recommendations')->nullable();
 
-			$table->integer('organizer_schools_colleges_id')->unsigned();
-			$table->integer('organizer_department_id')->unsigned();
+			$table->integer('organizer_schools_colleges_id')->unsigned()->nullable();
+			$table->integer('organizer_department_id')->unsigned()->nullable();
 
 			$table->boolean('isTrainingPlan')->default(false);
 			$table->boolean('isActive')->default(true);
