@@ -22,6 +22,7 @@
 				<th>Venue</th>
 				<th>Date Start</th>
 				<th>Date End</th>
+				<th>Designation ID</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -29,12 +30,13 @@
 			<tr>
 				@foreach($externaltrainings as $key => $value)
 				<td>{{ $value->title }}</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
+				<td>{{ $value->theme_topic }}</td>
+				<td>{{ $value->participation }}</td>
+				<td>{{ $value->organizer }}</td>
+				<td>{{ $value->venue }}</td>
+				<td>{{ $value->date_start }}</td>
+				<td>{{ $value->date_end }}</td>
+				<td>{{ $value->designation_id }}</td>
 				<td>
 					<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
 					&nbsp;&nbsp;

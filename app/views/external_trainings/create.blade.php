@@ -11,13 +11,48 @@
 	<a href="{{ URL::to('external_trainings') }}" class="btn btn-primary">Back</a>
 
 	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
 
 	{{ Form::open(array('url' => 'external_trainings')) }}
 
 		<div class="form-group">
-			{{ Form::label('externaltrainings','External Training: ') }}
-			{{ Form::text('externaltrainings', Input::old('externaltrainings')) }}
+			{{ Form::label('title','External Training: ') }}
+			{{ Form::text('title') }}
+			{{ $errors->first('title') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('theme_topic','Theme/Topic: ') }}
+			{{ Form::text('theme_topic') }}
+			{{ $errors->first('theme_topic') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('participation','Participation: ') }}
+			{{ Form::text('participation') }}
+			{{ $errors->first('participation') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('organizer','Organizer: ') }}
+			{{ Form::text('organizer') }}
+			{{ $errors->first('organizer') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('venue','Venue: ') }}
+			{{ Form::text('venue') }}
+			{{ $errors->first('venue') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('date_start','Date Start: ') }}
+			{{ Form::text('date_start') }}
+			{{ $errors->first('date_start') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('date_end','Date End: ') }}
+			{{ Form::text('date_end') }}
+			{{ $errors->first('date_end') }}
+		</div>
+		<div class="form-group">
+			{{ Form::label('designation_id','Designation ID: ') }}
+			{{ Form::text('designation_id') }}
+			{{ $errors->first('designation_id') }}
 		</div>
 
 		{{ Form::submit('Add External Training') }}

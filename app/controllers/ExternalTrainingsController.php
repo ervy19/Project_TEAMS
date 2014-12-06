@@ -37,7 +37,15 @@ class ExternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'externaltrainings' => 'required'
+            'title' => 'required',
+            'theme_topic' => 'required',
+            'participation' => 'required',
+            'organizer' => 'required',
+            'venue' => 'required',
+            'date_start' => 'required',
+            'date_end' => 'required',
+            'designation_id' => 'required'
+
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +57,14 @@ class ExternalTrainingsController extends \BaseController {
         } else {
             // store
             $externaltrainings = new External_Training;
-            $externaltrainings->title = Input::get('externaltrainings');
+            $externaltrainings->title = Input::get('title');
+            $externaltrainings->theme_topic = Input::get('theme_topic');
+            $externaltrainings->participation = Input::get('participation');
+            $externaltrainings->organizer = Input::get('organizer');
+            $externaltrainings->venue = Input::get('venue');
+            $externaltrainings->date_start = Input::get('date_start');
+            $externaltrainings->date_end = Input::get('date_end');
+            $externaltrainings->designation_id = Input::get('designation_id');
             $externaltrainings->save();
 
             // redirect
@@ -100,7 +115,14 @@ class ExternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'externaltrainings' => 'required'
+            'title' => 'required',
+            'theme_topic' => 'required',
+            'participation' => 'required',
+            'organizer' => 'required',
+            'venue' => 'required',
+            'date_start' => 'required',
+            'date_end' => 'required',
+            'designation_id' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -112,7 +134,14 @@ class ExternalTrainingsController extends \BaseController {
         } else {
             // store
             $externaltrainings = External_Training::find($id);
-            $externaltrainings->title = Input::get('externaltrainings');
+            $externaltrainings->title = Input::get('title');
+            $externaltrainings->theme_topic = Input::get('theme_topic');
+            $externaltrainings->participation = Input::get('participation');
+            $externaltrainings->organizer = Input::get('organizer');
+            $externaltrainings->venue = Input::get('venue');
+            $externaltrainings->date_start = Input::get('date_start');
+            $externaltrainings->date_end = Input::get('date_end');
+            $externaltrainings->designation_id = Input::get('designation_id');
             $externaltrainings->save();
 
             // redirect
