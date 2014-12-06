@@ -28,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">CEU HR | Training Evaluation and Monitoring System</a>
+          <a class="navbar-brand" href="#"><img src={{asset('assets/img/CEU_logo.jpg')}} alt="logo" class="img-responsive"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           

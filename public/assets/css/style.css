@@ -1,9 +1,26 @@
+body {
+    background: #EBEBEB;
+}
+
+a {
+    color: #FE8BF2;
+}
+
+.navbar-brand {
+    padding: 2px;
+}
+
+.navbar-brand img {
+    width: 60px;
+}
+
 .row {
-	margin-top: 50px;
+	margin-top: 75px;
 }
 
 .navbar {
-    background: #F5A3BD;
+    min-height: 65px;
+    background: #FFF;
     border: none;
     border-radius: 0;
     padding-left: 30px;
@@ -14,7 +31,7 @@
 }
 
 .navbar-default .navbar-brand {
-	color: #FFF;
+	color: #FE8BF2;
 }
 
 .navbar-default .nav>li {

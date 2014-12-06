@@ -41,7 +41,7 @@ return array(
     'CreateDepartmentSupervisorsTable' => $baseDir . '/app/database/migrations/2014_11_28_29_create_department_supervisors_table.php',
     'CreateDepartmentsTable' => $baseDir . '/app/database/migrations/2014_11_28_03_create_departments_table.php',
     'CreateEducationalAttainmentTable' => $baseDir . '/app/database/migrations/2014_11_28_08_create_educational_attainment_table.php',
-    'CreateEmployeeDesignationsTable' => $baseDir . '/app/database/migrations/2014_11_28_19_create_employee_designations_table.php',
+    'CreateEmployeeDesignationsTable' => $baseDir . '/app/database/migrations/2014_11_28_151352_create_employee_designations_table.php',
     'CreateEmployeesTable' => $baseDir . '/app/database/migrations/2014_11_28_01_create_employees_table.php',
     'CreateEtAddressedScTable' => $baseDir . '/app/database/migrations/2014_11_28_24_create_et_addressed_sc_table.php',
     'CreateEtQueuesTable' => $baseDir . '/app/database/migrations/2014_11_28_27_create_et_queues_table.php',
