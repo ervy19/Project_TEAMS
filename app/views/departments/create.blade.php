@@ -16,8 +16,8 @@
 		{{ Form::open(array('url' => 'departments')) }}
 
 			<div class="form-group">
-				{{ Form::label('departments','Department Name: ') }}
-				{{ Form::text('departments', Input::old('departments')) }}
+				{{ Form::label('name','Department Name: ') }}
+				{{ Form::text('name') }}
 
 			</div>
 

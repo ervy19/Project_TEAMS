@@ -16,8 +16,8 @@
 	{{ Form::model($departments, array('route' => array('departments.update', $departments->id), 'method' => 'PUT')) }}
 
 		<div class="form-group">
-			{{ Form::label('departments','Department Name: ') }}
-			{{ Form::text('departments', $departments->name, array('class' => 'form-control')) }}
+			{{ Form::label('name','Department Name: ') }}
+			{{ Form::text('name') }}
 		</div>
 
 		{{ Form::submit('Edit Department') }}

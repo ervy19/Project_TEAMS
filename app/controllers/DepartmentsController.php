@@ -37,7 +37,7 @@ class DepartmentsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'departments' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -49,7 +49,7 @@ class DepartmentsController extends \BaseController {
         } else {
             // store
             $departments = new Department;
-            $departments->name = Input::get('departments');
+            $departments->name = Input::get('name');
             $departments->save();
             // redirect
             Session::flash('message', 'Successfully created Department!');
@@ -99,7 +99,7 @@ class DepartmentsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'departments' => 'required'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -111,7 +111,7 @@ class DepartmentsController extends \BaseController {
         } else {
             // store
             $departments = Department::find($id);
-            $departments->name = Input::get('departments');
+            $departments->name = Input::get('name');
             $departments->save();
 
             // redirect
