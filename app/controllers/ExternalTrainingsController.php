@@ -9,7 +9,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$externaltrainings = DB::table('external_trainings')->where('isActive', '=', true)->get();
+		$externaltrainings = External_Training::where('isActive', '=', true)->get();
 
 		return View::make('external_trainings.index')
 			->with('externaltrainings', $externaltrainings );

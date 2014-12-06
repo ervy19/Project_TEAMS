@@ -15,11 +15,10 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Employees</th>
 				<th>Employee Number</th>
 				<th>Name</th>
-				<th>Age</th>
 				<th>Email</th>
+				<th>Age</th>
 				<th>Tenure</th>
 				<th>Action</th>
 			</tr>
@@ -27,12 +26,11 @@
 		<tbody>
 			@foreach($employees as $key => $value)
 			<tr>
-				<td>{{ $value->name }}</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
-				<td>Sample</td>
+				<td>{{ $value->employee_number }}</td>
+				<td>{{ $value->last_name . ', ' . $value->given_name . " " . $value->middle_initial }}</td>
+				<td>{{ $value->email }}</td>
+				<td>{{ $value->age }}</td>
+				<td>{{ $value->tenure }}</td>
 				<td>
 					<a class="btn btn-small btn-info" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
 					&nbsp;&nbsp;

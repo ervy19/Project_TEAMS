@@ -9,7 +9,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$employees = DB::table('employees')->where('isActive', '=', true)->get();
+		$employees = Employee::where('isActive', '=', true)->get();
 
 		return View::make('employees.index')
 			->with('employees', $employees );
@@ -37,7 +37,13 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employees' => 'required'
+            'employee_number' => 'required',
+            'last_name' => 'required',
+            'given_name' => 'required',
+            'middle_initial' => 'required',
+            'email' => 'required',
+            'age' => 'required',
+            'tenure' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -45,11 +51,17 @@ class EmployeesController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::to('employees/create')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput(Input::except('employee_number'));
         } else {
             // store
             $employees = new Employee;
-            $employees->name = Input::get('employees');
+            $employees->employee_number = Input::get('employee_number');
+            $employees->last_name = Input::get('last_name');
+            $employees->given_name = Input::get('given_name');
+            $employees->middle_initial = Input::get('middle_initial');
+            $employees->email = Input::get('email');
+            $employees->age = Input::get('age');
+            $employees->tenure = Input::get('tenure');
             $employees->save();
             // redirect
             Session::flash('message', 'Successfully added Employee!');

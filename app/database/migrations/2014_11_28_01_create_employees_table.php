@@ -16,7 +16,9 @@ class CreateEmployeesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('employee_number', 6);
-			$table->string('name', 255);
+			$table->string('last_name', 255);
+			$table->string('given_name', 255);
+			$table->string('middle_initial', 2);
 			$table->string('email',255);
 			$table->tinyInteger('age');
 			$table->tinyInteger('tenure');
