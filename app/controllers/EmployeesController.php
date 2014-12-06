@@ -37,11 +37,11 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employee_number' => 'required',
+            'employee_number' => 'required|integer',
             'last_name' => 'required',
             'given_name' => 'required',
             'middle_initial' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:Employees',
             'age' => 'required',
             'tenure' => 'required'
         );
@@ -68,7 +68,6 @@ class EmployeesController extends \BaseController {
             return Redirect::to('employees');
 		}
 	}
-
 
 	/**
 	 * Display the specified resource.
@@ -99,7 +98,6 @@ class EmployeesController extends \BaseController {
 			->with('employees', $employees );
 	}
 
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -111,27 +109,38 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employees' => 'required'
+            'employee_number' => 'required|integer',
+            'last_name' => 'required',
+            'given_name' => 'required',
+            'middle_initial' => 'required',
+            'email' => 'required|email|unique:Employees',
+            'age' => 'required',
+            'tenure' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('employees/create')
+            return Redirect::to('employees/' . $id . '/edit')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
-            // store
+            // update
             $employees = Employee::find($id);
-            $employees->name = Input::get('employees');
+            $employees->employee_number = Input::get('employee_number');
+            $employees->last_name = Input::get('last_name');
+            $employees->given_name = Input::get('given_name');
+            $employees->middle_initial = Input::get('middle_initial');
+            $employees->email = Input::get('email');
+            $employees->age = Input::get('age');
+            $employees->tenure = Input::get('tenure');
             $employees->save();
 
             // redirect
-            Session::flash('message', 'Successfully updated Employee!');
+            Session::flash('message', 'Successfully updated the Employee!');
             return Redirect::to('employees');
         }
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.
@@ -149,6 +158,4 @@ class EmployeesController extends \BaseController {
         Session::flash('message', 'Successfully deleted Employee!');
         return Redirect::to('employees');
 	}
-
-
 }
