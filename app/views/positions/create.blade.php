@@ -2,12 +2,15 @@
 
 @section('title')
 	Add Position
+<<<<<<< HEAD
+=======
 @stop
 
 @section('page_css')
 	{{ HTML::style('assets/css/select2.css'); }}
 
 	{{ HTML::style('assets/css/multi-select.css'); }}
+>>>>>>> origin/master
 @stop
 
 @section('content')
