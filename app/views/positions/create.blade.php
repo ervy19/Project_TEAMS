@@ -2,6 +2,15 @@
 
 @section('title')
 	Add Position
+<<<<<<< HEAD
+=======
+@stop
+
+@section('page_css')
+	{{ HTML::style('assets/css/select2.css'); }}
+
+	{{ HTML::style('assets/css/multi-select.css'); }}
+>>>>>>> origin/master
 @stop
 
 @section('content')
@@ -24,4 +33,14 @@
 
 	{{ Form::close() }}
 
+@stop
+
+@section('page_js')
+	{{ HTML::script('assets/js/select2.min.js'); }}
+
+	{{ HTML::script('assets/js/jquery.multi-select.js'); }}
+
+	<script>
+
+	</script>
 @stop

@@ -8,12 +8,16 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/favicon.ico">
 
-    <title>CEU HR TEAMS| @yield('title') </title>
+    <title>CEU HR TEAMS | @yield('title') </title>
 
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
-
     {{ HTML::style('assets/css/font-awesome.min.css'); }}
+    
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    @yield('page_css')
 
+    <!-- BEGIN THEME STYLES -->
     {{ HTML::style('assets/css/style.css'); }}
 
   </head>
@@ -94,12 +98,15 @@
       </div>
     </footer>
 
+    <!-- BEGIN CORE JS -->
 
     {{ HTML::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
 
-    {{ HTML::script('assets/js/script.js'); }}
+    <!-- BEGIN PAGE-LEVEL JS -->
+
+    @yield('page_js')
 
   </body>
 </html>
