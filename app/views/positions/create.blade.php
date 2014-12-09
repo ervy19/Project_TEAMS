@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-	Add Campus
+	Add Position
 @stop
 
 @section('content')

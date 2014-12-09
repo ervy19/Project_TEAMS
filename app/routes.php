@@ -30,8 +30,8 @@ Route::resource('external_trainings','ExternalTrainingsController');
 
 Route::resource('skills_competencies','SkillsCompetenciesController');
 
-Route::get('querytest', function() {
+Route::get('querytest', function($department_id=1) {
 
-	echo 'query test';
+	
 });
 
