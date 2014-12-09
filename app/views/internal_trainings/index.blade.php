@@ -4,7 +4,13 @@
 	Internal Trainings
 @stop
 
+@section('breadcrumb')
+	<li><a href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
+@stop
+
 @section('content')
+
+<div class="container panel">
 
 	<h1>Internal Trainings</h1>
 
@@ -60,5 +66,5 @@
 			@endforeach
 		</tbody>
 	</table>
-
+</div>
 @stop
