@@ -14,6 +14,21 @@ Route::get('/', function()
 	return View::make('index');
 });
 
+Route::get('internal_trainings/participants', array('as' => 'internal_trainings.participants', function()
+{
+	return View::make('internal_trainings/participants');
+}));
+
+Route::get('internal_trainings/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', function()
+{
+	return View::make('internal_trainings.after-activity-evaluation');
+}));
+
+Route::get('internal_trainings/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', function()
+{
+	return View::make('internal_trainings.training-effectiveness-report');
+}));
+
 Route::resource('employees','EmployeesController');
 
 Route::resource('campuses','CampusesController');
@@ -34,4 +49,6 @@ Route::get('querytest', function() {
 
 	echo 'query test';
 });
+
+
 

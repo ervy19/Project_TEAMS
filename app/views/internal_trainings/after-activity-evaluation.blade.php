@@ -137,9 +137,9 @@
 	<div class="col-sm-12 col-md-12 training-data">
 		<div class="panel">
 			<ul class="nav nav-tabs nav-justified">
-				<li role="presentation" class="active"><a>Speakers</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings/show') }}">Speakers</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings/participants') }}">Participants Information</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings/after-activity-evaluation') }}">After Activity Evaluation</a></li>
+				<li role="presentation" class="active"><a href="#">After Activity Evaluation</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings/training-effectiveness-report') }}">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">

@@ -1,0 +1,110 @@
+/**************************************
+    Internal Trainings
+**************************************/
+
+.training-info, .training-sidebar {
+	margin-bottom: 8px;
+}
+
+.training-details, .training-status, .training-summary {
+    padding: 15px;
+}
+
+.training-status, .training-summary {
+	padding-bottom: 20px;
+}
+
+.training-info h2 {
+	margin-top: 0px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.training-info h3, .training-status h3, .training-summary h3 {
+	margin-top: 0px;
+	font-size: 1.45em;
+	font-weight: bold;
+}
+
+.training-details {
+    margin-right: 2px;
+}
+
+.training-details h3 {
+	font-size: 1.6em;
+}
+
+.training-details h5 {
+	font-size: 1.3em;
+}
+
+.training-details h6 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.training-details p {
+	font-size: 1.2em;
+	letter-spacing: 0.5px;
+	text-align: justify;
+}
+
+.training-status, .training-summary {
+    margin-left: 2px;
+}
+
+.training-status .label {
+	font-size: 1em;
+}
+
+.training-summary {
+	margin-top: 15px;
+}
+
+.training-summary .summary-name {
+	text-align: center;
+}
+
+.summary-name .count {
+	font-size: 3em;
+	font-weight: 400;
+}
+
+.summary-name .title {
+	color: #FD5DED;
+	font-size: 0.9em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.training-data {
+	margin-bottom: 10px;
+}
+
+.training-data .panel {
+	padding-left: 0px;
+	padding-right: 0px;
+	border: none;
+}
+
+.tags .label {
+	background: #FF85F3;
+	font-weight: 400;
+}
+
+.tags .label:hover {
+	background: rgba(255,133,243,0.8);
+}
+
+.tags h3 {
+	display: inline-block;
+}
+
+.training-status .requirement{
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.training-status .requirement h4{
+	text-align: left;
+}

@@ -18,7 +18,8 @@
     @yield('page_css')
 
     <!-- BEGIN THEME STYLES -->
-    {{ HTML::style('assets/css/style.css'); }}
+    {{ HTML::style('assets/css/general-style.css'); }}
+    {{ HTML::style('assets/css/pages-style.css'); }}
 
   </head>
 
@@ -26,7 +27,7 @@
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
