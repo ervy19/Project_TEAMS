@@ -114,7 +114,10 @@
     {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
-
+    <script>
+      $("#skills_competencies").select2();
+    </script>
+    
     @yield('page_js')
 
   </body>

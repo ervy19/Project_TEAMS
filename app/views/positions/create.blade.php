@@ -4,12 +4,6 @@
 	Add Position
 @stop
 
-@section('page_js')
-  <script>
-   $("#skills_competencies").select2();
-  </script>
-@stop
-
 @section('content')
 
 	<h1>Add Position Information</h1>
@@ -25,13 +19,12 @@
 			 {{ Form::label('title','Position Name: ') }}
 			 {{ Form::text('title') }}
 		</div>
-
+    
     <div>
       <select multiple id="skills_competencies" style="width: 300px">
-      <optgroup label="Alaskan/Hawaiian Time Zone">
-        <option value="AK">Alaska</option>
-        <option value="HI">Hawaii</option>
-      </optgroup>
+      @foreach(SkillsCompetencies::all() as $key => $value)
+        <option> {{ $value->name }} </option>
+      @endforeach
       </select>
     </div>
 
