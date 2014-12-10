@@ -4,10 +4,10 @@
 	Add Position
 @stop
 
-@section('page_css')
-	{{ HTML::style('assets/css/select2.css'); }}
-
-	{{ HTML::style('assets/css/multi-select.css'); }}
+@section('page_js')
+  <script>
+   $("#skills_competencies").select2();
+  </script>
 @stop
 
 @section('content')
@@ -22,9 +22,18 @@
 	{{ Form::open(array('url' => 'positions')) }}
 
 		<div class="form-group">
-				{{ Form::label('title','Position Name: ') }}
-			{{ Form::text('title') }}
+			 {{ Form::label('title','Position Name: ') }}
+			 {{ Form::text('title') }}
 		</div>
+
+    <div>
+      <select multiple id="skills_competencies" style="width: 300px">
+      <optgroup label="Alaskan/Hawaiian Time Zone">
+        <option value="AK">Alaska</option>
+        <option value="HI">Hawaii</option>
+      </optgroup>
+      </select>
+    </div>
 
 		{{ Form::submit('Add Position') }}
 
@@ -32,12 +41,3 @@
 
 @stop
 
-@section('page_js')
-	{{ HTML::script('assets/js/select2.min.js'); }}
-
-	{{ HTML::script('assets/js/jquery.multi-select.js'); }}
-
-	<script>
-
-	</script>
-@stop

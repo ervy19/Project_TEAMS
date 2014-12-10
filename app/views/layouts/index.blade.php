@@ -14,6 +14,9 @@
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
     {{ HTML::style('assets/css/font-awesome.min.css'); }}
     {{ HTML::style('assets/css/jquery.dataTables.min.css'); }}
+
+    <!-- BEGIN SELECT2 CSS -->
+    {{ HTML::style('assets/css/select2.css'); }}
     
     <!-- BEGIN PAGE LEVEL STYLES -->
     @yield('page_css')
@@ -107,6 +110,8 @@
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
 
     {{ HTML::script('assets/js/jquery.dataTables.min.js'); }}
+
+    {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
 
