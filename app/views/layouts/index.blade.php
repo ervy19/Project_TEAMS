@@ -13,6 +13,7 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
     {{ HTML::style('assets/css/font-awesome.min.css'); }}
+    {{ HTML::style('assets/css/jquery.dataTables.min.css'); }}
     
     <!-- BEGIN PAGE LEVEL STYLES -->
     @yield('page_css')
@@ -104,6 +105,8 @@
     {{ HTML::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
+
+    {{ HTML::script('assets/js/jquery.dataTables.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
 

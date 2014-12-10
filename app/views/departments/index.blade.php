@@ -6,13 +6,15 @@
 
 @section('content')
 
+<div class="row panel">
+
 	<h1>Departments</h1>
 
 	<a href="{{ URL::to('departments/create') }}" class="btn btn-primary">Add Department</a>
 
 	<br><br>
 
-	<table class="table table-bordered">
+	<table id="tb-departments" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>Department Name</th>
@@ -40,4 +42,14 @@
 		</tbody>
 	</table>
 
+</div>
+
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#tb-departments').DataTable();
+		} );
+	</script>
 @stop

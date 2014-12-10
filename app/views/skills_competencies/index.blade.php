@@ -6,13 +6,15 @@
 
 @section('content')
 
+<div class="row panel">
+
 	<h1>Skills and Competencies</h1>
 
 	<a href="{{ URL::to('skills_competencies/create') }}" class="btn btn-primary">Add Skill/Competency</a>
 
 	<br><br>
 
-	<table class="table table-bordered">
+	<table id="tb-skills_competencies" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>Skill/Competency</th>
@@ -41,4 +43,14 @@
 		</tbody>
 	</table>
 
+</div>
+
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#tb-skills_competencies').DataTable();
+		} );
+	</script>
 @stop

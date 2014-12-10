@@ -6,16 +6,19 @@
 
 @section('content')
 
+<div class="row panel">
+
 	<h1>Positions</h1>
 
 	<a href="{{ URL::to('positions/create') }}" class="btn btn-primary">Add Position</a>
 
 	<br><br>
 
-	<table class="table table-bordered">
+	<table id="tb-positions" class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Position Name</th>
+				<th>Position Title</th>
+				<th>Number of Employees Holding the Position</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -23,6 +26,7 @@
 			@foreach($positions as $key => $value)
 			<tr>
 				<td>{{ $value->title }}</td>
+				<td>DUMMY</td>
 				<td>
 					<a class="btn btn-small btn-info" href="{{ URL::to('positions/' . $value->id . '/edit') }}">Edit</a>
 					&nbsp;&nbsp;
@@ -35,4 +39,14 @@
 		</tbody>
 	</table>
 
+</div>
+
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#tb-positions').DataTable();
+		} );
+	</script>
 @stop
