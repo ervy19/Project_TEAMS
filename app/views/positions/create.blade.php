@@ -20,14 +20,14 @@
 			 {{ Form::text('title') }}
 		</div>
     
-    <div>
-      <select multiple id="skills_competencies" style="width: 300px">
-      @foreach(SkillsCompetencies::all() as $key => $value)
-        <option> {{ $value->name }} </option>
-      @endforeach
-      </select>
-    </div>
-
+	    <div>
+	      <select multiple id="skills_competencies" style="width: 300px">
+	      @foreach(SkillsCompetencies::all() as $key => $value)
+	        <option> {{ $value->name }} </option>
+	      @endforeach
+	      </select>
+	    </div>
+	    
 		{{ Form::submit('Add Position') }}
 
 	{{ Form::close() }}

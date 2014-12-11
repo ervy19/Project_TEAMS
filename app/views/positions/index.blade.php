@@ -42,11 +42,3 @@
 </div>
 
 @stop
-
-@section('page_js')
-	<script type="text/javascript">
-		$(document).ready( function () {
-		    $('#tb-positions').DataTable();
-		} );
-	</script>
-@stop

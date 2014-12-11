@@ -47,10 +47,20 @@ class PositionsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
+            // store to positions table
             $positions = new Position;
             $positions->title = Input::get('title');
             $positions->save();
+/**
+HINDI GUMAGANA WTF
+            //	store to positions_sc table
+            //	all skills and competencies to a position
+            $position_sc = new Position_SC;
+            foreach ($("skills_competencies").select2("val") as $key => $value) {
+            	$position_sc->skills_competencies_id = $value;
+            	$position_sc->position_id = Position::last()->id;
+            }
+**/
             // redirect
             Session::flash('message', 'Successfully created Position!');
             return Redirect::to('positions');
