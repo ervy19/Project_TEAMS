@@ -6,59 +6,65 @@
 
 @section('content')
 
-	<h1>Add an Employee</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('employees') }}" class="btn btn-primary">Back</a>
+		<h1>Add an Employee</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	<!-- {{ HTML::ul($errors->all()) }} -->
+		<a href="{{ URL::to('employees') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::open(array('url' => 'employees')) }}
+		<!-- if there are creation errors, they will show here -->
+		<!-- {{ HTML::ul($errors->all()) }} -->
 
-		<div class="form-group">
-			{{ Form::label('employee_number','Employee Number: ') }}
-			{{ Form::text('employee_number') }}
-			{{ $errors->first('employee_number') }}
-		</div>
+		{{ Form::open(array('url' => 'employees')) }}
 
-		<div class="form-group">
-			{{ Form::label('last_name','Last Name: ') }}
-			{{ Form::text('last_name') }}
-			{{ $errors->first('last_name') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('employee_number','Employee Number: ') }}
+				{{ Form::text('employee_number') }}
+				{{ $errors->first('employee_number') }}
+			</div>
 
-		<div class="form-group">
-			{{ Form::label('given_name','Given Name: ') }}
-			{{ Form::text('given_name') }}
-			{{ $errors->first('given_name') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('last_name','Last Name: ') }}
+				{{ Form::text('last_name') }}
+				{{ $errors->first('last_name') }}
+			</div>
 
-		<div class="form-group">
-			{{ Form::label('middle_initial','Middle Initial: ') }}
-			{{ Form::text('middle_initial') }}
-			{{ $errors->first('middle_initial') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('given_name','Given Name: ') }}
+				{{ Form::text('given_name') }}
+				{{ $errors->first('given_name') }}
+			</div>
 
-		<div class="form-group">
-			{{ Form::label('email','Email Address: ') }}
-			{{ Form::text('email') }}
-			{{ $errors->first('email') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('middle_initial','Middle Initial: ') }}
+				{{ Form::text('middle_initial') }}
+				{{ $errors->first('middle_initial') }}
+			</div>
 
-		<div class="form-group">
-			{{ Form::label('age','Age: ') }}
-			{{ Form::text('age') }}
-			{{ $errors->first('age') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('email','Email Address: ') }}
+				{{ Form::text('email') }}
+				{{ $errors->first('email') }}
+			</div>
 
-		<div class="form-group">
-			{{ Form::label('tenure','Tenure: ') }}
-			{{ Form::text('tenure') }}
-			{{ $errors->first('tenure') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('age','Age: ') }}
+				{{ Form::text('age') }}
+				{{ $errors->first('age') }}
+			</div>
 
-		{{ Form::submit('Add Employee') }}
+			<div class="form-group">
+				{{ Form::label('tenure','Tenure: ') }}
+				{{ Form::text('tenure') }}
+				{{ $errors->first('tenure') }}
+			</div>
 
-	{{ Form::close() }}
+			{{ Form::submit('Add Employee') }}
+
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop

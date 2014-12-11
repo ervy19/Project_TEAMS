@@ -6,31 +6,37 @@
 
 @section('content')
 
-	<h1>Add Position Information</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('positions') }}" class="btn btn-primary">Back</a>
+		<h1>Add Position Information</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+		<a href="{{ URL::to('positions') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::open(array('url' => 'positions')) }}
+		<!-- if there are creation errors, they will show here -->
+		{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			 {{ Form::label('title','Position Name: ') }}
-			 {{ Form::text('title') }}
-		</div>
-    
-	    <div>
-	      <select multiple id="skills_competencies" style="width: 300px">
-	      @foreach(SkillsCompetencies::all() as $key => $value)
-	        <option> {{ $value->name }} </option>
-	      @endforeach
-	      </select>
-	    </div>
+		{{ Form::open(array('url' => 'positions')) }}
+
+			<div class="form-group">
+				 {{ Form::label('title','Position Name: ') }}
+				 {{ Form::text('title') }}
+			</div>
 	    
-		{{ Form::submit('Add Position') }}
+		    <div>
+		      <select multiple id="skills_competencies" style="width: 300px">
+		      @foreach(SkillsCompetencies::all() as $key => $value)
+		        <option> {{ $value->name }} </option>
+		      @endforeach
+		      </select>
+		    </div>
+		    
+			{{ Form::submit('Add Position') }}
 
-	{{ Form::close() }}
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop
 

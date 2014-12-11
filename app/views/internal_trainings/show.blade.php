@@ -135,7 +135,7 @@
 	</div>
 
 	<div class="col-sm-12 col-md-12 training-data">
-		<div class="panel">
+		<div class="row panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a>Speakers</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings/participants') }}">Participants Information</a></li>

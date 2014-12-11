@@ -6,22 +6,28 @@
 
 @section('content')
 
-	<h1>Add School/College Information</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('schools_colleges') }}" class="btn btn-primary">Back</a>
+		<h1>Add School/College Information</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+		<a href="{{ URL::to('schools_colleges') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::open(array('url' => 'schools_colleges')) }}
+		<!-- if there are creation errors, they will show here -->
+		{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-				{{ Form::label('name','School/College Name: ') }}
-				{{ Form::text('name') }}
-		</div>
+		{{ Form::open(array('url' => 'schools_colleges')) }}
 
-		{{ Form::submit('Add School/Colleges') }}
+			<div class="form-group">
+					{{ Form::label('name','School/College Name: ') }}
+					{{ Form::text('name') }}
+			</div>
 
-	{{ Form::close() }}
+			{{ Form::submit('Add School/Colleges') }}
+
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop

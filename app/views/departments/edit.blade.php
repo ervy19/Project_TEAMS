@@ -6,22 +6,28 @@
 
 @section('content')
 
-	<h1>Edit Department Information</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('departments') }}" class="btn btn-primary">Back</a>
+		<h1>Edit Department Information</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+		<a href="{{ URL::to('departments') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::model($departments, array('route' => array('departments.update', $departments->id), 'method' => 'PUT')) }}
+		<!-- if there are creation errors, they will show here -->
+		{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			{{ Form::label('name','Department Name: ') }}
-			{{ Form::text('name') }}
-		</div>
+		{{ Form::model($departments, array('route' => array('departments.update', $departments->id), 'method' => 'PUT')) }}
 
-		{{ Form::submit('Edit Department') }}
+			<div class="form-group">
+				{{ Form::label('name','Department Name: ') }}
+				{{ Form::text('name') }}
+			</div>
 
-	{{ Form::close() }}
+			{{ Form::submit('Edit Department') }}
+
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop

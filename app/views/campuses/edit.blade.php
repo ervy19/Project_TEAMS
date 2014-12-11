@@ -6,27 +6,33 @@
 
 @section('content')
 
-	<h1>Edit Campus Information</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('campuses') }}" class="btn btn-primary">Back</a>
+		<h1>Edit Campus Information</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+		<a href="{{ URL::to('campuses') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::model($campuses, array('route' => array('campuses.update', $campuses->id), 'method' => 'PUT')) }}
+		<!-- if there are creation errors, they will show here -->
+		{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			{{ Form::label('title','Campus Name: ') }}
-				{{ Form::text('title') }}
-		</div>
+		{{ Form::model($campuses, array('route' => array('campuses.update', $campuses->id), 'method' => 'PUT')) }}
 
-		<div class="form-group">
-			{{ Form::label('address','Address: ') }}
-				{{ Form::text('address') }}
-		</div>
+			<div class="form-group">
+				{{ Form::label('title','Campus Name: ') }}
+					{{ Form::text('title') }}
+			</div>
 
-		{{ Form::submit('Edit Campus') }}
+			<div class="form-group">
+				{{ Form::label('address','Address: ') }}
+					{{ Form::text('address') }}
+			</div>
 
-	{{ Form::close() }}
+			{{ Form::submit('Edit Campus') }}
+
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop

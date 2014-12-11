@@ -6,22 +6,28 @@
 
 @section('content')
 
-	<h1>Edit Skill or Competency</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="row panel">
 
-	<a href="{{ URL::to('skills_competencies') }}" class="btn btn-primary">Back</a>
+		<h1>Edit Skill or Competency</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+		<a href="{{ URL::to('skills_competencies') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::model($scs, array('route' => array('skills_competencies.update', $scs->id), 'method' => 'PUT')) }}
+		<!-- if there are creation errors, they will show here -->
+		{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			{{ Form::label('name','Skill/Competency: ') }}
-			{{ Form::text('name') }}
-		</div>
+		{{ Form::model($scs, array('route' => array('skills_competencies.update', $scs->id), 'method' => 'PUT')) }}
 
-		{{ Form::submit('Edit Skill/Competency') }}
+			<div class="form-group">
+				{{ Form::label('name','Skill/Competency: ') }}
+				{{ Form::text('name') }}
+			</div>
 
-	{{ Form::close() }}
+			{{ Form::submit('Edit Skill/Competency') }}
+
+		{{ Form::close() }}
+
+	</div>
+</div>
 
 @stop
