@@ -7,26 +7,28 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-	<div class="row panel">
+	<div class="panel">
+		<div class="row">
 
-		<h1>Edit School/College Information</h1>
+			<h1>Edit School/College Information</h1>
 
-		<a href="{{ URL::to('schools_colleges') }}" class="btn btn-primary">Back</a>
+			<a href="{{ URL::to('schools_colleges') }}" class="btn btn-primary">Back</a>
 
-		<!-- if there are creation errors, they will show here -->
-		{{ HTML::ul($errors->all()) }}
+			<!-- if there are creation errors, they will show here -->
+			{{ HTML::ul($errors->all()) }}
 
-		{{ Form::model($schools_colleges, array('route' => array('schools_colleges.update', $schools_colleges->id), 'method' => 'PUT')) }}
+			{{ Form::model($schools_colleges, array('route' => array('schools_colleges.update', $schools_colleges->id), 'method' => 'PUT')) }}
 
-			<div class="form-group">
-				{{ Form::label('name','School/College Name: ') }}
-					{{ Form::text('name') }}
-			</div>
+				<div class="form-group">
+					{{ Form::label('name','School/College Name: ') }}
+						{{ Form::text('name') }}
+				</div>
 
-			{{ Form::submit('Edit School/College') }}
+				{{ Form::submit('Edit School/College') }}
 
-		{{ Form::close() }}
+			{{ Form::close() }}
 
+		</div>
 	</div>
 </div>
 

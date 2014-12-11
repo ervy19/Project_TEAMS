@@ -6,51 +6,59 @@
 
 @section('content')
 
-	<h1>Edit External Training</h1>
+<div class="col-sm-12 col-md-12">
+	<div class="panel">
+		<div class="row">
 
-	<a href="{{ URL::to('external_trainings') }}" class="btn btn-primary">Back</a>
+			<h1>Edit External Training</h1>
 
-	<!-- if there are creation errors, they will show here -->
-	{{ HTML::ul($errors->all()) }}
+			<a href="{{ URL::to('external_trainings') }}" class="btn btn-primary">Back</a>
 
-	{{ Form::model($externaltrainings, array('route' => array('external_trainings.update', $externaltrainings->id), 'method' => 'PUT')) }}
+			<!-- if there are creation errors, they will show here -->
+			{{ HTML::ul($errors->all()) }}
 
-		<div class="form-group">
-			{{ Form::label('title','External Training: ') }}
-			{{ Form::text('title') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('theme_topic','Theme/Topic: ') }}
-			{{ Form::text('theme_topic') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('participation','Participation: ') }}
-			{{ Form::text('participation') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('organizer','Organizer: ') }}
-			{{ Form::text('organizer') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('venue','Venue: ') }}
-			{{ Form::text('venue') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('date_start','Date Start: ') }}
-			{{ Form::text('date_start') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('date_end','Date End: ') }}
-			{{ Form::text('date_end') }}
-		</div>
-		<div class="form-group">
-			{{ Form::label('designation_id','Designation ID: ') }}
-			{{ Form::text('designation_id') }}
-		</div>
+			{{ Form::model($externaltrainings, array('route' => array('external_trainings.update', $externaltrainings->id), 'method' => 'PUT')) }}
+
+				<div class="form-group">
+					{{ Form::label('title','External Training: ') }}
+					{{ Form::text('title') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('theme_topic','Theme/Topic: ') }}
+					{{ Form::text('theme_topic') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('participation','Participation: ') }}
+					{{ Form::text('participation') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('organizer','Organizer: ') }}
+					{{ Form::text('organizer') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('venue','Venue: ') }}
+					{{ Form::text('venue') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('date_start','Date Start: ') }}
+					{{ Form::text('date_start') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('date_end','Date End: ') }}
+					{{ Form::text('date_end') }}
+				</div>
+				<div class="form-group">
+					{{ Form::label('designation_id','Designation ID: ') }}
+					{{ Form::text('designation_id') }}
+				</div>
 
 
-		{{ Form::submit('Edit External Training') }}
+				{{ Form::submit('Edit External Training') }}
 
-	{{ Form::close() }}
+			{{ Form::close() }}
+
+		</div>
+	</div>
+</div>
 
 @stop

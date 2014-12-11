@@ -30,7 +30,6 @@
 		  			<h2>Human Resources</h2>
 		  			<h4>Training Evaluation and Monitoring System</h4>
 	  			</div>
-
 	  			<div class="input-group margin-bottom-sm">
 				  <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
 				  <input type="email" id="inputEmail" name="email" class="form-control" type="text" placeholder="Email Address">
@@ -40,11 +39,11 @@
 				  <input type="password" id="inputPassword" name="password" class="form-control" type="password" placeholder="Password">
 				</div>
 		        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-		        <div class="checkbox">
-		          <label>
-		            <input type="checkbox" value="remember-me">Remember Me
-		          </label>
-		        </div>
+		        <label class="checkbox pull-left">
+                    <input type="checkbox" value="remember-me">
+                    Remember me
+                </label>
+                <a href="#" class="pull-right need-help">Forgot your password?</a><span class="clearfix"></span>
 	      	</form>
 	  </div>
 	</div>

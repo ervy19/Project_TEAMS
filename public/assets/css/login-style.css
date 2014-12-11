@@ -82,6 +82,19 @@ body {
 	background: rgba(255,57,235,0.5);
 }
 
+.form-signin .checkbox {
+	margin-left: 20px;
+}
+
+.form-signin .need-help {
+	color: rgba(255,57,235,0.9);
+	margin-top: 10px;
+}
+
+.form-signin .need-help:hover {
+	color: rgba(255,57,235,0.6);
+}
+
 .input-group-addon {
 	background: inherit;
 	border-radius: 0;

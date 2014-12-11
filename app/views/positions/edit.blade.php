@@ -7,26 +7,28 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-	<div class="row panel">
+	<div class="panel">
+		<div class="row">
 
-		<h1>Edit Position Information</h1>
+			<h1>Edit Position Information</h1>
 
-		<a href="{{ URL::to('positions') }}" class="btn btn-primary">Back</a>
+			<a href="{{ URL::to('positions') }}" class="btn btn-primary">Back</a>
 
-		<!-- if there are creation errors, they will show here -->
-		{{ HTML::ul($errors->all()) }}
+			<!-- if there are creation errors, they will show here -->
+			{{ HTML::ul($errors->all()) }}
 
-		{{ Form::model($positions, array('route' => array('positions.update', $positions->id), 'method' => 'PUT')) }}
+			{{ Form::model($positions, array('route' => array('positions.update', $positions->id), 'method' => 'PUT')) }}
 
-			<div class="form-group">
-				{{ Form::label('title','Position Name: ') }}
-				{{ Form::text('title') }}
-			</div>
+				<div class="form-group">
+					{{ Form::label('title','Position Name: ') }}
+					{{ Form::text('title') }}
+				</div>
 
-			{{ Form::submit('Edit Position') }}
+				{{ Form::submit('Edit Position') }}
 
-		{{ Form::close() }}
+			{{ Form::close() }}
 
+		</div>
 	</div>
 </div>
 

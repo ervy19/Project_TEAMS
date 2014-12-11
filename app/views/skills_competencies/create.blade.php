@@ -7,26 +7,28 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-	<div class="row panel">
+	<div class="panel">
+		<div class="row">
 
-		<h1>Add Skill or Competency</h1>
+			<h1>Add Skill or Competency</h1>
 
-		<a href="{{ URL::to('skills_competencies') }}" class="btn btn-primary">Back</a>
+			<a href="{{ URL::to('skills_competencies') }}" class="btn btn-primary">Back</a>
 
-		<!-- if there are creation errors, they will show here -->
-		{{ HTML::ul($errors->all()) }}
+			<!-- if there are creation errors, they will show here -->
+			{{ HTML::ul($errors->all()) }}
 
-		{{ Form::open(array('url' => 'skills_competencies')) }}
+			{{ Form::open(array('url' => 'skills_competencies')) }}
 
-			<div class="form-group">
-				{{ Form::label('name','Skill/Competency: ') }}
-				{{ Form::text('name') }}
-			</div>
+				<div class="form-group">
+					{{ Form::label('name','Skill/Competency: ') }}
+					{{ Form::text('name') }}
+				</div>
 
-			{{ Form::submit('Add Skill/Competency') }}
+				{{ Form::submit('Add Skill/Competency') }}
 
-		{{ Form::close() }}
+			{{ Form::close() }}
 
+		</div>
 	</div>
 </div>
 

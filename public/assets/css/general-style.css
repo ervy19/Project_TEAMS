@@ -43,6 +43,24 @@ a:hover {
     padding-right: 5px;
 }
 
+.row {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.btn-primary {
+  background: rgba(255,57,235,0.6);
+  border-radius: 0;
+  border: none;
+  -webkit-font-smoothing: subpixel-antialiased;
+      -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
+              transition: border .25s linear, color .25s linear, background-color .25s linear;
+}
+
+.btn-primary:hover {
+  background: rgba(255,57,235,0.45);
+}
+
 .panel {
     background: #FFF;
     border-radius: 0; 
@@ -70,6 +88,18 @@ a:hover {
 }
 
 /**************************************
+    Data Tables
+**************************************/
+
+.form-control {
+  border-radius: 0;
+}
+
+.pagination>li:first-child>a, .pagination>li:first-child>span, .pagination>li:last-child>a, .pagination>li:last-child>span {
+  border-radius: 0;
+}
+
+/**************************************
     Breadcrumb
 **************************************/
 
@@ -80,7 +110,7 @@ a:hover {
 .breadcrumb {
     background: transparent;
     min-height: 50px;
-    margin: 0 40px;
+    margin: 0 20px;
 }
 
 .breadcrumb li {
@@ -452,19 +482,22 @@ a:hover {
 **************************************/
 
 footer {
-    background: #333;
-    color: #999;
-    font-size: 1em;
-    font-weight: 300;
-    position: absolute;
-    bottom: 0;
-    height: 40px;
-    width: 100%;
-    padding: 10px 0;
+  background: #333;
+  font-size: 1em;
+  font-weight: 300;
+  position: absolute;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+  padding: 10px 0;
 }
 
 footer p {
-    margin: 0;
+  margin: 0;
+}
+
+footer .text-muted {
+  color: #AAA;
 }
 
 /**************************************

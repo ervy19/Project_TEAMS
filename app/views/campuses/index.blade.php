@@ -7,7 +7,8 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-	<div class="row panel">
+	<div class="panel">
+		<div class="row">
 
 		<h1>Campuses</h1>
 
@@ -39,7 +40,7 @@
 				@endforeach
 			</tbody>
 		</table>
-
+		</div>
 	</div>
 </div>
 

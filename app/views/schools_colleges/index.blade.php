@@ -7,39 +7,41 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-	<div class="row panel">
+	<div class="panel">
+		<div class="row">
 
-		<h1>Schools/Colleges</h1>
+			<h1>Schools/Colleges</h1>
 
-		<a href="{{ URL::to('schools_colleges/create') }}" class="btn btn-primary">Add School/College</a>
+			<a href="{{ URL::to('schools_colleges/create') }}" class="btn btn-primary">Add School/College</a>
 
-		<br><br>
+			<br><br>
 
-		<table id="tb-schools_colleges" class="table table-bordered">
-			<thead>
-				<tr>
-					<th>School/College Name</th>
-					<th>Number of Employees</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($schools_colleges as $key => $value)
-				<tr>
-					<td>{{ $value->name }}</td>
-					<td>DUMMY</td>
-					<td>
-						<a class="btn btn-small btn-info" href="{{ URL::to('schools_colleges/' . $value->id . '/edit') }}">Edit</a>
-						&nbsp;&nbsp;
-					   {{ Form::open(array('route' => array('schools_colleges.destroy', $value->id), 'method' => 'delete')) }}
-					    <button type="submit" class="btn btn-small btn-danger">Archive</button>
-					   {{ Form::close() }}
-					</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>
+			<table id="tb-schools_colleges" class="table table-bordered">
+				<thead>
+					<tr>
+						<th>School/College Name</th>
+						<th>Number of Employees</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($schools_colleges as $key => $value)
+					<tr>
+						<td>{{ $value->name }}</td>
+						<td>DUMMY</td>
+						<td>
+							<a class="btn btn-small btn-info" href="{{ URL::to('schools_colleges/' . $value->id . '/edit') }}">Edit</a>
+							&nbsp;&nbsp;
+						   {{ Form::open(array('route' => array('schools_colleges.destroy', $value->id), 'method' => 'delete')) }}
+						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+						   {{ Form::close() }}
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
 
+		</div>
 	</div>
 </div>
 
