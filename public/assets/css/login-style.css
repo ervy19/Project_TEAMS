@@ -1,0 +1,89 @@
+body {
+    background: rgba(254,139,242,0.5); 
+}
+
+.login .panel {
+	margin: 50px 440px;
+	padding: 0px 25px;
+	text-align: center;
+	-webkit-box-shadow: 5px 5px 5px -2px #999;
+       -moz-box-shadow: 5px 5px 5px -2px #999;
+            box-shadow: 5px 5px 5px -2px #999;
+}
+
+.login .ceu-logo {
+	width: 150px;
+	margin: 0 auto;
+}
+
+.login h2 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-transform: uppercase;
+}
+
+.login h4 {
+	margin-top: 2px;
+	font-size: 1.2em;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px 0;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin .form-group {
+	margin-bottom: 20px;
+}
+
+.form-signin .input-group {
+	margin-bottom: 10px;
+}
+
+.form-signin input[type="email"] {
+	border-radius: 0;
+}
+.form-signin input[type="password"] {
+	border-radius: 0;
+}
+
+.form-signin button[type="submit"] {
+	background: rgba(255,57,235,0.7);
+	width: 100%;
+	margin-top: 20px;
+	border: none;
+	border-radius: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-transform: uppercase;
+	-webkit-font-smoothing: subpixel-antialiased;
+ 	-webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
+ 	transition: border .25s linear, color .25s linear, background-color .25s linear;
+}
+
+.form-signin button[type="submit"]:hover {
+	background: rgba(255,57,235,0.5);
+}
+
+.input-group-addon {
+	background: inherit;
+	border-radius: 0;
+	border-right: none;
+}
