@@ -12,18 +12,24 @@
 
 			<h1>Skills and Competencies</h1>
 
-			<a href="{{ URL::to('skills_competencies/create') }}" class="btn btn-primary">Add Skill/Competency</a>
+			<a href="{{ URL::to('skills_competencies/create') }}" class="btn btn-primary">Add Skill/Competency<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 			<br><br>
+
+			@foreach($positionsTaggedCount as $key => $value)
+
+				<h2>{{ $value->count }}</h2>
+
+			@endforeach
 
 			<table id="tb-skills_competencies" class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Skill/Competency</th>
-						<th>Number of Departments Tagged</th>
-						<th>Number of Positions Tagged</th>
-						<th>Number of Trainings Tagged</th>
-						<th>Action</th>
+						<th>Departments Tagged</th>
+						<th>Positions Tagged</th>
+						<th>Trainings Tagged</th>
+						<th colspan="2">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,10 +40,9 @@
 						<td>Sample</td>
 						<td>Sample</td>
 						<td>
-							<a class="btn btn-small btn-info" href="{{ URL::to('skills_competencies/' . $value->id . '/edit') }}">Edit</a>
-							&nbsp;&nbsp;
+							<a class="btn btn-info" href="{{ URL::to('skills_competencies/' . $value->id . '/edit') }}"><i class="fa fa-edit fa-fw"></i>Edit</a>
 						   {{ Form::open(array('route' => array('skills_competencies.destroy', $value->id), 'method' => 'delete')) }}
-						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+						    <button type="submit" class="btn btn-danger"><i class="fa fa-close fa-fw"></i>Archive</button>
 						   {{ Form::close() }}
 						</td>
 					</tr>
@@ -54,7 +59,12 @@
 @section('page_js')
 	<script type="text/javascript">
 		$(document).ready( function () {
-		    $('#tb-skills_competencies').DataTable();
+		    $('#tb-skills_competencies').DataTable({
+		    	"columnDefs": [ {
+				      "targets": 4,
+				      "searchable": false
+				    }]
+		    });
 		} );
 	</script>
 @stop

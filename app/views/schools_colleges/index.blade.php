@@ -12,7 +12,7 @@
 
 			<h1>Schools/Colleges</h1>
 
-			<a href="{{ URL::to('schools_colleges/create') }}" class="btn btn-primary">Add School/College</a>
+			<a href="{{ URL::to('schools_colleges/create') }}" class="btn btn-primary">Add School/College<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 			<br><br>
 

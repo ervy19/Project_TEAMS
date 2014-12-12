@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-	External Trainings
+	External Trainings | Pending Approval
 @stop
 
 @section('content')
@@ -18,8 +18,8 @@
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
 					<ul class="nav nav-tabs nav-justified">
-						<li role="presentation" class="active"><a>Credited</a></li>
-						<li role="presentation"><a href="{{ URL::to('external_trainings/pending-approval') }}">Pending Approval</a></li>
+						<li role="presentation"><a  href="{{ URL::to('external_trainings') }}">Credited</a></li>
+						<li role="presentation" class="active"><a>Pending Approval</a></li>
 					</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">
@@ -39,7 +39,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($externaltrainings as $key => $value)
+								@foreach($externaltrainingsqueue as $key => $value)
 								<tr>				
 									<td>{{ $value->title }}</td>
 									<td>{{ $value->theme_topic }}</td>
@@ -49,16 +49,14 @@
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
 									<td>{{ $value->designation_id }}</td>
 									<td>
-										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
+										<a class="btn btn-small btn-info" href="">Credit</a>
 										&nbsp;&nbsp;
-									   {{ Form::open(array('route' => array('external_trainings.destroy', $value->id), 'method' => 'delete')) }}
-									    <button type="submit" class="btn btn-small btn-danger">Archive</button>
-									   {{ Form::close() }}
+										<a class="btn btn-small btn-info" href="">Reject</a>
 									</td>
 								</tr>
 								@endforeach
 							</tbody>
-						</table>						
+						</table>					
 					</div>
 				</div>
 			</div>	

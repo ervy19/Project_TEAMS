@@ -12,7 +12,7 @@
 
 			<h1>Employees</h1>
 
-			<a href="{{ URL::to('employees/create') }}" class="btn btn-primary">Add Employee</a>
+			<a href="{{ URL::to('employees/create') }}" class="btn btn-primary">Add Employee<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 			<br><br>
 

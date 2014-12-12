@@ -29,6 +29,8 @@ Route::get('internal_trainings/training-effectiveness-report', array('as' => 'in
 	return View::make('internal_trainings.training-effectiveness-report');
 }));
 
+Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexPending'));
+
 Route::resource('employees','EmployeesController');
 
 Route::resource('campuses','CampusesController');
