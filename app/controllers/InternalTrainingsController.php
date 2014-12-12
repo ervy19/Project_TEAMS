@@ -38,7 +38,6 @@ class InternalTrainingsController extends \BaseController {
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'theme_topic' => 'required',
-            'objectives' => 'required',
             'isTrainingPlan' => 'required',
         );
         $validator = Validator::make(Input::all(), $rules);
