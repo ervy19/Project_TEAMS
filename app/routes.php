@@ -34,6 +34,12 @@ Route::get('training_plan', array('as' => 'training_plan', function()
 	return View::make('training_plan.index');
 }));
 
+Route::get('dashboard', array('as' => 'dashboard', function()
+{
+	return View::make('dashboard.index');
+}));
+
+
 Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexPending'));
 
 Route::resource('employees','EmployeesController');

@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-	External Trainings
+	Training Plan
 @stop
 
 @section('page_css')

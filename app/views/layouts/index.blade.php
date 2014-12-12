@@ -49,7 +49,7 @@
           </ul>       
 
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ URL::to('/') }}">Dashboard</a></li>
+            <li class="active"><a href="{{ URL::to('dashboard') }}">Dashboard</a></li>
             <li><a href="{{ URL::to('employees') }}">Employees</a></li>
             <li><a href="{{ URL::to('internal_trainings') }}">Trainings</a></li>
             <li><a href="{{ URL::to('training_plan') }}">Training Plan</a></li>
@@ -86,7 +86,7 @@
     <div class="container-fluid breadcrumb-header">
       <div class="row">
         <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="{{ URL::to('dashboard') }}"><i class="fa fa-home fa-lg"></i></a></li>
                 @yield('breadcrumb')
         </ol>
       </div>
