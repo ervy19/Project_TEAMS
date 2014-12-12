@@ -42,3 +42,8 @@
 
 @stop
 
+@section('page_js')
+	<script type="text/javascript">
+		$("#skills_competencies").select2();
+	</script>
+@stop
