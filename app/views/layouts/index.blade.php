@@ -51,8 +51,8 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="{{ URL::to('/') }}">Dashboard</a></li>
             <li><a href="{{ URL::to('employees') }}">Employees</a></li>
-            <li><a href="#">Trainings</a></li>
-            <li><a href="#">Training Plan</a></li>
+            <li><a href="{{ URL::to('internal_trainings') }}">Trainings</a></li>
+            <li><a href="{{ URL::to('training_plan') }}">Training Plan</a></li>
             <li><a href="#">Reports</a></li>
           </ul>          
 
@@ -117,11 +117,6 @@
     {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
-
-    <!-- SCRIPT FOR SELECT2 ON POSITIONS/CREATE -->
-    <script>
-      $("#skills_competencies").select2();
-    </script>
     
     @yield('page_js')
 
