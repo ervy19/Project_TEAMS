@@ -4,6 +4,10 @@
 	Departments
 @stop
 
+@section('breadcrumb')
+	<li>Departments</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

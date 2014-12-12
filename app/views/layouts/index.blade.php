@@ -49,7 +49,7 @@
           </ul>       
 
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ URL::to('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ URL::to('dashboard') }}">Dashboard</a></li>
             <li><a href="{{ URL::to('employees') }}">Employees</a></li>
             <li><a href="{{ URL::to('internal_trainings') }}">Trainings</a></li>
             <li><a href="{{ URL::to('training_plan') }}">Training Plan</a></li>
@@ -106,7 +106,7 @@
 
     <!-- BEGIN CORE JS -->
 
-    {{ HTML::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); }}
+    {{ HTML::script('assets/js/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
 

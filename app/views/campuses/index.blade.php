@@ -4,6 +4,10 @@
 	Campuses
 @stop
 
+@section('breadcrumb')
+	<li>Campuses</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

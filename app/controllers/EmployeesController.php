@@ -41,7 +41,7 @@ class EmployeesController extends \BaseController {
             'last_name' => 'required',
             'given_name' => 'required',
             'middle_initial' => 'required',
-            'email' => 'required|email|unique:Employees,email,',
+            'email' => 'required|email',
             'age' => 'required',
             'tenure' => 'required'
         );
@@ -113,7 +113,7 @@ class EmployeesController extends \BaseController {
             'last_name' => 'required',
             'given_name' => 'required',
             'middle_initial' => 'required',
-            'email' => 'required|email|unique:Employees,email,'.$id,
+            'email' => 'required|email',
             'age' => 'required',
             'tenure' => 'required'
         );
