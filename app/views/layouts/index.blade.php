@@ -117,6 +117,11 @@
     {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
+
+    <!-- SCRIPT FOR SELECT2 ON POSITIONS/CREATE -->
+    <script>
+      $("#skills_competencies").select2();
+    </script>
     
     @yield('page_js')
 
