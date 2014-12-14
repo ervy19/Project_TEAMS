@@ -25,13 +25,16 @@
 				</div>
 		    
 			    <div>
-			      <select multiple id="skills_competencies" style="width: 300px">
-			      @foreach(SkillsCompetencies::all() as $key => $value)
-			        <option> {{ $value->name }} </option>
-			      @endforeach
-			      </select>
+			      	<select multiple id="skills_competencies" style="width: 300px">
+			      		@foreach(SkillsCompetencies::all() as $key => $value)
+			        		<option> {{ $value->name }} </option>
+			      		@endforeach
+			      	</select>
 			    </div>
-			    
+			    <div>
+					    <input type="hidden" name="selected" id="selected"><br>
+				</div>
+
 				{{ Form::submit('Add Position') }}
 
 			{{ Form::close() }}
@@ -43,7 +46,14 @@
 @stop
 
 @section('page_js')
+
 	<script type="text/javascript">
-		$("#skills_competencies").select2();
+		var sc = $('#skills_competencies');
+		$(sc).change(function() {
+			var elem = document.getElementById("selected");
+			elem.value = $(sc).val();
+		});	
+
 	</script>
 @stop
+

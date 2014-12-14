@@ -50,17 +50,17 @@ class PositionsController extends \BaseController {
             // store to positions table
             $positions = new Position;
             $positions->title = Input::get('title');
+            $nposition = Input::get('title');
             $positions->save();
-/**
-HINDI GUMAGANA WTF
-            //	store to positions_sc table
-            //	all skills and competencies to a position
-            $position_sc = new Position_SC;
-            foreach ($("skills_competencies").select2("val") as $key => $value) {
-            	$position_sc->skills_competencies_id = $value;
-            	$position_sc->position_id = Position::last()->id;
-            }
-**/
+			
+			$positionsc = new Position_SC;
+            $selectedsc = Input::get("selected");
+            $selectedid = SkillsCompetencies::where('name', $selectedsc)->pluck('id');
+            $newposition = Position::where('title', $nposition)->pluck('id');
+            $positionsc->skills_competencies_id = $selectedid;
+            $positionsc->position_id = $newposition;
+            $positionsc->save();
+
             // redirect
             Session::flash('message', 'Successfully created Position!');
             return Redirect::to('positions');
