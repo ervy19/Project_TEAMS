@@ -48,7 +48,12 @@ a:hover {
   padding-right: 20px;
 }
 
-.btn-primary {
+input[type="submit"] {
+  color: #FFF;
+  padding: 6px 12px;
+}
+
+.btn-primary, input[type="submit"] {
   background: rgba(255,57,235,0.6);
   border-radius: 0;
   border: none;
@@ -57,8 +62,21 @@ a:hover {
               transition: border .25s linear, color .25s linear, background-color .25s linear;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, input[type="submit"]:hover {
   background: rgba(255,57,235,0.45);
+}
+
+.btn-info, .btn-danger {
+  border-radius: 0;
+  border: none;
+  -webkit-font-smoothing: subpixel-antialiased;
+      -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
+              transition: border .25s linear, color .25s linear, background-color .25s linear;
+}
+
+
+.action a, .action button {
+  display: inline-block;
 }
 
 .panel {
@@ -85,6 +103,25 @@ a:hover {
 
 .label-danger {
     background: #e74c3c;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, 
+.pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus
+{
+  background: none;
+  color: #777;
+  border-color: #DDD;
+}
+
+.pagination>a:hover, .pagination>.active>a:hover  {
+    background: none;
+    color: #777;
+    border-color: #DDD;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: transparent;
+    border: none;
 }
 
 /**************************************
@@ -153,8 +190,8 @@ a:hover {
 }
 
 .navbar-default .navbar-brand {
-	color: #FE8BF2;
-    padding: 2px;
+  color: #FE8BF2;
+  padding: 2px;
 }
 
 .navbar-default .navbar-brand img {
@@ -194,7 +231,7 @@ a:hover {
 .navbar-default .navbar-nav>li>a:hover
 {
     background: transparent;
-    color: #FE8BF2;
+    color: rgba(255,57,235,1);
 }
 
 .dropdown-menu {
@@ -217,13 +254,13 @@ a:hover {
 .dropdown-menu>.active>a:focus
 {
     background: transparent;
-    color: #FE8BF2;
+    color: rgba(255,57,235,1);
     font-weight: 400;
 }
 
 .dropdown-menu>li>a:hover {
     background: transparent;
-    color: #FE8BF2;
+    color: rgba(255,57,235,1);
 }
 
 .badge {
@@ -233,6 +270,9 @@ a:hover {
     right: 120px;
 }
 
+.add-plus {
+  margin-left: 5px;
+}
 
 
 /**************************************

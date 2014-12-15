@@ -4,6 +4,10 @@
 	Campuses
 @stop
 
+@section('breadcrumb')
+	<li>Campuses</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">
@@ -12,7 +16,7 @@
 
 		<h1>Campuses</h1>
 
-		<a href="{{ URL::to('campuses/create') }}" class="btn btn-primary">Add Campus</a>
+		<a href="{{ URL::to('campuses/create') }}" class="btn btn-primary">Add Campus<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 		<br><br>
 

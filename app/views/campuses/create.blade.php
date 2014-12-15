@@ -4,6 +4,12 @@
 	Add Campus
 @stop
 
+@section('breadcrumb')
+	<li><a href="{{ URL::to('campuses') }}">Campuses</a></li>
+	<li>Create Campus</li>
+@stop
+
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

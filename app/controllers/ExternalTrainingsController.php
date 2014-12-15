@@ -15,6 +15,13 @@ class ExternalTrainingsController extends \BaseController {
 			->with('externaltrainings', $externaltrainings );
 	}
 
+	public function indexPending()
+	{
+		$externaltrainingsqueue = DB::table('et_queues')->where('isActive', '=', true)->get();
+
+		return View::make('external_trainings.pending-approval')
+			->with('externaltrainingsqueue', $externaltrainingsqueue );
+	}
 
 	/**
 	 * Show the form for creating a new resource.

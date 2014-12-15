@@ -4,6 +4,11 @@
 	Edit Department Information
 @stop
 
+@section('breadcrumb')
+	<li><a href="{{ URL::to('departments') }}">Department</a></li>
+	<li>Edit Department</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

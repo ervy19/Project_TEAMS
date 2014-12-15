@@ -11,8 +11,16 @@ class SkillsCompetenciesController extends \BaseController {
 	{
 		$scs = DB::table('skills_competencies')->where('isActive', '=', true)->get();
 
+		$positionsTagged = SkillsCompetencies::with('positionsCountRelation')->get();
+
+		foreach($positionsTagged as $key => $value)
+		{
+			$positionsTaggedCount = $value->positions_count_relation;
+		}
+
+
 		return View::make('skills_competencies.index')
-			->with('scs', $scs );
+			->with('scs', $scs )->with('positionsTaggedCount',$positionsTaggedCount);
 	}
 
 
@@ -133,8 +141,13 @@ class SkillsCompetenciesController extends \BaseController {
         $scs->save();
 
         // redirect
-        Session::flash('message', 'Successfully deleted Skill/Competency!');
+        Session::flash('message', 'Successfully archived Skill/Competency!');
         return Redirect::to('skills_competencies');
 	}
+
+	public function departmentsTagged()
+	{
+
+	} 
 
 }

@@ -4,6 +4,10 @@
 	Edit Campus Information
 @stop
 
+@section('breadcrumb')
+	<li>Edit Campus</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

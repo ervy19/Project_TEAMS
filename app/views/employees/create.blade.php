@@ -4,6 +4,11 @@
 	Add Employee
 @stop
 
+@section('breadcrumb')
+	<li><a href="{{ URL::to('employees') }}">Employees</a></li>
+	<li>Create Employee</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">

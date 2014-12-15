@@ -21,5 +21,18 @@ class SkillsCompetencies extends Eloquent {
 	public function et_addressed_sc() {
 		return $this->hasOne('ET_Addressed_SC');
 	}
-	
+
+	public function positionsCountRelation()
+	{
+	    return $this->position_sc()->selectRaw('skills_competencies_id, count(*) as count')
+	        ->groupBy('skills_competencies_id');
+	}
+
+	public function getPositionsCountAttribute()
+	{
+
+	    return $this->positionsCountRelation ?
+	    	$this->positionsCountRelation->count:0;
+	}
+
 }

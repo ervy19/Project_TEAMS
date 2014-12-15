@@ -4,6 +4,10 @@
 	Departments
 @stop
 
+@section('breadcrumb')
+	<li>Departments</li>
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">
@@ -12,7 +16,7 @@
 
 			<h1>Departments</h1>
 
-			<a href="{{ URL::to('departments/create') }}" class="btn btn-primary">Add Department</a>
+			<a href="{{ URL::to('departments/create') }}" class="btn btn-primary">Add Department<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 			<br><br>
 

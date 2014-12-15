@@ -99,7 +99,8 @@
 
 				<div class="form-group">
 					{{ Form::label('isTrainingPlan','Training Plan: ') }}
-					{{ Form::text('isTrainingPlan') }}
+					{{ Form::radio('isTrainingPlan', 1); }}YES
+					{{ Form::radio('isTrainingPlan', 0); }}NO
 					{{ $errors->first('isTrainingPlan') }}
 				</div>
 

@@ -16,7 +16,7 @@
 
 			<h1>Internal Trainings</h1>
 
-			<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training</a>
+			<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
 			</div>
 			<br><br>
 

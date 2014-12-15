@@ -49,10 +49,10 @@
           </ul>       
 
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ URL::to('/') }}">Dashboard</a></li>
+            <li><a href="{{ URL::to('dashboard') }}">Dashboard</a></li>
             <li><a href="{{ URL::to('employees') }}">Employees</a></li>
-            <li><a href="#">Trainings</a></li>
-            <li><a href="#">Training Plan</a></li>
+            <li><a href="{{ URL::to('internal_trainings') }}">Trainings</a></li>
+            <li><a href="{{ URL::to('training_plan') }}">Training Plan</a></li>
             <li><a href="#">Reports</a></li>
           </ul>          
 
@@ -86,7 +86,7 @@
     <div class="container-fluid breadcrumb-header">
       <div class="row">
         <ol class="breadcrumb">
-                <li><a href="{{ URL::to('/') }}"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="{{ URL::to('dashboard') }}"><i class="fa fa-home fa-lg"></i></a></li>
                 @yield('breadcrumb')
         </ol>
       </div>
@@ -106,7 +106,7 @@
 
     <!-- BEGIN CORE JS -->
 
-    {{ HTML::script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); }}
+    {{ HTML::script('assets/js/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
 
@@ -117,11 +117,6 @@
     {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
-
-    <!-- SCRIPT FOR SELECT2 ON POSITIONS/CREATE -->
-    <script>
-      $("#skills_competencies").select2();
-    </script>
     
     @yield('page_js')
 

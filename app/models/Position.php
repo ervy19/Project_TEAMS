@@ -17,7 +17,6 @@ class Position extends Eloquent {
 	public function position_SC() {
 		return $this->hasMany('Position_SC');
 	}
-	
 }
 
 ?>
