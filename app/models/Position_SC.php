@@ -11,7 +11,7 @@ class Position_SC extends Eloquent {
 	}
 
 	public function skill_competency() {
-		return $this->hasOne('Skill_Competency');
+		return $this->hasMany('SkillsCompetencies');
 	}
 	
 }
