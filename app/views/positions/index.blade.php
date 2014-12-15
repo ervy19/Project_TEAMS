@@ -12,7 +12,7 @@
 
 			<h1>Positions</h1>
 
-			<a href="{{ URL::to('positions/create') }}" class="btn btn-primary">Add Position</a>
+			<a href="{{ URL::to('positions/create') }}" class="btn btn-primary">Add Position<i class="fa fa-plus fa-lg add-plus"></i></a>
 
 			<br><br>
 
@@ -45,4 +45,12 @@
 	</div>
 </div>
 
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#tb-positions').DataTable();
+		} );
+	</script>
 @stop
