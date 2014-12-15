@@ -27,7 +27,16 @@
 					<div class="form-group">
 						{{ Form::label('name','Department Name: ') }}
 						{{ Form::text('name') }}
-
+					</div>
+					<div>
+				      	<select multiple id="skills_competencies" style="width: 300px">
+				      		@foreach(SkillsCompetencies::all() as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+				      	</select>
+			    	</div>
+			    	<div>
+					    <input type="hidden" name="selected" id="selected"><br>
 					</div>
 
 				{{ Form::submit('Add Department') }}
@@ -38,4 +47,16 @@
 	</div>
 </div>
 
+@stop
+
+@section('page_js')
+
+	<script type="text/javascript">
+		var sc = $('#skills_competencies');
+		$(sc).change(function() {
+			var elem = document.getElementById("selected");
+			elem.value = $(sc).val();
+		});	
+
+	</script>
 @stop

@@ -10,8 +10,8 @@ class Department_SC extends Eloquent {
 		return $this->hasOne('Department');
 	}
 
-	public function skill_competency()) {
-		return $this->hasOne('Skill_Competency');
+	public function skill_competency() {
+		return $this->belongsToMany('SkillsCompetencies');
 	}
 	
 }

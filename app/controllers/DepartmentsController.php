@@ -50,7 +50,17 @@ class DepartmentsController extends \BaseController {
             // store
             $departments = new Department;
             $departments->name = Input::get('name');
+            $ndepartment = Input::get('title');
             $departments->save();
+			
+			$departmentsc = new Department_SC;
+            $selectedsc = Input::get("selected");
+            $selectedid = SkillsCompetencies::where('name', $selectedsc)->pluck('id');
+            $newdepartment = Position::where('title', $ndepartment)->pluck('id');
+            $departmentsc->skills_competencies_id = $selectedid;
+            $departmentsc->department_id = $newdepartment;
+            $departmentsc->save();
+
             // redirect
             Session::flash('message', 'Successfully created Department!');
             return Redirect::to('departments');
