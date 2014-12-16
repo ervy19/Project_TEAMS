@@ -24,6 +24,24 @@
 					{{ Form::text('title') }}
 				</div>
 
+				<div>
+			      	<select multiple id="skills_competencies" style="width: 300px">
+			      		@foreach(SkillsCompetencies::all() as $key => $value)
+			        		<option> {{ $value->name }} </option>
+			      		@endforeach
+			      	</select>
+			    </div>
+			    <div>
+			    	@foreach ($currentscs as $scitem)
+			    		{{ $scitem }}
+			    	@endforeach
+			    </div>
+			    <div>
+			    	@foreach ($currentscid as $scid)
+			    		{{ $scid }}
+			    	@endforeach
+			    </div>
+
 				{{ Form::submit('Edit Position') }}
 
 			{{ Form::close() }}
@@ -32,4 +50,23 @@
 	</div>
 </div>
 
+@stop
+
+@section('page_js')
+
+	<script type="text/javascript">
+		
+		var pausecontent = new Array();
+	    <?php foreach($currentscs as $key => $val){ ?>
+	        pausecontent.push('<?php echo $val; ?>');
+	    <?php } ?>
+
+		//var selectedscs = scs.split(",");
+
+    	$('#skills_competencies').select2('val',pausecontent);
+ 
+    </script>
+
+
+	
 @stop
