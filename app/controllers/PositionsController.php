@@ -98,12 +98,15 @@ class PositionsController extends \BaseController {
 		$positions = Position::find($id);
 		//$posid = Position::where('id', $id)->pluck('id');
 		$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
-		$currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
+		
+		// $currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
+		$currentscs = array();
 
-		// foreach($currentscid as $key)
-		// {
-		// 	$currentscs = array(SkillsCompetencies::where('id', $currentscid)->(;))
-		// }
+		foreach($currentscid as $key)
+		{
+			$scsname = SkillsCompetencies::where('id', $key)->pluck('name');
+			array_push($currentscs, $scsname);
+		}
 
 		return View::make('positions.edit')
 			->with('positions', $positions)
@@ -129,30 +132,30 @@ class PositionsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('positions/create')
+            return Redirect::to('positions/edit')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
+            // update in positions table
             $positions = Position::find($id);
             $positions->title = Input::get('title');
-            $posid = Position::where('id', $id)->get('id');
+            $nposition = Input::get('title');
             $positions->save();
-
+			
             $selectedsc = Input::get('selected');
-            $newposition = Position::where('title', $nposition)->pluck('id');
+            $selectedposition = Position::where('title', $nposition)->pluck('id');
             $scidArray = explode(",", $selectedsc);
 
             for($i = 0; $i < count($scidArray); $i++){
             	$positionsc = new Position_SC;
             	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
 	            $positionsc->skills_competencies_id = $selectedid;
-	            $positionsc->position_id = $newposition;
+	            $positionsc->position_id = $selectedposition;
 	            $positionsc->save();
 	        }
 
             // redirect
-            Session::flash('message', 'Successfully updated Position!');
+            Session::flash('message', 'Successfully created Position!');
             return Redirect::to('positions');
         }
 	}

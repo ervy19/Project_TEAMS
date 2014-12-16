@@ -32,15 +32,8 @@
 			      	</select>
 			    </div>
 			    <div>
-			    	@foreach ($currentscs as $scitem)
-			    		{{ $scitem }}
-			    	@endforeach
-			    </div>
-			    <div>
-			    	@foreach ($currentscid as $scid)
-			    		{{ $scid }}
-			    	@endforeach
-			    </div>
+					    <input type="hidden" name="selected" id="selected"><br>
+				</div>
 
 				{{ Form::submit('Edit Position') }}
 
@@ -60,11 +53,23 @@
 	    <?php foreach($currentscs as $key => $val){ ?>
 	        pausecontent.push('<?php echo $val; ?>');
 	    <?php } ?>
-
-		//var selectedscs = scs.split(",");
-
     	$('#skills_competencies').select2('val',pausecontent);
- 
+
+    	var sc = $('#skills_competencies');
+		$(sc).change(function() {
+			var elem = document.getElementById("selected");
+			elem.value = $(sc).val();
+		});	
+
+		// var scclick = $('#skills_competencies');
+		// $(scclick).click(function () { 
+		// 	var data = $("#skills_competencies").select2("selected"); 
+		// 	delete data.element; 
+		// 	var elem = document.getElementById("deleted");
+		// 	elem.value = $(scclick).val();
+		// 	//alert("Selected data is: "+JSON.stringify(data));
+		// });
+
     </script>
 
 
