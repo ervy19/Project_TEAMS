@@ -52,6 +52,7 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings = new Internal_Training;
             $internaltrainings->title = Input::get('title');
             $internaltrainings->theme_topic = Input::get('theme_topic');
+            $internaltrainings->venue = Input::get('venue');
             $internaltrainings->date_start = Input::get('date_start');
             $internaltrainings->date_end = Input::get('date_end');
             $internaltrainings->time_start = Input::get('time_start');
@@ -60,7 +61,7 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
             $internaltrainings->evaluation_narrative = Input::get('evaluation_narrative');
             $internaltrainings->recommendations = Input::get('recommendations');
-            $internaltrainings->organizer_schools_colleges_id = Input::get('school_college_id');
+           	$internaltrainings->organizer_schools_colleges_id = Input::get('schoolorganizer');
             $internaltrainings->organizer_department_id = Input::get('department_id');
             $internaltrainings->isTrainingPlan = Input::get('isTrainingPlan');
             $internaltrainings->save();
@@ -128,6 +129,7 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings = Internal_Training::find($id);
             $internaltrainings->title = Input::get('title');
             $internaltrainings->theme_topic = Input::get('theme_topic');
+            $internaltrainings->venue = Input::get('venue');
             $internaltrainings->date_start = Input::get('date_start');
             $internaltrainings->date_end = Input::get('date_end');
             $internaltrainings->time_start = Input::get('time_start');
