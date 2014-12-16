@@ -13,14 +13,15 @@ class SkillsCompetenciesController extends \BaseController {
 
 		$positionsTagged = SkillsCompetencies::with('positionsCountRelation')->get();
 
-		foreach($positionsTagged as $key => $value)
-		{
-			$positionsTaggedCount = $value->positions_count_relation;
-		}
+		 foreach($positionsTagged as $key => $value)
+		 {
+		 	$positionsTaggedCount = $value->positions_count_relation;
+		 }
 
 
 		return View::make('skills_competencies.index')
-			->with('scs', $scs )->with('positionsTaggedCount',$positionsTaggedCount);
+			->with('scs', $scs );
+			->with('positionsTaggedCount',$positionsTaggedCount);
 	}
 
 
