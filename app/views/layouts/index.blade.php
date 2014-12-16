@@ -118,7 +118,9 @@
 
     <!-- BEGIN PAGE-LEVEL JS -->
     <script>
-      $("#skills_competencies").select2();
+      $("#skills_competencies").select2({
+        placeholder: "Select a Skill/Competency",
+        });
     </script>
     <script>
       $("#skills_competencies_edit").select2();
