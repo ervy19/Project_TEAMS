@@ -136,21 +136,24 @@ class PositionsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // update in positions table
+        	//delete all records of current position
+        	Position_SC::where('position_id', $id)->delete();
+
+            // update/save in positions_sc table
             $positions = Position::find($id);
             $positions->title = Input::get('title');
             $nposition = Input::get('title');
             $positions->save();
 			
             $selectedsc = Input::get('selected');
-            $selectedposition = Position::where('title', $nposition)->pluck('id');
+            $newposition = Position::where('title', $nposition)->pluck('id');
             $scidArray = explode(",", $selectedsc);
 
             for($i = 0; $i < count($scidArray); $i++){
             	$positionsc = new Position_SC;
             	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
 	            $positionsc->skills_competencies_id = $selectedid;
-	            $positionsc->position_id = $selectedposition;
+	            $positionsc->position_id = $newposition;
 	            $positionsc->save();
 	        }
 
