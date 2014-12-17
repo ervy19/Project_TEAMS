@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => null, 'name' => null),
+	'from' => array('address' => 'hr_admin@ceu.edu.ph', 'name' => 'CEU HR Admin'),
 
 	/*
 	|--------------------------------------------------------------------------
