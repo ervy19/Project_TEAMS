@@ -23,7 +23,11 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('departments.create');
+		$sc = SkillsCompetencies::where('isActive', true)->get();
+
+		return View::make('departments.create')
+			->with('sc', $sc);
+
 	}
 
 
@@ -47,19 +51,23 @@ class DepartmentsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
+            // store to positions table
             $departments = new Department;
             $departments->name = Input::get('name');
-            $ndepartment = Input::get('title');
+            $ndepartment = Input::get('name');
             $departments->save();
 			
-			$departmentsc = new Department_SC;
-            $selectedsc = Input::get("selected");
-            $selectedid = SkillsCompetencies::where('name', $selectedsc)->pluck('id');
-            $newdepartment = Position::where('title', $ndepartment)->pluck('id');
-            $departmentsc->skills_competencies_id = $selectedid;
-            $departmentsc->department_id = $newdepartment;
-            $departmentsc->save();
+            $selectedsc = Input::get('selected');
+            $newdepartment = Department::where('name', $ndepartment)->pluck('id');
+            $scidArray = explode(",", $selectedsc);
+
+            for($i = 0; $i < count($scidArray); $i++){
+            	$departmentsc = new Department_SC;
+            	$selectedid = SkillsCompetencies::where('isActive',true)->where('name', $scidArray[$i])->pluck('id');
+	            $departmentsc->skills_competencies_id = $selectedid;
+	            $departmentsc->department_id = $newdepartment;
+	            $departmentsc->save();
+	        }
 
             // redirect
             Session::flash('message', 'Successfully created Department!');
@@ -92,9 +100,21 @@ class DepartmentsController extends \BaseController {
 	public function edit($id)
 	{
 		$departments = Department::find($id);
+		$currentscid = Department_SC::where('department_id', $id)->lists('skills_competencies_id');
+		$scs = SkillsCompetencies::where('isActive', true)->get();
+		$currentscs = array();
+
+		foreach($currentscid as $key)
+		{
+			$scsname = SkillsCompetencies::where('isActive', true)->where('id', $key)->pluck('name');
+			array_push($currentscs, $scsname);
+		}
 
 		return View::make('departments.edit')
-			->with('departments', $departments );
+			->with('departments', $departments)
+			->with('currentscs', $currentscs)
+			->with('currentscid', $currentscid)
+			->with('scs', $scs);
 	}
 
 
@@ -106,7 +126,7 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		// validate
+        // validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'name' => 'required'
@@ -115,14 +135,30 @@ class DepartmentsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('departments/create')
+            return Redirect::to('departments/edit')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
+        	//delete all records of current position
+        	Department_SC::where('department_id', $id)->delete();
+
+            // update/save in positions_sc table
             $departments = Department::find($id);
             $departments->name = Input::get('name');
+            $ndepartment = Input::get('name');
             $departments->save();
+			
+            $selectedsc = Input::get('selected');
+            $selecteddepartment = Department::where('name', $ndepartment)->pluck('id');
+            $scidArray = explode(",", $selectedsc);
+
+            for($i = 0; $i < count($scidArray); $i++){
+            	$departmentsc = new Department_SC;
+            	$selectedid = SkillsCompetencies::where('isActive', true)->where('name', $scidArray[$i])->pluck('id');
+	            $departmentsc->skills_competencies_id = $selectedid;
+	            $departmentsc->department_id = $selecteddepartment;
+	            $departmentsc->save();
+	        }
 
             // redirect
             Session::flash('message', 'Successfully updated Department!');

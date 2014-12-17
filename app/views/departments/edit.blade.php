@@ -29,6 +29,17 @@
 					{{ Form::text('name') }}
 				</div>
 
+				<div>
+			      	<select multiple id="skills_competencies" style="width: 300px">
+			      		@foreach($scs as $key => $value)
+			        		<option> {{ $value->name }} </option>
+			      		@endforeach
+			      	</select>
+			    </div>
+			    <div>
+					    <input type="hidden" name="selected" id="selected"><br>
+				</div>
+
 				{{ Form::submit('Edit Department') }}
 
 			{{ Form::close() }}
@@ -36,5 +47,25 @@
 		</div>
 	</div>
 </div>
+
+@stop
+
+@section('page_js')
+
+	<script type="text/javascript">
+		
+		var pausecontent = new Array();
+	    <?php foreach($currentscs as $key => $val){ ?>
+	        pausecontent.push('<?php echo $val; ?>');
+	    <?php } ?>
+    	$('#skills_competencies').select2('val',pausecontent);
+
+    	var sc = $('#skills_competencies');
+		$(sc).change(function() {
+			var elem = document.getElementById("selected");
+			elem.value = $(sc).val();
+		});	
+
+    </script>
 
 @stop
