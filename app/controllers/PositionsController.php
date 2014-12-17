@@ -53,21 +53,17 @@ class PositionsController extends \BaseController {
             $nposition = Input::get('title');
             $positions->save();
 			
-			$positionsc = new Position_SC;
-            $selectedsc = Input::get("selected");
-            $selectedid = SkillsCompetencies::where('name', $selectedsc)->pluck('id');
+            $selectedsc = Input::get('selected');
             $newposition = Position::where('title', $nposition)->pluck('id');
-            $scidArray = explode(',', $selectedid);
+            $scidArray = explode(",", $selectedsc);
 
- 			foreach( $scidArray as $key => $n ) {
-                DB::table('position_sc')->insert(
-                    array(
-                        'skills_competencies_id' => $scidArray[$key],
-                        'position_id' => $newposition
-                    ));
-             //    $positionsc->position_id = $newposition;
-	            // $positionsc->save(); 
-	       	 }
+            for($i = 0; $i < count($scidArray); $i++){
+            	$positionsc = new Position_SC;
+            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
+	            $positionsc->skills_competencies_id = $selectedid;
+	            $positionsc->position_id = $newposition;
+	            $positionsc->save();
+	        }
 
             // redirect
             Session::flash('message', 'Successfully created Position!');
@@ -100,9 +96,19 @@ class PositionsController extends \BaseController {
 	public function edit($id)
 	{
 		$positions = Position::find($id);
+		//$posid = Position::where('id', $id)->pluck('id');
+		$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
+		$currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
+
+		// foreach($currentscid as $key)
+		// {
+		// 	$currentscs = array(SkillsCompetencies::where('id', $currentscid)->(;))
+		// }
 
 		return View::make('positions.edit')
-			->with('positions', $positions );
+			->with('positions', $positions)
+			->with('currentscs', $currentscs)
+			->with('currentscid', $currentscid);
 	}
 
 
@@ -130,7 +136,20 @@ class PositionsController extends \BaseController {
             // store
             $positions = Position::find($id);
             $positions->title = Input::get('title');
+            $posid = Position::where('id', $id)->get('id');
             $positions->save();
+
+            $selectedsc = Input::get('selected');
+            $newposition = Position::where('title', $nposition)->pluck('id');
+            $scidArray = explode(",", $selectedsc);
+
+            for($i = 0; $i < count($scidArray); $i++){
+            	$positionsc = new Position_SC;
+            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
+	            $positionsc->skills_competencies_id = $selectedid;
+	            $positionsc->position_id = $newposition;
+	            $positionsc->save();
+	        }
 
             // redirect
             Session::flash('message', 'Successfully updated Position!');
