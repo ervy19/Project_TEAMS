@@ -99,10 +99,8 @@
     </div>
 
     <footer class="footer">
-      <div class="container-fluid">
-        <div class="row">
-          <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
-        </div>
+      <div class="container">
+        <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
       </div>
     </footer>
 
@@ -138,10 +136,6 @@
     </script>
     
     @yield('page_js')
-
-    <script type="text/javascript">
-    $('#skills_competencies').select2();
-    </script>
 
   </body>
 </html>

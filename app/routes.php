@@ -14,22 +14,16 @@ Route::get('/', function()
 	return View::make('index');
 });
 
-Route::get('internal_trainings/participants', array('as' => 'internal_trainings.participants', function()
-{
-	return View::make('internal_trainings/participants');
-}));
+Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
 
-Route::get('internal_trainings/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', function()
-{
-	return View::make('internal_trainings.after-activity-evaluation');
-}));
+Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
-Route::get('internal_trainings/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', function()
-{
-	return View::make('internal_trainings.training-effectiveness-report');
-}));
+Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
-Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
+Route::get('training_plan', array('as' => 'training_plan', function()
+{
+	return View::make('training_plan.index');
+}));
 
 Route::get('dashboard', array('as' => 'dashboard', function()
 {

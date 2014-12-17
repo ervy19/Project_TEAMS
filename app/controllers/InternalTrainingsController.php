@@ -86,6 +86,30 @@ class InternalTrainingsController extends \BaseController {
 			->with('internaltrainings', $internaltrainings);
 	}
 
+	public function showParticipants($id)
+	{
+		 $internaltrainings = Internal_Training::find($id);
+
+		return View::make('internal_trainings.participants')
+			->with('internaltrainings', $internaltrainings);
+	}
+
+	public function showAfterActivityEvaluation($id)
+	{
+		 $internaltrainings = Internal_Training::find($id);
+
+		return View::make('internal_trainings.after-activity-evaluation')
+			->with('internaltrainings', $internaltrainings);
+	}
+
+	public function showTrainingEffectivenessReport($id)
+	{
+		 $internaltrainings = Internal_Training::find($id);
+
+		return View::make('internal_trainings.training-effectiveness-report')
+			->with('internaltrainings', $internaltrainings);
+	}
+
 
 	/**
 	 * Show the form for editing the specified resource.

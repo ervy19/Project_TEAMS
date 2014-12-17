@@ -26,30 +26,14 @@
 
 				<div>
 			      	<select multiple id="skills_competencies" style="width: 300px">
-<<<<<<< HEAD
-			      		@foreach(SkillsCompetencies::all() as $key => $value)
-=======
 			      		@foreach(SkillsCompetencies::where('isActive', true) as $key => $value)
->>>>>>> d9d2bdfd736b0e50af9a82721d639d79cf4e09d0
 			        		<option> {{ $value->name }} </option>
 			      		@endforeach
 			      	</select>
 			    </div>
 			    <div>
-<<<<<<< HEAD
-			    	@foreach ($currentscs as $scitem)
-			    		{{ $scitem }}
-			    	@endforeach
-			    </div>
-			    <div>
-			    	@foreach ($currentscid as $scid)
-			    		{{ $scid }}
-			    	@endforeach
-			    </div>
-=======
 					    <input type="hidden" name="selected" id="selected"><br>
 				</div>
->>>>>>> d9d2bdfd736b0e50af9a82721d639d79cf4e09d0
 
 				{{ Form::submit('Edit Position') }}
 
@@ -69,13 +53,6 @@
 	    <?php foreach($currentscs as $key => $val){ ?>
 	        pausecontent.push('<?php echo $val; ?>');
 	    <?php } ?>
-<<<<<<< HEAD
-
-		//var selectedscs = scs.split(",");
-
-    	$('#skills_competencies').select2('val',pausecontent);
- 
-=======
     	$('#skills_competencies').select2('val',pausecontent);
 
     	var sc = $('#skills_competencies');
@@ -93,7 +70,6 @@
 		// 	//alert("Selected data is: "+JSON.stringify(data));
 		// });
 
->>>>>>> d9d2bdfd736b0e50af9a82721d639d79cf4e09d0
     </script>
 
 

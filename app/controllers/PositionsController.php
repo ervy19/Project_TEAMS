@@ -98,8 +98,8 @@ class PositionsController extends \BaseController {
 		$positions = Position::find($id);
 		//$posid = Position::where('id', $id)->pluck('id');
 		$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
-
-		$currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
+		
+		// $currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
 		$currentscs = array();
 
 		foreach($currentscid as $key)
@@ -140,24 +140,11 @@ class PositionsController extends \BaseController {
         	Position_SC::where('position_id', $id)->delete();
 
             // update/save in positions_sc table
-             $positions = Position::find($id);
-             $positions->title = Input::get('title');
-             $nposition = Input::get('title');
-             $positions->save();
-
+            $positions = Position::find($id);
+            $positions->title = Input::get('title');
+            $nposition = Input::get('title');
+            $positions->save();
 			
-            $selectedsc = Input::get('selected');
-            $newposition = Position::where('title', $nposition)->pluck('id');
-            $scidArray = explode(",", $selectedsc);
-
-            for($i = 0; $i < count($scidArray); $i++){
-            	$positionsc = new Position_SC;
-            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
-	            $positionsc->skills_competencies_id = $selectedid;
-	            $positionsc->position_id = $newposition;
-	            $positionsc->save();
-	        }
-
             $selectedsc = Input::get('selected');
             $newposition = Position::where('title', $nposition)->pluck('id');
             $scidArray = explode(",", $selectedsc);
