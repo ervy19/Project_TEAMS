@@ -62,7 +62,7 @@ class PositionsController extends \BaseController {
 
             for($i = 0; $i < count($scidArray); $i++){
             	$positionsc = new Position_SC;
-            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
+            	$selectedid = SkillsCompetencies::where('isActive',true)->where('name', $scidArray[$i])->pluck('id');
 	            $positionsc->skills_competencies_id = $selectedid;
 	            $positionsc->position_id = $newposition;
 	            $positionsc->save();
