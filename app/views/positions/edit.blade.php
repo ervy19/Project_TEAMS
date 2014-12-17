@@ -26,7 +26,7 @@
 
 				<div>
 			      	<select multiple id="skills_competencies" style="width: 300px">
-			      		@foreach(SkillsCompetencies::where('isActive', "=", true)->get() as $key => $value)
+			      		@foreach($scs as $key => $value)
 			        		<option> {{ $value->name }} </option>
 			      		@endforeach
 			      	</select>

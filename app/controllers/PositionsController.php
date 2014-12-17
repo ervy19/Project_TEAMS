@@ -23,7 +23,10 @@ class PositionsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('positions.create');
+		$sc = SkillsCompetencies::where('isActive', true)->get();
+
+		return View::make('positions.create')
+			->with('sc', $sc);
 	}
 
 
@@ -96,22 +99,21 @@ class PositionsController extends \BaseController {
 	public function edit($id)
 	{
 		$positions = Position::find($id);
-		//$posid = Position::where('id', $id)->pluck('id');
 		$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
-		
-		// $currentscs = SkillsCompetencies::where('id', $currentscid)->lists('name');
+		$scs = SkillsCompetencies::where('isActive', true)->get();
 		$currentscs = array();
 
 		foreach($currentscid as $key)
 		{
-			$scsname = SkillsCompetencies::where('id', $key)->pluck('name');
+			$scsname = SkillsCompetencies::where('isActive', true)->where('id', $key)->pluck('name');
 			array_push($currentscs, $scsname);
 		}
 
 		return View::make('positions.edit')
 			->with('positions', $positions)
 			->with('currentscs', $currentscs)
-			->with('currentscid', $currentscid);
+			->with('currentscid', $currentscid)
+			->with('scs', $scs);
 	}
 
 
@@ -151,14 +153,14 @@ class PositionsController extends \BaseController {
 
             for($i = 0; $i < count($scidArray); $i++){
             	$positionsc = new Position_SC;
-            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
+            	$selectedid = SkillsCompetencies::where('isActive', true)->where('name', $scidArray[$i])->pluck('id');
 	            $positionsc->skills_competencies_id = $selectedid;
 	            $positionsc->position_id = $newposition;
 	            $positionsc->save();
 	        }
 
             // redirect
-            Session::flash('message', 'Successfully created Position!');
+            Session::flash('message', 'Successfully updated Position!');
             return Redirect::to('positions');
         }
 	}
