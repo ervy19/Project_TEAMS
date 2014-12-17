@@ -33,25 +33,27 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($internaltrainings as $key => $value)
-					<tr>
-						<td><input type="checkbox" id="someCheckbox" name="someCheckbox" /></td>
-						<td>{{ $value->title }}</td>
-						<td>{{ $value->theme_topic }}</td>
-						<td>{{ $value->venue }}</td>
-						<td>{{ $value->date_start . "-" . $value->date_end }}</td>
-						<td>{{ $value->organizer_schools_colleges_id }}&nbsp;/&nbsp;{{ $value->organizer_department_id }}</td>
-						<td>
-							<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
-							&nbsp;&nbsp;
-							<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
-							&nbsp;&nbsp;
-						   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'method' => 'delete')) }}
-						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
-						   {{ Form::close() }}
-						</td>
-					</tr>
-					@endforeach
+					@if(isset($internaltrainings))
+						@foreach($internaltrainings as $key => $value)
+						<tr>
+							<td><input type="checkbox" id="someCheckbox" name="someCheckbox" /></td>
+							<td>{{ $value->title }}</td>
+							<td>{{ $value->theme_topic }}</td>
+							<td>{{ $value->venue }}</td>
+							<td>{{ $value->date_start . "-" . $value->date_end }}</td>
+							<td>{{ $value->organizer_schools_colleges_id }}&nbsp;/&nbsp;{{ $value->organizer_department_id }}</td>
+							<td>
+								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
+								&nbsp;&nbsp;
+								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
+								&nbsp;&nbsp;
+							   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'method' => 'delete')) }}
+							    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+							   {{ Form::close() }}
+							</td>
+						</tr>
+						@endforeach
+					@endif
 				</tbody>
 			</table>
 		<br><br>

@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-	Internal Trainings
+	Internal Training - $internaltrainings->title
 @stop
 
 @section('breadcrumb')

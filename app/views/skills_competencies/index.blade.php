@@ -16,12 +16,6 @@
 
 			<br><br>
 
-			@foreach($positionsTaggedCount as $key => $value)
-
-				<h2>{{ $value->count }}</h2>
-
-			@endforeach
-
 			<table id="tb-skills_competencies" class="table table-bordered">
 				<thead>
 					<tr>

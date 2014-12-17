@@ -88,3 +88,7 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*Entrust::routeNeedsRole('internal_trainings*', 'Internal Trainings', function () {
+    return Redirect::guest('/');
+});*/

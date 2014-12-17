@@ -20,8 +20,7 @@ class SkillsCompetenciesController extends \BaseController {
 
 
 		return View::make('skills_competencies.index')
-			->with('scs', $scs )
-			->with('positionsTaggedCount',$positionsTaggedCount);
+			->with('scs', $scs );
 	}
 
 
@@ -145,10 +144,4 @@ class SkillsCompetenciesController extends \BaseController {
         Session::flash('message', 'Successfully archived Skill/Competency!');
         return Redirect::to('skills_competencies');
 	}
-
-	public function departmentsTagged()
-	{
-
-	} 
-
 }
