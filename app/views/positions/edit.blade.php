@@ -61,17 +61,6 @@
 			elem.value = $(sc).val();
 		});	
 
-		// var scclick = $('#skills_competencies');
-		// $(scclick).click(function () { 
-		// 	var data = $("#skills_competencies").select2("selected"); 
-		// 	delete data.element; 
-		// 	var elem = document.getElementById("deleted");
-		// 	elem.value = $(scclick).val();
-		// 	//alert("Selected data is: "+JSON.stringify(data));
-		// });
-
     </script>
 
-
-	
 @stop
