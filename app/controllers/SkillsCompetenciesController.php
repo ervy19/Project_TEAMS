@@ -20,7 +20,7 @@ class SkillsCompetenciesController extends \BaseController {
 
 
 		return View::make('skills_competencies.index')
-			->with('scs', $scs );
+			->with('scs', $scs )
 			->with('positionsTaggedCount',$positionsTaggedCount);
 	}
 
