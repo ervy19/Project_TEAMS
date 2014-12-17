@@ -5,17 +5,32 @@
 @stop
 
 @section('content')
+<?php
+//test id
+$idnum = 1;
+
+//get values from table Internal_Training
+$title = Internal_Training::where('id', $idnum)->get()->first()->pluck('title');
+$theme_topic = Internal_Training::where('id', $idnum)->get()->first()->pluck('theme_topic');
+$venue = Internal_Training::where('id', $idnum)->get()->first()->pluck('venue');
+$date_start = Internal_Training::where('id', $idnum)->get()->first()->pluck('date_start');
+$date_end = Internal_Training::where('id', $idnum)->get()->first()->pluck('date_end');
+$time_start = Internal_Training::where('id', $idnum)->get()->first()->pluck('time_start');
+$time_end = Internal_Training::where('id', $idnum)->get()->first()->pluck('time_end');
+$objectives = Internal_Training::where('id', $idnum)->get()->first()->pluck('objectives');
+$expected_outcome = Internal_Training::where('id', $idnum)->get()->first()->pluck('expected_outcome');
+?>
 
 	<div class="col-sm-9 col-md-9 training-info">
 		<div class="panel">
 			<div class="row training-details">
-				<h2 class="panel-header">IQA Orientation</h2>
+				<h2 class="panel-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{  $title }}</h2>
 				<div class="col-sm-1 col-md-1">
 					<h6>Theme: </h6>
 					<h6>Organizer:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Internal Quality Audit</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $theme_topic }}</h5>
 					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Department of Mathematics</h5>
 				</div>
 
@@ -24,8 +39,8 @@
 					<h6>Schedule:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ISO Meeting Room</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;01/10/2015 (1 pm - 5 pm) | 01/11/2015 (1 pm - 5 pm)</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $venue }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $date_start . ' (' . $time_start . "-" . $time_end . ") " . " | " . $date_end . ' (' . $time_start . "-" . $time_end . ')' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -37,11 +52,11 @@
 
 				<div class="col-sm-12 col-md-12">
 					<h6>Objectives:</h6>
-					<p>Lorem ipsum dolor sit amet, duo aperiri signiferumque ad, vim an laboramus deterruisset. Homero vitupera toribus ex per, eu nec summo liber.</p>
+					<p>{{ $objectives }}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Expected Outcome:</h6>
-					<p>Lorem ipsum dolor sit amet, duo aperiri signiferumque ad, vim an laboramus deterruisset. Homero vitupera toribus ex per, eu nec summo liber.</p>
+					<p>{{ $expected_outcome }}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Focus Areas:</h6>
@@ -146,5 +161,6 @@
 			</div>
 		</div>
 	</div>
+
 
 @stop

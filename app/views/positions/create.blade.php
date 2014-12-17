@@ -26,7 +26,7 @@
 		    
 			    <div>
 			      	<select multiple id="skills_competencies" style="width: 300px">
-			      		@foreach(SkillsCompetencies::all() as $key => $value)
+			      		@foreach(SkillsCompetencies::where('isActive', true) as $key => $value)
 			        		<option> {{ $value->name }} </option>
 			      		@endforeach
 			      	</select>

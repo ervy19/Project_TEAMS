@@ -119,6 +119,23 @@
     {{ HTML::script('assets/js/select2.min.js'); }}
 
     <!-- BEGIN PAGE-LEVEL JS -->
+    <script>
+      $("#skills_competencies").select2({
+        placeholder: "Select a Skill/Competency",
+        });
+    </script>
+    <script>
+      $("#skills_competencies_edit").select2();
+    </script>
+    <script>
+      $("#schools_colleges").select2();
+    </script>
+    <script>
+      $("#schoolorganizer").select2();
+    </script>
+    <script>
+      $("#departmentorganizer").select2();
+    </script>
     
     @yield('page_js')
 
