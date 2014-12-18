@@ -15,11 +15,16 @@ class CreateSupervisorsTable extends Migration {
 		Schema::create('supervisors', function($table)
 		{
 			$table->increments('id');
-			$table->string('name', 255);
-			$table->char('supervisor_type', 2);
+			$table->integer('user_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
+		});
+
+		Schema::table('supervisors', function($table)
+		{
+			$table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
 		});
 	}
 

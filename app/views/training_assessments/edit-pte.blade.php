@@ -10,7 +10,7 @@
 	<div class="panel">
 		<div class="row">
 
-			<h1>Edit Post Training Evaluation</h1>
+			<h1>E Post Training Evaluation</h1>
 				
 
 		</div>

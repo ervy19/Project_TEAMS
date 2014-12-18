@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDepartmentsTable extends Migration {
+class CreateCampusesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,11 @@ class CreateDepartmentsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('departments', function($table)
+		Schema::create('campuses', function($table)
 		{
 			$table->increments('id');
-			$table->string('name', 255);
+			$table->string('name', 100);
+			$table->string('address', 255);
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -29,7 +30,7 @@ class CreateDepartmentsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('departments');
+		Schema::drop('campuses');
 	}
 
 }

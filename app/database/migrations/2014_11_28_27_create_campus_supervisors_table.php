@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDepartmentSupervisorsTable extends Migration {
+class CreateCampusSupervisorsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,22 +12,22 @@ class CreateDepartmentSupervisorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('department_supervisors', function($table)
+		Schema::create('campus_supervisors', function($table)
 		{
 			$table->integer('supervisor_id')->unsigned();
 			$table->string('name', 255);
 			$table->string('title', 255);
-			
-			$table->integer('department_id')->unsigned();
+
+			$table->integer('campus_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 
-		Schema::table('department_supervisors', function($table) 
+		Schema::table('campus_supervisors', function($table) 
 		{
 			$table->foreign('supervisor_id')->references('id')->on('supervisors');
-			$table->foreign('department_id')->references('id')->on('departments');
+			$table->foreign('campus_id')->references('id')->on('campuses');
   		});
 	}
 
@@ -38,7 +38,7 @@ class CreateDepartmentSupervisorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('department_supervisors');
+		Schema::drop('campus_supervisors');
 	}
 
 }

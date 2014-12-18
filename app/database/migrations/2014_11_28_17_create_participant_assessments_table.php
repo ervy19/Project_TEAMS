@@ -20,9 +20,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 			$table->text('verbal_interpretation')->nullable();
 			$table->text('remarks')->nullable();
 			
-			$table->integer('employee_id')->unsigned();
-			$table->integer('supervisor_id')->unsigned();
-			$table->integer('training_id')->unsigned();
+			$table->integer('it_participant_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -30,9 +28,7 @@ class CreateParticipantAssessmentsTable extends Migration {
 
 		Schema::table('participant_assessments', function($table) 
 		{
-      		$table->foreign('employee_id')->references('id')->on('employees');
-      		$table->foreign('supervisor_id')->references('id')->on('supervisors');
-      		$table->foreign('training_id')->references('id')->on('internal_trainings');
+      		$table->foreign('it_participant_id')->references('id')->on('it_participants');
   		});
 	}
 

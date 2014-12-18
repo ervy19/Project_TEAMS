@@ -38,7 +38,7 @@ class EntrustSetupTables extends Migration
         });
 
         // Creates the permission_role (Many-to-Many relation) table
-        Schema::create('permission_role', function ($table) {
+        Schema::create('permission_roles', function ($table) {
             $table->increments('id')->unsigned();
             $table->integer('permission_id')->unsigned();
             $table->integer('role_id')->unsigned();
@@ -59,13 +59,13 @@ class EntrustSetupTables extends Migration
             $table->dropForeign('assigned_roles_role_id_foreign');
         });
 
-        Schema::table('permission_role', function (Blueprint $table) {
+        Schema::table('permission_roles', function (Blueprint $table) {
             $table->dropForeign('permission_role_permission_id_foreign');
             $table->dropForeign('permission_role_role_id_foreign');
         });
 
         Schema::drop('assigned_roles');
-        Schema::drop('permission_role');
+        Schema::drop('permission_roles');
         Schema::drop('roles');
         Schema::drop('permissions');
     }

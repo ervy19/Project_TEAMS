@@ -14,8 +14,9 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 	{
 		Schema::create('schools_colleges_supervisors', function($table)
 		{
-			$table->increments('id');
+			$table->integer('supervisor_id')->unsigned();
 			$table->string('name', 255);
+			$table->string('title', 255);
 
 			$table->integer('schools_colleges_id')->unsigned();
 
@@ -25,6 +26,7 @@ class CreateSchoolsCollegesSupervisorsTable extends Migration {
 
 		Schema::table('schools_colleges_supervisors', function($table) 
 		{
+			$table->foreign('supervisor_id')->references('id')->on('supervisors');
 			$table->foreign('schools_colleges_id')->references('id')->on('schools_colleges');
   		});
 	}

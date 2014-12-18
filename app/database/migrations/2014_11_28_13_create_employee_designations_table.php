@@ -23,6 +23,7 @@ class CreateEmployeeDesignationsTable extends Migration {
 			$table->integer('schools_colleges_id')->unsigned()->nullable();
 			$table->integer('department_id')->unsigned()->nullable();
 			$table->integer('campus_id')->unsigned();
+			$table->integer('supervisor_id')->unsigned();
 			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -36,6 +37,7 @@ class CreateEmployeeDesignationsTable extends Migration {
 			$table->foreign('schools_colleges_id')->references('id')->on('schools_colleges');
 			$table->foreign('department_id')->references('id')->on('departments');
 			$table->foreign('campus_id')->references('id')->on('campuses');
+			$table->foreign('supervisor_id')->references('id')->on('supervisors');
   		});
 	}
 

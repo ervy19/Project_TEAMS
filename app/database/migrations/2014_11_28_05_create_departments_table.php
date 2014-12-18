@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCampusesTable extends Migration {
+class CreateDepartmentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,19 @@ class CreateCampusesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('campuses', function($table)
+		Schema::create('departments', function($table)
 		{
 			$table->increments('id');
-			$table->string('title', 100);
-			$table->string('address', 255);
+			$table->string('name', 255);
+			$table->integer('schools_colleges_id')->unsigned()->nullable();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
+		});
+
+		Schema::table('departments', function($table) 
+		{
+			$table->foreign('schools_colleges_id')->references('id')->on('schools_colleges');
 		});
 	}
 
@@ -30,7 +35,7 @@ class CreateCampusesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('campuses');
+		Schema::drop('departments');
 	}
 
 }
