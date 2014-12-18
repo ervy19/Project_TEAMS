@@ -122,3 +122,63 @@
 #calendar {
 	margin: 30px 20px;
 }
+
+/**************************************
+    Accomplish PTA/PTE
+**************************************/
+
+.pta-form, .pte-form {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.pta-form h3, .pte-form h3 {
+	font-size: 1.6em;
+}
+
+.pta-form h5, .pte-form h5 {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.pta-form h6, .pte-form h6 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.pta-form p, .pte-form p {
+	font-size: 1.2em;
+	letter-spacing: 0.5px;
+	text-align: justify;
+}
+
+.assessment-scale {
+	margin-left: 50px;
+	margin-bottom: 50px;
+}
+
+.pta-form table, .pta-form .label-remarks, .pta-form textarea,
+.pte-form table, .pte-form .label-remarks, .pte-form textarea {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.label-remarks {
+	padding-top: 50px;
+	padding-bottom: 15px;
+}
+
+.remarks {
+	width: 100%;
+	height: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
+	margin-top: 20px;
+	margin-right: 55px;
+	padding: 10px 15px;
+	font-weight: bold;
+}

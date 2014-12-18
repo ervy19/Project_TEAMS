@@ -30,7 +30,6 @@ Route::get('dashboard', array('as' => 'dashboard', function()
 	return View::make('dashboard.index');
 }));
 
-
 Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexPending'));
 
 Route::resource('employees','EmployeesController');
@@ -60,3 +59,15 @@ Route::post('users/forgot_password', 'UsersController@doForgotPassword');
 Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
 Route::post('users/reset_password', 'UsersController@doResetPassword');
 Route::get('users/logout', 'UsersController@logout');
+
+
+
+Route::get('training_assessments/accomplish-pta', array('as' => 'accomplish-pta', function()
+{
+	return View::make('training_assessments.accomplish-pta');
+}));
+
+Route::get('training_assessments/accomplish-pte', array('as' => 'accomplish-pta', function()
+{
+	return View::make('training_assessments.accomplish-pte');
+}));

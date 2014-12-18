@@ -74,6 +74,11 @@ input[type="submit"] {
               transition: border .25s linear, color .25s linear, background-color .25s linear;
 }
 
+input[type="radio"] {
+  height: 1.2em;
+  width: 1.2em;
+}
+
 
 .action a, .action button {
   display: inline-block;
@@ -105,6 +110,26 @@ input[type="submit"] {
     background: #e74c3c;
 }
 
+/**************************************
+    Tables
+**************************************/
+.assessment-form th {
+  font-size: 1.25em;
+}
+
+
+
+/**************************************
+    Data Tables
+**************************************/
+.form-control {
+  border-radius: 0;
+}
+
+.pagination>li:first-child>a, .pagination>li:first-child>span, .pagination>li:last-child>a, .pagination>li:last-child>span {
+  border-radius: 0;
+}
+
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, 
 .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus
 {
@@ -122,18 +147,6 @@ input[type="submit"] {
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: transparent;
     border: none;
-}
-
-/**************************************
-    Data Tables
-**************************************/
-
-.form-control {
-  border-radius: 0;
-}
-
-.pagination>li:first-child>a, .pagination>li:first-child>span, .pagination>li:last-child>a, .pagination>li:last-child>span {
-  border-radius: 0;
 }
 
 /**************************************
