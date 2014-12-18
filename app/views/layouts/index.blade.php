@@ -99,7 +99,7 @@
     </div>
 
     <footer class="footer">
-      <div class="container">
+      <div class="container-fluid">
         <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
       </div>
     </footer>

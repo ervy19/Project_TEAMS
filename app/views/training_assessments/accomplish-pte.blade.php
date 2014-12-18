@@ -63,7 +63,7 @@
 	</div>
 	<div class="panel">
 		<div class="row">
-			<div class="col-sm-12 col-md-12 pta-form">
+			<div class="col-sm-12 col-md-12 pte-form">
 				<div class="panel">
 					<h5>Instructions</h5> 
 					<p>
@@ -81,7 +81,7 @@
 						<b>1</b>&nbsp;&nbsp;&nbsp;&nbsp; No Knowledge | No Skill | Unfavorable Attitude
 					</p>
 
-					{{ Form::open(array('url' => 'pta')) }}
+					{{ Form::open(array('url' => 'pte')) }}
 
 					<table class="table">
 						<thead>
@@ -117,7 +117,7 @@
 					<h5 class="label-remarks">Remarks</h5>
 					<textarea class="remarks"></textarea>
 
-					{{ Form::submit('Submit PTA Report', array('class' => 'pta-form-btn pull-right')) }}
+					{{ Form::submit('Submit PTE Report', array('class' => 'pte-form-btn pull-right')) }}
 
 				{{ Form::close() }}
 

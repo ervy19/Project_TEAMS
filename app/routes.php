@@ -71,3 +71,13 @@ Route::get('training_assessments/accomplish-pte', array('as' => 'accomplish-pta'
 {
 	return View::make('training_assessments.accomplish-pte');
 }));
+
+Route::get('training_assessments/show-pta', array('as' => 'show-pta', function()
+{
+	return View::make('training_assessments.show-pta');
+}));
+
+Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
+{
+	return View::make('training_assessments.show-pte');
+}));
