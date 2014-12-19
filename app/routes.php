@@ -11,7 +11,7 @@
 
 Route::get('/', function()
 {
-	return View::make('index');
+	return View::make('login');
 });
 
 Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
@@ -81,3 +81,7 @@ Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
 {
 	return View::make('training_assessments.show-pte');
 }));
+
+Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
+
+Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));

@@ -182,3 +182,25 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 	padding: 10px 15px;
 	font-weight: bold;
 }
+
+/**************************************
+    Submit External Training
+**************************************/
+.submit-et {
+	margin: 50px 300px;
+}
+
+.submit-et .panel-header {
+	text-align: center;
+}
+
+.submit-et form {
+	margin-top: 30px;
+}
+
+.submit-et .btn {
+	width: 100%;
+	margin-top: 30px;
+	padding: 10px;
+	font-weight: bold;
+}
