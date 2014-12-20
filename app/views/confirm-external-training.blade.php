@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/favicon.ico">
 
-    <title>CEU HR TEAMS | Submit External Training </title>
+    <title>CEU HR TEAMS | Confirm External Training </title>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
@@ -46,10 +47,10 @@
     <div class="container-fluid">
 		<div class="col-sm-12 col-md-12">
 			<div class="row submit-et-nav">
-					<div class="col-sm-4 col-md-4 submit-guide active">
+					<div class="col-sm-4 col-md-4 submit-guide">
 						<i class="fa fa-edit fa-lg"></i>&nbsp;Submit
 					</div>
-					<div class="col-sm-4 col-md-4 submit-guide ">
+					<div class="col-sm-4 col-md-4 submit-guide active">
 						<i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;Confirmation
 					</div>
 					<div class="col-sm-4 col-md-4 submit-guide ">
@@ -62,10 +63,10 @@
 					<div class="col-sm-12 col-md-12 pta-form">
 						<div class="panel">
 
-						<h2 class="panel-header">Submit External Training Details</h2>
+						<h2 class="panel-header">Confirm External Training Details</h2>
 							
 					<!-- if there are creation errors, they will show here -->
-					{{ HTML::ul($errors->all()) }}
+					<!--{{ HTML::ul($errors->all()) }}-->
 
 					{{ Form::open(array('url' => 'submit-external-training')) }}
 
@@ -73,52 +74,50 @@
 							<div class="col-sm-4 col-md-4">
 							{{ Form::label('employee_number','Employee Number: ') }}
 							{{ Form::text('employee_number', '', array('class' => 'form-control')) }}
-							</div>
-							<div class="col-sm-12 col-md-12">
-								{{ $errors->first('employee_number','<div class="error-message">:message</div>') }}
+							{{ $errors->first('employee_number') }}
 							</div>
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('title','Title: ') }}
 							{{ Form::text('title', '', array('class' => 'form-control')) }}
-							{{ $errors->first('title','<div class="error-message">:message</div>') }}
+							{{ $errors->first('title') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('theme_topic','Theme/Topic: ') }}
 							{{ Form::text('theme_topic', '', array('class' => 'form-control')) }}
-							{{ $errors->first('theme_topic','<div class="error-message">:message</div>') }}
+							{{ $errors->first('theme_topic') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('participation','Participation: ') }}
 							{{ Form::text('participation', '', array('class' => 'form-control')) }}
-							{{ $errors->first('participation','<div class="error-message">:message</div>') }}
+							{{ $errors->first('participation') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('organizer','Organizer: ') }}
 							{{ Form::text('organizer', '', array('class' => 'form-control')) }}
-							{{ $errors->first('organizer','<div class="error-message">:message</div>') }}
+							{{ $errors->first('organizer') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('venue','Venue: ') }}
 							{{ Form::text('venue', '', array('class' => 'form-control')) }}
-							{{ $errors->first('venue','<div class="error-message">:message</div>') }}
+							{{ $errors->first('venue') }}
 						</div>
 
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_start','Start Date: ') }}
+								{{ Form::label('date_start','Date Start: ') }}
 								{{ Form::text('date_start', '', array('class' => 'form-control')) }}
-								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
+								{{ $errors->first('date_start') }}
 							</div>
 							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_end','End Date: ') }}
+								{{ Form::label('date_end','Date End: ') }}
 								{{ Form::text('date_end', '', array('class' => 'form-control')) }}
-								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
+								{{ $errors->first('date_end') }}
 							</div>
 						</div>
 

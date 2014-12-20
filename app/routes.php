@@ -30,7 +30,7 @@ Route::get('dashboard', array('as' => 'dashboard', function()
 	return View::make('dashboard.index');
 }));
 
-Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexPending'));
+Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 Route::resource('employees','EmployeesController');
 
@@ -85,3 +85,13 @@ Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
+
+Route::get('confirm-external-training', array('as' => 'external_trainings_queue.confirm', function()
+{
+	return View::make('confirm-external-training');
+}));
+
+Route::get('success-external-training', array('as' => 'external_trainings_queue.success', function()
+{
+	return View::make('success-external-training');
+}));

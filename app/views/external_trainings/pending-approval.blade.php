@@ -28,33 +28,35 @@
 						<table id="tb-external_trainings" class="table table-bordered">
 							<thead>
 								<tr>
+									<th>Employee Name</th>
 									<th>Title</th>
 									<th>Theme/Topic</th>
 									<th>Participation</th>
 									<th>Organizer</th>
 									<th>Venue</th>
 									<th>Date</th>
-									<th>Designation ID</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
+							@if(isset($externaltrainingsqueue))
 								@foreach($externaltrainingsqueue as $key => $value)
 								<tr>				
+									<td>{{ $value->given_name . ' ' . $value->middle_initial . ' ' . $value->last_name }}</td>
 									<td>{{ $value->title }}</td>
 									<td>{{ $value->theme_topic }}</td>
 									<td>{{ $value->participation }}</td>
 									<td>{{ $value->organizer }}</td>
 									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
-									<td>{{ $value->designation_id }}</td>
 									<td>
 										<a class="btn btn-small btn-info" href="">Credit</a>
-										&nbsp;&nbsp;
-										<a class="btn btn-small btn-info" href="">Reject</a>
+										<br><br>
+										<a class="btn btn-small btn-danger" href="">Reject</a>
 									</td>
 								</tr>
 								@endforeach
+							@endif
 							</tbody>
 						</table>					
 					</div>

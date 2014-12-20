@@ -81,7 +81,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		 $externaltrainings = External_Training::find($id);
+		$externaltrainings = External_Training::find($id);
 
 		return View::make('external_trainings.show')
 			->with('externaltrainings', $externaltrainings);
@@ -170,7 +170,10 @@ class ExternalTrainingsController extends \BaseController {
 
 	public function indexQueue()
 	{
-		$externaltrainingsqueue = DB::table('et_queues')->where('isActive', '=', true)->get();
+		$externaltrainingsqueue = DB::table('et_queues')
+            ->join('employees','et_queues.employee_id','=','employees.id')
+            ->select('employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
+            ->get();
 
 		return View::make('external_trainings.pending-approval')
 			->with('externaltrainingsqueue', $externaltrainingsqueue );
@@ -186,14 +189,14 @@ class ExternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
+            'employee_number' => 'required',
             'title' => 'required',
             'theme_topic' => 'required',
             'participation' => 'required',
             'organizer' => 'required',
             'venue' => 'required',
             'date_start' => 'required',
-            'date_end' => 'required',
-            'designation_id' => 'required'
+            'date_end' => 'required'
 
         );
         $validator = Validator::make(Input::all(), $rules);
@@ -204,21 +207,31 @@ class ExternalTrainingsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
-            $externaltrainings = new ET_Queue;
-            $externaltrainings->title = Input::get('title');
-            $externaltrainings->theme_topic = Input::get('theme_topic');
-            $externaltrainings->participation = Input::get('participation');
-            $externaltrainings->organizer = Input::get('organizer');
-            $externaltrainings->venue = Input::get('venue');
-            $externaltrainings->date_start = Input::get('date_start');
-            $externaltrainings->date_end = Input::get('date_end');
-            $externaltrainings->designation_id = Input::get('designation_id');
-            $externaltrainings->save();
 
-            // redirect
-            Session::flash('message', 'Successfully created the External Training!');
-            return Redirect::to('external_trainings');
+            $employee = DB::table('employees')
+                ->where('employee_number',Input::get('employee_number'))
+                ->first();
+
+            if ($employee)
+            {
+                // store
+                $externaltrainings = new ET_Queue;
+                $externaltrainings->title = Input::get('title');
+                $externaltrainings->theme_topic = Input::get('theme_topic');
+                $externaltrainings->participation = Input::get('participation');
+                $externaltrainings->organizer = Input::get('organizer');
+                $externaltrainings->venue = Input::get('venue');
+                $externaltrainings->date_start = Input::get('date_start');
+                $externaltrainings->date_end = Input::get('date_end');
+                $externaltrainings->employee_id = $employee->id;
+                $externaltrainings->save();
+
+                return Redirect::to('success-external-training');
+            }
+            else {
+                return Redirect::to('submit-external-training')
+                    ->withErrors('MAY MALI!!!');  
+            }
         }
 	}
 
