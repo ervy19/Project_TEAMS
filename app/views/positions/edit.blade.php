@@ -25,6 +25,7 @@
 				</div>
 
 				<div>
+					{{ Form::label('taggedsc', 'Tagged Skills and Competencies: ') }}
 			      	<select multiple id="skills_competencies" style="width: 300px">
 			      		@foreach($scs as $key => $value)
 			        		<option> {{ $value->name }} </option>
@@ -32,7 +33,7 @@
 			      	</select>
 			    </div>
 			    <div>
-					    <input type="hidden" name="selected" id="selected"><br>
+					    <input type="hidden" name="selected_edit" id="selected_edit"><br>
 				</div>
 
 				{{ Form::submit('Edit Position') }}
@@ -57,7 +58,7 @@
 
     	var sc = $('#skills_competencies');
 		$(sc).change(function() {
-			var elem = document.getElementById("selected");
+			var elem = document.getElementById("selected_edit");
 			elem.value = $(sc).val();
 		});	
 

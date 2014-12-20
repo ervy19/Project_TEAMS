@@ -138,30 +138,53 @@ class PositionsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-        	//delete all records of current position
-        	Position_SC::where('position_id', $id)->delete();
+        	$positionId = Position::where('title', Input::get('title'))->pluck('id');
+			$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
+			$currentscs = array();
+			foreach($currentscid as $key)
+			{
+				$scsname = SkillsCompetencies::where('isActive', true)->where('id', $key)->pluck('name');
+				array_push($currentscs, $scsname);
+			}
 
-            // update/save in positions_sc table
-            $positions = Position::find($id);
-            $positions->title = Input::get('title');
-            $nposition = Input::get('title');
-            $positions->save();
-			
-            $selectedsc = Input::get('selected');
-            $newposition = Position::where('title', $nposition)->pluck('id');
-            $scidArray = explode(",", $selectedsc);
+        	try {
+	        	//delete all records of current position
+	        	Position_SC::where('position_id', $id)->delete();
 
-            for($i = 0; $i < count($scidArray); $i++){
-            	$positionsc = new Position_SC;
-            	$selectedid = SkillsCompetencies::where('isActive', true)->where('name', $scidArray[$i])->pluck('id');
-	            $positionsc->skills_competencies_id = $selectedid;
-	            $positionsc->position_id = $newposition;
-	            $positionsc->save();
+	            // update/save in positions_sc table
+	            $positions = Position::find($id);
+	            $positionTitle = Input::get('title');
+	            $positions->title = $positionTitle;
+	            $positions->save();
+				
+	            $selectedsc = Input::get('selected_edit');
+	            $positionId = Position::where('title', $positionTitle)->pluck('id');
+	            $scidArray = explode(",", $selectedsc);
+
+	            for($i = 0; $i < count($scidArray); $i++){
+	            	$positionsc = new Position_SC;
+	            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
+		            $positionsc->skills_competencies_id = $selectedid;
+		            $positionsc->position_id = $positionId;
+		            $positionsc->save();
+		        }
+
+	            // redirect
+	            Session::flash('message', 'Successfully updated Position!');
+	            return Redirect::to('positions');
 	        }
+	        catch(PDOException $exception) {
+	        	for($i = 0; $i < count($currentscid); $i++){
+	            	$positionsc = new Position_SC;
+		            $positionsc->skills_competencies_id = $currentscid[$i];
+		            $positionsc->position_id = $positionId;
+		            $positionsc->save();
+		        }
 
-            // redirect
-            Session::flash('message', 'Successfully updated Position!');
-            return Redirect::to('positions');
+	        	$positions = DB::table('positions')->where('isActive', '=', true)->get();
+				return View::make('positions.index')
+					->with('positions', $positions );
+	        }
         }
 	}
 
