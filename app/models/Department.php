@@ -4,7 +4,7 @@ class Department extends Eloquent {
 
 	protected $table ='departments';
 
-	protected $fillable = array('id', 'name', 'isActive');
+	protected $fillable = array('id', 'name', 'schools_colleges_id', 'isActive');
 
 	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');

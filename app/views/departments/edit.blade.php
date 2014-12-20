@@ -28,16 +28,50 @@
 					{{ Form::label('name','Department Name: ') }}
 					{{ Form::text('name') }}
 				</div>
-
-				<div>
-			      	<select multiple id="skills_competencies" style="width: 300px">
+				<div class="form-group">
+					{{ Form::label('schoolcollege', 'School/College: ') }}
+						<select id="school_college" style="width: 300px">
+				      		@foreach($schoolcollege as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+			      		</select>
+				</div>
+				<div class="form-group">
+					{{ Form::label('taggedsc', 'Tagged Skills and Competencies: ') }}
+			      	<select multiple id="skills_competencies_dept_edit" style="width: 300px">
 			      		@foreach($scs as $key => $value)
 			        		<option> {{ $value->name }} </option>
 			      		@endforeach
 			      	</select>
 			    </div>
 			    <div>
-					    <input type="hidden" name="selected" id="selected"><br>
+					    <input type="hidden" name="selected_dept_edit" id="selected_dept_edit"><br>
+					    <input type="hidden" name="selected_sch_edit" id="selected_sch_edit"><br>
+				</div>
+				<div>
+					{{ "DEPARTMENT NAME"}}
+					{{ $departments->name }}
+					<br></br><br></br>
+					{{ "SCHOOLS/COLLEGES" }}
+					@foreach($schoolcollege as $key => $value)
+					<br></br>
+						{{ $value->name }}
+					@endforeach
+					<br></br><br></br>
+					{{ "CURRENT SCHOOLS/COLLEGES" }}
+					{{ $schselected }}
+					<br></br><br></br>
+					{{ "ALL SKILLS COMPETENCIES" }}
+					@foreach($scs as $key => $value)
+					<br></br>
+						{{ $value->name }}
+					@endforeach
+					<br></br><br></br>
+					{{ "CURRENT SELECTED SCs" }}
+					@foreach($currentscs as $key => $value)
+					<br></br>
+						{{ $value }}
+					@endforeach
 				</div>
 
 				{{ Form::submit('Edit Department') }}
@@ -58,12 +92,23 @@
 	    <?php foreach($currentscs as $key => $val){ ?>
 	        pausecontent.push('<?php echo $val; ?>');
 	    <?php } ?>
-    	$('#skills_competencies').select2('val',pausecontent);
+    	$('#skills_competencies_dept_edit').select2('val',pausecontent);
 
-    	var sc = $('#skills_competencies');
-		$(sc).change(function() {
-			var elem = document.getElementById("selected");
-			elem.value = $(sc).val();
+    	var scde = $('#skills_competencies_dept_edit');
+		$(scde).change(function() {
+			var elemde = document.getElementById("selected_dept_edit");
+			elemde.value = $(scde).val();
+		});		
+
+		$(document).ready(function() { $("#school_college").select2(); });
+
+		//var schselect = $('#schselected');
+    	$('#school_college').select2('val',$("#schid").toString() ));
+
+		var sch = $('#school_college');
+		$(sch).change(function() {
+			var elemsch = document.getElementById("selected_sch_edit");
+			elemsch.value = $(sch).val();
 		});	
 
     </script>

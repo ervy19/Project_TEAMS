@@ -28,15 +28,27 @@
 						{{ Form::label('name','Department Name: ') }}
 						{{ Form::text('name') }}
 					</div>
-					<div>
-				      	<select multiple id="skills_competencies" style="width: 300px">
-				      		@foreach($sc as $key => $value)
-				        		<option> {{ $value->name }} </option>
+					<div class="form-group">
+						{{ Form::label('schoolcollege', 'School/College: ') }}
+						<select id="school_college_dept" style="width: 300px">
+				      		@foreach($schoolcollege as $key => $value)
+				        		<option> {{ $value }} </option>
 				      		@endforeach
-				      	</select>
+			      		</select>
+					</div>
+					<div class="form-group">
+						{{ Form::label('sc','Tagged Skills and Competencies: ') }}
+						<select multiple id="skills_competencies_dept" style="width: 300px">
+				      		@foreach($sc as $key => $value)
+				        		<option> {{ $value }} </option>
+				      		@endforeach
+			      		</select>
 			    	</div>
 			    	<div>
-					    <input type="hidden" name="selected" id="selected"><br>
+					    <input type="hidden" name="selected_dept" id="selected_dept"><br>
+					</div>
+					<div>
+					    <input type="hidden" name="selected_sch_dept" id="selected_sch_dept"><br>
 					</div>
 
 				{{ Form::submit('Add Department') }}
@@ -52,10 +64,18 @@
 @section('page_js')
 
 	<script type="text/javascript">
-		var sc = $('#skills_competencies');
-		$(sc).change(function() {
-			var elem = document.getElementById("selected");
-			elem.value = $(sc).val();
+		var scd = $('#skills_competencies_dept');
+		$(scd).change(function() {
+			var elemd = document.getElementById("selected_dept");
+			elemd.value = $(scd).val();
+		});	
+
+        $(document).ready(function() { $("#school_college_dept").select2() });
+
+        var sch = $('#school_college_dept');
+		$(sch).change(function() {
+			var elem = document.getElementById("selected_sch_dept");
+			elem.value = $(sch).val();
 		});	
 
 	</script>
