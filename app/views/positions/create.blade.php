@@ -53,6 +53,5 @@
 			var elem = document.getElementById("selected");
 			elem.value = $(sc).val();
 		});	
-
 	</script>
 @stop

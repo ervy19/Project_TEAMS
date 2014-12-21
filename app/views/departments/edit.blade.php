@@ -100,16 +100,12 @@
 			elemde.value = $(scde).val();
 		});		
 
-		$(document).ready(function() { $("#school_college").select2(); });
+		var scArray = new Array();
+	        scArray.push('<?php echo $schselected; ?>');
+    	$('#school_college').select2('val',scArray);
 
-		//var schselect = $('#schselected');
-    	$('#school_college').select2('val',$("#schid").toString() ));
-
-		var sch = $('#school_college');
-		$(sch).change(function() {
-			var elemsch = document.getElementById("selected_sch_edit");
-			elemsch.value = $(sch).val();
-		});	
+		var elemsch = document.getElementById("selected_sch_edit");
+			elemsch.value = scArray;
 
     </script>
 

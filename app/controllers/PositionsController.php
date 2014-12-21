@@ -48,23 +48,22 @@ class PositionsController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::to('positions/create')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
             // store to positions table
             $positions = new Position;
             $positions->title = Input::get('title');
-            $nposition = Input::get('title');
             $positions->save();
 			
             $selectedsc = Input::get('selected');
-            $newposition = Position::where('title', $nposition)->pluck('id');
+            $position_id = Position::where('title', Input::get('title'))->pluck('id');
             $scidArray = explode(",", $selectedsc);
 
             for($i = 0; $i < count($scidArray); $i++){
             	$positionsc = new Position_SC;
-            	$selectedid = SkillsCompetencies::where('isActive',true)->where('name', $scidArray[$i])->pluck('id');
+            	$selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
 	            $positionsc->skills_competencies_id = $selectedid;
-	            $positionsc->position_id = $newposition;
+	            $positionsc->position_id = $position_id;
 	            $positionsc->save();
 	        }
 
@@ -89,7 +88,6 @@ class PositionsController extends \BaseController {
 			->with('positions', $positions );
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -99,8 +97,8 @@ class PositionsController extends \BaseController {
 	public function edit($id)
 	{
 		$positions = Position::find($id);
-		$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
-		$scs = SkillsCompetencies::where('isActive', true)->get();
+		$currentscid = Position_SC::where('position_id', "=", $id)->lists('skills_competencies_id');
+		$scs = SkillsCompetencies::where('isActive', "=", true)->get();
 		$currentscs = array();
 
 		foreach($currentscid as $key)
@@ -115,7 +113,6 @@ class PositionsController extends \BaseController {
 			->with('currentscid', $currentscid)
 			->with('scs', $scs);
 	}
-
 
 	/**
 	 * Update the specified resource in storage.
@@ -136,9 +133,9 @@ class PositionsController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::to('positions/edit')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
-        	$positionId = Position::where('title', Input::get('title'))->pluck('id');
+        	$positionId = Position::where('title', "=", Input::get('title'))->pluck('id');
 			$currentscid = Position_SC::where('position_id', $id)->lists('skills_competencies_id');
 			$currentscs = array();
 			foreach($currentscid as $key)
@@ -153,19 +150,19 @@ class PositionsController extends \BaseController {
 
 	            // update/save in positions_sc table
 	            $positions = Position::find($id);
-	            $positionTitle = Input::get('title');
-	            $positions->title = $positionTitle;
+	            //$positionTitle = Input::get('title');
+	            $positions->title = Input::get('title');
 	            $positions->save();
 				
 	            $selectedsc = Input::get('selected_edit');
-	            $positionId = Position::where('title', $positionTitle)->pluck('id');
 	            $scidArray = explode(",", $selectedsc);
 
-	            for($i = 0; $i < count($scidArray); $i++){
+	            for($i = 0; $i < count($scidArray); $i++) {
+	            	$selectedid = SkillsCompetencies::where('name', "=", $scidArray[$i])->pluck('id');
+
 	            	$positionsc = new Position_SC;
-	            	$selectedid = SkillsCompetencies::where('name', $scidArray[$i])->pluck('id');
 		            $positionsc->skills_competencies_id = $selectedid;
-		            $positionsc->position_id = $positionId;
+		            $positionsc->position_id = $id;
 		            $positionsc->save();
 		        }
 
@@ -180,14 +177,10 @@ class PositionsController extends \BaseController {
 		            $positionsc->position_id = $positionId;
 		            $positionsc->save();
 		        }
-
-	        	$positions = DB::table('positions')->where('isActive', '=', true)->get();
-				return View::make('positions.index')
-					->with('positions', $positions );
+	        	return Redirect::to('positions');
 	        }
         }
 	}
-
 
 	/**
 	 * Remove the specified resource from storage.
@@ -205,6 +198,5 @@ class PositionsController extends \BaseController {
         Session::flash('message', 'Successfully deleted Position!');
         return Redirect::to('positions');
 	}
-
 
 }

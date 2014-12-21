@@ -25,7 +25,6 @@
 				</div>
 
 				<div>
-					{{ Form::label('taggedsc', 'Tagged Skills and Competencies: ') }}
 			      	<select multiple id="skills_competencies" style="width: 300px">
 			      		@foreach($scs as $key => $value)
 			        		<option> {{ $value->name }} </option>
@@ -47,13 +46,11 @@
 @stop
 
 @section('page_js')
-
-	<script type="text/javascript">
-		
+	<script type="text/javascript">	
 		var pausecontent = new Array();
-	    <?php foreach($currentscs as $key => $val){ ?>
+	    <?php foreach($currentscs as $key => $val) { ?>
 	        pausecontent.push('<?php echo $val; ?>');
-	    <?php } ?>
+	    <?php	} ?>
     	$('#skills_competencies').select2('val',pausecontent);
 
     	var sc = $('#skills_competencies');
@@ -61,7 +58,5 @@
 			var elem = document.getElementById("selected_edit");
 			elem.value = $(sc).val();
 		});	
-
     </script>
-
 @stop

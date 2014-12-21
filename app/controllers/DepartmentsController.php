@@ -108,9 +108,9 @@ class DepartmentsController extends \BaseController {
 		$departments = Department::find($id);
 		$schid = Department::where('id', $id)->pluck('schools_colleges_id');
 
-		$currentscid = Department_SC::where('department_id', $id)->lists('skills_competencies_id');
+		$currentscid = Department_SC::where('department_id', "=", $id)->lists('skills_competencies_id');
 		
-		$schselected = School_College::where('isActive', '=', true)->where('id', '=', $schid)->pluck('id');
+		$schselected = School_College::where('isActive', '=', true)->where('id', '=', $schid)->pluck('name');
 		$schoolcollege = School_College::where('isActive', true)->get();
 
 		$scs = SkillsCompetencies::where('isActive', true)->get();
@@ -118,7 +118,7 @@ class DepartmentsController extends \BaseController {
 
 		foreach($currentscid as $key)
 		{
-			$scsname = SkillsCompetencies::where('id', $key)->pluck('name');
+			$scsname = SkillsCompetencies::where('isActive', "=", true)->where('id', $key)->pluck('name');
 			array_push($currentscs, $scsname);
 		}
 
@@ -154,6 +154,8 @@ class DepartmentsController extends \BaseController {
                 ->withInput();
         } else {
         	$departmentId = Department::where('name', Input::get('name'))->pluck('id');
+        	$departmentName = Input::get('name');
+        	$departmentSchId = School_College::where('name', '=', Input::get('selected_sch_edit'))->where('isActive', '=', true)->pluck('id');
 			$currentscid = Department_SC::where('department_id', $id)->lists('skills_competencies_id');
 			$currentscs = array();
 			foreach($currentscid as $key)
@@ -166,14 +168,13 @@ class DepartmentsController extends \BaseController {
 	        	//delete all records of current department
 	        	Department_SC::where('department_id', $id)->delete();
 
-	            // update/save in department_sc table
+	            // update/save in department table
 	            $departments = Department::find($id);
-	            $departmentName = Input::get('name');
 	            $departments->name = $departmentName;
-	            $school_college_selected = Input::get('selected_sch_edit');
-            	$departments->schools_colleges_id = School_College::where('name', '=', $school_college_selected)->pluck('id');
+            	$departments->schools_colleges_id = $departmentSchId;
 	            $departments->save();
 				
+				//update department_sc table
 	            $selectedsc = Input::get('selected_dept_edit');
 	            $departmentId = Department::where('name', $departmentName)->pluck('id');
 	            $scidArray = explode(",", $selectedsc);
@@ -191,6 +192,7 @@ class DepartmentsController extends \BaseController {
 	            return Redirect::to('departments');
 	        }
 	        catch(PDOException $exception) {
+	        	//update department_sc table
 	        	for($i = 0; $i < count($currentscid); $i++){
 	            	$departmentsc = new Department_SC;
 		            $departmentsc->skills_competencies_id = $currentscid[$i];
@@ -198,9 +200,9 @@ class DepartmentsController extends \BaseController {
 		            $departmentsc->save();
 		        }
 
-	        	$departments = DB::table('departments')->where('isActive', '=', true)->get();
-				return View::make('departments.index')
-					->with('departments', $departments);
+	        	// redirect
+	            Session::flash('message', 'Successfully updated Department!');
+	            return Redirect::to('departments');
 	        }
         }
 	}

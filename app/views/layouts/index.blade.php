@@ -124,6 +124,9 @@
     </script>
     <script>
       $("#skills_competencies_edit").select2();
+      $("#skills_competencies_dept").select2();
+      $("#skills_competencies_dept_edit").select2();
+      $("#school_college").select2();
     </script>
     <script>
       $("#schools_colleges").select2();
