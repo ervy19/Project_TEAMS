@@ -50,7 +50,7 @@
 									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
 									<td>
-										<a class="btn btn-small btn-info" href="">Credit</a>
+										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Credit</a>
 										<br><br>
 										<a class="btn btn-small btn-danger" href="">Reject</a>
 									</td>

@@ -62,6 +62,9 @@ Route::get('users/logout', 'UsersController@logout');
 
 
 
+
+
+
 Route::get('training_assessments/accomplish-pta', array('as' => 'accomplish-pta', function()
 {
 	return View::make('training_assessments.accomplish-pta');
@@ -81,6 +84,11 @@ Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
 {
 	return View::make('training_assessments.show-pte');
 }));
+
+
+
+
+
 
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 

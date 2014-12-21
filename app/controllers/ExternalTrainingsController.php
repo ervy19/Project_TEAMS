@@ -96,7 +96,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$externaltrainings = External_Training::find($id);
+		$externaltrainings = ET_Queue::find($id);
 
 		return View::make('external_trainings.edit')
 			->with('externaltrainings', $externaltrainings );
@@ -172,7 +172,7 @@ class ExternalTrainingsController extends \BaseController {
 	{
 		$externaltrainingsqueue = DB::table('et_queues')
             ->join('employees','et_queues.employee_id','=','employees.id')
-            ->select('employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
+            ->select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
             ->get();
 
 		return View::make('external_trainings.pending-approval')
@@ -226,7 +226,10 @@ class ExternalTrainingsController extends \BaseController {
                 $externaltrainings->employee_id = $employee->id;
                 $externaltrainings->save();
 
-                return Redirect::to('success-external-training');
+                $employee_number = $employee->employee_number;
+
+                return Redirect::to('success-external-training')
+                    ->with('message',$employee_number);
             }
             else {
                 return Redirect::to('submit-external-training')
@@ -234,5 +237,16 @@ class ExternalTrainingsController extends \BaseController {
             }
         }
 	}
+
+    public function destroyQueue($id)
+    {
+        $externaltrainings = ET_Queue::find($id);
+        $externaltrainings->isActive = false;
+        $externaltrainings->save();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted External Training!');
+        return Redirect::to('external_trainings/pending-approvals');
+    }
 
 }
