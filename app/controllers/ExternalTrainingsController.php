@@ -168,6 +168,10 @@ class ExternalTrainingsController extends \BaseController {
 	}
 
 
+
+
+
+
 	public function indexQueue()
 	{
 		$externaltrainingsqueue = DB::table('et_queues')
@@ -237,6 +241,69 @@ class ExternalTrainingsController extends \BaseController {
             }
         }
 	}
+
+    public function getQueue($id)
+    {
+        
+        $externaltraining = DB::table('et_queues')
+            ->join('employees','et_queues.employee_id','=','employees.id')
+            ->join('employee_designations','employees.id','=','employee_designations.employee_id')
+            ->select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
+            ->where('et_queues.id', '=', $id)
+            ->get();
+
+        if ($externaltraining)
+        {
+            return View::make('external_trainings.credit-external-training')
+                ->with('externaltraining', $externaltraining );
+        }
+        else
+        {
+            return Redirect::to('external_trainings/pending-approval')
+                    ->withErrors('Employee has no designation yet');
+        }
+    }
+
+    public function creditQueue($id)
+    {
+           // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'title' => 'required',
+            'theme_topic' => 'required',
+            'participation' => 'required',
+            'organizer' => 'required',
+            'venue' => 'required',
+            'date_start' => 'required',
+            'date_end' => 'required',
+            'designation_id' => 'required'
+
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('external_trainings/edit')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $externaltraining = new External_Training;
+            $externaltraining->title = Input::get('title');
+            $externaltraining->theme_topic = Input::get('theme_topic');
+            $externaltraining->participation = Input::get('participation');
+            $externaltraining->organizer = Input::get('organizer');
+            $externaltraining->venue = Input::get('venue');
+            $externaltraining->date_start = Input::get('date_start');
+            $externaltraining->date_end = Input::get('date_end');
+            $externaltraining->designation_id = Input::get('designation_id');
+            $externaltraining->save();
+
+            // redirect
+            Session::flash('message', 'Successfully credited the External Training!');
+            return Redirect::to('external_trainings');
+        }
+    }
 
     public function destroyQueue($id)
     {
