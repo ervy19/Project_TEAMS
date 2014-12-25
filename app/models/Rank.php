@@ -10,7 +10,7 @@ class Rank extends Eloquent {
 		return $this->hasOne('Positions');
 	}
 
-	public function employee_designation()) {
+	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');
 	}
 	

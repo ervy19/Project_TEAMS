@@ -26,8 +26,8 @@
 		{{ Form::open(array('url' => 'campuses')) }}
 
 			<div class="form-group">
-					{{ Form::label('title','Campus Name: ') }}
-					{{ Form::text('title') }}
+					{{ Form::label('name','Campus Name: ') }}
+					{{ Form::text('name') }}
 			</div>
 
 			<div class="form-group">

@@ -205,7 +205,7 @@ class ExternalTrainingsController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::to('submit-external-training')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput();
         } else {
 
             $employee = DB::table('employees')
@@ -235,4 +235,14 @@ class ExternalTrainingsController extends \BaseController {
         }
 	}
 
+    public function credit()
+    {
+        
+        return Redirect::to('success-external-training');
+    }
+
+    public function reject()
+    {
+        return Redirect::to('success-external-training');
+    }
 }

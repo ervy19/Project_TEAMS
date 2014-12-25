@@ -31,7 +31,7 @@
 			<tbody>
 				@foreach($campuses as $key => $value)
 				<tr>
-					<td>{{ $value->title }}</td>
+					<td>{{ $value->name }}</td>
 					<td>{{ $value->address }}</td>
 					<td>
 						<a class="btn btn-small btn-info" href="{{ URL::to('campuses/' . $value->id . '/edit') }}">Edit</a>

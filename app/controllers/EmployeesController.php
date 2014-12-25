@@ -22,8 +22,21 @@ class EmployeesController extends \BaseController {
 	 * @return Response
 	 */
 	public function create()
-	{
-		return View::make('employees.create');
+	{	
+		$positions = Position::where('isActive', '=', true)->get();
+		$ranks = Rank::where('isActive', '=', true)->get();
+		$schools_colleges = School_College::where('isActive', '=', true)->get();
+		$departments = Department::where('isActive', '=', true)->get();
+		$campuses = Campus::where('isActive', '=', true)->get();
+		$supervisors = Supervisor::where('isActive', '=', true)->get(); 
+
+		return View::make('employees.create')
+			->with('positions', $positions)
+			->with('ranks', $ranks)
+			->with('schools_colleges', $schools_colleges)
+			->with('departments', $departments)
+			->with('campuses', $campuses)
+			->with('supervisors', $supervisors);
 	}
 
 
@@ -53,7 +66,7 @@ class EmployeesController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('employee_number'));
         } else {
-            // store
+            // store to employees
             $employees = new Employee;
             $employees->employee_number = Input::get('employee_number');
             $employees->last_name = Input::get('last_name');
@@ -63,6 +76,22 @@ class EmployeesController extends \BaseController {
             $employees->age = Input::get('age');
             $employees->tenure = Input::get('tenure');
             $employees->save();
+
+            //store to employees designation
+			for($i = 1; $i <= count; $i++)
+			{
+				$myInputs = $_POST["myInputs" + $i];
+				$employee_designation = new Employee_Designation;
+				$employee_designation->type = "Employee_Type_Sample";
+				$employee_designation->employee_id = $employees->id;
+				$employee_designation->position_id = Position::where('id', '=', $myInputs[0])->pluck('id');
+				$employee_designation->rank_id = Rank::where('id', '=', $myInputs[1])->pluck('id');
+				$employee_designation->schools_colleges_id = School_College::where('id', '=', $myInputs[2])->pluck('id');
+				$employee_designation->department_id = Department::where('id', '=', $myInputs[3])->pluck('id');
+				$employee_designation->campus_id = Campus::where('id', '=', $myInputs[4])->pluck('id');
+				$employee_designation->Supervisor_id = Supervisor::where('id', '=', $myInputs[5])->pluck('id');
+			}
+
             // redirect
             Session::flash('message', 'Successfully added Employee!');
             return Redirect::to('employees');

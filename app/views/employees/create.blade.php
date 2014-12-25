@@ -66,6 +66,11 @@
 					{{ $errors->first('tenure') }}
 				</div>
 
+				<div id="dynamicInput">
+			     	<br>
+			    </div>
+			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
+			    <input type="hidden" id="count" value="" />
 				{{ Form::submit('Add Employee') }}
 
 			{{ Form::close() }}
@@ -74,4 +79,27 @@
 	</div>
 </div>
 
+@stop
+
+@section('page_js')
+
+	<script type="text/javascript">
+		var count = 1;
+		function addInput(divName){
+			
+		    var newdiv = document.createElement('div');
+		    newdiv.innerHTML = 	"<h2>Employee Designation " + count + "</h2>" +
+		    					"<br><label>Position:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
+								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>" +
+								"<br><label>School/College:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+								"<br><label>Department:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+								"<br><label>Campus:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+								"<br><label>Supervisor:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" 
+								;
+
+		    document.getElementById(divName).appendChild(newdiv);
+		    document.getElementById('count').value = count;
+		    count++;    
+		}
+	</script>
 @stop

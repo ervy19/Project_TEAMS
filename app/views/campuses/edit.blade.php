@@ -24,8 +24,8 @@
 		{{ Form::model($campuses, array('route' => array('campuses.update', $campuses->id), 'method' => 'PUT')) }}
 
 			<div class="form-group">
-				{{ Form::label('title','Campus Name: ') }}
-					{{ Form::text('title') }}
+				{{ Form::label('name','Campus Name: ') }}
+					{{ Form::text('name') }}
 			</div>
 
 			<div class="form-group">
