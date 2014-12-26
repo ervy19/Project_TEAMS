@@ -11,6 +11,7 @@
 		<div class="row">
 			<h1>External Trainings</h1>
 			<br>
+				{{ HTML::ul($errors->all()) }}
 		</div>
 	</div>
 </div>
@@ -50,7 +51,7 @@
 									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
 									<td>
-										<a class="btn btn-small btn-info" href="">Credit</a>
+										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/credit-external-training') }}">Credit</a>
 										<br><br>
 										<a class="btn btn-small btn-danger" href="">Reject</a>
 									</td>

@@ -62,6 +62,9 @@ Route::get('users/logout', 'UsersController@logout');
 
 
 
+
+
+
 Route::get('training_assessments/accomplish-pta', array('as' => 'accomplish-pta', function()
 {
 	return View::make('training_assessments.accomplish-pta');
@@ -82,6 +85,11 @@ Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
 	return View::make('training_assessments.show-pte');
 }));
 
+
+
+
+
+
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
@@ -95,3 +103,7 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 {
 	return View::make('success-external-training');
 }));
+
+Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
+
+Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));

@@ -59,7 +59,7 @@
 					{{ $errors->first('designation_id') }}
 				</div>
 
-				{{ Form::submit('Add External Training') }}
+				{{ Form::submit('Credit External Training') }}
 
 			{{ Form::close() }}
 

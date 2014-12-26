@@ -112,7 +112,7 @@ class CampusesController extends \BaseController {
         } else {
             // store
             $campuses = Campus::find($id);
-            $campuses->title = Input::get('title');
+            $campuses->name = Input::get('name');
             $campuses->address = Input::get('address');
             $campuses->save();
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -65,7 +64,7 @@
 
 						<h2 class="panel-header">Submission Successful</h2>
 						<br>
-						<h5>Employee ID: {{ $externaltrainings->employee_id or '000000' }}</h5>
+						<h5>Employee ID: {{ (string)Session::get('message') }}</h5>
 						<br>
 						<p>
 							Your external training has been submitted. 
@@ -73,6 +72,8 @@
 						<p>
 							You may now submit the documentation of your external training to the Human Resources Department Office to complete the process.
 						</p>
+
+            <a class="btn btn-primary" href="{{ URL::to('submit-external-training')  }}">Submit A New External Training Record</a>
 					<!-- if there are creation errors, they will show here -->
 					<!--{{ HTML::ul($errors->all()) }}-->
 
