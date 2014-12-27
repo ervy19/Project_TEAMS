@@ -31,7 +31,7 @@ class CreateFocusAreaTable extends Migration {
 
 		Schema::table('focus_area', function($table) 
 		{
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
+			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

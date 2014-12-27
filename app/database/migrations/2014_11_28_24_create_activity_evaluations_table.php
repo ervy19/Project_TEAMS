@@ -42,7 +42,7 @@ class CreateActivityEvaluationsTable extends Migration {
 
 		Schema::table('activity_evaluations', function($table) 
 		{
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
+			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

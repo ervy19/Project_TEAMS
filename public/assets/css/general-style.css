@@ -494,6 +494,11 @@ input[type="radio"] {
   background-color: transparent;
   *zoom: 1;
 }
+
+.tiles .tile .tile-object h4 {
+  text-align: center;
+}
+
 .tiles .tile .tile-object:before, .tiles .tile .tile-object:after {
   display: table;
   content: "";

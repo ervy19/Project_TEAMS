@@ -14,14 +14,9 @@ class CreateExternalTrainingsTable extends Migration {
 	{
 		Schema::create('external_trainings', function($table)
 		{
-			$table->increments('id');
-			$table->string('title', 255);
-			$table->string('theme_topic', 255);
+			$table->integer('training_id')->unsigned();
 			$table->string('participation', 255);
 			$table->string('organizer', 255);
-			$table->string('venue', 255);
-			$table->date('date_start');
-			$table->date('date_end');
 
 			$table->integer('designation_id')->unsigned();
 			
@@ -31,6 +26,7 @@ class CreateExternalTrainingsTable extends Migration {
 
 		Schema::table('external_trainings', function($table) 
 		{
+			$table->foreign('training_id')->references('id')->on('trainings');
 			$table->foreign('designation_id')->references('id')->on('employee_designations');
   		});
 	}

@@ -14,14 +14,8 @@ class CreateInternalTrainingsTable extends Migration {
 	{
 		Schema::create('internal_trainings', function($table)
 		{
-			$table->increments('id');
-			$table->string('title', 255)->nullable();
-			$table->string('theme_topic', 255);
-			$table->string('venue', 255)->nullable();
-			$table->date('date_start')->nullable();
-			$table->date('date_end')->nullable();
-			$table->time('time_start')->nullable();
-			$table->time('time_end')->nullable();
+			$table->integer('training_id')->unsigned();
+			$table->string('format', 255)->nullable();
 			$table->text('objectives');
 			$table->text('expected_outcome')->nullable();
 			$table->text('evaluation_narrative')->nullable();
@@ -37,6 +31,7 @@ class CreateInternalTrainingsTable extends Migration {
 
 		Schema::table('internal_trainings', function($table) 
 		{
+			$table->foreign('training_id')->references('id')->on('trainings');
 			$table->foreign('organizer_schools_colleges_id')->references('id')->on('schools_colleges');
       		$table->foreign('organizer_department_id')->references('id')->on('departments');
   		});

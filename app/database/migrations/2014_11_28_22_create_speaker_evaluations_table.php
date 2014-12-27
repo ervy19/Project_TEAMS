@@ -18,8 +18,7 @@ class CreateSpeakerEvaluationsTable extends Migration {
 			$table->decimal('evaluation_criterion1', 4, 1);
 			$table->decimal('evaluation_criterion2', 4, 1);
 			$table->decimal('evaluation_criterion3', 4, 1);
-			
-			$table->integer('training_id')->unsigned();
+
 			$table->integer('speaker_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
@@ -28,7 +27,6 @@ class CreateSpeakerEvaluationsTable extends Migration {
 
 		Schema::table('speaker_evaluations', function($table) 
 		{
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
 			$table->foreign('speaker_id')->references('id')->on('speakers');
   		});
 	}

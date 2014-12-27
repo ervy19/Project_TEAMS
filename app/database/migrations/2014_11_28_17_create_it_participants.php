@@ -28,7 +28,7 @@ class CreateItParticipants extends Migration {
 		{
       		$table->foreign('employee_id')->references('id')->on('employees');
       		$table->foreign('employee_designation_id')->references('id')->on('employee_designations');
-      		$table->foreign('internal_training_id')->references('id')->on('internal_trainings');
+      		$table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

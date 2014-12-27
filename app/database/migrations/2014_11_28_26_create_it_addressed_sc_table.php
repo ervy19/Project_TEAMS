@@ -26,7 +26,7 @@ class CreateItAddressedScTable extends Migration {
 		Schema::table('it_addressed_sc', function($table) 
 		{
 			$table->foreign('skills_competencies_id')->references('id')->on('skills_competencies');
-			$table->foreign('internal_training_id')->references('id')->on('internal_trainings');
+			$table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

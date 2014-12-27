@@ -28,7 +28,7 @@ class CreateSpeakersTable extends Migration {
 
 		Schema::table('speakers', function($table) 
 		{
-			$table->foreign('training_id')->references('id')->on('internal_trainings');
+			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 
