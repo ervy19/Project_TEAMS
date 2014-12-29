@@ -4,7 +4,7 @@ class Campus extends Eloquent {
 
 	protected $table ='campuses';
 
-	protected $fillable = array('id', 'title', 'address', 'isActive');
+	protected $fillable = array('id', 'name', 'address', 'isActive');
 
 	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');

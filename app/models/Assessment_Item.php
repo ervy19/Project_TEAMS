@@ -9,7 +9,6 @@ class Assessment_Item extends Eloquent {
 	public function participant_assessment() {
 		return $this->hasOne('Participant_Assessment');
 	}
-	
 }
 
 ?>
