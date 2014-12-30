@@ -168,6 +168,7 @@ input[type="radio"] {
 }
 
 .breadcrumb li {
+    color: rgba(255,57,235,1);
     position: relative;
     top: 50%;
     transform: translateY(50%);
@@ -178,7 +179,7 @@ input[type="radio"] {
 }
 
 .breadcrumb li>a:hover {
-    color: #FE8BF2;
+    color: rgba(255,57,235,1);
     text-decoration: none;
 }
 
@@ -375,7 +376,7 @@ input[type="radio"] {
   margin-top: 95px;
 }
 .tiles .tile:hover {
-  border-color: #aaa !important;
+  border-color: rgba(255,57,235,0.5) !important;
 }
 .tiles .tile:active, .tiles .tile.selected {
   border-color: #ccc !important;

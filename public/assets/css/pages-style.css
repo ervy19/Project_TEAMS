@@ -1,4 +1,37 @@
 /**************************************
+    Dashboard
+**************************************/
+
+.dashboard h3 {
+	margin-bottom: 2px;
+}
+
+.dashboard h5 {
+	margin-top: 2px;
+	font-size: 1.2em;
+}
+
+.tiles {
+	margin-bottom: 20px;
+}
+
+.tiles .tile {
+	height: 150px !important;
+	width: 150px !important;
+	margin-left: 23px;
+	margin-right: 23px;
+}
+
+.calendar-dashboard {
+	margin: 10px 15px;
+	margin-bottom: 15px;
+}
+
+.cal-dashboard .fc {
+	font-size: 0.9em;
+}
+
+/**************************************
     Internal Trainings
 **************************************/
 
@@ -119,7 +152,7 @@
     Training Plan
 **************************************/
 
-#calendar {
+.calendar-tp {
 	margin: 30px 20px;
 }
 

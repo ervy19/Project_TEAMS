@@ -27,7 +27,7 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<div id='calendar'></div>
+			<div id="calendar" class="calendar-tp"></div>
 		</div>
 	</div>
 </div>

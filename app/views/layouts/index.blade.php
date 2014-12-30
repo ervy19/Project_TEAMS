@@ -86,8 +86,8 @@
     <div class="container-fluid breadcrumb-header">
       <div class="row">
         <ol class="breadcrumb">
-                <li><a href="{{ URL::to('dashboard') }}"><i class="fa fa-home fa-lg"></i></a></li>
-                @yield('breadcrumb')
+          <li><a href="{{ URL::to('dashboard') }}"><i class="fa fa-home fa-lg"></i></a></li>
+          @yield('breadcrumb')
         </ol>
       </div>
     </div>

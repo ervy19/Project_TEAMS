@@ -14,21 +14,30 @@ Route::get('/', function()
 	return View::make('login');
 });
 
+
+
 Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
 
 Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
 Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
+
+
+
 Route::get('training_plan', array('as' => 'training_plan', function()
 {
 	return View::make('training_plan.index');
 }));
 
+
+
 Route::get('dashboard', array('as' => 'dashboard', function()
 {
 	return View::make('dashboard.index');
 }));
+
+
 
 Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
@@ -48,6 +57,9 @@ Route::resource('external_trainings','ExternalTrainingsController');
 
 Route::resource('skills_competencies','SkillsCompetenciesController');
 
+
+
+
 // Confide routes
 Route::get('users/create', 'UsersController@create');
 Route::post('users', 'UsersController@store');
@@ -62,7 +74,8 @@ Route::get('users/logout', 'UsersController@logout');
 
 
 
-
+Route::get('training_assessments/accomplish-pta', array('as' => 'pta.create', 'uses' => 'TrainingAssessmentsController@createQueue'));
+Route::post('training_assessments/accomplish-pta', array('as' => 'external_trainings.storeQueue', 'uses' => 'TrainingAssessmentsController@storeQueue'));
 
 
 Route::get('training_assessments/accomplish-pta', array('as' => 'accomplish-pta', function()
@@ -84,6 +97,8 @@ Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
 {
 	return View::make('training_assessments.show-pte');
 }));
+
+
 
 
 
