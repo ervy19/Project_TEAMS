@@ -4,6 +4,10 @@
 	Add Internal Training
 @stop
 
+@section('page_css')
+	{{ HTML::style('assets/css/datepicker.css'); }}
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">
@@ -37,19 +41,14 @@
 					{{ Form::text('venue') }}
 					{{ $errors->first('venue') }}
 				</div>
-
 				<div class="form-group">
 					{{ Form::label('date_start','Date Start: ') }}
-					{{ Form::text('date_start') }}
-					{{ $errors->first('date_start') }}
+					<input type="text" id="date_start" name="date_start">
 				</div>
-
 				<div class="form-group">
 					{{ Form::label('date_end','Date End: ') }}
-					{{ Form::text('date_end') }}
-					{{ $errors->first('date_end') }}
+					<input type="text" id="date_end" name="date_end">
 				</div>
-
 				<div class="form-group">
 					{{ Form::label('time_start','Time Start: ') }}
 					{{ Form::text('time_start') }}
@@ -87,14 +86,26 @@
 				</div>
 
 				<div class="form-group">
-					{{ Form::label('organizer_schools_colleges_id','Organizing School/College ID: ') }}
-					{{ Form::text('organizer_schools_colleges_id') }}
+					{{ Form::label('organizer_schools_colleges_id','Organizing School/College: ') }}
+					<select id="school_college_training" style="width: 300px">
+				      		<option selected disabled>Select School/College</option>
+				      		@foreach($schoolcollege as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+			      	</select>
+			      	<input type="hidden" name="selected_sch_training" id="selected_sch_training"><br>
 					{{ $errors->first('organizer_schools_colleges_id') }}
 				</div>
 
 				<div class="form-group">
-					{{ Form::label('organizer_department_id','Organizing Department ID: ') }}
-					{{ Form::text('organizer_department_id') }}
+					{{ Form::label('organizer_department_id','Organizing Department: ') }}
+					<select id="dept_training" style="width: 300px">
+							<option selected disabled>Select department</option>
+				      		@foreach($department as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+			      	</select>
+			      	<input type="hidden" name="selected_dept_training" id="selected_dept_training"><br>
 					{{ $errors->first('organizer_department_id') }}
 				</div>
 
@@ -110,5 +121,32 @@
 			{{ Form::close() }}
 
 		</div>
+
+@stop
+
+@section('page_js')
+
+    {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
+
+<script>
+	$('#date_start').datepicker({
+    format: 'yyyy-mm-dd'
+});
+	$('#date_end').datepicker({
+    format: 'yyyy-mm-dd'
+});
+	
+	var schtr = $('#school_college_training');
+	$(schtr).change(function() {
+		var elemtr = document.getElementById("selected_sch_training");
+		elemtr.value = $(schtr).val();
+	});
+
+	var depttr = $('#dept_training');
+	$(depttr).change(function() {
+		var elemdepttr = document.getElementById("selected_dept_training");
+		elemdepttr.value = $(depttr).val();
+	});
+</script>
 
 @stop
