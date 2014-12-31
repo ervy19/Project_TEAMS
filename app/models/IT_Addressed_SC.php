@@ -6,8 +6,8 @@ class IT_Addressed_SC extends Eloquent {
 
 	protected $fillable = array('id', 'skills_competencies_id', 'internal_training_id', 'isActive');
 
-	public function skill_competency() {
-		return $this->hasMany('Skill_Competency');
+	public function skillscompetencies() {
+		return $this->hasMany('SkillsCompetencies');
 	}
 
 	public function internal_training() {

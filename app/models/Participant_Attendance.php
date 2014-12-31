@@ -7,7 +7,7 @@ class Participant_Attendance extends Eloquent {
 	protected $fillable = array('id', 'date', 'time', 'it_participant_id', 'isActive');
 
 	public function it_participant() {
-		return $this->hasOne('IT_Participant');
+		return $this->hasMany('IT_Participant');
 	}
 }
 
