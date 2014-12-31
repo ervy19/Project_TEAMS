@@ -1,6 +1,6 @@
 <?php
 
-class TrainingAssessments extends \BaseController {
+class TrainingAssessmentsController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -19,13 +19,13 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function create($type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
-
+			return View::make('training_assessments.create');
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
-			
+			return View::make('training_assessments.create');
 		}
 	}
 
@@ -37,11 +37,11 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function store($type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
 
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
 			
 		}
@@ -56,11 +56,11 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function show($id, $type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
 
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
 			
 		}
@@ -75,11 +75,11 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function edit($id, $type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
 
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
 			
 		}
@@ -94,11 +94,11 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function update($id, $type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
 
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
 			
 		}
@@ -113,11 +113,11 @@ class TrainingAssessments extends \BaseController {
 	 */
 	public function destroy($id, $type)
 	{
-		if($type==)
+		if($type=="pta")
 		{
 
 		}
-		elseif($type==)
+		elseif($type=="pte")
 		{
 			
 		}

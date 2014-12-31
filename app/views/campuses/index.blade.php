@@ -20,7 +20,7 @@
 
 		<br><br>
 
-		<table class="table table-bordered">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Campus Name</th>

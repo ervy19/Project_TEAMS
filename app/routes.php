@@ -60,7 +60,14 @@ Route::resource('skills_competencies','SkillsCompetenciesController');
 
 
 
-// Confide routes
+/*
+|--------------------------------------------------------------------------
+| Confide Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for Confide
+|
+*/
 Route::get('users/create', 'UsersController@create');
 Route::post('users', 'UsersController@store');
 Route::get('users/login', 'UsersController@login');
@@ -73,37 +80,37 @@ Route::post('users/reset_password', 'UsersController@doResetPassword');
 Route::get('users/logout', 'UsersController@logout');
 
 
+/*
+|--------------------------------------------------------------------------
+| Training Assessment Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for Training Assessments (PTA and PTE)
+|
+*/
+Route::get('{type}/create', array('as' => 'training_assessment.create', 'uses' => 'TrainingAssessmentsController@create'));
 
-Route::get('training_assessments/accomplish-pta', array('as' => 'pta.create', 'uses' => 'TrainingAssessmentsController@createQueue'));
-Route::post('training_assessments/accomplish-pta', array('as' => 'external_trainings.storeQueue', 'uses' => 'TrainingAssessmentsController@storeQueue'));
+Route::post('{type}', array('as' => 'training_assessment.store', 'uses' => 'TrainingAssessmentsController@store'));
 
+Route::get('{type}/{training_assessment}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@show'));
 
-Route::get('training_assessments/accomplish-pta', array('as' => 'accomplish-pta', function()
-{
-	return View::make('training_assessments.accomplish-pta');
-}));
+Route::get('{type}/{training_assessment}/edit', array('as' => 'training_assessment.edit', 'uses' => 'TrainingAssessmentsController@edit'));
 
-Route::get('training_assessments/accomplish-pte', array('as' => 'accomplish-pta', function()
-{
-	return View::make('training_assessments.accomplish-pte');
-}));
+Route::put('{type}/{training_assessment}', array('as' => 'training_assessment.update', 'uses' => 'TrainingAssessmentsController@update'));
+Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessmentsController@update'));
 
-Route::get('training_assessments/show-pta', array('as' => 'show-pta', function()
-{
-	return View::make('training_assessments.show-pta');
-}));
-
-Route::get('training_assessments/show-pte', array('as' => 'show-pte', function()
-{
-	return View::make('training_assessments.show-pte');
-}));
+Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
 
 
 
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| External Training Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for External Trainings
+|
+*/
 
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 

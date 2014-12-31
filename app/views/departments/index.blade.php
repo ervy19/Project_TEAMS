@@ -20,7 +20,7 @@
 
 			<br><br>
 
-			<table id="tb-departments" class="table table-bordered">
+			<table id="tb-departments" class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th>Department Name</th>

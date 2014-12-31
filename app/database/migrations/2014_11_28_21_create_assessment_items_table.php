@@ -16,15 +16,16 @@ class CreateAssessmentItemsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 255);
-			$table->decimal('rating', 4, 1);
-			$table->integer('participant_assessment_id')->unsigned();
+
+			$table->integer('training_id')->unsigned();
+			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
 
 		Schema::table('assessment_items', function($table) 
 		{
-      		 $table->foreign('participant_assessment_id')->references('id')->on('participant_assessments')->onDelete('cascade');
+      		 $table->foreign('training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 
