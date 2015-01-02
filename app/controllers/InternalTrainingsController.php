@@ -10,9 +10,11 @@ class InternalTrainingsController extends \BaseController {
 	public function index()
 	{
 		$internaltrainings = Internal_Training::where('isActive', '=', true)->get();
+		$trainings = Training::where('isActive', '=', true)->get();
 
 		return View::make('internal_trainings.index')
-			->with('internaltrainings', $internaltrainings );
+			->with('internaltrainings', $internaltrainings)
+			->with('trainings', $trainings);
 	}
 
 
@@ -53,15 +55,27 @@ class InternalTrainingsController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            // store
+            //store in trainings table
+        	$training = new Training;
+        	$training->title = Input::get('title');
+        	$ntraining = Input::get('title');
+            $training->theme_topic = Input::get('theme_topic');
+            $training->venue = Input::get('venue');
+            //for schedule
+	            $date_start = Input::get('date_start');
+	            $date_end = Input::get('date_end');
+	            $time_start = Input::get('time_start');
+	            $time_end = Input::get('time_end');
+	        $training->schedule = $date_start . " (" . $time_start . " - " . $time_end . ") - " . $date_end . " (" . $time_start . " - " . $time_end . ")";
+            $training->isTrainingPlan = Input::get('isTrainingPlan');
+            $training->save();
+
+            $newtraining = Training::where('title', $ntraining)->pluck('id');
+
+        	//store in internal_trainings table
             $internaltrainings = new Internal_Training;
-            $internaltrainings->title = Input::get('title');
-            $internaltrainings->theme_topic = Input::get('theme_topic');
-            $internaltrainings->venue = Input::get('venue');
-            $internaltrainings->date_start = Input::get('date_start');
-            $internaltrainings->date_end = Input::get('date_end');
-            $internaltrainings->time_start = Input::get('time_start');
-            $internaltrainings->time_end = Input::get('time_end');
+            $internaltrainings->training_id = $newtraining;
+            $internaltrainings->format = Input::get('format');
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
             $internaltrainings->evaluation_narrative = Input::get('evaluation_narrative');
@@ -88,18 +102,15 @@ class InternalTrainingsController extends \BaseController {
 	public function show($id)
 	{
 		 $id = "3";
-		 $internaltrainings = Internal_Training::where('id', '=', $id)->get();
-		 $title = Internal_Training::where('id', '=', $id)->pluck('title');
-		 $theme_topic = Internal_Training::where('id', '=', $id)->pluck('theme_topic');
-		 $organizerschid = Internal_Training::where('id', '=', $id)->pluck('organizer_schools_colleges_id');
-		 $school_college = School_College::where('id', '=', $id)->where('id', '=', $organizerschid)->pluck('name');
-		 $venue = Internal_Training::where('id', '=', $id)->pluck('venue');
-		 $date_start = Internal_Training::where('id', '=', $id)->pluck('date_start');
-		 $date_end = Internal_Training::where('id', '=', $id)->pluck('date_end');
-		 $time_start = Internal_Training::where('id', '=', $id)->pluck('time_start');
-		 $time_end = Internal_Training::where('id', '=', $id)->pluck('time_end');
-		 $objectives = Internal_Training::where('id', '=', $id)->pluck('objectives');
-		 $expected_outcome = Internal_Training::where('id', '=', $id)->pluck('expected_outcome');
+		 $internaltrainings = Internal_Training::where('training_id', '=', $training_id)->get();
+		 $title = Training::where('id', '=', $training_id)->pluck('title');
+		 $theme_topic = Training::where('id', '=', $training_id)->pluck('theme_topic');
+		 $organizerschid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+		 $school_college = School_College::where('isActive', '=', true)->where('id', '=', $organizerschid)->pluck('name');
+		 $venue = Training::where('id', '=', $training_id)->pluck('venue');
+		 $schedule = Training::where('id', '=', $training_id)->pluck('schedule');
+		 $objectives = Internal_Training::where('training_id', '=', $training_id)->pluck('objectives');
+		 $expected_outcome = Internal_Training::where('training_id', '=', $training_id)->pluck('expected_outcome');
 
 		return View::make('internal_trainings.show')
 			->with('internaltrainings', $internaltrainings)
@@ -117,7 +128,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showParticipants($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.participants')
 			->with('internaltrainings', $internaltrainings);
@@ -125,7 +136,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showAfterActivityEvaluation($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.after-activity-evaluation')
 			->with('internaltrainings', $internaltrainings);
@@ -133,7 +144,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showTrainingEffectivenessReport($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings);
@@ -148,7 +159,7 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$internaltrainings = Internal_Training::find($id);
+		$internaltrainings = Internal_Training::find($training_id);
 		$schoolcollege = School_College::where('isActive', true)->get();
 		$department = Department::where('isActive', true)->get();
 		$currentstartdate = $internaltrainings->date_start;
@@ -184,12 +195,12 @@ class InternalTrainingsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/' . $id . '/edit')
+            return Redirect::to('internal_trainings/' . $training_id . '/edit')
                 ->withErrors($validator)
                 ->withInput();
         } else {
             // store
-            $internaltrainings = Internal_Training::find($id);
+            $internaltrainings = Internal_Training::find($training_id);
             $internaltrainings->title = Input::get('title');
             $internaltrainings->theme_topic = Input::get('theme_topic');
             $internaltrainings->venue = Input::get('venue');
@@ -223,7 +234,7 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$internaltrainings = Internal_Training::find($id);
+		$internaltrainings = Internal_Training::find($training_id);
         $internaltrainings->isActive = false;
         $internaltrainings->save();
 

@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
 	<li><a href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
-	<li>{{ $internaltrainings->title }}</li>
+	<li>{{ $title }}</li>
 @stop
 
 @section('content')
@@ -14,14 +14,14 @@
 	<div class="col-sm-9 col-md-9 training-info">
 		<div class="panel">
 			<div class="row training-details">
-				<h2 class="panel-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{  $internaltrainings->title }}</h2>
+				<h2 class="panel-header">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $title }}</h2>
 				<div class="col-sm-1 col-md-1">
 					<h6>Theme: </h6>
 					<h6>Organizer:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->theme_topic }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Department of Mathematics</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $theme_topic }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $school_college }} </h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -29,8 +29,8 @@
 					<h6>Schedule:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->venue }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->date_start . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ") " . " | " . $internaltrainings->date_end . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ')' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $venue }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $date_start . ' (' . $time_start . "-" . $time_end . ") " . " | " . $date_end . ' (' . $time_start . "-" . $time_end . ')' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -42,11 +42,11 @@
 
 				<div class="col-sm-12 col-md-12">
 					<h6>Objectives:</h6>
-					<p>{{ $internaltrainings->objectives }}</p>
+					<p>{{ $objectives }}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Expected Outcome:</h6>
-					<p>{{ $internaltrainings->expected_outcome }}</p>
+					<p>{{ $expected_outcome }}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Focus Areas:</h6>
@@ -140,9 +140,8 @@
 		<div class="row panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a>Speakers</a></li>
-				<li id="participants-tab" role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants Information</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
+				
+				
 			</ul>
 			<div class="training-contents">
 			</div>

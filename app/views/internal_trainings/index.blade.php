@@ -37,11 +37,11 @@
 						@foreach($internaltrainings as $key => $value)
 						<tr>
 							<td><input type="checkbox" id="someCheckbox" name="someCheckbox" /></td>
-							<td>{{ $value->title }}</td>
-							<td>{{ $value->theme_topic }}</td>
-							<td>{{ $value->venue }}</td>
-							<td>{{ $value->date_start . "-" . $value->date_end }}</td>
-							<td>{{ $value->organizer_schools_colleges_id }}&nbsp;/&nbsp;{{ $value->organizer_department_id }}</td>
+							<td>{{ Training::where('isActive', '=', true)->where('id', '=', $value->training_id)->pluck('title') }}</td>
+							<td>{{ Training::where('isActive', '=', true)->where('id', '=', $value->training_id)->pluck('theme_topic') }}</td>
+							<td>{{ Training::where('isActive', '=', true)->where('id', '=', $value->training_id)->pluck('venue') }}</td>
+							<td>{{ Training::where('isActive', '=', true)->where('id', '=', $value->training_id)->pluck('schedule') }} </td>
+							<td>{{ School_College::where('isActive', '=', true)->where('id', '=', $value->organizer_schools_colleges_id)->pluck('name') }}&nbsp;/&nbsp;{{ School_College::where('isActive', '=', true)->where('id', '=', $value->organizer_department_id)->pluck('name') }}</td>
 							<td>
 								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
 								&nbsp;&nbsp;

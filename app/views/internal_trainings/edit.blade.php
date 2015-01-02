@@ -1,4 +1,4 @@
-@extends('layouts.index')
+-@extends('layouts.index')
 
 @section('title')
 	Edit Internal Training
@@ -17,7 +17,7 @@
 			<!-- if there are creation errors, they will show here -->
 			<!--{{ HTML::ul($errors->all()) }}-->
 
-			{{ Form::model($internaltrainings, array('route' => array('internal_trainings.update', $internaltrainings->id), 'method' => 'PUT')) }}
+			{{ Form::model($internaltrainings, array('route' => array('internal_trainings.update', $internaltrainings->training_id), 'method' => 'PUT')) }}
 
 				<div class="form-group">
 					{{ Form::label('title','Title: ') }}
@@ -39,14 +39,12 @@
 
 				<div class="form-group">
 					{{ Form::label('date_start','Date Start: ') }}
-					{{ Form::text('date_start') }}
-					{{ $errors->first('date_start') }}
+					<input type="text" id="date_start" name="date_start">
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('date_end','Date End: ') }}
-					{{ Form::text('date_end') }}
-					{{ $errors->first('date_end') }}
+					<input type="text" id="date_end" name="date_end">
 				</div>
 
 				<div class="form-group">
@@ -59,6 +57,12 @@
 					{{ Form::label('time_end','Time End: ') }}
 					{{ Form::text('time_end') }}
 					{{ $errors->first('time_end') }}
+				</div>
+
+				<div class="form-group">
+					{{ Form::label('format','Format: ') }}
+					{{ Form::text('format') }}
+					{{ $errors->first('format') }}
 				</div>
 
 				<div class="form-group">
@@ -86,20 +90,31 @@
 				</div>
 
 				<div class="form-group">
-					{{ Form::label('organizer_schools_colleges_id','Organizing School/College ID: ') }}
-					{{ Form::text('organizer_schools_colleges_id') }}
+					{{ Form::label('organizer_schools_colleges_id','Organizing School/College: ') }}
+					<select id="school_college_training_edit" style="width: 300px">
+				      		@foreach($schoolcollege as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+			      	</select>
+			      	<input type="hidden" name="selected_sch_training_edit" id="selected_sch_training_edit"><br>
 					{{ $errors->first('organizer_schools_colleges_id') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('organizer_department_id','Organizing Department ID: ') }}
-					{{ Form::text('organizer_department_id') }}
+					<select id="dept_training_edit" style="width: 300px">
+				      		@foreach($department as $key => $value)
+				        		<option> {{ $value->name }} </option>
+				      		@endforeach
+			      	</select>
+			      	<input type="hidden" name="selected_dept_training_edit" id="selected_dept_training_edit"><br>
 					{{ $errors->first('organizer_department_id') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('isTrainingPlan','Training Plan: ') }}
-					{{ Form::text('isTrainingPlan') }}
+					{{ Form::radio('isTrainingPlan', 1); }}YES
+					{{ Form::radio('isTrainingPlan', 0); }}NO
 					{{ $errors->first('isTrainingPlan') }}
 				</div>
 
@@ -111,5 +126,42 @@
 		</div>
 	</div>
 </div>
+
+@stop
+
+@section('page_js')
+
+    {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
+
+<script>
+
+	$('#date_start').datepicker({
+    	format: 'yyyy-mm-dd'
+	});
+	$('#date_start').datepicker('update', "{{ $currentstartdate }}" );
+	$('#date_start').datepicker('update');
+
+	$('#date_end').datepicker({
+    	format: 'yyyy-mm-dd'
+	});
+	$('#date_end').datepicker('update', "{{ $currentenddate }}" );
+	$('#date_end').datepicker('update');
+
+	jQuery(function(){
+    	RadionButtonSelectedValueSet('isTrainingPlan', $isTP);
+	})
+	
+	var schtr = $('#school_college_training_edit');
+	$(schtr).change(function() {
+		var elemtr = document.getElementById("selected_sch_training_edit");
+		elemtr.value = $(schtr).val();
+	});
+
+	var depttr = $('#dept_training_edit');
+	$(depttr).change(function() {
+		var elemdepttr = document.getElementById("selected_dept_training_edit");
+		elemdepttr.value = $(depttr).val();
+	});
+</script>
 
 @stop

@@ -61,6 +61,12 @@
 				</div>
 
 				<div class="form-group">
+					{{ Form::label('format','Format: ') }}
+					{{ Form::text('format') }}
+					{{ $errors->first('format') }}
+				</div>
+
+				<div class="form-group">
 					{{ Form::label('objectives','Objectives: ') }}
 					{{ Form::text('objectives') }}
 					{{ $errors->first('objectives') }}
