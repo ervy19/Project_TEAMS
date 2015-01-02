@@ -298,80 +298,6 @@
         ]
     },
     {
-        "name": "monolog/monolog",
-        "version": "1.11.0",
-        "version_normalized": "1.11.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
-            "reference": "ec3961874c43840e96da3a8a1ed20d8c73d7e5aa",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "psr/log": "~1.0"
-        },
-        "provide": {
-            "psr/log-implementation": "1.0.0"
-        },
-        "require-dev": {
-            "aws/aws-sdk-php": "~2.4, >2.4.8",
-            "doctrine/couchdb": "~1.0@dev",
-            "graylog2/gelf-php": "~1.0",
-            "phpunit/phpunit": "~3.7.0",
-            "raven/raven": "~0.5",
-            "ruflin/elastica": "0.90.*",
-            "videlalvaro/php-amqplib": "~2.4"
-        },
-        "suggest": {
-            "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
-            "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
-            "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-            "ext-mongo": "Allow sending log messages to a MongoDB server",
-            "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-            "raven/raven": "Allow sending log messages to a Sentry server",
-            "rollbar/rollbar": "Allow sending log messages to Rollbar",
-            "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-            "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
-        },
-        "time": "2014-09-30 13:30:58",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.11.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Monolog\\": "src/Monolog"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jordi Boggiano",
-                "email": "j.boggiano@seld.be",
-                "homepage": "http://seld.be"
-            }
-        ],
-        "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
-        "homepage": "http://github.com/Seldaek/monolog",
-        "keywords": [
-            "log",
-            "logging",
-            "psr-3"
-        ]
-    },
-    {
         "name": "nikic/php-parser",
         "version": "v0.9.5",
         "version_normalized": "0.9.5.0",
@@ -1569,123 +1495,6 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "laravel/framework",
-        "version": "v4.2.12",
-        "version_normalized": "4.2.12.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/laravel/framework.git",
-            "reference": "70a60f2ff9b96b3fcd88a68ef5382557733fe671"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/70a60f2ff9b96b3fcd88a68ef5382557733fe671",
-            "reference": "70a60f2ff9b96b3fcd88a68ef5382557733fe671",
-            "shasum": ""
-        },
-        "require": {
-            "classpreloader/classpreloader": "~1.0.2",
-            "d11wtq/boris": "~1.0",
-            "filp/whoops": "1.1.*",
-            "ircmaxell/password-compat": "~1.0",
-            "jeremeamia/superclosure": "~1.0.1",
-            "monolog/monolog": "~1.6",
-            "nesbot/carbon": "~1.0",
-            "patchwork/utf8": "1.1.*",
-            "php": ">=5.4.0",
-            "phpseclib/phpseclib": "0.3.*",
-            "predis/predis": "0.8.*",
-            "stack/builder": "~1.0",
-            "swiftmailer/swiftmailer": "~5.1",
-            "symfony/browser-kit": "2.5.*",
-            "symfony/console": "2.5.*",
-            "symfony/css-selector": "2.5.*",
-            "symfony/debug": "2.5.*",
-            "symfony/dom-crawler": "2.5.*",
-            "symfony/finder": "2.5.*",
-            "symfony/http-foundation": "2.5.*",
-            "symfony/http-kernel": "2.5.*",
-            "symfony/process": "2.5.*",
-            "symfony/routing": "2.5.*",
-            "symfony/security-core": "2.5.*",
-            "symfony/translation": "2.5.*"
-        },
-        "replace": {
-            "illuminate/auth": "self.version",
-            "illuminate/cache": "self.version",
-            "illuminate/config": "self.version",
-            "illuminate/console": "self.version",
-            "illuminate/container": "self.version",
-            "illuminate/cookie": "self.version",
-            "illuminate/database": "self.version",
-            "illuminate/encryption": "self.version",
-            "illuminate/events": "self.version",
-            "illuminate/exception": "self.version",
-            "illuminate/filesystem": "self.version",
-            "illuminate/foundation": "self.version",
-            "illuminate/hashing": "self.version",
-            "illuminate/html": "self.version",
-            "illuminate/http": "self.version",
-            "illuminate/log": "self.version",
-            "illuminate/mail": "self.version",
-            "illuminate/pagination": "self.version",
-            "illuminate/queue": "self.version",
-            "illuminate/redis": "self.version",
-            "illuminate/remote": "self.version",
-            "illuminate/routing": "self.version",
-            "illuminate/session": "self.version",
-            "illuminate/support": "self.version",
-            "illuminate/translation": "self.version",
-            "illuminate/validation": "self.version",
-            "illuminate/view": "self.version",
-            "illuminate/workbench": "self.version"
-        },
-        "require-dev": {
-            "aws/aws-sdk-php": "~2.6",
-            "iron-io/iron_mq": "~1.5",
-            "mockery/mockery": "~0.9",
-            "pda/pheanstalk": "~2.1",
-            "phpunit/phpunit": "~4.0"
-        },
-        "suggest": {
-            "doctrine/dbal": "Allow renaming columns and dropping SQLite columns."
-        },
-        "time": "2014-12-11 17:14:36",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.2-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/Illuminate/Queue/IlluminateQueueClosure.php"
-            ],
-            "files": [
-                "src/Illuminate/Support/helpers.php"
-            ],
-            "psr-0": {
-                "Illuminate": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com"
-            }
-        ],
-        "description": "The Laravel Framework.",
-        "keywords": [
-            "framework",
-            "laravel"
-        ]
-    },
-    {
         "name": "zizaco/confide",
         "version": "4.1.1",
         "version_normalized": "4.1.1.0",
@@ -1880,6 +1689,374 @@
             "illuminate",
             "laravel",
             "roles"
+        ]
+    },
+    {
+        "name": "monolog/monolog",
+        "version": "1.12.0",
+        "version_normalized": "1.12.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Seldaek/monolog.git",
+            "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
+            "reference": "1fbe8c2641f2b163addf49cc5e18f144bec6b19f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "psr/log": "~1.0"
+        },
+        "provide": {
+            "psr/log-implementation": "1.0.0"
+        },
+        "require-dev": {
+            "aws/aws-sdk-php": "~2.4, >2.4.8",
+            "doctrine/couchdb": "~1.0@dev",
+            "graylog2/gelf-php": "~1.0",
+            "phpunit/phpunit": "~4.0",
+            "raven/raven": "~0.5",
+            "ruflin/elastica": "0.90.*",
+            "videlalvaro/php-amqplib": "~2.4"
+        },
+        "suggest": {
+            "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+            "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+            "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+            "ext-mongo": "Allow sending log messages to a MongoDB server",
+            "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+            "raven/raven": "Allow sending log messages to a Sentry server",
+            "rollbar/rollbar": "Allow sending log messages to Rollbar",
+            "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+            "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+        },
+        "time": "2014-12-29 21:29:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.12.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Monolog\\": "src/Monolog"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be"
+            }
+        ],
+        "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+        "homepage": "http://github.com/Seldaek/monolog",
+        "keywords": [
+            "log",
+            "logging",
+            "psr-3"
+        ]
+    },
+    {
+        "name": "tijsverkoyen/css-to-inline-styles",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tijsverkoyen/CssToInlineStyles.git",
+            "reference": "c50e8cd86acb0e528855c59653006e96d094a5b1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tijsverkoyen/CssToInlineStyles/zipball/c50e8cd86acb0e528855c59653006e96d094a5b1",
+            "reference": "c50e8cd86acb0e528855c59653006e96d094a5b1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/css-selector": "~2.1"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2014-08-01 18:02:04",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "TijsVerkoyen\\CssToInlineStyles\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Tijs Verkoyen",
+                "email": "css_to_inline_styles@verkoyen.eu",
+                "role": "Developer"
+            }
+        ],
+        "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
+        "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles"
+    },
+    {
+        "name": "laravel/framework",
+        "version": "v4.2.16",
+        "version_normalized": "4.2.16.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel/framework.git",
+            "reference": "31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f",
+            "reference": "31fe6a5747bbe3c2df21dc4cc8f291e75ab6144f",
+            "shasum": ""
+        },
+        "require": {
+            "classpreloader/classpreloader": "~1.0.2",
+            "d11wtq/boris": "~1.0",
+            "filp/whoops": "1.1.*",
+            "ircmaxell/password-compat": "~1.0",
+            "jeremeamia/superclosure": "~1.0.1",
+            "monolog/monolog": "~1.6",
+            "nesbot/carbon": "~1.0",
+            "patchwork/utf8": "1.1.*",
+            "php": ">=5.4.0",
+            "phpseclib/phpseclib": "0.3.*",
+            "predis/predis": "0.8.*",
+            "stack/builder": "~1.0",
+            "swiftmailer/swiftmailer": "~5.1",
+            "symfony/browser-kit": "2.5.*",
+            "symfony/console": "2.5.*",
+            "symfony/css-selector": "2.5.*",
+            "symfony/debug": "2.5.*",
+            "symfony/dom-crawler": "2.5.*",
+            "symfony/finder": "2.5.*",
+            "symfony/http-foundation": "2.5.*",
+            "symfony/http-kernel": "2.5.*",
+            "symfony/process": "2.5.*",
+            "symfony/routing": "2.5.*",
+            "symfony/security-core": "2.5.*",
+            "symfony/translation": "2.5.*"
+        },
+        "replace": {
+            "illuminate/auth": "self.version",
+            "illuminate/cache": "self.version",
+            "illuminate/config": "self.version",
+            "illuminate/console": "self.version",
+            "illuminate/container": "self.version",
+            "illuminate/cookie": "self.version",
+            "illuminate/database": "self.version",
+            "illuminate/encryption": "self.version",
+            "illuminate/events": "self.version",
+            "illuminate/exception": "self.version",
+            "illuminate/filesystem": "self.version",
+            "illuminate/foundation": "self.version",
+            "illuminate/hashing": "self.version",
+            "illuminate/html": "self.version",
+            "illuminate/http": "self.version",
+            "illuminate/log": "self.version",
+            "illuminate/mail": "self.version",
+            "illuminate/pagination": "self.version",
+            "illuminate/queue": "self.version",
+            "illuminate/redis": "self.version",
+            "illuminate/remote": "self.version",
+            "illuminate/routing": "self.version",
+            "illuminate/session": "self.version",
+            "illuminate/support": "self.version",
+            "illuminate/translation": "self.version",
+            "illuminate/validation": "self.version",
+            "illuminate/view": "self.version",
+            "illuminate/workbench": "self.version"
+        },
+        "require-dev": {
+            "aws/aws-sdk-php": "~2.6",
+            "iron-io/iron_mq": "~1.5",
+            "mockery/mockery": "~0.9",
+            "pda/pheanstalk": "~2.1",
+            "phpunit/phpunit": "~4.0"
+        },
+        "suggest": {
+            "doctrine/dbal": "Allow renaming columns and dropping SQLite columns."
+        },
+        "time": "2014-12-22 20:56:10",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/Illuminate/Queue/IlluminateQueueClosure.php"
+            ],
+            "files": [
+                "src/Illuminate/Support/helpers.php"
+            ],
+            "psr-0": {
+                "Illuminate": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "The Laravel Framework.",
+        "keywords": [
+            "framework",
+            "laravel"
+        ]
+    },
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "e69a5e4d0ffa7fb6f171859e0a04346e580df30b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/e69a5e4d0ffa7fb6f171859e0a04346e580df30b",
+            "reference": "e69a5e4d0ffa7fb6f171859e0a04346e580df30b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2014-03-02 15:22:49",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "maatwebsite/excel",
+        "version": "v1.2.3",
+        "version_normalized": "1.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
+            "reference": "331792997e21cc37e027abd10e5d988a624f4569"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/331792997e21cc37e027abd10e5d988a624f4569",
+            "reference": "331792997e21cc37e027abd10e5d988a624f4569",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/cache": "~4.0|~5.0",
+            "illuminate/config": "~4.0|~5.0",
+            "illuminate/filesystem": "~4.0|~5.0",
+            "illuminate/support": "~4.0|~5.0",
+            "nesbot/carbon": "~1.0",
+            "php": ">=5.3.0",
+            "phpoffice/phpexcel": "~1.8.0",
+            "tijsverkoyen/css-to-inline-styles": "~1.5"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "orchestra/testbench": "~2.2.0",
+            "phpseclib/phpseclib": ">=0.3.7",
+            "phpunit/phpunit": "~4.0"
+        },
+        "suggest": {
+            "illuminate/http": "~4.0|~5.0",
+            "illuminate/routing": "~4.0|~5.0",
+            "illuminate/view": "~4.0|~5.0"
+        },
+        "time": "2014-12-16 21:01:32",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/Maatwebsite/Excel",
+                "tests/TestCase.php"
+            ],
+            "psr-0": {
+                "Maatwebsite\\Excel\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maatwebsite.nl",
+                "email": "patrick@maatwebsite.nl"
+            }
+        ],
+        "description": "An eloquent way of importing and exporting Excel and CSV in Laravel 4 with the power of PHPExcel",
+        "keywords": [
+            "PHPExcel",
+            "batch",
+            "csv",
+            "excel",
+            "export",
+            "import",
+            "laravel"
         ]
     }
 ]
