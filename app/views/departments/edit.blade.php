@@ -30,7 +30,8 @@
 				</div>
 				<div class="form-group">
 					{{ Form::label('schoolcollege', 'School/College: ') }}
-						<select id="school_college" style="width: 300px">
+						<select id="school_college_dept_edit" style="width: 300px">
+							<option selected disabled>Select School/College</option>
 				      		@foreach($schoolcollege as $key => $value)
 				        		<option> {{ $value->name }} </option>
 				      		@endforeach
@@ -104,8 +105,11 @@
 	        scArray.push('<?php echo $schselected; ?>');
     	$('#school_college').select2('val',scArray);
 
-		var elemsch = document.getElementById("selected_sch_edit");
-			elemsch.value = scArray;
+    	var schde = $('#school_college_dept_edit');
+		$(schde).change(function() {
+		var elemsde = document.getElementById("selected_sch_edit");
+		elemsde.value = $(schde).val();
+		});
 
     </script>
 

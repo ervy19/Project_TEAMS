@@ -10,9 +10,11 @@ class DepartmentsController extends \BaseController {
 	public function index()
 	{
 		$departments = DB::table('departments')->where('isActive', '=', true)->get();
+		$scname = Department::where('isActive', '=', true)->lists('schools_colleges_id');
 
 		return View::make('departments.index')
-			->with('departments', $departments );
+			->with('departments', $departments)
+			->with('scname', $scname);
 	}
 
 
@@ -155,7 +157,7 @@ class DepartmentsController extends \BaseController {
         } else {
         	$departmentId = Department::where('name', Input::get('name'))->pluck('id');
         	$departmentName = Input::get('name');
-        	$departmentSchId = School_College::where('name', '=', Input::get('selected_sch_edit'))->where('isActive', '=', true)->pluck('id');
+        	$departmentSchId = School_College::where('isActive', '=', true)->where('name', '=', Input::get('selected_sch_edit'))->pluck('id');
 			$currentscid = Department_SC::where('department_id', $id)->lists('skills_competencies_id');
 			$currentscs = array();
 			foreach($currentscid as $key)

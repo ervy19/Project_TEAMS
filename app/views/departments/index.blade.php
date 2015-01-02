@@ -34,8 +34,7 @@
 					<tr>
 						<td>{{ $value->name }}</td>
 						<td>Sample</td>
-						<td>Sample</td>
-						<td>Sample</td>
+						<td>{{ School_College::where('isActive', '=', true)->where('id', '=', $value->schools_colleges_id)->pluck('name') }}</td>
 						<td>
 							<a class="btn btn-small btn-info" href="{{ URL::to('departments/' . $value->id . '/edit') }}">Edit</a>
 							&nbsp;&nbsp;
