@@ -7,7 +7,6 @@
 @section('content')
 
 <div class="col-sm-12 col-md-12">
-
 	<div class="panel">
 		<div class="row">
 
@@ -110,5 +109,7 @@
 			{{ Form::close() }}
 
 		</div>
+	</div>
+</div>
 
 @stop

@@ -85,7 +85,6 @@ class TrainingAssessmentsController extends \BaseController {
 		}
 	}
 
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -123,5 +122,15 @@ class TrainingAssessmentsController extends \BaseController {
 		}
 	}
 
+
+	public function accomplish($type)
+	{
+
+	}
+
+	public function showAcomplished($type)
+	{
+
+	}
 
 }

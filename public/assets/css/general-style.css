@@ -53,7 +53,16 @@ input[type="submit"] {
   padding: 6px 12px;
 }
 
-.btn-primary, input[type="submit"] {
+.btn:focus {
+  outline: none;
+}
+
+.btn-default {
+  border-radius: 0;
+}
+
+.btn-primary, .btn-primary:focus, .btn-primary:active,
+input[type="submit"] {
   background: rgba(255,57,235,0.6);
   border-radius: 0;
   border: none;
@@ -112,6 +121,14 @@ input[type="radio"] {
 
 .error-message {
   color: #a94442;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-content {
+  border-radius: 0;
 }
 
 /**************************************

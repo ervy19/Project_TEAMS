@@ -37,13 +37,14 @@ class CampusesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'campuses', 'address' => 'required'
+            'name' => 'required', 
+            'address' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('campuses/create')
+            return Redirect::to('campuses')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
