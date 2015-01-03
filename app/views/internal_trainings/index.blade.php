@@ -37,11 +37,11 @@
 						@foreach($internaltrainings as $key => $value)
 						<tr>
 							<td><input type="checkbox" id="someCheckbox" name="someCheckbox" /></td>
-							<td>{{ $value->title }}</td>
-							<td>{{ $value->theme_topic }}</td>
-							<td>{{ $value->venue }}</td>
-							<td>{{ $value->date_start . "-" . $value->date_end }}</td>
-							<td>{{ $value->organizer_schools_colleges_id }}&nbsp;/&nbsp;{{ $value->organizer_department_id }}</td>
+							<th>{{ $value->title }}</th>
+							<th>{{ $value->theme_topic }}</th>
+							<th>{{ $value->venue }}</th>
+							<th>{{ $value->schedule }}</th>
+							<th>Organizer</th>
 							<td>
 								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
 								&nbsp;&nbsp;

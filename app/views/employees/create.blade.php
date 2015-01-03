@@ -66,11 +66,11 @@
 					{{ $errors->first('tenure') }}
 				</div>
 
-				<div id="dynamicInput">
+				<div class="form-group" id="dynamicInput">
 			     	<br>
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
-			    <input type="hidden" id="count" value="" />
+			    <input type="text" id='count' value=2 />
 				{{ Form::submit('Add Employee') }}
 
 			{{ Form::close() }}
@@ -98,7 +98,7 @@
 								;
 
 		    document.getElementById(divName).appendChild(newdiv);
-		    document.getElementById('count').value = count;
+		    //document.getElementById('count').value = count;
 		    count++;    
 		}
 	</script>

@@ -1,4 +1,4 @@
-@extends('layouts.index')
+-@extends('layouts.index')
 
 @section('title')
 	Update Internal Training Information - {{ $internaltrainings->title or '' }}
@@ -95,7 +95,6 @@
     {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
 
 <script>
-
 	$("#dd-schoolscolleges").select2({
 		placeholder: 'HEHEHE',
 	    allowClear: true

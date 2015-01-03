@@ -12,7 +12,7 @@ class InternalTrainingsController extends \BaseController {
 		$internaltrainings = Training::where('isActive', '=', true)->get();
 
 		return View::make('internal_trainings.index')
-			->with('internaltrainings', $internaltrainings );
+			->with('internaltrainings', $internaltrainings);
 	}
 
 
@@ -68,6 +68,7 @@ class InternalTrainingsController extends \BaseController {
             //Internal Trainings Table
             $internaltrainings = new Internal_Training;
             $internaltrainings->training_id = $trainings->id;
+
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
             
@@ -97,21 +98,11 @@ class InternalTrainingsController extends \BaseController {
 
 		return View::make('internal_trainings.show')
 			->with('internaltrainings', $internaltrainings);
-			/*->with('title', $title)
-			->with('theme_topic', $theme_topic)
-			->with('school_college', $school_college)
-			->with('venue', $venue)
-			->with('date_start', $date_start)
-			->with('date_end', $date_end)
-			->with('time_start', $time_start)
-			->with('time_end', $time_end)
-			->with('objectives', $objectives)
-			->with('expected_outcome', $expected_outcome);*/
 	}
 
 	public function showParticipants($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.participants')
 			->with('internaltrainings', $internaltrainings);
@@ -119,7 +110,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showAfterActivityEvaluation($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.after-activity-evaluation')
 			->with('internaltrainings', $internaltrainings);
@@ -127,7 +118,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showTrainingEffectivenessReport($id)
 	{
-		 $internaltrainings = Internal_Training::find($id);
+		 $internaltrainings = Internal_Training::find($training_id);
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings);
