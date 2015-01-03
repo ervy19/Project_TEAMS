@@ -4,7 +4,9 @@ class Internal_Training extends Eloquent {
 
 	protected $table ='internal_trainings';
 
-	protected $fillable = array('training_id', 'format', 'objectives', 'expected_outcome', 'evaluation_narrative', 'recommendations', 'organizer_schools_colleges_id', 'organizer_department_id', 'isTrainingPlan', 'isActive');
+	protected $fillable = array('format', 'objectives', 'expected_outcome', 'evaluation_narrative', 'recommendations', 'organizer_schools_colleges_id', 'organizer_department_id', 'isTrainingPlan', 'isActive');
+
+	protected $guarded = 'training_id';
 
 	public function department() {
 		return $this->belongsTo('Department');
@@ -15,7 +17,7 @@ class Internal_Training extends Eloquent {
 	}
 
 	public function training() {
-		return $this->hasOne('Training');
+		return $this->belongsTo('Training');
 	}
 }
 

@@ -34,7 +34,7 @@ class CreateActivityEvaluationsTable extends Migration {
 			$table->decimal('venue_criterion2', 4, 1);
 			$table->text('comments');
 			
-			$table->integer('training_id')->unsigned();
+			$table->integer('internal_training_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -42,7 +42,7 @@ class CreateActivityEvaluationsTable extends Migration {
 
 		Schema::table('activity_evaluations', function($table) 
 		{
-			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
+			$table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

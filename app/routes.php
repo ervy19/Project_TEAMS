@@ -22,6 +22,10 @@ Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', 
 
 Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
+Route::get('{type}/accomplish', array('as' => 'training_assessment.accomplish', function()
+{
+	return View::make('training_assessments/accomplish');
+}));
 
 
 
@@ -100,6 +104,7 @@ Route::put('{type}/{training_assessment}', array('as' => 'training_assessment.up
 Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessmentsController@update'));
 
 Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
+
 
 
 

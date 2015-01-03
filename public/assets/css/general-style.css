@@ -14,7 +14,7 @@ body {
 }
 
 a {
-    color: #FE8BF2;
+    color: rgba(255,57,235,0.5);
 }
 
 a:hover {
@@ -107,16 +107,18 @@ input[type="radio"] {
     border-bottom: 1px #DDD solid; 
 }
 
-.label {
+.label,.alert {
   border-radius: 0px;
 }
 
-.label-success {
-    background: #2ecc71;
+.label-success, .alert-success {
+  color: #FFF;
+  background: #2ecc71;
 }
 
-.label-danger {
-    background: #e74c3c;
+.label-danger, .alert-danger {
+  color: #FFF;
+  background: #e74c3c;
 }
 
 .error-message {
@@ -129,6 +131,10 @@ input[type="radio"] {
 
 .modal-content {
   border-radius: 0;
+}
+
+.confirm-delete {
+  font-size: 1.2em;
 }
 
 /**************************************
@@ -266,7 +272,7 @@ input[type="radio"] {
 .navbar-default .navbar-nav>li>a:hover
 {
     background: transparent;
-    color: rgba(255,57,235,1);
+    color: rgba(255,57,235,0.65);
 }
 
 .dropdown-menu {
@@ -289,13 +295,13 @@ input[type="radio"] {
 .dropdown-menu>.active>a:focus
 {
     background: transparent;
-    color: rgba(255,57,235,1);
+    color: rgba(255,57,235,0.65);
     font-weight: 400;
 }
 
 .dropdown-menu>li>a:hover {
-    background: transparent;
-    color: rgba(255,57,235,1);
+    background: rgba(255,57,235,0.5);
+    color: #555;
 }
 
 .badge {

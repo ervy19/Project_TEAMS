@@ -17,7 +17,7 @@ class CreateAssessmentItemsTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 255);
 
-			$table->integer('training_id')->unsigned();
+			$table->integer('internal_training_id')->unsigned();
 			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -25,7 +25,7 @@ class CreateAssessmentItemsTable extends Migration {
 
 		Schema::table('assessment_items', function($table) 
 		{
-      		 $table->foreign('training_id')->references('training_id')->on('internal_trainings');
+      		 $table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

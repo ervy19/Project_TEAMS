@@ -37,25 +37,31 @@ class CampusesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required', 
-            'address' => 'required'
+            'name' => 'required|max:255', 
+            'address' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('campuses')
+        	return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
+            /*return Redirect::to('campuses')
                 ->withErrors($validator)
-                ->withInput(Input::except('password'));
+                ->withInput(Input::except('password'));*/
         } else {
             // store
             $campuses = new Campus;
             $campuses->name = Input::get('name');
             $campuses->address = Input::get('address');
             $campuses->save();
+
+            return Response::json(['success' => true]);
             // redirect
-            Session::flash('message', 'Successfully created Campus!');
-            return Redirect::to('campuses');
+            /*Session::flash('message', 'Successfully created Campus!');
+            return Redirect::to('campuses');*/
         }
 	}
 
@@ -83,10 +89,12 @@ class CampusesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$campuses = Campus::find($id);
+		$campuses = Campus::find($id)->toArray();
 
-		return View::make('campuses.edit')
-			->with('campuses', $campuses );
+		return Response::json([
+			'success' => true,
+			'result' => $campuses
+			]);
 	}
 
 
@@ -101,15 +109,17 @@ class CampusesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'campuses' => 'required'
+            'name' => 'required|max:255', 
+            'address' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('campuses/create')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
         } else {
             // store
             $campuses = Campus::find($id);
@@ -117,9 +127,7 @@ class CampusesController extends \BaseController {
             $campuses->address = Input::get('address');
             $campuses->save();
 
-            // redirect
-            Session::flash('message', 'Successfully updated Campus!');
-            return Redirect::to('campuses');
+            return Response::json(['success' => true]);
         }
 	}
 

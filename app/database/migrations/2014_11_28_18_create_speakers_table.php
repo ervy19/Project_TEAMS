@@ -20,7 +20,7 @@ class CreateSpeakersTable extends Migration {
 			$table->string('educational_background', 255);
 			$table->string('work_background', 255);
 			
-			$table->integer('training_id')->unsigned();
+			$table->integer('internal_training_id')->unsigned();
 			
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -28,7 +28,7 @@ class CreateSpeakersTable extends Migration {
 
 		Schema::table('speakers', function($table) 
 		{
-			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
+			$table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 

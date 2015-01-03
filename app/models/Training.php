@@ -4,7 +4,13 @@ class Training extends Eloquent {
 
 	protected $table ='trainings';
 
-	protected $fillable = array('id', 'title', 'theme_topic', 'venue', 'schedule', 'isTrainingPlan', 'isActive');
+	protected $fillable = array('title', 'theme_topic', 'venue', 'schedule', 'isTrainingPlan', 'isActive');
+
+	protected $guarded = 'id';
+
+	public function internal_training() {
+		return $this->hasOne('Internal_Training');
+	}
 
 }
 

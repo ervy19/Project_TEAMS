@@ -18,6 +18,7 @@
 
     <!-- BEGIN SELECT2 CSS -->
     {{ HTML::style('assets/css/select2.css'); }}
+    {{ HTML::style('assets/css/select2-bootstrap.css'); }}
     
     <!-- BEGIN PAGE LEVEL STYLES -->
     @yield('page_css')

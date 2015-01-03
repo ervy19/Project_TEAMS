@@ -23,7 +23,7 @@ class CreateFocusAreaTable extends Migration {
 			$table->boolean('materials_production');
 			$table->string('others', 255);
 
-			$table->integer('training_id')->unsigned();
+			$table->integer('internal_training_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -31,7 +31,7 @@ class CreateFocusAreaTable extends Migration {
 
 		Schema::table('focus_area', function($table) 
 		{
-			$table->foreign('training_id')->references('training_id')->on('internal_trainings');
+			$table->foreign('internal_training_id')->references('training_id')->on('internal_trainings');
   		});
 	}
 
