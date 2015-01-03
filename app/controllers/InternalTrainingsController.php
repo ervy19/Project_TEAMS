@@ -102,7 +102,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showParticipants($id)
 	{
-		 $internaltrainings = Internal_Training::find($training_id);
+		$internaltrainings = Training::with('internal_training')->find($id);
 
 		return View::make('internal_trainings.participants')
 			->with('internaltrainings', $internaltrainings);
@@ -110,7 +110,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showAfterActivityEvaluation($id)
 	{
-		 $internaltrainings = Internal_Training::find($training_id);
+		 $internaltrainings = Training::with('internal_training')->find($id);
 
 		return View::make('internal_trainings.after-activity-evaluation')
 			->with('internaltrainings', $internaltrainings);
@@ -118,7 +118,7 @@ class InternalTrainingsController extends \BaseController {
 
 	public function showTrainingEffectivenessReport($id)
 	{
-		 $internaltrainings = Internal_Training::find($training_id);
+		$internaltrainings = Training::with('internal_training')->find($id);
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings);

@@ -136,8 +136,9 @@
 		<div class="row panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a>Speakers</a></li>
-				
-				
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants Information</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
 			</div>
