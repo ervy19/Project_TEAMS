@@ -10,14 +10,15 @@
 
 @section('content')
 
-
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
 
 		<h1 class="panel-header">Campuses</h1>
 
-		<div class="message-log"></div>
+		<div class="message-log">
+			
+		</div>
 
 		<button type="button" id="btn-add-campus" class="btn btn-primary" data-toggle="modal" data-target="#addCampus">
 			Add Campus<i class="fa fa-plus fa-lg add-plus"></i>
@@ -33,13 +34,14 @@
 					<th>Action</th>
 				</tr>
 			</thead>
+			@if(isset($campuses))
 			<tbody>
 				@foreach($campuses as $key => $value)
 				<tr>
 					<td>{{ $value->name }}</td>
 					<td>{{ $value->address }}</td>
 					<td>
-						<button type="submit" class="btn btn-info btn-edit-campus" data-id="{{ $value->id }}">
+						<button type="button" class="btn btn-info btn-edit-campus" data-id="{{ $value->id }}">
 							<i class="fa fa-edit"></i>&nbsp;Edit
 						</button>
 						&nbsp;
@@ -48,8 +50,9 @@
 					   	{{ Form::close() }}	   
 					</td>
 				</tr>
-				@endforeach
+				@endforeach			
 			</tbody>
+			@endif
 		</table>
 		</div>
 	</div>
@@ -166,26 +169,133 @@
 	<script type="text/javascript">
 		$(document).ready( function () {
 
-			var table = $('#tb-campuses').dataTable();
-
-			$('#btn-add-campus').on('click', function (e) {
-				addCampus();
+			var table = $('#tb-campuses').dataTable({
+		        "ajax": "{{ URL::to('campuses') }}",
+		        "columns": [
+		            { "data": "name" },
+		            { "data": "address" },
+		            { 
+		            	"data": "id",
+		            	"render": function ( data, type, full, meta ) {
+					      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;{{ Form::open(array("route" => array("campuses.destroy", '+data+'), "method" => "delete", "class" => "form-archive form-delete")) }}<button type="submit" class="btn btn-small btn-danger btn-delete-campus"><i class="fa fa-trash"></i>&nbsp;Archive</button>{{ Form::close() }}';
+					    }
+		        	}
+		        ]
 			});
 
-			$('.btn-edit-campus').on('click', function (e) {
+			//$('.message-log').delay(3000).fadeOut(300);
+
+			/*$('#btn-add-campus').on('click', function (e) {
+				addCampus();
+			});*/
+
+			$('form[data-add]').on('submit', function (e) {
+
+					e.preventDefault();
+
+					var form = $(this);
+					var method = form.find('input[name="method"]').val() || 'POST';
+					var url = form.prop('action');
+
+					$.ajax({
+						type: method,
+						url: url,
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								//RefreshTable('#tb-campuses',url);
+								$('#addCampus').modal('hide');
+								$('.message-log').append('<div class="alert alert-success">Campus successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								//table.ajax.url("{{ URL::to('campuses')}}").load();
+								//window.location.reload(true);
+
+								table.fnDestroy();
+
+								table = $('#tb-campuses').dataTable({
+							        "ajax": "{{ URL::to('campuses') }}",
+							        "columns": [
+							            { "data": "name" },
+							            { "data": "address" },
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+										      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;{{ Form::open(array("route" => array("campuses.destroy", '+data+'), "method" => "delete", "class" => "form-archive form-delete")) }}<button type="submit" class="btn btn-small btn-danger btn-delete-campus"><i class="fa fa-trash"></i>&nbsp;Archive</button>{{ Form::close() }}';
+										    }
+							        	}
+							        ]
+								});
+							}
+							else
+							{
+								$('.error-message').empty();
+								$('#error-addcampus-name').append(data.errors.name);
+								$('#error-addcampus-address').append(data.errors.address);
+							}
+						}
+					});
+				});
+
+			$('#tb-campuses').on('click', '.btn-edit-campus', function (e) {
 				var id = $(this).attr('data-id');
 
 				var form = $('form[data-update]');
 				var method = form.find('input[name="_method"]').val() || 'POST';
 				var url = form.prop('action');
+
+				$('#editCampus').on('hidden.bs.modal', function (e) {
+					id = '';
+				});
 		
 				editCampusInformation(id,url);
 
-				updateCampusInformation(id,method,url);
+				$('form[data-update]').on('submit', function (e) {
 
+					e.preventDefault();
+
+					$.ajax({
+						type: method,
+						url: url + '/' + id,
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								//RefreshTable('#tb-campuses',url);
+								$('#editCampus').modal('hide');
+								$('.message-log').append('<div class="alert alert-success">Campus information successfully updated.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								//window.location.reload(true);
+								//table.ajax.url( "{{ URL::to('campuses') }}" ).load();
+								
+								table.fnDestroy();
+
+								table = $('#tb-campuses').dataTable({
+							        "ajax": "{{ URL::to('campuses') }}",
+							        "columns": [
+							            { "data": "name" },
+							            { "data": "address" },
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+										      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;{{ Form::open(array("route" => array("campuses.destroy", '+data+'), "method" => "delete", "class" => "form-archive form-delete")) }}<button type="submit" class="btn btn-small btn-danger btn-delete-campus"><i class="fa fa-trash"></i>&nbsp;Archive</button>{{ Form::close() }}';
+										    }
+							        	}
+							        ]
+								});
+
+							}
+							else
+							{
+								//alert(data);
+								$('.error-message').empty();
+								$('#error-updatecampus-name').append(data.errors.name);
+								$('#error-updatecampus-address').append(data.errors.address);
+							}
+						}
+					});
+				});
 			});
 
-			$('.btn-delete-campus').on('click', function (e) {
+			$('#tb-campuses').on('click', '.btn-delete-campus', function (e) {
 				var $form=$(this).closest('form'); 
 			    e.preventDefault();
 			    $('#deleteCampus').modal({ backdrop: 'static', keyboard: false })
@@ -207,39 +317,7 @@
 					  .removeAttr('checked')
 					  .removeAttr('selected');
 				});
-			}
-
-			function addCampus() {
-				$('form[data-add]').on('submit', function (e) {
-
-					var form = $(this);
-					var method = form.find('input[name="method"]').val() || 'POST';
-					var url = form.prop('action');
-
-					$.ajax({
-						type: method,
-						url: url,
-						data: form.serialize(),
-						success: function(data) {
-							if(data.success)
-							{
-								//RefreshTable('#tb-campuses',url);
-								$('#addCampus').modal('hide');
-								//$('.message-log').append('<div class="alert alert-success">Campus successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
-								window.location.reload(true);
-							}
-							else
-							{
-								$('.error-message').empty();
-								$('#error-addcampus-name').append(data.errors.name);
-								$('#error-addcampus-address').append(data.errors.address);
-							}
-						}
-					});
-
-					e.preventDefault();
-				});
-			}
+			}			
 
 			function editCampusInformation(id,url) {
 
@@ -258,35 +336,7 @@
 				});
 			}
 
-			function updateCampusInformation(id,method,url) {
-				$('form[data-update]').on('submit', function (e) {
-					$.ajax({
-						type: method,
-						url: url + '/' + id,
-						data: (this).serialize(),
-						success: function(data) {
-							if(data.success)
-							{
-								//RefreshTable('#tb-campuses',url);
-								$('#editCampus').modal('hide');
-								//$('.message-log').append('<div class="alert alert-success">Campus information successfully updated.</div>').fadeIn(300).delay(3000).fadeOut(300);
-								window.location.reload(true);
-							}
-							else
-							{
-								//alert(data);
-								$('.error-message').empty();
-								$('#error-updatecampus-name').append(data.errors.name);
-								$('#error-updatecampus-address').append(data.errors.address);
-							}
-						}
-					});
-
-					//table.ajax.url(url).load().delay(10000);
-
-					e.preventDefault();
-				});
-			}
+			
 
 		});
 	</script>

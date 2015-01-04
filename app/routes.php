@@ -43,7 +43,10 @@ Route::get('dashboard', array('as' => 'dashboard', function()
 
 
 
-Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
+Route::get('external_trainings/pending-approval', array(
+	'as' => 'external_trainings.pending-approval', 
+	'uses' => 'ExternalTrainingsController@indexQueue'
+	));
 
 Route::resource('employees','EmployeesController');
 

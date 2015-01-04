@@ -11,10 +11,17 @@ class CampusesController extends \BaseController {
 	{
 		$campuses = DB::table('campuses')->where('isActive', '=', true)->get();
 
-		return View::make('campuses.index')
-			->with('campuses', $campuses );
-	}
+			
+			//->with('campuses', $campuses );
 
+			if(Request::ajax()){
+				return Response::json(['data' => $campuses]);
+			}
+			else
+			{
+				return View::make('campuses.index');
+			}
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -60,8 +67,8 @@ class CampusesController extends \BaseController {
 
             return Response::json(['success' => true]);
             // redirect
-            /*Session::flash('message', 'Successfully created Campus!');
-            return Redirect::to('campuses');*/
+            //Session::flash('message', 'Successfully created Campus!');
+            //return Redirect::to('campuses')->with('message', '<div class="alert alert-success">Campus successfully added.</div>');
         }
 	}
 
@@ -145,9 +152,7 @@ class CampusesController extends \BaseController {
         $campuses->save();
 
         // redirect
-        Session::flash('message', 'Successfully deleted Campus!');
-        return Redirect::to('campuses');
-	}
-
+        return Redirect::to('campuses')->with('message', '<div class="alert alert-success">Campus successfully archived.</div>');
+    }
 
 }
