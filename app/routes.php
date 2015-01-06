@@ -56,6 +56,8 @@ Route::resource('departments','DepartmentsController');
 
 Route::resource('positions','PositionsController');
 
+Route::resource('ranks','RanksController');
+
 Route::resource('schools_colleges','SchoolsCollegesController');
 
 Route::resource('internal_trainings','InternalTrainingsController');
@@ -96,6 +98,8 @@ Route::get('users/logout', 'UsersController@logout');
 |
 */
 Route::get('{type}/create', array('as' => 'training_assessment.create', 'uses' => 'TrainingAssessmentsController@create'));
+
+
 
 Route::post('{type}', array('as' => 'training_assessment.store', 'uses' => 'TrainingAssessmentsController@store'));
 

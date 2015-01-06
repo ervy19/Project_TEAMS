@@ -120,8 +120,16 @@
     <!-- BEGIN PAGE-LEVEL JS -->
     <script>
       $("#skills_competencies").select2({
-        placeholder: "Select a Skill/Competency",
+        placeholder: "Select a Skill/Competency"
         });
+      $("#dd-positions-add").select2({
+        placeholder: "HEHEHE"
+      });
+
+      $("#dd-positions-edit").select2({
+        placeholder: "HEHEHE",
+          allowClear: true
+      });
     </script>
     <script>
       $("#skills_competencies_edit").select2();

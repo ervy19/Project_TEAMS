@@ -19,9 +19,16 @@ class CreateRanksTable extends Migration {
 			$table->string('title', 255);
 			$table->string('level', 2);
 
+			$table->integer('position_id')->unsigned();
+
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
 		});
+
+		Schema::table('ranks', function($table) 
+		{
+			$table->foreign('position_id')->references('id')->on('positions');
+  		});
 	}
 
 	/**

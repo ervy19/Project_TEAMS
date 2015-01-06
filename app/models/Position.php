@@ -4,7 +4,9 @@ class Position extends Eloquent {
 
 	protected $table ='positions';
 
-	protected $fillable = array('id', 'title', 'isActive');
+	protected $fillable = array('title', 'isActive');
+
+	protected $guarded = 'id';
 
 	public function rank() {
 		return $this->hasMany('Rank');
