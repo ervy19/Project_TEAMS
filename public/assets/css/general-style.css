@@ -22,6 +22,14 @@ a:hover {
     text-decoration: none;
 }
 
+.select2-container-multi .select2-choices .select2-search-choice {
+  background: rgba(255,57,235,0.5);
+  color: #FFF;
+  border: none;
+  border-radius: 0px;
+  padding: 5px 5px 5px 20px;
+}
+
 /**************************************
     Other Standard Bootstrap Components
 **************************************/
@@ -102,11 +110,6 @@ input[type="radio"] {
     padding-right: 10px;
 }
 
-.panel-header {
-    padding-bottom: 10px;
-    border-bottom: 1px #DDD solid; 
-}
-
 .label,.alert {
   border-radius: 0px;
 }
@@ -135,6 +138,33 @@ input[type="radio"] {
 
 .confirm-delete {
   font-size: 1.2em;
+}
+
+.panel-heading {
+  margin-bottom: 20px;
+  padding: 20px 5px;
+  border-bottom: 1px #DDD solid; 
+}
+
+.panel-heading h1, .panel-heading button {
+  display: inline;
+}
+
+.note {
+  padding: 20px;
+  margin: 20px 10px;
+  border: 1px solid #eee;
+  border-left-width: 7.5px;
+  border-radius: 0px;
+  font-size: 1.2em;
+}
+
+.note-success { 
+  border-left-color: #2ecc71;
+}
+
+.note-danger {
+  border-left-color: #e74c3c;
 }
 
 /**************************************

@@ -9,18 +9,15 @@ class CampusesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$campuses = DB::table('campuses')->where('isActive', '=', true)->get();
+		$campuses = Campus::where('isActive', '=', true)->get();
 
-			
-			//->with('campuses', $campuses );
-
-			if(Request::ajax()){
-				return Response::json(['data' => $campuses]);
-			}
-			else
-			{
-				return View::make('campuses.index');
-			}
+		if(Request::ajax()){
+			return Response::json(['data' => $campuses]);
+		}
+		else
+		{
+			return View::make('campuses.index');
+		}
 	}
 
 	/**
@@ -151,8 +148,7 @@ class CampusesController extends \BaseController {
         $campuses->isActive = false;
         $campuses->save();
 
-        // redirect
-        return Redirect::to('campuses')->with('message', '<div class="alert alert-success">Campus successfully archived.</div>');
+        return Response::json(['success' => true]);
     }
 
 }

@@ -9,10 +9,20 @@ class SchoolsCollegesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$schools_colleges = School_College::where('isActive', '=', true)->get();
+		$schools_colleges = School_College::select(DB::raw('schools_colleges.id, schools_colleges.name, count(employee_designations.id) as employeeCount'))
+								->leftJoin('employee_designations','schools_colleges.id','=','employee_designations.schools_colleges_id')
+								->where('schools_colleges.isActive', '=', true)
+								->groupBy('schools_colleges.id')
+								->get();		
 
-		return View::make('schools_colleges.index')
-			->with('schools_colleges', $schools_colleges );
+
+		if(Request::ajax()){
+			return Response::json(['data' => $schools_colleges]);
+		}
+		else
+		{
+			return View::make('schools_colleges.index');
+		}
 	}
 
 
@@ -37,23 +47,23 @@ class SchoolsCollegesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required'
+            'name' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('schools_colleges/create')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
         } else {
             // store
             $schools_colleges = new School_College;
             $schools_colleges->name = Input::get('name');
             $schools_colleges->save();
-            // redirect
-            Session::flash('message', 'Successfully created School/College!');
-            return Redirect::to('schools_colleges');
+            
+            return Response::json(['success' => true]);
         }
 	}
 
@@ -81,10 +91,12 @@ class SchoolsCollegesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$schools_colleges = School_College::find($id);
+		$schools_colleges = School_College::find($id)->toArray();
 
-		return View::make('schools_colleges.edit')
-			->with('schools_colleges', $schools_colleges );
+		return Response::json([
+			'success' => true,
+			'result' => $schools_colleges
+			]);
 	}
 
 
@@ -105,18 +117,17 @@ class SchoolsCollegesController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('schools_colleges/create')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
         } else {
             // store
             $schools_colleges = School_College::find($id);
             $schools_colleges->name = Input::get('name');
             $schools_colleges->save();
 
-            // redirect
-            Session::flash('message', 'Successfully updated School_College!');
-            return Redirect::to('schools_colleges');
+            return Response::json(['success' => true]);
         }
 	}
 
@@ -133,10 +144,6 @@ class SchoolsCollegesController extends \BaseController {
         $schools_colleges->isActive = false;
         $schools_colleges->save();
 
-        // redirect
-        Session::flash('message', 'Successfully deleted School/College!');
-        return Redirect::to('schools_colleges');
+        return Response::json(['success' => true]);
 	}
-
-
 }

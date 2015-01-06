@@ -4,7 +4,9 @@ class SkillsCompetencies extends Eloquent {
 
 	protected $table = 'skills_competencies';
 
-	protected $fillable = array('id', 'name', 'isActive');
+	protected $fillable = array('name', 'isActive');
+
+	protected $guarded = 'id';
 
 	public function position_sc() {
 		return $this->hasMany('Position_SC');

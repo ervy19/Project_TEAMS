@@ -16,23 +16,23 @@
 }
 
 .tiles {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .tiles .tile {
 	height: 150px !important;
 	width: 150px !important;
-	margin-left: 23px;
-	margin-right: 23px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 
 .calendar-dashboard {
-	margin: 10px 15px;
+	margin: 10px;
 	margin-bottom: 15px;
 }
 
 .cal-dashboard .fc {
-	font-size: 0.9em;
+	font-size: 1.05em;
 }
 
 /**************************************

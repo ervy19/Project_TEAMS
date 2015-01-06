@@ -9,18 +9,22 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$scs = DB::table('skills_competencies')->where('isActive', '=', true)->get();
+		$scs = SkillsCompetencies::select(DB::raw('skills_competencies.id, skills_competencies.name, count(department_sc.id) as departmentsTagged, count(position_sc.id) as positionsTagged, count(it_addressed_sc.id) as internalTrainingsTagged, count(et_addressed_sc.id) as externalTrainingsTagged'))
+								->leftJoin('department_sc','skills_competencies.id','=','department_sc.skills_competencies_id')
+								->leftJoin('position_sc','skills_competencies.id','=','position_sc.skills_competencies_id')
+								->leftJoin('it_addressed_sc','skills_competencies.id','=','it_addressed_sc.skills_competencies_id')
+								->leftJoin('et_addressed_sc','skills_competencies.id','=','et_addressed_sc.skills_competencies_id')
+								->where('skills_competencies.isActive', '=', true)
+								->groupBy('skills_competencies.id')
+								->get();		
 
-		$positionsTagged = SkillsCompetencies::with('positionsCountRelation')->get();
-
-		 foreach($positionsTagged as $key => $value)
-		 {
-		 	$positionsTaggedCount = $value->positions_count_relation;
-		 }
-
-
-		return View::make('skills_competencies.index')
-			->with('scs', $scs );
+		if(Request::ajax()){
+			return Response::json(['data' => $scs]);
+		}
+		else
+		{
+			return View::make('skills_competencies.index');
+		}
 	}
 
 
@@ -45,24 +49,23 @@ class SkillsCompetenciesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required'
+            'name' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('skills_competencies/create')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
         } else {
             // store
             $scs = new SkillsCompetencies;
             $scs->name = Input::get('name');
             $scs->save();
 
-            // redirect
-            Session::flash('message', 'Successfully created Skill/Competency!');
-            return Redirect::to('skills_competencies');
+            return Response::json(['success' => true]);
         }
 	}
 
@@ -90,10 +93,12 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-        $scs = SkillsCompetencies::find($id);
+        $scs = SkillsCompetencies::find($id)->toArray();
 
-		return View::make('skills_competencies.edit')
-			->with('scs', $scs );
+		return Response::json([
+			'success' => true,
+			'result' => $scs
+			]);
 	}
 
 	/**
@@ -107,24 +112,23 @@ class SkillsCompetenciesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required'
+            'name' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('skills_competencies/create')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        	);
         } else {
             // store
             $scs = SkillsCompetencies::find($id);
             $scs->name = Input::get('name');
             $scs->save();
 
-            // redirect
-            Session::flash('message', 'Successfully updated Skill/Competency!');
-            return Redirect::to('skills_competencies');
+            return Response::json(['success' => true]);
         }
 	}
 
@@ -140,8 +144,6 @@ class SkillsCompetenciesController extends \BaseController {
         $scs->isActive = false;
         $scs->save();
 
-        // redirect
-        Session::flash('message', 'Successfully archived Skill/Competency!');
-        return Redirect::to('skills_competencies');
-	}
+    	return Response::json(['success' => true]);
+    }
 }
