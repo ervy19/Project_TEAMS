@@ -36,8 +36,8 @@
 							<h6>Training Organizer:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ $internaltrainings->theme_topic or '---' }}</h5>
-							<h5>{{ $internaltrainings->organizer or '---' }}</h5>
+							<h5>{{ "hello" }}</h5>
+							<h5>{{ "hello" }}</h5>
 						</div>
 
 						<div class="col-sm-1 col-md-1">
@@ -45,10 +45,10 @@
 							<h6>Schedule:</h6>
 						</div>
 						<div class="col-sm-3 col-md-3">
-							<h5>{{ $internaltrainings->venue or '---' }}</h5>
+							<h5>{{ $trainingdetails->venue or '---' }}</h5>
 							<h5>
 							@if(isset($internaltrainings))
-								{{ $internaltrainings->date_start . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ") " . " | " . $internaltrainings->date_end . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ')' }}</h5>
+								{{ $trainingdetails->schedule }}</h5>
 							@endif
 						</div>
 
@@ -81,7 +81,7 @@
 						<b>1</b>&nbsp;&nbsp;&nbsp;&nbsp; No Knowledge | No Skill | Unfavorable Attitude
 					</p>
 
-					{{ Form::open(array('url' => 'pta')) }}
+					{{ Form::open(array('url' => 'internal_trainings/1/pta/1')) }}
 
 					<table class="table">
 						<thead>
@@ -95,27 +95,24 @@
 							</tr>
 						</thead>
 						<tbody>
+							@foreach ($assessmentitems as $key => $value)
 							<tr>
-								<td>ITEM</td>
-								<td>{{ Form::radio('item', '5'); }}</td>
-								<td>{{ Form::radio('item', '4'); }}</td>
-								<td>{{ Form::radio('item', '3'); }}</td>
-								<td>{{ Form::radio('item', '2'); }}</td>
-								<td>{{ Form::radio('item', '1'); }}</td>
+								<td>{{ $value }}</td>
+								<td>{{ Form::radio($value, '5'); }}</td>
+								<td>{{ Form::radio($value, '4'); }}</td>
+								<td>{{ Form::radio($value, '3'); }}</td>
+								<td>{{ Form::radio($value, '2'); }}</td>
+								<td>{{ Form::radio($value, '1'); }}</td>
 							</tr>
-							<tr>
-								<td>ITEM2</td>
-								<td>{{ Form::radio('item2', '5'); }}</td>
-								<td>{{ Form::radio('item2', '4'); }}</td>
-								<td>{{ Form::radio('item2', '3'); }}</td>
-								<td>{{ Form::radio('item2', '2'); }}</td>
-								<td>{{ Form::radio('item2', '1'); }}</td>
-							</tr>
+							@endforeach
 						</tbody>
 					</table>
 
+					<h5 class="label-remarks">Verbal Interpretation</h5>
+					<textarea class="remarks" name="verbalinterpretation"></textarea>
+
 					<h5 class="label-remarks">Remarks</h5>
-					<textarea class="remarks"></textarea>
+					<textarea class="remarks" name="remarks"></textarea>
 
 					{{ Form::submit('Submit PTA Report', array('class' => 'pta-form-btn pull-right')) }}
 

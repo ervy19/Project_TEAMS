@@ -21,8 +21,19 @@ class TrainingAssessmentsController extends \BaseController {
 	{
 		if($type=="pta")
 		{
-			return View::make('training_assessments.create');
+			$internaltrainingslist = Internal_Training::where('isActive', '=', true)->lists('training_id');
+			$internaltrainings = array();
+
+			foreach ($internaltrainingslist as $id)
+			{
+				$trainingtitle = Training::where('isActive', '=', true)->where('id', '=', $id)->pluck('title');
+				array_push($internaltrainings, $trainingtitle);
+			}
+
+			return View::make('training_assessments.create')
+				->with('internaltrainings', $internaltrainings);
 		}
+
 		elseif($type=="pte")
 		{
 			return View::make('training_assessments.create');
@@ -38,9 +49,39 @@ class TrainingAssessmentsController extends \BaseController {
 	public function store($type)
 	{
 		if($type=="pta")
-		{
+			{
+				$rules = array(
+					'internaltraining' => 'required'
+					
+	        );
 
+	        $validator = Validator::make(Input::all(), $rules);
+
+	        // process the login
+	        if ($validator->fails()) {
+	            return Redirect::to('pta/create')
+	                ->withErrors($validator)
+	                ->withInput();
+	        } 
+	        else {
+	            // store
+	        	$inputItems = Input::get('assessment_items');
+	        	$training = Input::get('internaltraining');
+	         	$itemsArray = explode(",", $inputItems);
+
+	            for($i = 0; $i < count($itemsArray); $i++){
+	            	$assessmentitem = new Assessment_Item;
+	            	$assessmentitem->name = $itemsArray[$i];
+	            	$assessmentitem->internal_training_id = $training;
+		            $assessmentitem->save();
+		        }        
+
+	            // redirect
+	            Session::flash('message', 'Successfully created Assessment Items!');
+	            return Redirect::to('dashboard');
+			}
 		}
+
 		elseif($type=="pte")
 		{
 			
@@ -123,8 +164,26 @@ class TrainingAssessmentsController extends \BaseController {
 	}
 
 
-	public function accomplish($type)
+	public function accomplish($id, $type)
 	{
+		if($type=="pta")
+		{
+			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->lists('name');
+
+			$internaltraining = Internal_Training::select(DB::raw('*'))
+								->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+								->where('internal_trainings.isActive', '=', true)
+								->groupBy('internal_trainings.training_id')
+								->get();
+
+			return View::make('training_assessments.accomplish')
+				->with('internaltraining', $internaltraining)
+				->with('assessmentitems', $assessmentitems);
+		}
+		elseif($type=="pte")
+		{
+			
+		}
 
 	}
 

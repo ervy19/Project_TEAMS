@@ -31,6 +31,7 @@
 					<div class="form-group">
 						{{ Form::label('schoolcollege', 'School/College: ') }}
 						<select id="school_college_dept" style="width: 300px">
+							<option selected disabled>Select School/College</option>
 				      		@foreach($schoolcollege as $key => $value)
 				        		<option> {{ $value }} </option>
 				      		@endforeach
