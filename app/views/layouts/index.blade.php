@@ -54,7 +54,7 @@
             <li><a href="{{ URL::to('employees') }}">Employees</a></li>
             <li><a href="{{ URL::to('internal_trainings') }}">Trainings</a></li>
             <li><a href="{{ URL::to('training_plan') }}">Training Plan</a></li>
-            <li><a href="#">Reports</a></li>
+            <li><a href="#">Summary Reports</a></li>
           </ul>          
 
           <ul class="nav navbar-nav navbar-right">

@@ -16,7 +16,7 @@ class SkillsCompetenciesController extends \BaseController {
 								->leftJoin('et_addressed_sc','skills_competencies.id','=','et_addressed_sc.skills_competencies_id')
 								->where('skills_competencies.isActive', '=', true)
 								->groupBy('skills_competencies.id')
-								->get();		
+								->get();	
 
 		if(Request::ajax()){
 			return Response::json(['data' => $scs]);

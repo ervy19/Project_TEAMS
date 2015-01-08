@@ -179,11 +179,7 @@
 
 					var form = $(this);
 					var method = form.find('input[name="method"]').val() || 'POST';
-					var url = form.prop('action');
-
-					$('#addCampus').on('hidden.bs.modal', function (e) {
-						id = '';
-					});			
+					var url = form.prop('action');	
 
 					$('.message-log').empty();
 

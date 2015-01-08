@@ -104,7 +104,7 @@ class RanksController extends \BaseController {
 	public function edit($id)
 	{
 		$rank = Rank::find($id)->toArray();
-		
+
 		return Response::json([
 			'success' => true,
 			'result' => $rank

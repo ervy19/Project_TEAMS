@@ -18,7 +18,7 @@
 				<h5>Welcome, User</h5>
 			</div>
 			<div class="tiles">
-				<a href="{{ URL::to('employees') }}">
+				<a href="{{ URL::to('user_accounts') }}">
 					<div class="tile">
 						<div class="tile-body">
 							<i class="fa fa-user fa-lg"></i>

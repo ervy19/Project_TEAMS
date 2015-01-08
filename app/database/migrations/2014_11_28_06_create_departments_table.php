@@ -16,6 +16,7 @@ class CreateDepartmentsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 255);
+			$table->boolean('isAcademic', 255);
 			$table->integer('schools_colleges_id')->unsigned()->nullable();
 
 			$table->boolean('isActive')->default(true);

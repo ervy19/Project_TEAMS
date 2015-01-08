@@ -10,11 +10,20 @@ class DepartmentsController extends \BaseController {
 	public function index()
 	{
 		$departments = DB::table('departments')->where('isActive', '=', true)->get();
-		$scname = Department::where('isActive', '=', true)->lists('schools_colleges_id');
+		
+		$schoolscolleges = School_College::where('isActive', '=', true)->lists('name','id');
 
-		return View::make('departments.index')
-			->with('departments', $departments)
-			->with('scname', $scname);
+		$scs = SkillsCompetencies::where('isActive', '=', true)->lists('name','id');
+
+		if(Request::ajax()){
+			return Response::json(['data' => $departments]);
+		}
+		else
+		{
+			return View::make('departments.index')
+				->with('schoolscolleges',$schoolscolleges)
+				->with('scs',$scs);
+		}
 	}
 
 

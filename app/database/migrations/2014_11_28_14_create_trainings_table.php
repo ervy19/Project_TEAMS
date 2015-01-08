@@ -20,6 +20,8 @@ class CreateTrainingsTable extends Migration {
 			$table->string('venue', 255)->nullable();
 			$table->string('schedule', 255);
 
+			$table->boolean('isInternalTraining')->default(false);
+
 			$table->boolean('isTrainingPlan')->default(false);
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

@@ -83,7 +83,7 @@
 								<div class="form-group row">
 									{{ Form::label('position','Position: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
-										{{ Form::select('position', $positions, 'Select a Position', array('id' => 'dd-positions-add')) }}
+										{{ Form::select('position', array('' => 'Select a Position') + $positions, null, array('id' => 'dd-positions-add', 'data-placeholder' => 'Select an option')) }}
 										<div id="error-addrank-position" class="error-message"></div>
 									</div>
 						    	</div>
@@ -137,7 +137,7 @@
 								<div class="form-group row">
 									{{ Form::label('position','Position: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
-										{{ Form::select('position', $positions, 'Select a Position', array('id' => 'dd-positions-edit')) }}
+										{{ Form::select('position', array('' => 'Select a Position') + $positions, null, array('id' => 'dd-positions-edit')) }}
 										<div id="error-updaterank-position" class="error-message"></div>
 									</div>
 						    	</div>

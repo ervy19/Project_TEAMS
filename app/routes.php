@@ -22,6 +22,11 @@ Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', 
 
 Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
+Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+
+Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
+
+
 Route::get('{type}/accomplish', array('as' => 'training_assessment.accomplish', function()
 {
 	return View::make('training_assessments/accomplish');
@@ -78,6 +83,7 @@ Route::resource('skills_competencies','SkillsCompetenciesController');
 |
 */
 Route::get('users/create', 'UsersController@create');
+Route::get('users', 'UsersController@index');
 Route::post('users', 'UsersController@store');
 Route::get('users/login', 'UsersController@login');
 Route::post('users/login', 'UsersController@doLogin');
