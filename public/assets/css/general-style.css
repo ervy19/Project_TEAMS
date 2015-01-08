@@ -201,9 +201,27 @@ input[type="radio"] {
     border-color: #DDD;
 }
 
+.dataTables_paginate {
+  padding-bottom: 15px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  margin-left: 0px;
+  padding: 0px;
+  display: inline;
+}
+
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: transparent;
     border: none;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  border-bottom: 0.5px #DDD solid;
+}
+
+table.dataTable.no-footer {
+  border-bottom-color: #DDD;
 }
 
 /**************************************

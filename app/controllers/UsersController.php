@@ -9,6 +9,23 @@
  */
 class UsersController extends Controller
 {
+    /**
+     * Display a listing of user accounts.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+
+
+        if(Request::ajax()){
+            return Response::json(['data' => $departments]);
+        }
+        else
+        {
+            return View::make('user_accounts.index');
+        }
+    }
 
     /**
      * Displays the form for account creation

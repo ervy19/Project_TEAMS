@@ -33,13 +33,6 @@ Route::get('training_plan', array('as' => 'training_plan', function()
 
 
 
-Route::get('training_plan', array('as' => 'training_plan', function()
-{
-	return View::make('training_plan.index');
-}));
-
-
-
 Route::get('dashboard', array('as' => 'dashboard', function()
 {
 	return View::make('dashboard.index');
@@ -82,6 +75,7 @@ Route::resource('skills_competencies','SkillsCompetenciesController');
 |
 */
 Route::get('users/create', 'UsersController@create');
+Route::get('users', 'UsersController@index');
 Route::post('users', 'UsersController@store');
 Route::get('users/login', 'UsersController@login');
 Route::post('users/login', 'UsersController@doLogin');
