@@ -9,9 +9,10 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h2>Create Pre-Training Assessment</h2>
+			<h2>{{ $header }}</h2>
 		</div>
 	</div>
+	@if ($type === 'pta')
 	<div class="panel">
 		<div class="row">
 			<div class="col-sm-12 col-md-12">
@@ -49,7 +50,45 @@
 			</div>
 		</div>
 	</div>
+	@elseif ($type === 'pte')
+	<div class="panel">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
 
+				{{ HTML::ul($errors->all()) }}
+
+				{{ Form::open(array('url' => 'pte', 'class' => 'form-horizontal')) }}
+
+				      	<div class="form-group row">
+							<div class="col-sm-12 col-md-12">
+							{{ Form::label('training_id','Internal Training: ') }}
+							</div>
+							{{ Form::select('internaltraining', $internaltrainings, 'Select a Training', array('class' => 'col-sm-6 col-md-6')) }}
+						</div>
+
+						<div>
+							<h5>Assessment items: </h5>
+						</div>
+						
+					    <input type="button" value="Add Assessment Item" onClick="addInput('dynamicInput');" class="btn btn-primary">
+					    <input type="text" id='count'>
+					    <input type="text" id='items' name='items'>
+					    <input type="text" id='assessment_items' name='assessment_items'>
+
+					    <br>
+
+					    <div class="form-group" id="dynamicInput">
+				     		<br>
+					    </div>
+
+						<input type="submit" value="Create PTE" onClick="checkVal();" class="btn btn-primary">
+
+				{{ Form::close() }}
+			
+			</div>
+		</div>
+	</div>
+	@endif
 </div>
 
 @stop

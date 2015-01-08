@@ -85,7 +85,55 @@ class TrainingResponsesController extends \BaseController {
 
 		elseif($type=="pte")
 		{
-			
+			$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
+				$rules = array(
+					
+					);
+
+	        $validator = Validator::make(Input::all(), $rules);
+
+	        // process the login
+	        if ($validator->fails()) {
+	            return Redirect::to('internal_trainings/'.$id.'/pte/accomplish')
+	                ->withErrors($validator)
+	                ->withInput();
+	        } 
+	        else {
+	            // store
+
+	        	$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
+
+	        	$participant_assessment = new Participant_Assessment;
+	        	$participant_assessment->type = $type;
+	        	$participant_assessment->rating = null;
+	        	$participant_assessment->verbal_interpretation = Input::get('verbalinterpretation');
+	        	$participant_assessment->remarks = Input::get('remarks');
+	        	$participant_assessment->it_participant_id = $participant_id;
+	        	$participant_assessment->save();
+
+	        	$rating = 0;
+
+	        	foreach ($itemname as $key => $value)
+	        	{
+	            	$response = new Assessment_Response;
+	            	$response->name = $value;
+	            	$response->rating = Input::get($value);
+	            	$rating += $response->rating;
+	            	$response->participant_assessment_id = $participant_assessment->id;
+		            $response->save();
+		        }
+
+		        $itemnameCount = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->count();
+
+		        $participant_assessment = Participant_Assessment::find($participant_assessment->id);
+		        $participant_assessment->rating = $rating/$itemnameCount;
+		        $participant_assessment->save();
+
+
+	            // redirect
+	            Session::flash('message', 'Successfully recorded participant response!');
+	            return Redirect::to('dashboard');
+			}
 		}
 	}
 
