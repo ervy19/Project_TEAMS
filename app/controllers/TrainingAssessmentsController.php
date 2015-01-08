@@ -172,6 +172,7 @@ class TrainingAssessmentsController extends \BaseController {
 
 			$internaltraining = Internal_Training::select(DB::raw('*'))
 								->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+								->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
 								->where('internal_trainings.isActive', '=', true)
 								->groupBy('internal_trainings.training_id')
 								->get();

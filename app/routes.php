@@ -22,9 +22,13 @@ Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', 
 
 Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
-Route::get('{type}/accomplish', array('as' => 'training_assessment.accomplish', function()
+Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+
+Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
+
+Route::get('training_plan', array('as' => 'training_plan', function()
 {
-	return View::make('training_assessments/accomplish');
+	return View::make('training_plan.index');
 }));
 
 

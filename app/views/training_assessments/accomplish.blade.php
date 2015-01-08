@@ -25,9 +25,10 @@
 							<h5>{{ $participant->name or '---' }}</h5>
 							<h5>{{ $participant->position or '---' }}</h5>
 						</div>
+						@foreach($internaltraining as $training)
 						<div class="col-sm-4 col-md-4">
 							<h6>School/College/Department:</h6>
-							<p>{{ $participant->scd or '---' }}</p>
+							<p>{{ $training->name }}</p>
 						</div>
 					</div>
 					<div class="row training-details">
@@ -36,8 +37,8 @@
 							<h6>Training Organizer:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ "hello" }}</h5>
-							<h5>{{ "hello" }}</h5>
+							<h5>{{ $training->theme_topic }}</h5>
+							<h5>{{ $training->name }}</h5>
 						</div>
 
 						<div class="col-sm-1 col-md-1">
@@ -45,17 +46,16 @@
 							<h6>Schedule:</h6>
 						</div>
 						<div class="col-sm-3 col-md-3">
-							<h5>{{ $trainingdetails->venue or '---' }}</h5>
+							<h5>{{ $training->venue }}</h5>
 							<h5>
-							@if(isset($internaltrainings))
-								{{ $trainingdetails->schedule }}</h5>
-							@endif
+								{{ $training->schedule }}</h5>
 						</div>
 
 						<div class="col-sm-12 col-md-12">
 							<h6>Objectives:</h6>
-							<p>{{ $internaltrainings->objectives or '---' }}</p>
+							<p>{{ $training->objectives }}</p>
 						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>

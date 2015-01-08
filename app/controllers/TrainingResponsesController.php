@@ -37,12 +37,6 @@ class TrainingResponsesController extends \BaseController {
 					
 					);
 
-				// foreach ($itemname as $key => $value)
-				// {
-				// 	$string = "'".$value."' => 'required',";
-				// 	array_push($rules, $string);
-				// }
-
 	        $validator = Validator::make(Input::all(), $rules);
 
 	        // process the login
