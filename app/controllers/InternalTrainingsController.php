@@ -124,7 +124,6 @@ class InternalTrainingsController extends \BaseController {
 			->with('internaltrainings', $internaltrainings);
 	}
 
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -220,6 +219,5 @@ class InternalTrainingsController extends \BaseController {
         Session::flash('message', 'Successfully deleted Internal Training!');
         return Redirect::to('internal_trainings');
 	}
-
 
 }

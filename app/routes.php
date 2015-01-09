@@ -139,3 +139,29 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
 
 Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+
+/*
+|--------------------------------------------------------------------------
+| Maatwebsite Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for Import from Excel Functionality
+|
+*/
+/*
+Route::get('form', function(){
+ return View::make('form');
+});
+
+Route::any('form-submit', function(){
+
+	if(Input::hasFile('teamssample'))
+	{
+		echo 'WAHAHAHAHA';
+	}
+	else
+	{
+		echo "NO";
+	}
+});
+*/
