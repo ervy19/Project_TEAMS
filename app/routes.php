@@ -14,13 +14,17 @@ Route::get('/', function()
 	return View::make('login');
 });
 
-
+Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
 
 Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
 
-Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
+Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
+
+Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
 
 Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
+
+Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
 
 Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
@@ -37,8 +41,6 @@ Route::get('dashboard', array('as' => 'dashboard', function()
 {
 	return View::make('dashboard.index');
 }));
-
-
 
 Route::get('external_trainings/pending-approval', array(
 	'as' => 'external_trainings.pending-approval', 
@@ -63,8 +65,10 @@ Route::resource('external_trainings','ExternalTrainingsController');
 
 Route::resource('skills_competencies','SkillsCompetenciesController');
 
+//Route::resource('speakers','SpeakersController');
 
 
+Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
 /*
 |--------------------------------------------------------------------------

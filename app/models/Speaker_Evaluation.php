@@ -6,7 +6,7 @@ class Speaker_Evaluation extends Eloquent {
 
 	protected $fillable = array('id', 'evaluation_criterion1', 'evaluation_criterion2', 'evaluation_criterion3', 'speaker_id', 'isActive');
 
-	public function speaker()) {
+	public function speaker() {
 		return $this->belongsTo('Speaker');
 	}
 	

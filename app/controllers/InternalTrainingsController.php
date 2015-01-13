@@ -71,6 +71,11 @@ class InternalTrainingsController extends \BaseController {
 
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
+
+            //initialize columns
+            $internaltrainings->format = "";
+            $internaltrainings->evaluation_narrative = "";
+            $internaltrainings->recommendations = "";
             
             $internaltrainings->organizer_schools_colleges_id = Input::get('schoolcollege');
             $internaltrainings->organizer_department_id = Input::get('department');
@@ -93,10 +98,17 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-
 		$internaltrainings = Training::with('internal_training')->find($id);		 
 
 		return View::make('internal_trainings.show')
+			->with('internaltrainings', $internaltrainings);
+	}
+
+	public function showSpeakers($id)
+	{
+		$internaltrainings = Training::with('internal_training')->find($id);
+
+		return View::make('internal_trainings.speakers')
 			->with('internaltrainings', $internaltrainings);
 	}
 
@@ -108,20 +120,139 @@ class InternalTrainingsController extends \BaseController {
 			->with('internaltrainings', $internaltrainings);
 	}
 
-	public function showAfterActivityEvaluation($id)
+	public function showAfterActivityEvaluation($id, $intent)
 	{
-		 $internaltrainings = Training::with('internal_training')->find($id);
+		 if($intent=="accomplish")
+		 {
+		 	$intent="accomplish";
+			$internaltrainings = Training::where('id', '=', $id)->get();
 
-		return View::make('internal_trainings.after-activity-evaluation')
-			->with('internaltrainings', $internaltrainings);
+			return View::make('internal_trainings.after-activity-evaluation')
+				->with('internaltrainings', $internaltrainings)
+				->with('intent', $intent);
+		 }
+		 elseif($intent=="show")
+		 {
+		 	$intent="show";
+		 	$activityevaluation = Activity_Evaluation::where('internal_training_id', '=', $id)->get();
+		 	$speaker = Speaker::where('internal_training_id', '=', $id)->pluck('id');
+		 	$speakerevaluation = Speaker_Evaluation::where('speaker_id', '=', $speaker)->get();
+		 	
+		 	//dd($activityevaluation);
+		 	
+			$internaltrainings = Training::where('id', '=', $id)->get();
+
+			return View::make('internal_trainings.after-activity-evaluation')
+				->with('internaltrainings', $internaltrainings)
+				->with('intent', $intent)
+				->with('activityevaluation', $activityevaluation)
+				->with('speakerevaluation', $speakerevaluation);
+		 }
+		 
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function storeEval()
+	{
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'planning_criterion1' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('internal_trainings/4/after-activity-evaluation/accomplish')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            // store
+            //Activity_Evaluation Table
+            $activityevaluation = new Activity_Evaluation;
+            $activityevaluation->planning_criterion1 = Input::get('planning_criterion1');
+            $activityevaluation->planning_criterion2 = Input::get('planning_criterion2');
+            $activityevaluation->objectives_criterion1 = Input::get('objectives_criterion1');
+            $activityevaluation->objectives_criterion2 = Input::get('objectives_criterion2');
+            $activityevaluation->objectives_criterion3 = Input::get('objectives_criterion3');
+            $activityevaluation->content_criterion1 = Input::get('content_criterion1');
+            $activityevaluation->content_criterion2 = Input::get('content_criterion2');
+            $activityevaluation->materials_criterion1 = Input::get('materials_criterion1');
+            $activityevaluation->materials_criterion2 = Input::get('materials_criterion2');
+            $activityevaluation->schedule_criterion1 = Input::get('schedule_criterion1');
+            $activityevaluation->schedule_criterion2 = Input::get('schedule_criterion2');
+            $activityevaluation->schedule_criterion3 = Input::get('schedule_criterion3');
+            $activityevaluation->openForum_criterion1 = Input::get('openForum_criterion1');
+            $activityevaluation->openForum_criterion2 = Input::get('openForum_criterion2');
+            $activityevaluation->openForum_criterion3 = Input::get('openForum_criterion3');
+            $activityevaluation->venue_criterion1 = Input::get('venue_criterion1');
+            $activityevaluation->venue_criterion2 = Input::get('venue_criterion2');
+            $activityevaluation->comments = Input::get('comments');
+            $activityevaluation->internal_training_id = 4;
+            $activityevaluation->save();
+
+            //Speaker_Evaluation Table
+            $speakerevaluation = new Speaker_Evaluation;
+            $speakerevaluation->evaluation_criterion1 = Input::get('evaluation_criterion1');
+            $speakerevaluation->evaluation_criterion2 = Input::get('evaluation_criterion2');
+            $speakerevaluation->evaluation_criterion3 = Input::get('evaluation_criterion3');
+            $speakerevaluation->speaker_id = 1;
+            $speakerevaluation->save(); 
+
+            // redirect
+            Session::flash('message', 'Successfully recorded After Activity Evaluation!');
+            return Redirect::to('dashboard');
+        }
 	}
 
 	public function showTrainingEffectivenessReport($id)
 	{
-		$internaltrainings = Training::with('internal_training')->find($id);
+		$internaltrainings = Training::where('id', '=', $id)->get();
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings);
+	}
+
+	public function storeReport($id)
+	{
+		// validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'evaluation_narrative' => 'required'
+
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('internal_trainings/{internal_trainings}/training-effectiveness-report')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            // store
+            //$internaltraining = Internal_Training::where('training_id', '=', '5')->where('isActive', '=', true)->get();
+            //dd($internaltraining);
+        	DB::table('internal_trainings')
+            ->where('training_id', $id)
+            ->update(array(
+            	'evaluation_narrative' => Input::get('evaluation_narrative'),
+            	'recommendations' => Input::get('recommendations')));
+
+/*
+            $internaltraining = Internal_Training::where('training_id', '=', $id)->first();
+            $internaltraining->evaluation_narrative = Input::get('evaluation_narrative');
+            $internaltraining->recommendations = Input::get('recommendations');
+            $internaltraining->save();
+            */
+
+            // redirect
+            Session::flash('message', 'Successfully recorded Training Effectiveness Report!');
+            return Redirect::to('dashboard');
+        }
 	}
 
 	/**
