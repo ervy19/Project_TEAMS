@@ -16,10 +16,9 @@ class CampusesTableSeeder extends Seeder {
 			array('name' => 'Malolos', 'address' => 'Km 44 Mc Arthur Highway, Malolos, Bulacan' ),
 			array('name' => 'Makati - Gil Puyat', 'address' => '259 Senator Gil Puyat Ave., Makati City' ),
 			array('name' => 'Makati - Legaspi', 'address' => '103 Esteban St., corner Legaspi St., Makati City' )
-
 		));
 
-		$this->command->info('A new campus has been created!');
+		$this->command->info('New campuses have been created!');
 	}
 
 }

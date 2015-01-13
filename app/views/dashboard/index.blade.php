@@ -98,7 +98,7 @@
 						</div>
 					</div>
 				</a>
-				<a href="{{ URL::to('trainings') }}">
+				<a href="{{ URL::to('internal_trainings') }}">
 					<div class="tile">
 						<div class="tile-body">
 							<i class="fa fa-inbox fa-lg"></i>

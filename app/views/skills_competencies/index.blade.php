@@ -325,7 +325,6 @@
 			}			
 
 			function editSkillCompetency(id,url) {
-
 				$.ajax({
 					type: 'GET',
 					url: url + '/' + id + '/edit',

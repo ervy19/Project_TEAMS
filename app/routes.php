@@ -14,54 +14,54 @@ Route::get('/', function()
 	return View::make('login');
 });
 
-
-
-Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
-
-Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
-
-Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
-
-Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
-
-Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
-
-Route::get('training_plan', array('as' => 'training_plan', function()
-{
-	return View::make('training_plan.index');
-}));
-
-
-
-Route::get('dashboard', array('as' => 'dashboard', function()
-{
-	return View::make('dashboard.index');
-}));
-
-
-
 Route::get('external_trainings/pending-approval', array(
 	'as' => 'external_trainings.pending-approval', 
 	'uses' => 'ExternalTrainingsController@indexQueue'
 	));
 
-Route::resource('employees','EmployeesController');
+//Route::group(array('before' => 'auth'), function()
+//{
 
-Route::resource('campuses','CampusesController');
+	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
 
-Route::resource('departments','DepartmentsController');
+	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
-Route::resource('positions','PositionsController');
+	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
-Route::resource('ranks','RanksController');
+	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
-Route::resource('schools_colleges','SchoolsCollegesController');
+	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
-Route::resource('internal_trainings','InternalTrainingsController');
+	Route::get('training_plan', array('as' => 'training_plan', function()
+	{
+		return View::make('training_plan.index');
+	}));
 
-Route::resource('external_trainings','ExternalTrainingsController');
 
-Route::resource('skills_competencies','SkillsCompetenciesController');
+
+	Route::get('dashboard', array('as' => 'dashboard', function()
+	{
+		return View::make('dashboard.index');
+	}));
+
+
+	Route::resource('employees','EmployeesController');
+
+	Route::resource('campuses','CampusesController');
+
+	Route::resource('departments','DepartmentsController');
+
+	Route::resource('positions','PositionsController');
+
+	Route::resource('ranks','RanksController');
+
+	Route::resource('schools_colleges','SchoolsCollegesController');
+
+	Route::resource('internal_trainings','InternalTrainingsController');
+
+	Route::resource('external_trainings','ExternalTrainingsController');
+
+	Route::resource('skills_competencies','SkillsCompetenciesController');
 
 
 
@@ -110,7 +110,7 @@ Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessment
 
 Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
 
-
+//});
 
 
 /*

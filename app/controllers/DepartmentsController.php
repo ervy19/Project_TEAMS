@@ -54,7 +54,9 @@ class DepartmentsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required'
+            'name' => 'required',
+            'type' => 'required',
+
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -101,10 +103,21 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$departments = Department::find($id);
+		/*$department = DB::table('departments')
+						->join('department_supervisors','departments.id','=','department_supervisors.department_id')
+						->where('departments.isActive',true)
+						->first();*/
 
-		return View::make('departments.show')
-			->with('departments', $departments );
+		$tags = DB::table('departments')
+						->join('department_sc','departments.id','=','department_sc.department_id')
+						->join('skills_competencies','department_sc.skills_competencies_id','=','skills_competencies.id')
+						->where('departments.id',$id)
+						->where('department_sc.isActive',true)
+						->get();
+
+		if(Request::ajax()){
+			return Response::json(['tags' => $tags]);
+		}
 	}
 
 
