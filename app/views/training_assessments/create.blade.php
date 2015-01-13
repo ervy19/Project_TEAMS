@@ -33,9 +33,9 @@
 						</div>
 						
 					    <input type="button" value="Add Assessment Item" onClick="addInput('dynamicInput');" class="btn btn-primary">
-					    <input type="text" id='count'>
-					    <input type="text" id='items' name='items'>
-					    <input type="text" id='assessment_items' name='assessment_items'>
+					    <input type="hidden" id='count'>
+					    <input type="hidden" id='items' name='items'>
+					    <input type="hidden" id='assessment_items' name='assessment_items'>
 
 					    <br>
 
@@ -44,9 +44,8 @@
 					    </div>
 
 						<input type="submit" value="Create PTA" onClick="checkVal();" class="btn btn-primary">
-
 				{{ Form::close() }}
-			
+			<br>
 			</div>
 		</div>
 	</div>
@@ -71,9 +70,9 @@
 						</div>
 						
 					    <input type="button" value="Add Assessment Item" onClick="addInput('dynamicInput');" class="btn btn-primary">
-					    <input type="text" id='count'>
-					    <input type="text" id='items' name='items'>
-					    <input type="text" id='assessment_items' name='assessment_items'>
+					    <input type="hidden" id='count'>
+					    <input type="hidden" id='items' name='items'>
+					    <input type="hidden" id='assessment_items' name='assessment_items'>
 
 					    <br>
 
@@ -82,9 +81,8 @@
 					    </div>
 
 						<input type="submit" value="Create PTE" onClick="checkVal();" class="btn btn-primary">
-
 				{{ Form::close() }}
-			
+			<br>
 			</div>
 		</div>
 	</div>
