@@ -22,13 +22,28 @@ Route::get('external_trainings/pending-approval', array(
 //Route::group(array('before' => 'auth'), function()
 //{
 
+	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
+
+
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
+
 
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
+	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
+
+	Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
+
+
 	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
+
 	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+
+	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
+
+	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
@@ -36,7 +51,6 @@ Route::get('external_trainings/pending-approval', array(
 	{
 		return View::make('training_plan.index');
 	}));
-
 
 
 	Route::get('dashboard', array('as' => 'dashboard', function()
@@ -48,6 +62,12 @@ Route::get('external_trainings/pending-approval', array(
 	Route::resource('employees','EmployeesController');
 
 	Route::resource('campuses','CampusesController');
+
+	Route::get('external_trainings/pending-approval', array(
+		'as' => 'external_trainings.pending-approval', 
+		'uses' => 'ExternalTrainingsController@indexQueue'
+		));
+
 
 	Route::resource('departments','DepartmentsController');
 
@@ -63,8 +83,10 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::resource('skills_competencies','SkillsCompetenciesController');
 
+//Route::resource('speakers','SpeakersController');
 
 
+	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
 /*
 |--------------------------------------------------------------------------
@@ -139,3 +161,29 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
 
 Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+
+/*
+|--------------------------------------------------------------------------
+| Maatwebsite Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for Import from Excel Functionality
+|
+*/
+/*
+Route::get('form', function(){
+ return View::make('form');
+});
+
+Route::any('form-submit', function(){
+
+	if(Input::hasFile('teamssample'))
+	{
+		echo 'WAHAHAHAHA';
+	}
+	else
+	{
+		echo "NO";
+	}
+});
+*/

@@ -22,8 +22,8 @@
 							<h6>Position:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ $participant->name or '---' }}</h5>
-							<h5>{{ $participant->position or '---' }}</h5>
+							<h5>{{ "Sophia Hernandez" }}</h5>
+							<h5>{{ "faculty" }}</h5>
 						</div>
 						@foreach($internaltraining as $training)
 						<div class="col-sm-4 col-md-4">

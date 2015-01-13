@@ -1,0 +1,365 @@
+@extends('layouts.index')
+
+@section('title')
+	Internal Training Speakers - {{ $internaltrainings->title }}
+@stop
+
+@section('breadcrumb')
+	<li><a href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
+	<li><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}">{{$internaltrainings->title or '---'}}</a></li>
+	<li>Speakers</li>
+@stop
+
+@section('content')
+
+	<div class="col-sm-12 col-md-12 training-info">
+		<div class="panel">
+			<div class="row training-details">
+				<h2>{{  $internaltrainings->title or '---' }}</h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-12 col-md-12 training-data">
+		<div class="panel">
+			<ul class="nav nav-tabs nav-justified">
+				<li role="presentation" class="active"><a href="#">Speakers</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
+			</ul>
+			<div class="training-contents">
+
+				<button type="button" id="btn-add-speaker" class="btn btn-primary" data-toggle="modal" data-target="#addSpeaker">
+					Add Speaker<i class="fa fa-plus fa-lg add-plus"></i>
+				</button>
+				<br><br>
+				<table id="tb-speakers" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Topic</th>
+							<th>Educational Background</th>
+							<th>Work Background</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+<!-- Add Speaker Modal -->
+<div class="modal fade" id="addSpeaker" tabindex="-1" role="dialog" aria-labelledby="addSpeakerLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="addSpeakerLabel"><i class="fa fa-building-o fa-lg"></i>&nbsp;&nbsp;Add Speaker Information</h4>
+      		</div>
+      		<div class="modal-body">
+      			<div class="container">
+      				<div class="col-sm-12 col-md-12">
+      					<div class="row">
+		      				{{ Form::open(['data-add','id' => 'add-speaker', 'class' => 'form-horizontal']) }}
+								<div class="form-group row">
+									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::text('name', '',array('class' => 'form-control')) }}
+										<div id="error-addcampus-name" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('topic','Topic: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::text('topic', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-addcampus-topic" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('educational_background','Educational Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::textarea('educational_background', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-addcampus-educational_background" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('work_background','Work Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::textarea('work_background', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-addcampus-work_background" class="error-message"></div>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>	
+      		</div>
+    		<div class="modal-footer">
+        						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        						{{ Form::submit('Add Speaker', array('class' => 'btn btn-primary')) }}
+      						{{ Form::close() }}
+      		</div>
+    	</div>
+	</div>
+</div>
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+
+		$(document).ready( function () {
+
+			var table = $('#tb-speakers').dataTable({
+		        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
+		        "columns": [
+		            { "data": "name" },
+		            { "data": "topic" },
+		            { "data": "educational_background" },
+		            { "data": "work_background" },
+		            { 
+		            	"data": "id",
+		            	"render": function ( data, type, full, meta ) {
+		            	 return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+		        		}
+		        	}
+		        ],
+		          "aoColumnDefs": [
+			      { "sWidth": "30%", "aTargets": [ 0 ] },
+			      { "sWidth": '30%', "aTargets": [ 1 ] },
+			      { "sWidth": '10%', "aTargets": [ 2 ] },
+			      { "sWidth": '15%', "aTargets": [ 3 ] },
+			      { "sWidth": '15%', "aTargets": [ 4 ] },
+			    ]
+			});
+
+			//$('#tb-speakers').select2();
+
+			$('form[data-add]').on('submit', function (e) {
+
+					e.preventDefault();
+
+					var form = $(this);
+					var method = form.find('input[name="method"]').val() || 'POST';
+					var url = form.prop('action');	
+
+					$('.message-log').empty();
+
+					$.ajax({
+						type: method,
+						url: url,
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								//RefreshTable('#tb-campuses',url);
+								$('#addSpeaker').modal('hide');
+								$('.message-log').append('<div class="note note-success">Speaker successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
+		
+								table.fnDestroy();
+
+								table = $('#tb-speakers').dataTable({
+							        "ajax": "{{ URL::to('speakers') }}",
+							        "columns": [
+							            { "data": "name" },
+							            { "data": "topic" },
+							            { "data": "educational_background" },
+							            { "data": "work_background" },
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+						}
+							        	}
+							        ],
+							        "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '30%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								    ]
+								});
+							}
+							else
+							{
+								$('.error-message').empty();
+								$('#error-addspeaker-name').append(data.errors.name);
+								$('#error-addspeaker-topic').append(data.errors.topic);
+								$('#error-addspeaker-educational_background').append(data.errors.educational_background);
+								$('#error-addspeaker-work_background').append(data.errors.work_background);
+							}
+						}
+					});
+				});
+
+			$('#tb-speakers').on('click', '.btn-edit-speaker', function (e) {
+				var id = $(this).attr('data-id');
+
+				var form = $('form[data-update]');
+				var method = form.find('input[name="_method"]').val() || 'POST';
+				var url = form.prop('action');
+
+				$('#editSpeaker').on('hidden.bs.modal', function (e) {
+					id = '';
+				});
+
+				$('.message-log').empty();
+
+				editSpeakerInformation(id,url);
+
+				$('form[data-update]').on('submit', function (e) {
+
+					e.preventDefault();
+
+					$.ajax({
+						type: method,
+						url: url + '/' + id,
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								//RefreshTable('#tb-campuses',url);
+								$('#editSpeaker').modal('hide');
+								$('.message-log').append('<div class="note note-success">Speaker information successfully updated.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								
+								table.fnDestroy();
+
+								table = $('#tb-speakers').dataTable({
+							        "ajax": "{{ URL::to('campuses') }}",
+							        "columns": [
+							            { "data": "name" },
+							            { "data": "topic" },
+							            { "data": "educational_background" },
+							            { "data": "work_background" },
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+						}
+							        	}
+							        ],
+							        "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '30%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								    ]
+								});
+							}
+							else
+							{
+								$('.error-message').empty();
+								$('#error-addspeaker-name').append(data.errors.name);
+								$('#error-addspeaker-topic').append(data.errors.topic);
+								$('#error-addspeaker-educational_background').append(data.errors.educational_background);
+								$('#error-addspeaker-work_background').append(data.errors.work_background);
+							}
+						}
+					});
+				});
+			});
+
+			$('#tb-speakers').on('click', '.btn-delete-speaker', function (e) {
+
+				var id = $(this).attr('data-id');
+				var url = "{{ URL::to('campuses') }}";
+				$('.message-log').empty();
+
+			    $('#deleteSpeaker').modal({ backdrop: 'static', keyboard: false })
+			        .one('click', '#btn-archive-campus', function() {
+
+			            deleteSpeaker(id,url);
+			            //$form.trigger('submit');
+			            //$('.message-log').append('<div class="note note-success">Campus successfully deleted.</div>').fadeIn(300).delay(3000).fadeOut(300);
+			    });
+
+			    $('#deleteSpeaker').on('hidden.bs.modal', function (e) {
+					id = '';
+				});
+			});
+
+			clearAllFields('#addSpeaker','#add-speaker');
+			clearAllFields('#editSpeaker','#update-speaker');
+
+			function clearAllFields(modal,form) {
+				$(modal).on('hide.bs.modal', function (e) {
+					$('.error-message').empty();
+					$(':input',form)
+					  .not(':button, :submit, :reset, :hidden')
+					  .val('')
+					  .removeAttr('checked')
+					  .removeAttr('selected');
+				});
+			}			
+
+			function editSpeakerInformation(id,url) {
+				$.ajax({
+					type: 'GET',
+					url: url + '/' + id + '/edit',
+					data: id,
+					success: function(data) {
+						if(data.success)
+						{					
+							$('#editSpeaker').find('input[name=name]').val(data.result.name);
+							$('#editSpeaker').find('textarea[name=topic]').val(data.result.topic);
+							$('#editSpeaker').find('textarea[name=educational_background]').val(data.result.educational_background);
+							$('#editSpeaker').find('textarea[name=work_background]').val(data.result.work_background);
+							$('#editSpeaker').modal({ backdrop: 'static', keyboard: false });
+						}
+					}
+				});
+			}
+
+			function deleteSpeaker(id,url) {
+
+				$.ajax({
+					type: 'DELETE',
+					url: url + '/' + id,
+					data: id,
+					success: function(data) {
+						if(data.success)
+						{		
+							$('#deleteSpeaker').modal('hide');
+
+							$('.message-log').append('<div class="note note-success">Speaker successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								
+								table.fnDestroy();
+
+								table = $('#tb-speakers').dataTable({
+							        "ajax": "{{ URL::to('campuses') }}",
+							        "columns": [
+							            { "data": "name" },
+							            { "data": "topic" },
+							            { "data": "educational_background" },
+							            { "data": "work_background" },
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+										      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+											}
+							        	}
+							        ],
+							        "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '30%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								    ]
+								});
+						}
+					}
+				});
+			}
+
+			
+
+		});
+
+	</script>
+@stop
