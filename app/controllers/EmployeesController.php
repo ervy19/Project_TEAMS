@@ -127,9 +127,54 @@ class EmployeesController extends \BaseController {
 	{
 		$employees = Employee::find($id);
 
+		//count the number of employee designations
+        $currentCount = Employee_Designation::where('employee_id', '=', $id)->count();
+
+        //assign all employee designations to an array
+        $emp_desig_array = Employee_Designation::where('employee_id', '=', $id)->get();
+
+        //make array for each employee designation
+        for($i = 0; $i < $currentCount; $i++)
+        {
+        	${'selected_array'.$i} = array();
+        	$current = array_get($emp_desig_array, $i);
+        	
+        	array_push(${'selected_array'.$i}, $current->type);
+			array_push(${'selected_array'.$i}, Campus::where('id', '=', $current->campus_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, School_College::where('id', '=', $current->schools_colleges_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, Department::where('id', '=', $current->department_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, Supervisor::where('id', '=', $current->supervisor_id)->pluck('id'));
+			array_push(${'selected_array'.$i}, Position::where('id', '=', $current->position_id)->pluck('title'));
+			array_push(${'selected_array'.$i}, Rank::where('id', '=', $current->rank_id)->pluck('title'));
+        }
+
+        //put all employee designations to one array to pass to view
+        $selected_data = array();
+        for($i = 0; $i < $currentCount; $i++)
+        {
+        	array_push($selected_data, ${'selected_array'.$i});
+        }
+
+        $positions = Position::where('isActive', '=', true)->get();
+		$ranks = Rank::where('isActive', '=', true)->get();
+		$schools_colleges = School_College::where('isActive', '=', true)->get();
+		$departments = Department::where('isActive', '=', true)->get();
+		$campuses = Campus::where('isActive', '=', true)->get();
+		$supervisors = Supervisor::where('isActive', '=', true)->get(); 
+
 		return View::make('employees.edit')
-			->with('employees', $employees );
+			->with('employees', $employees )
+			->with('currentCount', $currentCount)
+			->with('selected_data', $selected_data)
+			->with('positions', $positions)
+			->with('ranks', $ranks)
+			->with('schools_colleges', $schools_colleges)
+			->with('departments', $departments)
+			->with('campuses', $campuses)
+			->with('supervisors', $supervisors)
+			->with('selected_data', $selected_data); 
 	}
+
 
 	/**
 	 * Update the specified resource in storage.
@@ -158,6 +203,9 @@ class EmployeesController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput();
         } else {
+        	//count the number of employee designations
+        	$count = Employee_Designation::where('employee_id', '=', $id)->count();
+
             // update
             $employees = Employee::find($id);
             $employees->employee_number = Input::get('employee_number');

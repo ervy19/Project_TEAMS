@@ -193,7 +193,6 @@ return array(
 		'Confide'   		=> 'Zizaco\Confide\Facade',
 		'Entrust'    		=> 'Zizaco\Entrust\EntrustFacade',
 		'Excel' 			=> 'Maatwebsite\Excel\Facades\Excel',
-
 	),
 
 );
