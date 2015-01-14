@@ -71,6 +71,9 @@
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
 			    <input type="hidden" id='count' value='' />
 			    <input type="hidden" id='currentCount' value={{$currentCount}} />
+			    <!--@foreach($selected_data as $key => $value)
+			    	@foreach($value as $key => $value2)
+			    @endforeach-->
 				{{ Form::submit('Save') }}
 
 			{{ Form::close() }}
@@ -86,7 +89,6 @@
 		var count = 1;
 		var currentCount = document.getElementById('currentCount').value;
 		(function autofill() {
-			//alert($selected_data);
 			for (var i = 0; i < currentCount; i++) {
 				addInput('dynamicInput');
 				//currentChoice = 

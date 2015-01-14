@@ -69,7 +69,7 @@
 				<div class="form-group" id="dynamicInput">
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
-			    <input type="hidden" id='count' value="" />
+			    <input type="text" id='count' />
 				{{ Form::submit('Add Employee') }}
 
 			{{ Form::close() }}
@@ -83,6 +83,7 @@
 @section('page_js')
 	<script type="text/javascript">
 		var count = 1;
+		document.getElementById('count').value = count;
 		function addInput(divName) {	
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
@@ -109,6 +110,7 @@
 		          var parent = document.getElementById(parentDiv);
 		          parent.removeChild(child);
 		          count--;
+		          document.getElementById('count').value = count;
 		     }
 		     else {
 		          alert("Child div has already been removed or does not exist.");
