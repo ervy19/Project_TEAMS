@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Confide\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
-		'Maatwebsite\Excel\ExcelServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider'
 	),
 
 	/*

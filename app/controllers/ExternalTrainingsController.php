@@ -22,7 +22,12 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('external_trainings.create');
+        $schoolcollege = School_College::where('isActive', '=', true)->lists('name','id');
+        $designation = Employee_Designation::where('isActive', '=', true)->lists('id');
+		
+        return View::make('external_trainings.create')
+            ->with('schoolcollege', $schoolcollege)
+            ->with('designation', $designation);
 	}
 
 
@@ -41,10 +46,8 @@ class ExternalTrainingsController extends \BaseController {
             'participation' => 'required',
             'organizer' => 'required',
             'venue' => 'required',
-            'date_start' => 'required',
-            'date_end' => 'required',
+            'schedule' => 'required',
             'designation_id' => 'required'
-
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -55,14 +58,20 @@ class ExternalTrainingsController extends \BaseController {
                 ->withInput(Input::except('password'));
         } else {
             // store
+
+            //trainings table
+            $newtraining = new Training;
+            $newtraining->title = Input::get('title');
+            $newtraining->theme_topic = Input::get('theme_topic');
+            $newtraining->venue = Input::get('venue');
+            $newtraining->schedule = Input::get('schedule');
+            $newtraining->isTrainingPlan = Input::get('isTrainingPlan');
+            $newtraining->save();
+
+            //external_trainings table
             $externaltrainings = new External_Training;
-            $externaltrainings->title = Input::get('title');
-            $externaltrainings->theme_topic = Input::get('theme_topic');
             $externaltrainings->participation = Input::get('participation');
             $externaltrainings->organizer = Input::get('organizer');
-            $externaltrainings->venue = Input::get('venue');
-            $externaltrainings->date_start = Input::get('date_start');
-            $externaltrainings->date_end = Input::get('date_end');
             $externaltrainings->designation_id = Input::get('designation_id');
             $externaltrainings->save();
 
@@ -171,7 +180,7 @@ class ExternalTrainingsController extends \BaseController {
 	public function indexQueue()
 	{
 		$externaltrainingsqueue = DB::table('et_queues')
-            ->join('employees','et_queues.employee_id','=','employees.id')
+            ->join('employees','et_queues.designation_id','=','employees.id')
             ->select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
             ->get();
 
@@ -223,7 +232,7 @@ class ExternalTrainingsController extends \BaseController {
                 $externaltrainings->venue = Input::get('venue');
                 $externaltrainings->date_start = Input::get('date_start');
                 $externaltrainings->date_end = Input::get('date_end');
-                $externaltrainings->employee_id = $employee->id;
+                $externaltrainings->designation_id = $employee->id;
                 $externaltrainings->save();
 
                 $employee_number = $employee->employee_number;

@@ -49,7 +49,7 @@
 									<td>{{ $value->participation }}</td>
 									<td>{{ $value->organizer }}</td>
 									<td>{{ $value->venue }}</td>
-									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
+									<td>{{ $value->schedule }}</td>
 									<td>
 										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/credit-external-training') }}">Credit</a>
 										<br><br>
