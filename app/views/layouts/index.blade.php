@@ -71,10 +71,10 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user fa-lg"></i>&nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Supervisor Name</a></li>
+                <li><a href="#">{{ $name or '---' }}</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Account Settings</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="{{ URL::to('users/logout') }}">Logout</a></li>
               </ul>
             </li>
           </ul>

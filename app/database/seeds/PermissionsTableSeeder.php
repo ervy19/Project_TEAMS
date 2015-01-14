@@ -9,7 +9,7 @@ class PermissionsTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		DB::table('permissions')->delete();
+/*		DB::table('permissions')->delete();
 
 		DB::table('permissions')->insert(array(
 			array(
@@ -84,11 +84,15 @@ class PermissionsTableSeeder extends Seeder {
 
 		$this->command->info('New Permissions have been created!');
 
-		DB::table('permission_roles')->delete();
+		
 
 		$admin_id = Role::where('name', '=', 'Admin')->first()->id;
 
-		/*$hr_id = 
+        $hr_id = Role::where('name', '=', 'HR')->first()->id;
+
+        $campussupervisor_id = Role::where('name', '=', 'Campus Supervisor')->first()->id;
+/*
+		/*2 = 
 
 		$campus_supervisor_id = 
 
@@ -98,76 +102,168 @@ class PermissionsTableSeeder extends Seeder {
 
 		$department_supervisor_id =*/
 
+        DB::table('permission_roles')->delete();
+
 		DB::table('permission_roles')->insert(array(
 			array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 1
             ), 
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 2
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 3
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 4
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 5
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 6
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 7
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 8
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 9
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 10
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 11
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 12
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 13
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 14
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 15
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 16
             ),
             array(
-	        	'role_id'       => $admin_id,
+	        	'role_id'       => 1,
 	            'permission_id' => 17
             )          
 		));
+
+        DB::table('permission_roles')->insert(array(
+            array(
+                'role_id'       => 2,
+                'permission_id' => 1
+            ), 
+            array(
+                'role_id'       => 2,
+                'permission_id' => 1
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 3
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 4
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 5
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 6
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 7
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 8
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 9
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 10
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 11
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 11
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 13
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 14
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 15
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 16
+            ),
+            array(
+                'role_id'       => 2,
+                'permission_id' => 17
+            )          
+        ));
+
+        DB::table('permission_roles')->insert(array(
+            array(
+                'role_id'       => 3,
+                'permission_id' => 14
+            ),
+            array(
+                'role_id'       => 3,
+                'permission_id' => 15
+            ),
+            array(
+                'role_id'       => 3,
+                'permission_id' => 16
+            ),
+            array(
+                'role_id'       => 3,
+                'permission_id' => 17
+            )          
+        ));
 
 
 	}

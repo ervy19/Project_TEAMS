@@ -12,30 +12,50 @@ class RolesTableSeeder extends Seeder {
 		DB::table('roles')->delete();
 
 		$adminRole = new Role;
-        $adminRole->name = 'Admin';
-        $adminRole->save();
+                $adminRole->name = 'Admin';
+                $adminRole->save();
 
-        $adminRole = new Role;
-        $adminRole->name = 'HR';
-        $adminRole->save();
+                $hrRole = new Role;
+                $hrRole->name = 'HR';
+                $hrRole->save();
 
-        $supervisorRole = new Role;
-        $supervisorRole->name = 'Campus Supervisor';
-        $supervisorRole->save();
+                $campusSupervisorRole = new Role;
+                $campusSupervisorRole->name = 'Campus Supervisor';
+                $campusSupervisorRole->save();
 
-        $supervisorRole = new Role;
-        $supervisorRole->name = 'Program Supervisor';
-        $supervisorRole->save();
+                $programSupervisorRole = new Role;
+                $programSupervisorRole->name = 'Program Supervisor';
+                $programSupervisorRole->save();
 
-        $supervisorRole = new Role;
-        $supervisorRole->name = 'School_College Supervisor';
-        $supervisorRole->save();
+                $schoolcollegeSupervisorRole = new Role;
+                $schoolcollegeSupervisorRole->name = 'School_College Supervisor';
+                $schoolcollegeSupervisorRole->save();
 
-        $supervisorRole = new Role;
-        $supervisorRole->name = 'Department Supervisor';
-        $supervisorRole->save();
+                $departmentSupervisorRole = new Role;
+                $departmentSupervisorRole->name = 'Department Supervisor';
+                $departmentSupervisorRole->save();
 
 		$this->command->info('New Roles have been created!');
+
+                $user = User::where('username','=','ervy')->first();
+                $user->attachRole( $adminRole );
+
+                /*DB::table('assigned_roles')->insert(array(
+                        array(
+                                'user_id' => 2,
+                                'role_id' => 2
+                        ),
+                        array(
+                                'user_id' => 3,
+                                'role_id' => 3
+                        )
+                ));*/
+
+                $hrUser = User::where('username','=','ervy_hr')->first();
+                $hrUser->attachRole( $hrRole );
+
+                $supervisorUser = User::where('username','=','ervy_supervisor')->first();
+                $supervisorUser->attachRole( $campusSupervisorRole );
 	}
 
 }

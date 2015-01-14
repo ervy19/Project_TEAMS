@@ -80,10 +80,10 @@ class UsersController extends Controller
     public function login()
     {
         if (Confide::user()) {
-            return Redirect::to('/');
+            return Redirect::to('dashboard');
         } else {
-            //return View::make('login');
-            return View::make(Config::get('confide::login_form'));
+            return View::make('login');
+            //return View::make(Config::get('confide::login_form'));
         }
     }
 
@@ -212,6 +212,6 @@ class UsersController extends Controller
     {
         Confide::logout();
 
-        return Redirect::to('/');
+        return Redirect::to('users/login');
     }
 }

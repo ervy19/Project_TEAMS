@@ -9,18 +9,18 @@
 |
 */
 
-/*Route::get('/', function()
+Route::get('/', function()
 {
 	return View::make('login');
-});*/
+});
 
 Route::get('external_trainings/pending-approval', array(
 	'as' => 'external_trainings.pending-approval', 
 	'uses' => 'ExternalTrainingsController@indexQueue'
 	));
 
-//Route::group(array('before' => 'auth'), function()
-//{
+Route::group(array('before' => 'auth'), function()
+{
 
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
 
@@ -55,7 +55,12 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::get('dashboard', array('as' => 'dashboard', function()
 	{
-		return View::make('dashboard.index');
+
+		$permission = Auth::user()->hasRole('Admin');
+		$name = Auth::user()->username;
+		return View::make('dashboard.index')
+			->with('name',$name)
+			->with('permission',$permission);
 	}));
 
 
@@ -88,6 +93,7 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
+});
 /*
 |--------------------------------------------------------------------------
 | Confide Routes
@@ -99,8 +105,8 @@ Route::get('external_trainings/pending-approval', array(
 Route::get('users/create', 'UsersController@create');
 Route::get('users', 'UsersController@index');
 Route::post('users', 'UsersController@store');
-Route::get('/', 'UsersController@login');
-Route::post('/', 'UsersController@doLogin');
+Route::get('users/login', 'UsersController@login');
+Route::post('users/login', 'UsersController@doLogin');
 Route::get('users/confirm/{code}', 'UsersController@confirm');
 Route::get('users/forgot_password', 'UsersController@forgotPassword');
 Route::post('users/forgot_password', 'UsersController@doForgotPassword');

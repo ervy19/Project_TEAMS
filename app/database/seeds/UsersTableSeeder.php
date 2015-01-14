@@ -21,6 +21,15 @@ class UsersTableSeeder extends Seeder {
                 'created_at' => new DateTime,
                 'updated_at' => new DateTime,
             ),
+            array(
+                'username'   => 'ervy_hr',
+                'email'      => 'ervy_hr@ervyabut.com',
+                'password'   => Hash::make('hr'),
+                'confirmed'  => 1,
+                'confirmation_code' => md5(microtime().Config::get('app.key')),
+                'created_at' => new DateTime,
+                'updated_at' => new DateTime,
+            ),
 			array(
                 'username'   => 'ervy_supervisor',
                 'email'      => 'ervy_supervisor@ervyabut.com',

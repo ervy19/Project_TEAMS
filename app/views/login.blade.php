@@ -28,7 +28,7 @@
 
 	<div class="login">
 		<div class="row panel">
-            {{ Form::open(array('url'=>'/', 'class' => 'form-signin')) }}
+            {{ Form::open(array('url'=>'users/login', 'class' => 'form-signin')) }}
 	  			<div class="form-group">
 	  				<img src={{asset('assets/img/CEU_logo.jpg')}} alt="logo" class="img-responsive ceu-logo">
 		  			<h2>Human Resources</h2>
@@ -36,7 +36,7 @@
 	  			</div>
 	  			<div class="input-group margin-bottom-sm">
 				  <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-				  <input id="inputEmail" name="username" class="form-control" type="text" placeholder="Email Address">
+				  <input id="inputEmail" name="email" class="form-control" type="text" placeholder="Email Address">
 				</div>
 				<div class="input-group">
 				  <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>

@@ -88,3 +88,27 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Role Filter
+|--------------------------------------------------------------------------
+|
+| The role filter limits access to certain views wherein only users which
+| have the assigned role/s needed for access is allowed to proceed 
+|
+*/
+
+//Entrust::routeNeedsRole( 'users*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'campuses*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'schools_colleges*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'departments*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'positions*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'ranks*', array('Admin','HR'), Redirect::to('dashboard') );
+
+Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard') );

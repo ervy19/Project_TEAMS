@@ -18,6 +18,7 @@
 				<h5>Welcome, User</h5>
 			</div>
 			<div class="tiles">
+				@if($permission)
 				<a href="{{ URL::to('users') }}">
 					<div class="tile">
 						<div class="tile-body">
@@ -88,6 +89,7 @@
 						</div>
 					</div>
 				</a>
+				@endif
 				<a href="{{ URL::to('employees') }}">
 					<div class="tile">
 						<div class="tile-body">
