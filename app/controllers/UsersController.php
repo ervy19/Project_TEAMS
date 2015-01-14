@@ -16,14 +16,14 @@ class UsersController extends Controller
      */
     public function index()
     {
-
+        $users = User::all();
 
         if(Request::ajax()){
-            return Response::json(['data' => $departments]);
+            return Response::json(['data' => $users]);
         }
         else
         {
-            return View::make('user_accounts.index');
+            return View::make('users.index');
         }
     }
 
@@ -82,6 +82,7 @@ class UsersController extends Controller
         if (Confide::user()) {
             return Redirect::to('/');
         } else {
+            //return View::make('login');
             return View::make(Config::get('confide::login_form'));
         }
     }
@@ -97,7 +98,7 @@ class UsersController extends Controller
         $input = Input::all();
 
         if ($repo->login($input)) {
-            return Redirect::intended('/');
+            return Redirect::intended('dashboard');
         } else {
             if ($repo->isThrottled($input)) {
                 $err_msg = Lang::get('confide::confide.alerts.too_many_attempts');

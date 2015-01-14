@@ -22,9 +22,13 @@
 
   <body>
 
+    @if(isset($error))
+    <div>{{ $error }}</div>
+    @endif
+
 	<div class="login">
 		<div class="row panel">
-	  		<form class="form-signin" role="form">
+            {{ Form::open(array('url'=>'/', 'class' => 'form-signin')) }}
 	  			<div class="form-group">
 	  				<img src={{asset('assets/img/CEU_logo.jpg')}} alt="logo" class="img-responsive ceu-logo">
 		  			<h2>Human Resources</h2>
@@ -32,7 +36,7 @@
 	  			</div>
 	  			<div class="input-group margin-bottom-sm">
 				  <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-				  <input type="email" id="inputEmail" name="email" class="form-control" type="text" placeholder="Email Address">
+				  <input id="inputEmail" name="username" class="form-control" type="text" placeholder="Email Address">
 				</div>
 				<div class="input-group">
 				  <span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
@@ -44,7 +48,7 @@
                     Remember me
                 </label>
                 <a href="#" class="pull-right need-help">Forgot your password?</a><span class="clearfix"></span>
-	      	</form>
+            {{ Form::close() }}
 	  </div>
 	</div>
   

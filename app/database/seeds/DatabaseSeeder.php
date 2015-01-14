@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder {
 		//$this->call('PositionsTableSeeder');
 		//$this->call('RanksTableSeeder');
 		//$this->call('EmployeesTableSeeder');
+		$this->call('UsersTableSeeder');
+		$this->call('RolesTableSeeder');
+		$this->call('PermissionsTableSeeder');
 
 		$this->command->info('Database seeding complete!');
 	}

@@ -41,10 +41,12 @@
 							<th>Topic</th>
 							<th>Educational Background</th>
 							<th>Work Background</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>

@@ -18,7 +18,7 @@
 				<h5>Welcome, User</h5>
 			</div>
 			<div class="tiles">
-				<a href="{{ URL::to('user_accounts') }}">
+				<a href="{{ URL::to('users') }}">
 					<div class="tile">
 						<div class="tile-body">
 							<i class="fa fa-user fa-lg"></i>
@@ -134,7 +134,7 @@
 							<i class="fa fa-area-chart fa-lg"></i>
 						</div>
 						<div class="tile-object">
-							<h4>Reports</h4>
+							<h4>Summary Reports</h4>
 						</div>
 					</div>
 				</a>

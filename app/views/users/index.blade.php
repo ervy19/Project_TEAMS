@@ -21,19 +21,12 @@
 		<table id="tb-skills_competencies" class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th>Skill/Competency</th>
-					<th>Departments Tagged</th>
-					<th>Positions Tagged</th>
-					<th>Internal Trainings Tagged</th>
-					<th>External Trainings Tagged</th>
+					<th>Username</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>		
@@ -51,28 +44,16 @@
 		$(document).ready( function () {
 
 			var table = $('#tb-skills_competencies').dataTable({
-		        "ajax": "{{ URL::to('skills_competencies') }}",
+		        "ajax": "{{ URL::to('users') }}",
 		        "columns": [
-		            { "data": "name" },
-		            { "data": "departmentsTagged" },
-		            { "data": "positionsTagged" },
-		            { "data": "internalTrainingsTagged" },
-		            { "data": "externalTrainingsTagged" },
+		            { "data": "username" },
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
 					      return '<button type="button" class="btn btn-info btn-edit-sc" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-sc" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 					    }
 		        	}
-		        ],
-		          "aoColumnDefs": [
-			      { "sWidth": "21%", "aTargets": [ 0 ] },
-			      { "sWidth": '15%', "aTargets": [ 1 ] },
-			      { "sWidth": '13%', "aTargets": [ 2 ] },
-			      { "sWidth": '18%', "aTargets": [ 3 ] },
-			      { "sWidth": '18%', "aTargets": [ 4 ] },
-			      { "sWidth": '15%', "aTargets": [ 5 ] }
-			    ]
+		        ]
 			});
 
 	</script>
