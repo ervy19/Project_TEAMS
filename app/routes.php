@@ -19,8 +19,8 @@ Route::get('external_trainings/pending-approval', array(
 	'uses' => 'ExternalTrainingsController@indexQueue'
 	));
 
-Route::group(array('before' => 'auth'), function()
-{
+//Route::group(array('before' => 'auth'), function()
+//{
 
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
 
@@ -56,11 +56,16 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('dashboard', array('as' => 'dashboard', function()
 	{
 
-		$permission = Auth::user()->hasRole('Admin');
-		$name = Auth::user()->username;
-		return View::make('dashboard.index')
-			->with('name',$name)
-			->with('permission',$permission);
+		/*$options = array(
+		'validate_all' => false,
+		'return_type' => 'boolean'
+		);
+
+		$role = Auth::user()->ability('Admin,HR','manage_users', $options);
+		$name = Auth::user()->username;*/
+		return View::make('dashboard.index');
+			//->with('name',$name)
+			//->with('role',$role);
 	}));
 
 
@@ -93,7 +98,7 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
-});
+//});
 /*
 |--------------------------------------------------------------------------
 | Confide Routes

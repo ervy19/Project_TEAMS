@@ -99,7 +99,7 @@ Route::filter('csrf', function()
 |
 */
 
-//Entrust::routeNeedsRole( 'users*', array('Admin','HR'), Redirect::to('dashboard') );
+/*Entrust::routeNeedsRole( 'users*', array('Admin','HR'), Redirect::to('dashboard') );
 
 Entrust::routeNeedsRole( 'campuses*', array('Admin','HR'), Redirect::to('dashboard') );
 
@@ -111,4 +111,4 @@ Entrust::routeNeedsRole( 'positions*', array('Admin','HR'), Redirect::to('dashbo
 
 Entrust::routeNeedsRole( 'ranks*', array('Admin','HR'), Redirect::to('dashboard') );
 
-Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard') );*/

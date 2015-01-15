@@ -18,78 +18,76 @@
 				<h5>Welcome, User</h5>
 			</div>
 			<div class="tiles">
-				@if($permission)
-				<a href="{{ URL::to('users') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-user fa-lg"></i>
+					<a href="{{ URL::to('users') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-user fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>User Accounts</h4>
+							</div>
 						</div>
-						<div class="tile-object">
-							<h4>User Accounts</h4>
+					</a>
+					<a href="{{ URL::to('campuses') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-building-o fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Campuses</h4>
+							</div>
 						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('campuses') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-building-o fa-lg"></i>
+					</a>
+					<a href="{{ URL::to('schools_colleges') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-university fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>School & Colleges</h4>
+							</div>
 						</div>
-						<div class="tile-object">
-							<h4>Campuses</h4>
+					</a>
+					<a href="{{ URL::to('departments') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-graduation-cap fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Departments</h4>
+							</div>
 						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('schools_colleges') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-university fa-lg"></i>
+					</a>
+					<a href="{{ URL::to('positions') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-graduation-cap fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Positions</h4>
+							</div>
 						</div>
-						<div class="tile-object">
-							<h4>School & Colleges</h4>
+					</a>
+					<a href="{{ URL::to('ranks') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-graduation-cap fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Ranks</h4>
+							</div>
 						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('departments') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-graduation-cap fa-lg"></i>
+					</a>
+					<a href="{{ URL::to('skills_competencies') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-users fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Skills & Competencies</h4>
+							</div>
 						</div>
-						<div class="tile-object">
-							<h4>Departments</h4>
-						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('positions') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-graduation-cap fa-lg"></i>
-						</div>
-						<div class="tile-object">
-							<h4>Positions</h4>
-						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('ranks') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-graduation-cap fa-lg"></i>
-						</div>
-						<div class="tile-object">
-							<h4>Ranks</h4>
-						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('skills_competencies') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-users fa-lg"></i>
-						</div>
-						<div class="tile-object">
-							<h4>Skills & Competencies</h4>
-						</div>
-					</div>
-				</a>
-				@endif
+					</a>
 				<a href="{{ URL::to('employees') }}">
 					<div class="tile">
 						<div class="tile-body">
