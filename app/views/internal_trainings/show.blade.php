@@ -21,7 +21,7 @@
 				</div>
 				<div class="col-sm-11 col-md-11">
 					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->theme_topic or '---' }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Department of Mathematics</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $department or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -79,6 +79,29 @@
 				<span class="label label-danger status">Not Yet Accomplished</span>
 			</div>
 		</div>
+		<div class="row panel training-status">
+			<h3 class="panel-header">Training Information</h3>
+			<div class="col-sm-12 col-md-12 requirement">
+				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers">
+    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Speakers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+				</form>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
+				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">
+    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Participants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+				</form>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
+				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/accomplish">
+    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After Activity Evaluation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+				</form>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
+				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">
+    				<input type="submit" value="&nbsp;&nbsp;Training Effectiveness Report&nbsp;&nbsp;">
+				</form>
+			</div>
+		</div>
 		<div class="row panel training-summary">
 			<h3 class="panel-header">Report Summary</h3>
 			<div class="col-sm-4 col-md-4 summary-name">
@@ -132,17 +155,5 @@
 		</div>
 	</div>
 
-	<div class="col-sm-12 col-md-12 training-data">
-		<div class="row panel">
-			<ul class="nav nav-tabs nav-justified">
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers">Speakers</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants Information</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
-			</ul>
-			<div class="training-contents">
-			</div>
-		</div>
-	</div>
-
+	
 @stop

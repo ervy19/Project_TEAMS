@@ -63,7 +63,7 @@
 					<div class="col-sm-12 col-md-12">
 					{{ Form::label('designation','Designation ID: ') }}
 					</div>
-					{{ Form::select('designation_id', $designation, 'Select a Designation ID', array('id' => 'dd-designations', 'class' => 'col-sm-6 col-md-6')) }}
+					{{ Form::select('designation_id', {{ $designation[0]->id }}, 'Select a Designation ID', array('id' => 'dd-designations', 'class' => 'col-sm-6 col-md-6')) }}
 				</div>
 				<div class="form-group row">
 						{{ Form::label('isTrainingPlan','Training Plan: ') }}

@@ -98,10 +98,17 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$internaltrainings = Training::with('internal_training')->find($id);		 
+		$internaltrainings = Training::with('internal_training')->find($id);
+        $schoolcollegeid = Internal_Training::where('training_id', '=', $id)->pluck('organizer_schools_colleges_id');
+        $schoolcollege = School_College::where('id', '=', $schoolcollegeid)->pluck('name');
+        $departmentid = Internal_Training::where('training_id', '=', $id)->pluck('organizer_department_id');
+        $department = Department::where('id', '=', $departmentid)->pluck('name');        
+
 
 		return View::make('internal_trainings.show')
-			->with('internaltrainings', $internaltrainings);
+			->with('internaltrainings', $internaltrainings)
+            ->with('schoolcollege', $schoolcollege)
+            ->with('department', $department);
 	}
 
 	public function showSpeakers($id)
@@ -234,20 +241,11 @@ class InternalTrainingsController extends \BaseController {
                 ->withInput();
         } else {
             // store
-            //$internaltraining = Internal_Training::where('training_id', '=', '5')->where('isActive', '=', true)->get();
-            //dd($internaltraining);
         	DB::table('internal_trainings')
             ->where('training_id', $id)
             ->update(array(
             	'evaluation_narrative' => Input::get('evaluation_narrative'),
             	'recommendations' => Input::get('recommendations')));
-
-/*
-            $internaltraining = Internal_Training::where('training_id', '=', $id)->first();
-            $internaltraining->evaluation_narrative = Input::get('evaluation_narrative');
-            $internaltraining->recommendations = Input::get('recommendations');
-            $internaltraining->save();
-            */
 
             // redirect
             Session::flash('message', 'Successfully recorded Training Effectiveness Report!');

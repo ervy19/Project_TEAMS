@@ -23,7 +23,7 @@ class ExternalTrainingsController extends \BaseController {
 	public function create()
 	{
         $schoolcollege = School_College::where('isActive', '=', true)->lists('name','id');
-        $designation = Employee_Designation::where('isActive', '=', true)->lists('id');
+        $designation = Employee_Designation::where('isActive', '=', true)->get();
 		
         return View::make('external_trainings.create')
             ->with('schoolcollege', $schoolcollege)

@@ -141,8 +141,8 @@
       		</div>
     		<div class="modal-footer">
         						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        						{{ Form::submit('Add Department', array('class' => 'btn btn-primary')) }}
-      						{{ Form::close() }}
+        					{{ Form::submit('Add Department', array('class' => 'btn btn-primary')) }}
+      					{{ Form::close() }}
       		</div>
     	</div>
 	</div>
