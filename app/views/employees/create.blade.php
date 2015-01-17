@@ -69,7 +69,10 @@
 				<div class="form-group" id="dynamicInput">
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
-			    <input type="text" id='count' />
+			    <input type="hidden" id="count" name="count" />
+			    	<!--{{ Form::label('count') }}
+					{{ Form::text('count') }}-->
+
 				{{ Form::submit('Add Employee') }}
 
 			{{ Form::close() }}

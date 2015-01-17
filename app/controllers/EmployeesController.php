@@ -47,7 +47,6 @@ class EmployeesController extends \BaseController {
 	 */
 	public function store()
 	{
-		/**
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
@@ -67,7 +66,6 @@ class EmployeesController extends \BaseController {
                 ->withErrors($validator)
                 ->withInput(Input::except('employee_number'));
         } else {
-        	
             // store to employees
             $employees = new Employee;
             $employees->employee_number = Input::get('employee_number');
@@ -97,13 +95,11 @@ class EmployeesController extends \BaseController {
 				
 				$employee_designation->save();
 			}
-			**/
-			$var = Input::get('email');
-			dd($var);
+
             // redirect
             Session::flash('message', 'Successfully added Employee!');
             return Redirect::to('employees');
-		//}
+		}
 	}
 
 	/**
