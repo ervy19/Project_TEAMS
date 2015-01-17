@@ -69,9 +69,8 @@
 				<div class="form-group" id="dynamicInput">
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
+			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput', count);" class="btn btn-primary">
 			    <input type="hidden" id="count" name="count" />
-			    	<!--{{ Form::label('count') }}
-					{{ Form::text('count') }}-->
 
 				{{ Form::submit('Add Employee') }}
 
@@ -98,8 +97,7 @@
 		    					"<br><label>Department:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
 								"<br><label>Supervisor:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option><?php echo $value->id ?></option><?php endforeach; ?></select><br>" +
 		    					"<br><label>Position:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
-								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>" + 
-								"<input type='button' value='Remove Employee Designation' onclick=removeInput(&quot;dynamicInput&quot;,&quot;" + count + "&quot;); class='btn btn-primary'>"
+								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>"
 								;
 		    document.getElementById(divName).appendChild(newdiv);
 		    document.getElementById('count').value = count;

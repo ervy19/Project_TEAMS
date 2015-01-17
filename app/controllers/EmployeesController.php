@@ -89,7 +89,7 @@ class EmployeesController extends \BaseController {
 				$employee_designation->campus_id = Campus::where('name', '=', array_get($myInputs, '1'))->pluck('id');
 				$employee_designation->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '2'))->pluck('id');
 				$employee_designation->department_id = Department::where('name', '=', array_get($myInputs, '3'))->pluck('id');
-				$employee_designation->supervisor_id = Supervisor::where('id', '=', array_get($myInputs, '4'));
+				$employee_designation->supervisor_id = Supervisor::where('id', '=', array_get($myInputs, '4'))->pluck('id');
 				$employee_designation->position_id = Position::where('title', '=', array_get($myInputs, '5'))->pluck('id');
 				$employee_designation->rank_id = Rank::where('title', '=', array_get($myInputs, '6'))->pluck('id');
 				
