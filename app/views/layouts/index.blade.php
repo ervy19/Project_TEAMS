@@ -117,6 +117,8 @@
 
     {{ HTML::script('assets/js/select2.min.js'); }}
 
+    {{ HTML::script('assets/js/highcharts.js'); }}
+
     <!-- BEGIN PAGE-LEVEL JS -->
     <script>
       $("#skills_competencies").select2({
