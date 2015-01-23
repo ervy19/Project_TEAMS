@@ -28,7 +28,7 @@
 
 	<div class="login">
 		<div class="row panel">
-            {{ Form::open(array('url'=>'users/login', 'class' => 'form-signin')) }}
+            {{ Form::open(array('url'=>'/', 'class' => 'form-signin')) }}
 	  			<div class="form-group">
 	  				<img src={{asset('assets/img/CEU_logo.jpg')}} alt="logo" class="img-responsive ceu-logo">
 		  			<h2>Human Resources</h2>

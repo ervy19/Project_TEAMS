@@ -23,7 +23,7 @@ class UsersController extends Controller
         }
         else
         {
-            return View::make('users.index');
+            return View::make('user_accounts.index');
         }
     }
 

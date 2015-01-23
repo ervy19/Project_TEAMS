@@ -104,17 +104,7 @@
 							<i class="fa fa-inbox fa-lg"></i>
 						</div>
 						<div class="tile-object">
-							<h4>Internal Trainings</h4>
-						</div>
-					</div>
-				</a>
-				<a href="{{ URL::to('trainings') }}">
-					<div class="tile">
-						<div class="tile-body">
-							<i class="fa fa-inbox fa-lg"></i>
-						</div>
-						<div class="tile-object">
-							<h4>External Trainings</h4>
+							<h4>Trainings</h4>
 						</div>
 					</div>
 				</a>

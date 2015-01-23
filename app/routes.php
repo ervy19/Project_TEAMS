@@ -110,8 +110,8 @@ Route::get('external_trainings/pending-approval', array(
 Route::get('users/create', 'UsersController@create');
 Route::get('users', 'UsersController@index');
 Route::post('users', 'UsersController@store');
-Route::get('users/login', 'UsersController@login');
-Route::post('users/login', 'UsersController@doLogin');
+Route::get('/', 'UsersController@login');
+Route::post('/', 'UsersController@doLogin');
 Route::get('users/confirm/{code}', 'UsersController@confirm');
 Route::get('users/forgot_password', 'UsersController@forgotPassword');
 Route::post('users/forgot_password', 'UsersController@doForgotPassword');
