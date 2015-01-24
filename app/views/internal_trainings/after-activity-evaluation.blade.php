@@ -31,7 +31,7 @@
 			<div class="training-contents">
 			@if ($intent === "accomplish")
 				<table id="tb-evaluation" class="table table-striped table-bordered">
-					{{ Form::open(array('url' => 'internal_trainings/4/after-activity-evaluation')) }}
+					{{ Form::open(array('url' => 'internal_trainings/1/after-activity-evaluation')) }}
 					<thead>
 						<tr>
 							<th>Area</th>
@@ -140,10 +140,11 @@
 				{{ Form::submit('Submit', array('class' => 'btn btn-primary pull-right')) }}
       			{{ Form::close() }}
       			<br>
+
       			@elseif ($intent === "show")
 
       			<table id="tb-evaluation" class="table table-striped table-bordered">
-					{{ Form::open(array('url' => 'internal_trainings/4/after-activity-evaluation')) }}
+					{{ Form::open(array('url' => 'internal_trainings/1/after-activity-evaluation')) }}
 					<thead>
 						<tr>
 							<th>Area</th>

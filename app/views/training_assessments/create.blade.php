@@ -25,7 +25,16 @@
 							<div class="col-sm-12 col-md-12">
 							{{ Form::label('training_id','Internal Training: ') }}
 							</div>
+							<!--
 							{{ Form::select('internaltraining', $internaltrainings, 'Select a Training', array('class' => 'col-sm-6 col-md-6')) }}
+							-->
+							<select id="inttrainings" style="width: 300px">
+								<option selected disabled>Select Training</option>
+					      		@foreach($internaltrainings as $key => $value)
+					        		<option> {{ $value }} </option>
+					      		@endforeach
+				      		</select>
+				      		<input type="hidden" id="internaltraining" name='internaltraining'>
 						</div>
 
 						<div>
@@ -62,8 +71,18 @@
 							<div class="col-sm-12 col-md-12">
 							{{ Form::label('training_id','Internal Training: ') }}
 							</div>
+							<!--
 							{{ Form::select('internaltraining', $internaltrainings, 'Select a Training', array('class' => 'col-sm-6 col-md-6')) }}
+							-->
+							<select id="inttrainings" style="width: 300px">
+								<option selected disabled>Select Training</option>
+					      		@foreach($internaltrainings as $key => $value)
+					        		<option> {{ $value }} </option>
+					      		@endforeach
+				      		</select>
+				      		<input type="hidden" id="internaltraining" name='internaltraining'>
 						</div>
+
 
 						<div>
 							<h5>Assessment items: </h5>
@@ -116,6 +135,14 @@
 			}
 			document.getElementById('assessment_items').value = content;
 		}
+
+		$(document).ready(function() { $("#inttrainings").select2() });
+
+        var intt = $('#inttrainings');
+		$(intt).change(function() {
+			var elemt = document.getElementById("internaltraining");
+			elemt.value = $(intt).val();
+		});	
 
 	</script>
 @stop

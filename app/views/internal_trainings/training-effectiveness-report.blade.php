@@ -30,20 +30,33 @@
 				<li role="presentation" class="active"><a href="#">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
-				{{ Form::open(array('url' => 'internal_trainings/5')) }}
-				<div class="form-group row">
-						{{ Form::label('narrative','Evaluation Narrative: ') }}
-						{{ Form::textarea('evaluation_narrative', '', array( 'class' => 'form-control', 'rows' => '3')) }}
-						{{ $errors->first('evaluation_narrative') }}
-				</div>
-				<div class="form-group row">
-						{{ Form::label('recommendation','Recommendations: ') }}
-						{{ Form::textarea('recommendations', '', array( 'class' => 'form-control', 'rows' => '3')) }}
-						{{ $errors->first('recommendations') }}
-				</div>
-				{{ Form::submit('Submit', array('class' => 'btn btn-primary pull-right')) }}
-      			{{ Form::close() }}
-      			<br>
+				@if ($tereport === "") 
+						{{ Form::open(array('url' => 'internal_trainings/1')) }}
+						<div class="form-group row">
+								{{ Form::label('narrative','Evaluation Narrative: ') }}
+								{{ Form::textarea('evaluation_narrative', '', array( 'class' => 'form-control', 'rows' => '3')) }}
+								{{ $errors->first('evaluation_narrative') }}
+						</div>
+						<div class="form-group row">
+								{{ Form::label('recommendation','Recommendations: ') }}
+								{{ Form::textarea('recommendations', '', array( 'class' => 'form-control', 'rows' => '3')) }}
+								{{ $errors->first('recommendations') }}
+						</div>
+						{{ Form::submit('Submit', array('class' => 'btn btn-primary pull-right')) }}
+		      			{{ Form::close() }}
+	      			<br>
+	      		</div>
+	      		@else
+	      		<div class="training-contents">
+	      			<div class="label-remarks">
+						<h4>Evaluation Narrative</h4>
+						<p>{{ $trainingdetails[0]->evaluation_narrative or '---'}}</p>
+					</div>
+					<div class="label-remarks">
+						<h4>Recommendations</h4>
+						<p>{{ $trainingdetails[0]->recommendations or '---'}}</p>
+					</div>
+	      		@endif
 			</div>
 		</div>
 	</div>

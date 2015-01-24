@@ -163,7 +163,7 @@ class InternalTrainingsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function storeEval()
+	public function storeEval($id)
 	{
 		// validate
         // read more on validation at http://laravel.com/docs/validation
@@ -199,7 +199,7 @@ class InternalTrainingsController extends \BaseController {
             $activityevaluation->venue_criterion1 = Input::get('venue_criterion1');
             $activityevaluation->venue_criterion2 = Input::get('venue_criterion2');
             $activityevaluation->comments = Input::get('comments');
-            $activityevaluation->internal_training_id = 4;
+            $activityevaluation->internal_training_id = $id;
             $activityevaluation->save();
 
             //Speaker_Evaluation Table
@@ -219,9 +219,13 @@ class InternalTrainingsController extends \BaseController {
 	public function showTrainingEffectivenessReport($id)
 	{
 		$internaltrainings = Training::where('id', '=', $id)->get();
+        $trainingdetails = Internal_Training::where('training_id', '=', $id)->get();
+        $tereport = Internal_Training::where('training_id', '=', $id)->pluck('evaluation_narrative');
 
 		return View::make('internal_trainings.training-effectiveness-report')
-			->with('internaltrainings', $internaltrainings);
+			->with('internaltrainings', $internaltrainings)
+            ->with('tereport', $tereport)
+            ->with('trainingdetails', $trainingdetails);
 	}
 
 	public function storeReport($id)
