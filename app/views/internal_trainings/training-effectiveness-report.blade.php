@@ -31,7 +31,7 @@
 			</ul>
 			<div class="training-contents">
 				@if ($tereport === "") 
-						{{ Form::open(array('url' => 'internal_trainings/1')) }}
+					{{ Form::model($internaltrainings, array('route' => array('internal_trainings.store-report', $internaltrainings[0]->id), 'method' => 'POST')) }}
 						<div class="form-group row">
 								{{ Form::label('narrative','Evaluation Narrative: ') }}
 								{{ Form::textarea('evaluation_narrative', '', array( 'class' => 'form-control', 'rows' => '3')) }}
@@ -43,7 +43,7 @@
 								{{ $errors->first('recommendations') }}
 						</div>
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary pull-right')) }}
-		      			{{ Form::close() }}
+		      		{{ Form::close() }}
 	      			<br>
 	      		</div>
 	      		@else

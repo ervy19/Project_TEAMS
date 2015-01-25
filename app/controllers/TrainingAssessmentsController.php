@@ -222,7 +222,6 @@ class TrainingAssessmentsController extends \BaseController {
 			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->lists('name');
 			$assessmentresponse = Assessment_Response::where('isActive', '=', true)->where('participant_assessment_id', '=', $participant_id)->get();
 			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('id', '=', $participant_id)->get();
-
 			$itemcount = count($assessmentitems);
 
 			$internaltraining = Internal_Training::select(DB::raw('*'))
@@ -237,6 +236,7 @@ class TrainingAssessmentsController extends \BaseController {
 				->with('assessmentitems', $assessmentitems)
 				->with('assessmentresponse', $assessmentresponse)
 				->with('participantassessment', $participantassessment)
+				->with('participant_id', $participant_id)
 				->with('itemcount', $itemcount)
 				->with('header', $header)
 				->with('sectiontitle', $sectiontitle)

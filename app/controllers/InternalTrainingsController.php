@@ -174,7 +174,7 @@ class InternalTrainingsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/4/after-activity-evaluation/accomplish')
+            return Redirect::to('internal_trainings/1/after-activity-evaluation/accomplish')
                 ->withErrors($validator)
                 ->withInput();
         } else {
