@@ -40,6 +40,8 @@
 						<td>{{ $value->age }}</td>
 						<td>{{ $value->tenure }}</td>
 						<td>
+							<a class="btn btn-small btn-info" href="{{ URL::to('employees/' . $value->id) }}">View</a>
+							&nbsp;&nbsp;
 							<a class="btn btn-small btn-info" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
 							&nbsp;&nbsp;
 						   {{ Form::open(array('route' => array('employees.destroy', $value->id), 'method' => 'delete')) }}

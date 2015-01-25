@@ -1,4 +1,4 @@
-‹@extends('layouts.index')
+@extends('layouts.index')
 
 @section('title')
 	Internal Training - {{ $internaltrainings->title or '---' }}
