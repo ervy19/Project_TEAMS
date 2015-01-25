@@ -114,17 +114,21 @@ class InternalTrainingsController extends \BaseController {
 	public function showSpeakers($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
+        $intent = "accomplish";
 
 		return View::make('internal_trainings.speakers')
-			->with('internaltrainings', $internaltrainings);
+			->with('internaltrainings', $internaltrainings)
+            ->with('intent', $intent);
 	}
 
 	public function showParticipants($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
+        $intent = "accomplish";
 
 		return View::make('internal_trainings.participants')
-			->with('internaltrainings', $internaltrainings);
+			->with('internaltrainings', $internaltrainings)
+            ->with('intent', $intent);
 	}
 
 	public function showAfterActivityEvaluation($id, $intent)
@@ -174,7 +178,7 @@ class InternalTrainingsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/1/after-activity-evaluation/accomplish')
+            return Redirect::to('internal_trainings/{internal_trainings}/after-activity-evaluation/accomplish')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -221,11 +225,13 @@ class InternalTrainingsController extends \BaseController {
 		$internaltrainings = Training::where('id', '=', $id)->get();
         $trainingdetails = Internal_Training::where('training_id', '=', $id)->get();
         $tereport = Internal_Training::where('training_id', '=', $id)->pluck('evaluation_narrative');
+        $intent = "accomplish";
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings)
             ->with('tereport', $tereport)
-            ->with('trainingdetails', $trainingdetails);
+            ->with('trainingdetails', $trainingdetails)
+            ->with('intent', $intent);
 	}
 
 	public function storeReport($id)
