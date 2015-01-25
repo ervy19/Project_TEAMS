@@ -124,7 +124,14 @@ class InternalTrainingsController extends \BaseController {
 	public function showParticipants($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
-        $intent = "accomplish";
+        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+        
+        if (is_null($testresponse)) {
+            $intent = "accomplish";
+        }
+        else {
+            $intent = "show";
+        }
 
 		return View::make('internal_trainings.participants')
 			->with('internaltrainings', $internaltrainings)
@@ -225,7 +232,14 @@ class InternalTrainingsController extends \BaseController {
 		$internaltrainings = Training::where('id', '=', $id)->get();
         $trainingdetails = Internal_Training::where('training_id', '=', $id)->get();
         $tereport = Internal_Training::where('training_id', '=', $id)->pluck('evaluation_narrative');
-        $intent = "accomplish";
+        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+        
+        if (is_null($testresponse)) {
+            $intent = "accomplish";
+        }
+        else {
+            $intent = "show";
+        }
 
 		return View::make('internal_trainings.training-effectiveness-report')
 			->with('internaltrainings', $internaltrainings)
