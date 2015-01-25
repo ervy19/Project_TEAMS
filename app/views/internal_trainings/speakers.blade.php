@@ -25,7 +25,7 @@
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a href="#">Speakers</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/{{$intent}}">After Activity Evaluation</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
@@ -70,33 +70,33 @@
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
       					<div class="row">
-		      				{{ Form::open(['data-add','id' => 'add-speaker', 'class' => 'form-horizontal']) }}
+		      				{{ Form::open(['data-add','id' => 'add-speaker', 'url' => 'internal_trainings/1/speakers/store', 'class' => 'form-horizontal']) }}
 								<div class="form-group row">
 									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
 										{{ Form::text('name', '',array('class' => 'form-control')) }}
-										<div id="error-addcampus-name" class="error-message"></div>
+										<div id="error-addspeaker-name" class="error-message"></div>
 									</div>
 								</div>
 								<div class="form-group row">
-									{{ Form::label('topic','Topic: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									{{ Form::label('topiclabel','Topic: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
-										{{ Form::text('topic', '',array('class' => 'form-control', 'rows' => '3')) }}
-										<div id="error-addcampus-topic" class="error-message"></div>
+										{{ Form::text('topic', '',array('class' => 'form-control')) }}
+										<div id="error-addspeaker-topic" class="error-message"></div>
 									</div>
 								</div>
 								<div class="form-group row">
-									{{ Form::label('educational_background','Educational Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									{{ Form::label('educational_background_label','Educational Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
 										{{ Form::textarea('educational_background', '',array('class' => 'form-control', 'rows' => '3')) }}
-										<div id="error-addcampus-educational_background" class="error-message"></div>
+										<div id="error-addspeaker-educationalbackground" class="error-message"></div>
 									</div>
 								</div>
 								<div class="form-group row">
-									{{ Form::label('work_background','Work Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									{{ Form::label('work_background_label','Work Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
 										{{ Form::textarea('work_background', '',array('class' => 'form-control', 'rows' => '3')) }}
-										<div id="error-addcampus-work_background" class="error-message"></div>
+										<div id="error-addspeaker-workbackground" class="error-message"></div>
 									</div>
 								</div>
 						</div>
@@ -107,6 +107,71 @@
         						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         						{{ Form::submit('Add Speaker', array('class' => 'btn btn-primary')) }}
       						{{ Form::close() }}
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<!-- Edit Campus Information Modal -->
+<div class="modal fade" id="editCampus" tabindex="-1" role="dialog" aria-labelledby="editCampusLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="editCampusLabel"><i class="fa fa-edit fa-lg"></i>&nbsp;&nbsp;Edit Campus Information</h4>
+      		</div>
+      		<div class="modal-body">
+      			<div class="container">
+      				<div class="col-sm-12 col-md-12">
+      					<div class="row">
+      						{{ Form::open(['data-update','method' => 'PUT', 'id' => 'update-campus', 'class' => 'form-horizontal form-update-campus']) }}
+								<div class="form-group row">
+									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::text('name', '',array('class' => 'form-control')) }}
+										<div id="error-updatecampus-name" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('address','Address: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::textarea('address', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-updatecampus-address" class="error-message"></div>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>	
+      		</div>
+    		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        						{{ Form::submit('Save Campus Information', array('id' => 'btn-update-campus', 'class' => 'btn btn-primary')) }}
+      						{{ Form::close() }}
+      		</div>
+    	</div>
+	</div>
+</div>
+
+<!-- Delete Campus Modal -->
+<div class="modal fade" id="deleteCampus" tabindex="-1" role="dialog" aria-labelledby="deleteCampusLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h4 class="modal-title" id="deleteCampusLabel"><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;Archive Campus</h4>
+      		</div>
+      		<div class="modal-body">
+      			<div class="container">
+      				<div class="col-sm-12 col-md-12">
+      					<div class="row">
+      						<h5 class="confirm-delete">Are you sure you want to archive this campus?</h5>
+						</div>
+					</div>
+				</div>	
+      		</div>
+    		<div class="modal-footer">
+        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        		<button type="button" id="btn-archive-campus" class="btn btn-danger ">Archive</button>
       		</div>
     	</div>
 	</div>
@@ -141,8 +206,6 @@
 			    ]
 			});
 
-			//$('#tb-speakers').select2();
-
 			$('form[data-add]').on('submit', function (e) {
 
 					e.preventDefault();
@@ -160,14 +223,14 @@
 						success: function(data) {
 							if(data.success)
 							{
-								//RefreshTable('#tb-campuses',url);
+								//RefreshTable('#tb-speakers',url);
 								$('#addSpeaker').modal('hide');
 								$('.message-log').append('<div class="note note-success">Speaker successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
 		
 								table.fnDestroy();
 
 								table = $('#tb-speakers').dataTable({
-							        "ajax": "{{ URL::to('speakers') }}",
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
 							            { "data": "topic" },
@@ -176,15 +239,16 @@
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
-						}
+							            	 return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+							        		}
 							        	}
 							        ],
-							        "aoColumnDefs": [
+							          "aoColumnDefs": [
 								      { "sWidth": "30%", "aTargets": [ 0 ] },
-								      { "sWidth": '30%', "aTargets": [ 1 ] },
+								      { "sWidth": '15%', "aTargets": [ 1 ] },
 								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								      { "sWidth": '20%', "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] },
 								    ]
 								});
 							}
@@ -193,8 +257,8 @@
 								$('.error-message').empty();
 								$('#error-addspeaker-name').append(data.errors.name);
 								$('#error-addspeaker-topic').append(data.errors.topic);
-								$('#error-addspeaker-educational_background').append(data.errors.educational_background);
-								$('#error-addspeaker-work_background').append(data.errors.work_background);
+								$('#error-addspeaker-educationalbackground').append(data.errors.educationalbackground);
+								$('#error-addspeaker-workbackground').append(data.errors.workbackground);
 							}
 						}
 					});
@@ -226,7 +290,7 @@
 						success: function(data) {
 							if(data.success)
 							{
-								//RefreshTable('#tb-campuses',url);
+								//RefreshTable('#tb-speakers',url);
 								$('#editSpeaker').modal('hide');
 								$('.message-log').append('<div class="note note-success">Speaker information successfully updated.</div>').fadeIn(300).delay(3000).fadeOut(300);
 								
@@ -236,9 +300,7 @@
 							        "ajax": "{{ URL::to('campuses') }}",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "topic" },
-							            { "data": "educational_background" },
-							            { "data": "work_background" },
+							            { "data": "address" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
@@ -247,34 +309,31 @@
 							        	}
 							        ],
 							        "aoColumnDefs": [
-								      { "sWidth": "30%", "aTargets": [ 0 ] },
-								      { "sWidth": '30%', "aTargets": [ 1 ] },
-								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								      { "sWidth": "20%", "aTargets": [ 0 ] },
+								      { "sWidth": '65%', "aTargets": [ 1 ] },
+								      { "sWidth": '15%', "aTargets": [ 2 ] }
 								    ]
 								});
 							}
 							else
 							{
 								$('.error-message').empty();
-								$('#error-addspeaker-name').append(data.errors.name);
-								$('#error-addspeaker-topic').append(data.errors.topic);
-								$('#error-addspeaker-educational_background').append(data.errors.educational_background);
-								$('#error-addspeaker-work_background').append(data.errors.work_background);
+								$('#error-updatecampus-name').append(data.errors.name);
+								$('#error-updatecampus-address').append(data.errors.address);
 							}
 						}
 					});
 				});
 			});
 
-			$('#tb-speakers').on('click', '.btn-delete-speaker', function (e) {
+			$('#tb-speakers').on('click', '.btn-delete-spreaker', function (e) {
 
 				var id = $(this).attr('data-id');
 				var url = "{{ URL::to('campuses') }}";
 				$('.message-log').empty();
 
 			    $('#deleteSpeaker').modal({ backdrop: 'static', keyboard: false })
-			        .one('click', '#btn-archive-campus', function() {
+			        .one('click', '#btn-archive-speaker', function() {
 
 			            deleteSpeaker(id,url);
 			            //$form.trigger('submit');
@@ -309,16 +368,16 @@
 						if(data.success)
 						{					
 							$('#editSpeaker').find('input[name=name]').val(data.result.name);
-							$('#editSpeaker').find('textarea[name=topic]').val(data.result.topic);
-							$('#editSpeaker').find('textarea[name=educational_background]').val(data.result.educational_background);
-							$('#editSpeaker').find('textarea[name=work_background]').val(data.result.work_background);
+							$('#editSpeaker').find('input[name=topic]').val(data.result.topic);
+							$('#editSpeaker').find('textarea[name=educationalbackground]').val(data.result.educationalbackground);
+							$('#editSpeaker').find('textarea[name=workbackground]').val(data.result.workbackground);
 							$('#editSpeaker').modal({ backdrop: 'static', keyboard: false });
 						}
 					}
 				});
 			}
 
-			function deleteSpeaker(id,url) {
+			function deleteCampus(id,url) {
 
 				$.ajax({
 					type: 'DELETE',
@@ -327,31 +386,28 @@
 					success: function(data) {
 						if(data.success)
 						{		
-							$('#deleteSpeaker').modal('hide');
+							$('#deleteCampus').modal('hide');
 
-							$('.message-log').append('<div class="note note-success">Speaker successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
+							$('.message-log').append('<div class="note note-success">Campus successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
 								
 								table.fnDestroy();
 
-								table = $('#tb-speakers').dataTable({
+								table = $('#tb-campuses').dataTable({
 							        "ajax": "{{ URL::to('campuses') }}",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "topic" },
-							            { "data": "educational_background" },
-							            { "data": "work_background" },
+							            { "data": "address" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 											}
 							        	}
 							        ],
 							        "aoColumnDefs": [
-								      { "sWidth": "30%", "aTargets": [ 0 ] },
-								      { "sWidth": '30%', "aTargets": [ 1 ] },
-								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '20%', "aTargets": [ 3 ] }
+								      { "sWidth": "20%", "aTargets": [ 0 ] },
+								      { "sWidth": '65%', "aTargets": [ 1 ] },
+								      { "sWidth": '15%', "aTargets": [ 2 ] }
 								    ]
 								});
 						}
@@ -362,6 +418,7 @@
 			
 
 		});
+
 
 	</script>
 @stop
