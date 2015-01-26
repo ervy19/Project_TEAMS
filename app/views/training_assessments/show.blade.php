@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-	Pre-Training Assessment - 
+	{{ $sectiontitle }} 
 @stop
 
 @section('content')
@@ -9,7 +9,9 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h2 class="panel-header">Pre-Training Assessment</h2>	
+
+			<h2 class="panel-header">{{ $header }}</h2>	
+
 		</div>
 		<div class="row">
 			<div class="col-sm-12 col-md-12 training-info">
@@ -20,12 +22,13 @@
 							<h6>Position:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ $participant->name or '---' }}</h5>
-							<h5>{{ $participant->position or '---' }}</h5>
+							<h5>{{ "Sophia Hernandez" }}</h5>
+							<h5>{{ "faculty" }}</h5>
 						</div>
+						@foreach($internaltraining as $training)
 						<div class="col-sm-4 col-md-4">
 							<h6>School/College/Department:</h6>
-							<p>{{ $participant->scd or '---' }}</p>
+							<p>{{ $training->name }}</p>
 						</div>
 					</div>
 					<div class="row training-details">
@@ -34,8 +37,8 @@
 							<h6>Training Organizer:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ $internaltrainings->theme_topic or '---' }}</h5>
-							<h5>{{ $internaltrainings->organizer or '---' }}</h5>
+							<h5>{{ $training->theme_topic }}</h5>
+							<h5>{{ $training->name }}</h5>
 						</div>
 
 						<div class="col-sm-1 col-md-1">
@@ -43,17 +46,15 @@
 							<h6>Schedule:</h6>
 						</div>
 						<div class="col-sm-3 col-md-3">
-							<h5>{{ $internaltrainings->venue or '---' }}</h5>
-							<h5>
-							@if(isset($internaltrainings))
-								{{ $internaltrainings->date_start . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ") " . " | " . $internaltrainings->date_end . ' (' . $internaltrainings->time_start . "-" . $internaltrainings->time_end . ')' }}</h5>
-							@endif
+							<h5>{{ $training->venue }}</h5>
+							<h5>{{ $training->schedule }}</h5>
 						</div>
 
 						<div class="col-sm-12 col-md-12">
 							<h6>Objectives:</h6>
-							<p>{{ $internaltrainings->objectives or '---' }}</p>
+							<p>{{ $training->objectives }}</p>
 						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -63,42 +64,80 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-12 pta-form">
 				<div class="panel">
-					<table class="table">
-						<thead>
-							<tr class="assessment-form">
-								<th>Items for Assessment</th>
-								<th>5</th>
-								<th>4</th>
-								<th>3</th>
-								<th>2</th>
-								<th>1</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>ITEM</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>ITEM2</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<h5 class="label-remarks">Remarks</h5>
+					<h5>Instructions</h5> 
 					<p>
+						Read each of the items carefully and rate the participant by selecting the appropriate column based on the following rating scale:
+					</p>
+					<p class="assessment-scale">
+						<b>5</b>&nbsp;&nbsp;&nbsp;&nbsp; Very Extensive Knowledge | Very Skillful | Highly Positive Attitude
+						<br>
+						<b>4</b>&nbsp;&nbsp;&nbsp;&nbsp; Extensive Knowledge | Skillful | Positive Attitude
+						<br>
+						<b>3</b>&nbsp;&nbsp;&nbsp;&nbsp; Adequate Knowledge | Adequate Skillful | Neutral Attitude
+						<br>
+						<b>2</b>&nbsp;&nbsp;&nbsp;&nbsp; Inadequate Knowledge | Lacks Skillful | Ambivalent
+						<br>
+						<b>1</b>&nbsp;&nbsp;&nbsp;&nbsp; No Knowledge | No Skill | Unfavorable Attitude
 					</p>
 
-				</div>
+					@if ($type === "pta")
+						<table class="table">
+										<thead>
+											<tr class="assessment-form">
+												<th>Items for Assessment</th>
+												<th>Rating</th>
+											</tr>
+										</thead>
+										<tbody>
+											@for ($i = 0; $i < $itemcount; $i++)
+												<tr>
+													<td>{{ $assessmentresponse[$i]->name }}</td>
+													<td>{{ $assessmentresponse[$i]->rating }}</td>
+												</tr>
+											@endfor
+										</tbody>
+									</table>
+
+									<div class="label-remarks">
+										<h6>Verbal Interpretation</h6>
+										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
+									</div>
+									<div class="label-remarks">
+										<h6>Remarks</h6>
+										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
+									</div>
+									<br>
+									
+					@elseif ($type === "pte")
+
+							<table class="table">
+										<thead>
+											<tr class="assessment-form">
+												<th>Items for Assessment</th>
+												<th>Rating</th>
+											</tr>
+										</thead>
+										<tbody>
+											@for ($i = 0; $i < $itemcount; $i++)
+												<tr>
+													<td>{{ $assessmentresponse[$i]->name }}</td>
+													<td>{{ $assessmentresponse[$i]->rating }}</td>
+												</tr>
+											@endfor
+										</tbody>
+									</table>
+
+									<div class="label-remarks">
+										<h6>Verbal Interpretation</h6>
+										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
+									</div>
+									<div class="label-remarks">
+										<h6>Remarks</h6>
+										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
+									</div>
+									<br>
+					@endif
+					</div>
 			</div>
 		</div>
 	</div>

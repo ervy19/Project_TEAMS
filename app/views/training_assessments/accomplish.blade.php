@@ -80,9 +80,8 @@
 						<b>1</b>&nbsp;&nbsp;&nbsp;&nbsp; No Knowledge | No Skill | Unfavorable Attitude
 					</p>
 
-					@if ($type === 'pta')
-						@if (is_null($assessmentresponse)) 
-							{{ Form::open(array('url' => 'internal_trainings/1/pta/1')) }}
+					@if ($type === "pta")
+							{{ Form::open(array('url' => 'internal_trainings/1/pta/1', 'class' => 'form-horizontal')) }}
 
 							<table class="table">
 								<thead>
@@ -117,42 +116,10 @@
 
 							{{ Form::submit('Submit PTA Report', array('class' => 'pta-form-btn pull-right')) }}
 
-						{{ Form::close() }}
-
-						@else 							    
+							{{ Form::close() }}					    
 							
-							<table class="table">
-										<thead>
-											<tr class="assessment-form">
-												<th>Items for Assessment</th>
-												<th>Rating</th>
-											</tr>
-										</thead>
-										<tbody>
-											@for ($i = 0; $i < $itemcount; $i++)
-												<tr>
-													<td>{{ $assessmentresponse[$i]->name }}</td>
-													<td>{{ $assessmentresponse[$i]->rating }}</td>
-												</tr>
-											@endfor
-										</tbody>
-									</table>
-
-									<div class="label-remarks">
-										<h6>Verbal Interpretation</h6>
-										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
-									</div>
-									<div class="label-remarks">
-										<h6>Remarks</h6>
-										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
-									</div>
-									<br>
-							@endif
-							
-					@elseif ($type === 'pte')
-						@if (is_null($assessmentresponse)) 
-							     {{ Form::open(array('url' => 'internal_trainings/1/pte/1')) }}
-
+					@elseif ($type === "pte")
+							{{ Form::open(array('url' => 'internal_trainings/1/pte/1', 'class' => 'form-horizontal')) }}
 									<table class="table">
 										<thead>
 											<tr class="assessment-form">
@@ -186,38 +153,10 @@
 
 									{{ Form::submit('Submit PTE Report', array('class' => 'pta-form-btn pull-right')) }}
 
-								{{ Form::close() }}
-
-							@else 							    
+								{{ Form::close() }}							    
 							
-							<table class="table">
-										<thead>
-											<tr class="assessment-form">
-												<th>Items for Assessment</th>
-												<th>Rating</th>
-											</tr>
-										</thead>
-										<tbody>
-											@for ($i = 0; $i < $itemcount; $i++)
-												<tr>
-													<td>{{ $assessmentresponse[$i]->name }}</td>
-													<td>{{ $assessmentresponse[$i]->rating }}</td>
-												</tr>
-											@endfor
-										</tbody>
-									</table>
-
-									<div class="label-remarks">
-										<h6>Verbal Interpretation</h6>
-										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
-									</div>
-									<div class="label-remarks">
-										<h6>Remarks</h6>
-										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
-									</div>
-									<br>
+							
 							@endif
-					@endif
 				</div>
 			</div>
 		</div>

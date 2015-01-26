@@ -114,11 +114,9 @@ class InternalTrainingsController extends \BaseController {
 	public function showSpeakers($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
-        $intent = "accomplish";
 
 		return View::make('internal_trainings.speakers')
-			->with('internaltrainings', $internaltrainings)
-            ->with('intent', $intent);
+			->with('internaltrainings', $internaltrainings);
 	}
 
 	public function showParticipants($id)
