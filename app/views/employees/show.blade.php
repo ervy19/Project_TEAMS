@@ -11,7 +11,7 @@
 
 @section('content')
 
-	<div class="col-sm-8 col-md-8 employee-info">
+	<div class="col-sm-9 col-md-9 employee-info">
 		<div class="panel">
 			<div class="row employee-details">
 				<h4>&nbsp;&nbsp;{{  $employees->employee_number or 'NN-0011-111' }}</h4>
@@ -47,16 +47,20 @@
 		</div>
 	</div>
 
-	<div class="col-sm-4 col-md-4">
-		<div class="panel">
-			<div class="row employee-details employee-options">
-				<div class="col-sm-12 col-md-12">
+	<div class="col-sm-3 col-md-3 training-sidebar">
+		<div class="row panel training-status">
+			<h3 class="panel-header">Training Information</h3>
+			<div class="col-sm-12 col-md-12 requirement">
+				<a href="#" class="btn btn-primary pull-right">View Employee's Trainings</a>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
 				<a href="#" class="btn btn-primary pull-right">View Employee's Training Report</a>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
 				<a href="#" class="btn btn-primary pull-right">Download Employee's Training Log</a>
-				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	@if(!(null !== $designations))
 		@foreach( $designations as $key => $value)
@@ -113,4 +117,34 @@
 			</div>
 		</div>
 	</div>
+@stop
+
+@section('page_js')
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#tb-employee-show').DataTable( {
+
+				"aoColumnDefs": [
+      				{ "bSortable": false, "aTargets": [ 0 ] }
+    			]
+
+		    });
+
+		    $('#tb-internal-trainings').DataTable( {
+
+				"aoColumnDefs": [
+      				{ "bSortable": false, "aTargets": [ 0 ] }
+    			]
+
+		    });
+
+		    $('#tb-external-trainings').DataTable( {
+
+				"aoColumnDefs": [
+      				{ "bSortable": false, "aTargets": [ 0 ] }
+    			]
+
+		    });
+		});
+	</script>
 @stop

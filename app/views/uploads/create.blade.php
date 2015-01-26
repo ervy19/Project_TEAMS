@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-	{{ Form::open(array('url'=>'form-submit', 'files' => 'true')) }}
+	{{ Form::open(array('url'=>'uploads', 'files' => 'true')) }}
 		{{ Form::label('Upload here') }}
 		{{ Form::file('file') }}
 

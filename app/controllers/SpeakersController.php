@@ -11,6 +11,14 @@ class SpeakersController extends \BaseController {
 	{
 		//$internaltrainings=array();
 		$internaltrainings = Training::find($id);
+		$testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+		
+		if (is_null($testresponse)) {
+			$intent = "accomplish";
+		}
+		else {
+			$intent = "show";
+		}
 				
 		$speakers = Speaker::where('isActive', '=', true)->get();
 
@@ -20,7 +28,8 @@ class SpeakersController extends \BaseController {
 		else
 		{
 			return View::make('internal_trainings.speakers')
-				->with('internaltrainings', $internaltrainings);
+				->with('internaltrainings', $internaltrainings)
+				->with('intent', $intent);
 		}
 	}
 
@@ -45,29 +54,27 @@ class SpeakersController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'name' => 'required|max:255', 
-            'topic' => 'required|max:255'
+            'name' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
-        if ($validator->fails()) {
-        	return Response::json([
-        		'success' => false,
-        		'errors' => $validator->errors()->toArray()]
-        	);
-            /*return Redirect::to('campuses')
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));*/
-        } else {
+         if ($validator->fails()) {
+         	return Response::json([
+         		'success' => false,
+         		'errors' => $validator->errors()->toArray()]
+         	);
+             /*return Redirect::to('campuses')
+                 ->withErrors($validator)
+                 ->withInput(Input::except('password'));*/
+         } else {
             // store
             $speakers = new Speaker;
             $speakers->name = Input::get('name');
             $speakers->topic = Input::get('topic');
             $speakers->educational_background = Input::get('educational_background');
             $speakers->work_background = Input::get('work_background');
-            //$speakers->training_id = Input::get('training_id');
-            $speakers->training_id = 5;
+            $speakers->training_id = 1;
             $speakers->save();
 
             return Response::json(['success' => true]);

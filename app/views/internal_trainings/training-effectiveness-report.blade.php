@@ -26,7 +26,7 @@
 				
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings[0]->id}}/speakers">Speakers</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings[0]->id}}/participants">Participants Information</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings[0]->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings[0]->id}}/after-activity-evaluation/{{$intent}}">After Activity Evaluation</a></li>
 				<li role="presentation" class="active"><a href="#">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">

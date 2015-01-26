@@ -41,14 +41,13 @@
 							<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('employees/' . $value->id) }}">View</a>
 							<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
 						   {{ Form::open(array('route' => array('employees.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
-						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+						   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
 						   {{ Form::close() }}
 						</td>
 					</tr>
 					@endforeach
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 </div>
