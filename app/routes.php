@@ -24,9 +24,9 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
 
-	Route::post('internal_trainings/{internal_trainings}/speakers/store', array('as' => 'speakers.store', 'uses' => 'SpeakersController@store'));
 
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
+
 
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
@@ -34,11 +34,16 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
 
+
 	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
+
+
+	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
 	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
 
-	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
@@ -46,6 +51,9 @@ Route::get('external_trainings/pending-approval', array(
 	{
 		return View::make('training_plan.index');
 	}));
+
+	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
+	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));
 
 
 	Route::get('dashboard', array('as' => 'dashboard', function()
@@ -108,8 +116,8 @@ Route::get('external_trainings/pending-approval', array(
 Route::get('users/create', 'UsersController@create');
 Route::get('users', 'UsersController@index');
 Route::post('users', 'UsersController@store');
-Route::get('/', 'UsersController@login');
-Route::post('/', 'UsersController@doLogin');
+Route::get('users/login', 'UsersController@login');
+Route::post('users/login', 'UsersController@doLogin');
 Route::get('users/confirm/{code}', 'UsersController@confirm');
 Route::get('users/forgot_password', 'UsersController@forgotPassword');
 Route::post('users/forgot_password', 'UsersController@doForgotPassword');
@@ -128,6 +136,8 @@ Route::get('users/logout', 'UsersController@logout');
 */
 Route::get('{type}/create', array('as' => 'training_assessment.create', 'uses' => 'TrainingAssessmentsController@create'));
 
+
+
 Route::post('{type}', array('as' => 'training_assessment.store', 'uses' => 'TrainingAssessmentsController@store'));
 
 Route::get('{type}/{training_assessment}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@show'));
@@ -135,7 +145,6 @@ Route::get('{type}/{training_assessment}', array('as' => 'training_assessment.sh
 Route::get('{type}/{training_assessment}/edit', array('as' => 'training_assessment.edit', 'uses' => 'TrainingAssessmentsController@edit'));
 
 Route::put('{type}/{training_assessment}', array('as' => 'training_assessment.update', 'uses' => 'TrainingAssessmentsController@update'));
-
 Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessmentsController@update'));
 
 Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
