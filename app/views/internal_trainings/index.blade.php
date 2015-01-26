@@ -23,7 +23,6 @@
 			<table id="tb-internal_trainings" class="table table-bordered">
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="someCheckbox" name="someCheckbox" /></th>
 						<th>Title</th>
 						<th>Theme/Topic</th>
 						<th>Venue</th>
@@ -36,19 +35,16 @@
 					@if(isset($internaltrainings))
 						@foreach($internaltrainings as $key => $value)
 						<tr>
-							<td><input type="checkbox" id="someCheckbox" name="someCheckbox" /></td>
 							<th>{{ $value->title }}</th>
 							<th>{{ $value->theme_topic }}</th>
 							<th>{{ $value->venue }}</th>
 							<th>{{ $value->schedule }}</th>
 							<th>Organizer</th>
 							<td>
-								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
-								&nbsp;&nbsp;
-								<a class="btn btn-small btn-info" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
-								&nbsp;&nbsp;
-							   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'method' => 'delete')) }}
-							    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+								<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
+								<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
+							   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'class' => 'form-archive', 'method' => 'delete')) }}
+							   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
 							   {{ Form::close() }}
 							</td>
 						</tr>
@@ -70,8 +66,13 @@
 		    $('#tb-internal_trainings').DataTable( {
 
 				"aoColumnDefs": [
-      				{ "bSortable": false, "aTargets": [ 0 ] }
-    			]
+			      { "sWidth": "23%", "aTargets": [ 0 ] },
+			      { "sWidth": '15%', "aTargets": [ 1 ] },
+			      { "sWidth": '15%', "aTargets": [ 2 ] },
+			      { "sWidth": '15%', "aTargets": [ 3 ] },
+			      { "sWidth": '15%', "aTargets": [ 4 ] },
+			      { "sWidth": '17%', "aTargets": [ 5 ] },
+			    ]
 
 		    });
 		});

@@ -26,7 +26,6 @@
 						<th>Employee Number</th>
 						<th>Name</th>
 						<th>Email</th>
-						<th>Age</th>
 						<th>Tenure</th>
 						<th>Action</th>
 					</tr>
@@ -37,12 +36,11 @@
 						<td>{{ $value->employee_number }}</td>
 						<td>{{ $value->last_name . ', ' . $value->given_name . " " . $value->middle_initial }}</td>
 						<td>{{ $value->email }}</td>
-						<td>{{ $value->age }}</td>
 						<td>{{ $value->tenure }}</td>
 						<td>
-							<a class="btn btn-small btn-info" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
-							&nbsp;&nbsp;
-						   {{ Form::open(array('route' => array('employees.destroy', $value->id), 'method' => 'delete')) }}
+							<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('employees/' . $value->id) }}">View</a>
+							<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
+						   {{ Form::open(array('route' => array('employees.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
 						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
 						   {{ Form::close() }}
 						</td>
@@ -60,7 +58,15 @@
 @section('page_js')
 	<script type="text/javascript">
 		$(document).ready( function () {
-		    $('#tb-employees').DataTable();
+		    $('#tb-employees').DataTable({
+		    	"aoColumnDefs": [
+			      { "sWidth": "17%", "aTargets": [ 0 ] },
+			      { "sWidth": '30%', "aTargets": [ 1 ] },
+			      { "sWidth": '25%', "aTargets": [ 2 ] },
+			      { "sWidth": '10%', "aTargets": [ 3 ] },
+			      { "sWidth": '18%', "aTargets": [ 4 ] }
+			    ]
+		    });
 		} );
 	</script>
 @stop

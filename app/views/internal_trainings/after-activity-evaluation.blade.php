@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
 	<li><a href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
-	<li><a href="{{ URL::to('internal_trainings') }}/{{ $internaltrainings[0]->id }}">{{ $internaltrainings[0]->title }}</a></li>
+	<li><a href="{{ URL::to('internal_trainings') }}/{{ $internaltrainings->id }}">{{ $internaltrainings[0]->title }}</a></li>
 	<li>After Activity Evaluation</li>
 @stop
 

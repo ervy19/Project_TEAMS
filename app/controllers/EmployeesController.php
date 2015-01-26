@@ -110,10 +110,22 @@ class EmployeesController extends \BaseController {
 	 */
 	public function show($id) 
 	{
-		$employees = Employee::find($id);
+		$employee = Employee::find($id);
+
+		$designations = Employee_Designation::select(DB::raw('employee_designations.id, positions.title as position_title, ranks.title as rank_title, schools_colleges.name as school_college_name, departments.name as department_name, campuses.name as campus_name'))
+								->leftJoin('positions','positions.id','=','employee_designations.position_id')
+								->leftJoin('ranks','ranks.id','=','employee_designations.rank_id')
+								->leftJoin('schools_colleges','schools_colleges.id','=','employee_designations.schools_colleges_id')
+								->leftJoin('departments','departments.id','=','employee_designations.department_id')
+								->leftJoin('campuses','campuses.id','=','employee_designations.campus_id')
+								->where('employee_designations.isActive', '=', true)
+								->get();
+
+		//$supervisor = DB::table('')
 
 		return View::make('employees.show')
-			->with('employees', $employees );
+			->with('employees', $employee )
+			->with('designations', $designations);
 	}
 
 

@@ -1,4 +1,4 @@
-‹@extends('layouts.index')
+@extends('layouts.index')
 
 @section('title')
 	Internal Training - {{ $internaltrainings->title or '---' }}
@@ -72,34 +72,26 @@
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4>After Activity Evaluation Report</h4>
-				<span class="label label-danger status">Not Yet Accomplished</span>
+				<span class="label label-danger status">Not Yet Available</span>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4>Training Effectiveness Report</h4>
-				<span class="label label-danger status">Not Yet Accomplished</span>
+				<span class="label label-danger status">Not Yet Available</span>
 			</div>
 		</div>
 		<div class="row panel training-status">
 			<h3 class="panel-header">Training Information</h3>
 			<div class="col-sm-12 col-md-12 requirement">
-				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers">
-    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Speakers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
-				</form>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers" class="btn btn-primary">View Speakers</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">
-    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Participants&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
-				</form>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants" class="btn btn-primary">View Participants</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/accomplish">
-    				<input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After Activity Evaluation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
-				</form>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/accomplish" class="btn btn-primary">View After Activity Evaluation</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<form action="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">
-    				<input type="submit" value="&nbsp;&nbsp;Training Effectiveness Report&nbsp;&nbsp;">
-				</form>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report" class="btn btn-primary">View After Activity Evaluation</a>
 			</div>
 		</div>
 		<div class="row panel training-summary">
