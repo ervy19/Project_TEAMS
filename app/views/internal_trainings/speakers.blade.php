@@ -113,7 +113,7 @@
 </div>
 
 <!-- Edit Campus Information Modal -->
-<div class="modal fade" id="editCampus" tabindex="-1" role="dialog" aria-labelledby="editCampusLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="editSpeaker" tabindex="-1" role="dialog" aria-labelledby="editCampusLabel" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -297,21 +297,25 @@
 								table.fnDestroy();
 
 								table = $('#tb-speakers').dataTable({
-							        "ajax": "{{ URL::to('campuses') }}",
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "address" },
+							            { "data": "topic" },
+							            { "data": "educational_background" },
+							            { "data": "work_background" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
-						}
+							            	 return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+							        		}
 							        	}
 							        ],
-							        "aoColumnDefs": [
-								      { "sWidth": "20%", "aTargets": [ 0 ] },
-								      { "sWidth": '65%', "aTargets": [ 1 ] },
-								      { "sWidth": '15%', "aTargets": [ 2 ] }
+							          "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '15%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '20%', "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] },
 								    ]
 								});
 							}
@@ -366,7 +370,8 @@
 					data: id,
 					success: function(data) {
 						if(data.success)
-						{					
+						{
+							$('#editSpeaker').modal('show');						
 							$('#editSpeaker').find('input[name=name]').val(data.result.name);
 							$('#editSpeaker').find('input[name=topic]').val(data.result.topic);
 							$('#editSpeaker').find('textarea[name=educationalbackground]').val(data.result.educationalbackground);
@@ -392,22 +397,26 @@
 								
 								table.fnDestroy();
 
-								table = $('#tb-campuses').dataTable({
-							        "ajax": "{{ URL::to('campuses') }}",
+								table = $('#tb-speakers').dataTable({
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "address" },
+							            { "data": "topic" },
+							            { "data": "educational_background" },
+							            { "data": "work_background" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
-											}
+							            	 return '<button type="button" class="btn btn-info btn-edit-speaker" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-speaker" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+							        		}
 							        	}
 							        ],
-							        "aoColumnDefs": [
-								      { "sWidth": "20%", "aTargets": [ 0 ] },
-								      { "sWidth": '65%', "aTargets": [ 1 ] },
-								      { "sWidth": '15%', "aTargets": [ 2 ] }
+							          "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '15%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '20%', "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] },
 								    ]
 								});
 						}

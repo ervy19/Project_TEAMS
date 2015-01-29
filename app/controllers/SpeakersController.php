@@ -74,7 +74,7 @@ class SpeakersController extends \BaseController {
             $speakers->topic = Input::get('topic');
             $speakers->educational_background = Input::get('educational_background');
             $speakers->work_background = Input::get('work_background');
-            $speakers->training_id = 1;
+            $speakers->internal_training_id = 1;
             $speakers->save();
 
             return Response::json(['success' => true]);
