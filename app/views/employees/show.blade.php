@@ -49,15 +49,15 @@
 
 	<div class="col-sm-3 col-md-3 training-sidebar">
 		<div class="row panel training-status">
-			<h3 class="panel-header">Training Information</h3>
+			<h3 class="panel-header">Employee Training History</h3>
 			<div class="col-sm-12 col-md-12 requirement">
-				<a href="#" class="btn btn-primary pull-right">View Employee's Trainings</a>
+				<a href="#" class="btn btn-primary">View Employee's Trainings</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<a href="#" class="btn btn-primary pull-right">View Employee's Training Report</a>
+				<a href="#" class="btn btn-primary">View Employee's Training Report</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<a href="#" class="btn btn-primary pull-right">Download Employee's Training Log</a>
+				<a href="#" class="btn btn-primary">Download Employee's Training Log</a>
 			</div>
 		</div>
 	</div>
@@ -65,12 +65,41 @@
 	@if(!(null !== $designations))
 		@foreach( $designations as $key => $value)
 		<div class="col-sm-12 col-md-12 employee-info">
-			<div class="panel">
-				<div class="row employee-details">
-					<h3>{{ $designation->title or 'Designation Title' }}</h3>
+		<div class="panel">
+			<div class="row employee-details">
+				<h3>&nbsp;&nbsp;{{ $designations->title or 'Designation Title' }}</h3>
+				<h4>&nbsp;&nbsp;Supervisor: {{ $designations->title or 'Supervisor Name' }}</h4>
+				<div class="col-sm-5 col-md-5">
+					<div class="row designation">
+						<h6 class="employee-designation">Classification:</h6>
+						<h5 class="employee-designation">&nbsp;&nbsp;{{ $designation->classification or 'Classification' }}</h5>
+					</div>
+					<div class="row designation">
+						<h6 class="employee-designation">Position:</h6>
+						<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designation->position or 'Position Title' }}</h5>
+					</div>
+					<div class="row designation">
+						<h6 class="employee-designation">Rank:</h6>
+						<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designation->rank or 'Rank Title' }}</h5>
+					</div>
+				</div>
+				<div class="col-sm-5 col-md-5">
+					<div class="row designation">
+						<h6 class="employee-designation">Campus: </h6>
+						<h5 class="employee-designation">{{ $designation->campus_name or 'Campus Name'}}</h5>
+					</div>
+					<div class="row designation">
+						<h6 class="employee-designation">School/College: </h6>
+						<h5 class="employee-designation">{{ $designation->campus_name or 'Campus Name'}}</h5>
+					</div>
+					<div class="row designation">
+						<h6 class="employee-designation">Department: </h6>
+						<h5 class="employee-designation">{{ $designation->campus_name or 'Campus Name'}}</h5>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 		@endforeach
 	@else
 		<div class="col-sm-12 col-md-12 employee-info">

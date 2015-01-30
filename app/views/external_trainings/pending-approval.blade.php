@@ -9,9 +9,7 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h1>External Trainings</h1>
-			<br>
-				{{ HTML::ul($errors->all()) }}
+			<h1>External Trainings in Queue</h1>
 		</div>
 	</div>
 </div>
@@ -19,8 +17,9 @@
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
 					<ul class="nav nav-tabs nav-justified">
-						<li role="presentation"><a  href="{{ URL::to('external_trainings') }}">Credited</a></li>
-						<li role="presentation" class="active"><a>Pending Approval</a></li>
+						<li role="presentation"><a  href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
+						<li role="presentation"><a  href="{{ URL::to('external_trainings') }}">External Trainings</a></li>
+						<li role="presentation" class="active"><a>External Trainings in Queue</a></li>
 					</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">

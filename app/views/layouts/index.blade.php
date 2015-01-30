@@ -74,7 +74,7 @@
                 <li><a href="#">{{ $name or '---' }}</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Account Settings</a></li>
-                <li><a href="{{ URL::to('users/logout') }}">Logout</a></li>
+                <li><a href="{{ URL::to('logout') }}">Logout</a></li>
               </ul>
             </li>
           </ul>

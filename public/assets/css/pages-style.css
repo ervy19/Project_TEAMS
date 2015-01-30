@@ -338,3 +338,7 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 	padding: 10px;
 	font-weight: bold;
 }
+
+.btn-back {
+	margin-right: 10px;
+}

@@ -9,7 +9,7 @@
 |
 */
 
-Route::get('/', function()
+Route::get('/login', function()
 {
 	return View::make('login');
 });
@@ -19,15 +19,53 @@ Route::get('external_trainings/pending-approval', array(
 	'uses' => 'ExternalTrainingsController@indexQueue'
 	));
 
-//Route::group(array('before' => 'auth'), function()
-//{
+/*
+|--------------------------------------------------------------------------
+| Confide Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for Confide
+|
+*/
+
+Route::get('users/create', 'UsersController@create');
+Route::get('users', 'UsersController@index');
+Route::post('users', 'UsersController@store');
+Route::get('login', 'UsersController@login');
+Route::post('login', 'UsersController@doLogin');
+Route::get('users/confirm/{code}', 'UsersController@confirm');
+Route::get('login/forgot_password', 'UsersController@forgotPassword');
+Route::post('users/forgot_password', 'UsersController@doForgotPassword');
+Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
+Route::post('users/reset_password', 'UsersController@doResetPassword');
+Route::get('logout', 'UsersController@logout');
+
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes that requires user authentication
+|
+*/
+
+Route::group(array('before' => 'auth'), function()
+{
+
+	Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'DashboardController@index'));
+
+	/*
+	|--------------------------------------------------------------------------
+	| Internal Training Routes
+	|--------------------------------------------------------------------------
+	|
+	| Different application routes for Internal Training components
+	|
+	*/
 
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
-
-
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
-
-
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
@@ -56,31 +94,9 @@ Route::get('external_trainings/pending-approval', array(
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));
 
 
-	Route::get('dashboard', array('as' => 'dashboard', function()
-	{
-
-		/*$options = array(
-		'validate_all' => false,
-		'return_type' => 'boolean'
-		);
-
-		$role = Auth::user()->ability('Admin,HR','manage_users', $options);
-		$name = Auth::user()->username;*/
-		return View::make('dashboard.index');
-			//->with('name',$name)
-			//->with('role',$role);
-	}));
-
-
 	Route::resource('employees','EmployeesController');
 
 	Route::resource('campuses','CampusesController');
-
-	Route::get('external_trainings/pending-approval', array(
-		'as' => 'external_trainings.pending-approval', 
-		'uses' => 'ExternalTrainingsController@indexQueue'
-		));
-
 
 	Route::resource('departments','DepartmentsController');
 
@@ -104,60 +120,46 @@ Route::get('external_trainings/pending-approval', array(
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 
-//});
-/*
-|--------------------------------------------------------------------------
-| Confide Routes
-|--------------------------------------------------------------------------
-|
-| Different application routes for Confide
-|
-*/
-Route::get('users/create', 'UsersController@create');
-Route::get('users', 'UsersController@index');
-Route::post('users', 'UsersController@store');
-Route::get('users/login', 'UsersController@login');
-Route::post('users/login', 'UsersController@doLogin');
-Route::get('users/confirm/{code}', 'UsersController@confirm');
-Route::get('users/forgot_password', 'UsersController@forgotPassword');
-Route::post('users/forgot_password', 'UsersController@doForgotPassword');
-Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
-Route::post('users/reset_password', 'UsersController@doResetPassword');
-Route::get('users/logout', 'UsersController@logout');
 
-
-/*
-|--------------------------------------------------------------------------
-| Training Assessment Routes
-|--------------------------------------------------------------------------
-|
-| Different application routes for Training Assessments (PTA and PTE)
-|
-*/
-Route::get('{type}/create', array('as' => 'training_assessment.create', 'uses' => 'TrainingAssessmentsController@create'));
+	/*
+	|--------------------------------------------------------------------------
+	| Training Assessment Routes
+	|--------------------------------------------------------------------------
+	|
+	| Different application routes for Training Assessments (PTA and PTE)
+	|
+	*/
+	Route::get('{type}/create', array('as' => 'training_assessment.create', 'uses' => 'TrainingAssessmentsController@create'));
 
 
 
-Route::post('{type}', array('as' => 'training_assessment.store', 'uses' => 'TrainingAssessmentsController@store'));
+	Route::post('{type}', array('as' => 'training_assessment.store', 'uses' => 'TrainingAssessmentsController@store'));
 
-Route::get('{type}/{training_assessment}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@show'));
+	Route::get('{type}/{training_assessment}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@show'));
 
-Route::get('{type}/{training_assessment}/edit', array('as' => 'training_assessment.edit', 'uses' => 'TrainingAssessmentsController@edit'));
+	Route::get('{type}/{training_assessment}/edit', array('as' => 'training_assessment.edit', 'uses' => 'TrainingAssessmentsController@edit'));
 
-Route::put('{type}/{training_assessment}', array('as' => 'training_assessment.update', 'uses' => 'TrainingAssessmentsController@update'));
-Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessmentsController@update'));
+	Route::put('{type}/{training_assessment}', array('as' => 'training_assessment.update', 'uses' => 'TrainingAssessmentsController@update'));
 
-Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
+	Route::patch('{type}/{training_assessment}', array('uses' => 'TrainingAssessmentsController@update'));
 
-//});
+	Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
 
+
+
+	Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
+
+	Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+
+
+});
 
 /*
 |--------------------------------------------------------------------------
-| External Training Routes
+| External Training Submission Routes (PUBLIC)
 |--------------------------------------------------------------------------
 |
-| Different application routes for External Trainings
+| Different application routes for Submission of External Trainings
 |
 */
 
@@ -174,7 +176,3 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 {
 	return View::make('success-external-training');
 }));
-
-Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
-
-Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));

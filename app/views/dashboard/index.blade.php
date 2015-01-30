@@ -15,9 +15,10 @@
 		<div class="panel">
 			<div class="row dashboard">
 				<h3>Dashboard</h3>
-				<h5>Welcome, User</h5>
+				<h5>Welcome, {{ $name }}</h5>
 			</div>
 			<div class="tiles">
+				@if($role == 1)
 					<a href="{{ URL::to('users') }}">
 						<div class="tile">
 							<div class="tile-body">
@@ -28,6 +29,8 @@
 							</div>
 						</div>
 					</a>
+				@endif
+				@if($role == 1 || $role == 2)
 					<a href="{{ URL::to('campuses') }}">
 						<div class="tile">
 							<div class="tile-body">
@@ -88,6 +91,7 @@
 							</div>
 						</div>
 					</a>
+				@endif
 				<a href="{{ URL::to('employees') }}">
 					<div class="tile">
 						<div class="tile-body">

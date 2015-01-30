@@ -28,7 +28,7 @@
 
 	<div class="login">
 		<div class="row panel">
-            {{ Form::open(array('url'=>'/', 'class' => 'form-signin')) }}
+            {{ Form::open(array('url'=>'login', 'class' => 'form-signin')) }}
 	  			<div class="form-group">
 	  				<img src={{asset('assets/img/CEU_logo.jpg')}} alt="logo" class="img-responsive ceu-logo">
 		  			<h2>Human Resources</h2>
@@ -47,7 +47,7 @@
                     <input type="checkbox" value="remember-me">
                     Remember me
                 </label>
-                <a href="#" class="pull-right need-help">Forgot your password?</a><span class="clearfix"></span>
+                <a href="login/forgot_password" class="pull-right need-help">Forgot your password?</a><span class="clearfix"></span>
             {{ Form::close() }}
 	  </div>
 	</div>
