@@ -53,6 +53,19 @@ Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
 Route::post('users/reset_password', 'UsersController@doResetPassword');
 Route::get('logout', 'UsersController@logout');
 
+<<<<<<< HEAD
+	Route::get('internal_trainings/{internal_trainings}/speakers/{speaker}/edit', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@edit'));
+
+	Route::post('internal_trainings/{internal_trainings}/speakers/store', array('as' => 'speakers.store', 'uses' => 'SpeakersController@store'));
+
+	Route::put('internal_trainings/{internal_trainings}/speakers/{speaker}', array('as' => 'speakers.update', 'uses' => 'SpeakersController@update'));
+
+	Route::patch('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@update'));
+
+	Route::delete('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@destroy'));
+
+	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
+=======
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +78,7 @@ Route::get('logout', 'UsersController@logout');
 
 Route::group(array('before' => 'auth'), function()
 {
+>>>>>>> FETCH_HEAD
 
 	Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'DashboardController@index'));
 
@@ -92,8 +106,14 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
 
+<<<<<<< HEAD
+	Route::get('internal_trainings/{id}/{type}/show/{participant_id}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@showAccomplished'));
+
+	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+=======
 	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
+>>>>>>> FETCH_HEAD
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
