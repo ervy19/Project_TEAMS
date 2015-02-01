@@ -342,3 +342,11 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 .btn-back {
 	margin-right: 10px;
 }
+
+/**************************************
+    Attendance
+**************************************/
+
+.attendance-title {
+	font-weight: bold;
+}

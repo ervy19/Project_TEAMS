@@ -136,7 +136,7 @@
 
     <footer class="footer">
       <div class="container-fluid">
-        <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
+        <p class="text-muted">© 2015 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
       </div>
     </footer>
 

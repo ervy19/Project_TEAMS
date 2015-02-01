@@ -10,28 +10,59 @@ class DashboardController extends \BaseController {
 	public function index()
 	{
 
-		if(Auth::user()->hasRole('Admin'))
-		{
-			$role = 1;
-		}
-		else if(Auth::user()->hasRole('HR'))
-		{
-			$role = 2;
-		}
-		else
-		{
-			$role = 3;
-		}
-
-		$supervisor = DB::table('users')->select(DB::raw('*'))
+		/*$supervisor = DB::table('users')->select(DB::raw('*'))
 						->leftJoin('supervisors','users.id','=','supervisors.user_id')
 						->rightJoin('department_supervisors','department_supervisors.supervisor_id', '=', 'supervisors.id')
 						->leftJoin('departments','department_supervisors.department_id','=','departments.id')
 						->where('users.id','=',Auth::user()->id)
-						->get();
+						->first();*/
 
-		dd($supervisor);
-		//$name = $supervisor->name;
+		if(Auth::user()->hasRole('Admin'))
+		{
+			$role = 1;
+
+			$user = DB::table('users')->select(DB::raw('*'))
+						->leftJoin('hr_accounts','users.id','=','hr_accounts.user_id')
+						->where('users.id','=',Auth::user()->id)
+						->first();
+		}
+		else if(Auth::user()->hasRole('HR'))
+		{
+			$role = 2;
+
+			$user = DB::table('users')->select(DB::raw('*'))
+						->leftJoin('hr_accounts','users.id','=','hr_accounts.user_id')
+						->where('users.id','=',Auth::user()->id)
+						->first();
+		}
+		else
+		{
+			$role = 3;
+
+			if(Auth::user()->hasRole('Campus Supervisor'))
+			{
+
+			}
+			else if(Auth::user()->hasRole('Program Supervisor'))
+			{
+
+			}
+			else if(Auth::user()->hasRole('School_College Supervisor'))
+			{
+
+			}
+			else if(Auth::user()->hasRole('Department Supervisor'))
+			{
+				$user = DB::table('users')->select(DB::raw('*'))
+						->leftJoin('supervisors','users.id','=','supervisors.user_id')
+						->rightJoin('department_supervisors','department_supervisors.supervisor_id', '=', 'supervisors.id')
+						->where('users.id','=',Auth::user()->id)
+						->first();
+			}
+		}
+
+		$name = $user->name;
+		
 		//$name = Auth::user()->username;
 
 		return View::make('dashboard.index')

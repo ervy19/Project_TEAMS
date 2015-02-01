@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/favicon.ico">
 
-    <title>CEU HR TEAMS | Confirm External Training </title>
+    <title>CEU HR TEAMS | Attendance - </title>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
@@ -45,51 +46,50 @@
 
     <div class="container-fluid">
 		<div class="col-sm-12 col-md-12">
-			<div class="row submit-et-nav">
-					<div class="col-sm-4 col-md-4 submit-guide">
-						<i class="fa fa-edit fa-lg"></i>&nbsp;Submit
-					</div>
-					<div class="col-sm-4 col-md-4 submit-guide">
-						<i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;Confirmation
-					</div>
-					<div class="col-sm-4 col-md-4 submit-guide active">
-						<i class="fa fa-check-circle fa-lg"></i>&nbsp;Successful
-					</div>
-			</div>
-
-			<div class="panel submit-et">
+			<div class="panel">
 				<div class="row">
-					<div class="col-sm-12 col-md-12 pta-form">
-						<div class="panel">
-
-						<h2 class="panel-header">Submission Successful</h2>
-						<br>
-						<h5>Employee ID: {{ (string)Session::get('message') }}</h5>
-						<br>
-						<p>
-							Your external training has been submitted. 
-						</p>
-						<p>
-							You may now submit the documentation of your external training to the Human Resources Department Office to complete the process.
-						</p>
-
-            <a class="btn btn-primary" href="{{ URL::to('submit-external-training')  }}">Submit A New External Training Record</a>
-					<!-- if there are creation errors, they will show here -->
-					<!--{{ HTML::ul($errors->all()) }}-->
-
-					
-
-						</div>
-					</div>
+					<h2 class="panel-header attendance-title">{{ $title or '---' }}</h2>
+					<p>{{ $id or '---' }}</p>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
+	<div class="container-fluid">
+		<div class="col-sm-4 col-md-4 training-info">
+			<div class="panel">
+				<div class="row training-details">
+						<!-- if there are creation errors, they will show here -->
+						<!--{{ HTML::ul($errors->all()) }}-->
+
+						{{ Form::open(array('url' => 'internal-training/attendance')) }}
+
+							<div class="form-group row">
+								<div class="col-sm-12 col-md-12">
+								{{ Form::label('employee_number','Employee Number: ') }}
+								{{ Form::text('employee_number', '', array('class' => 'form-control', 'placeholder' => 'Employee Number')) }}
+								{{ $errors->first('employee_number') }}
+								</div>
+							</div>
+
+							{{ Form::submit('Register', array('class' => 'btn btn-primary')) }}
+
+						{{ Form::close() }}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 col-md-8 training-sidebar">
+			<div class="row panel training-status">
+				<h3>Employee Number:</h3>
+				<h3>Name:</h3>
+				
+			</div>
+		</div>
+	</div>
+		
     <footer class="footer">
       <div class="container-fluid">
-        <p class="text-muted">© 2015 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
+        <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
       </div>
     </footer>
 
@@ -98,6 +98,37 @@
     {{ HTML::script('assets/js/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
+
+    <script type="text/javascript">
+
+    	$(document).ready( function () {
+
+    		var id = $(this).attr('data-id');
+
+			var form = $('form[data-update]');
+			var method = form.find('input[name="_method"]').val() || 'POST';
+			var url = form.prop('action');
+
+    		$.ajax({
+				type: method,
+				url: url,
+				data: form.serialize(),
+				success: function(data) {
+					if(data.success)
+					{
+					
+					}
+					else
+					{
+						$('.error-message').empty();
+						$('#error-addcampus-name').append(data.errors.name);
+						$('#error-addcampus-address').append(data.errors.address);
+					}
+				}
+			});
+    	});
+
+    </script>
 
   </body>
 </html>

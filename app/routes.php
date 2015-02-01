@@ -9,15 +9,28 @@
 |
 */
 
-Route::get('/login', function()
+Route::get('/', function()
+{
+	return View::make('landing');
+});
+
+Route::get('login', function()
 {
 	return View::make('login');
 });
 
-Route::get('external_trainings/pending-approval', array(
-	'as' => 'external_trainings.pending-approval', 
-	'uses' => 'ExternalTrainingsController@indexQueue'
-	));
+Route::get('test', function()
+{
+	$id = Crypt::encrypt(1);
+
+	return View::make('internal_trainings.attendance')
+		->with('id',$id);
+});
+
+Route::get('{encrypted_internal_training_id}', 'ITAttendanceController@index');
+
+Route::post('{encrypted_internal_training_id}/attendance/{employee_number}', 'ITAttendanceController@store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,10 +79,9 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
+	
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
-
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
-
 	Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
 
 
@@ -176,3 +188,5 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 {
 	return View::make('success-external-training');
 }));
+
+Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));

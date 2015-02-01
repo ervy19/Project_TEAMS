@@ -13,6 +13,10 @@ body {
     margin-bottom: 40px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 15px;
+}
+
 a {
     color: rgba(255,57,235,0.5);
 }
