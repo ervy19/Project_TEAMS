@@ -11,8 +11,6 @@ class SpeakersController extends \BaseController {
 	{			
 		$internaltraining = Training::find($internal_training_id);
 
-
-
 		$speakers = Speaker::where('internal_training_id', '=', $internal_training_id)->get();
 
 		if(Request::ajax()){
