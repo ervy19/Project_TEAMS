@@ -108,11 +108,11 @@ class SpeakersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$campuses = Campus::find($id)->toArray();
+		$speakers = Speaker::find($id);
 
 		return Response::json([
 			'success' => true,
-			'result' => $campuses
+			'result' => $speakers
 			]);
 	}
 
@@ -129,7 +129,8 @@ class SpeakersController extends \BaseController {
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'name' => 'required|max:255', 
-            'address' => 'required|max:255'
+            'educational_background' => 'required|max:255',
+            'work_background' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -141,11 +142,13 @@ class SpeakersController extends \BaseController {
         	);
         } else {
             // store
-            $campuses = Campus::find($id);
-            $campuses->name = Input::get('name');
-            $campuses->address = Input::get('address');
-            $campuses->save();
-
+           	$speakers = Speaker::find($id);
+            $speakers->name = Input::get('name');
+            $speakers->topic = Input::get('topic');
+            $speakers->educational_background = Input::get('educational_background');
+            $speakers->work_background = Input::get('work_background');
+            $speakers->internal_training_id = 1;
+            $speakers->save();
             return Response::json(['success' => true]);
         }
 	}
@@ -159,9 +162,9 @@ class SpeakersController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$campuses = Campus::find($id);
-        $campuses->isActive = false;
-        $campuses->save();
+		$speakers = Speaker::find($id);
+        $speakers->isActive = false;
+        $speakers->save();
 
         return Response::json(['success' => true]);
     }

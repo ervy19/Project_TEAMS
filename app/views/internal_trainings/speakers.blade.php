@@ -112,31 +112,45 @@
 	</div>
 </div>
 
-<!-- Edit Campus Information Modal -->
-<div class="modal fade" id="editSpeaker" tabindex="-1" role="dialog" aria-labelledby="editCampusLabel" aria-hidden="true" data-backdrop="static">
+<!-- Edit Speaker Information Modal -->
+<div class="modal fade" id="editSpeaker" tabindex="-1" role="dialog" aria-labelledby="editSpeakerLabel" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
         		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        		<h4 class="modal-title" id="editCampusLabel"><i class="fa fa-edit fa-lg"></i>&nbsp;&nbsp;Edit Campus Information</h4>
+        		<h4 class="modal-title" id="editSpeakerLabel"><i class="fa fa-edit fa-lg"></i>&nbsp;&nbsp;Edit Speaker Information</h4>
       		</div>
       		<div class="modal-body">
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
       					<div class="row">
-      						{{ Form::open(['data-update','method' => 'PUT', 'id' => 'update-campus', 'class' => 'form-horizontal form-update-campus']) }}
+      						{{ Form::open(['data-update','method' => 'PUT', 'id' => 'update-speaker', 'class' => 'form-horizontal form-update-speaker']) }}
 								<div class="form-group row">
 									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
 										{{ Form::text('name', '',array('class' => 'form-control')) }}
-										<div id="error-updatecampus-name" class="error-message"></div>
+										<div id="error-addspeaker-name" class="error-message"></div>
 									</div>
 								</div>
 								<div class="form-group row">
-									{{ Form::label('address','Address: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									{{ Form::label('topiclabel','Topic: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
-										{{ Form::textarea('address', '',array('class' => 'form-control', 'rows' => '3')) }}
-										<div id="error-updatecampus-address" class="error-message"></div>
+										{{ Form::text('topic', '',array('class' => 'form-control')) }}
+										<div id="error-addspeaker-topic" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('educational_background_label','Educational Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::textarea('educational_background', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-addspeaker-educationalbackground" class="error-message"></div>
+									</div>
+								</div>
+								<div class="form-group row">
+									{{ Form::label('work_background_label','Work Background: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-4 col-md-4">
+										{{ Form::textarea('work_background', '',array('class' => 'form-control', 'rows' => '3')) }}
+										<div id="error-addspeaker-workbackground" class="error-message"></div>
 									</div>
 								</div>
 						</div>
@@ -145,33 +159,33 @@
       		</div>
     		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        						{{ Form::submit('Save Campus Information', array('id' => 'btn-update-campus', 'class' => 'btn btn-primary')) }}
+        						{{ Form::submit('Save Speaker Information', array('id' => 'btn-update-speaker', 'class' => 'btn btn-primary')) }}
       						{{ Form::close() }}
       		</div>
     	</div>
 	</div>
 </div>
 
-<!-- Delete Campus Modal -->
-<div class="modal fade" id="deleteCampus" tabindex="-1" role="dialog" aria-labelledby="deleteCampusLabel" aria-hidden="true" data-backdrop="static">
+<!-- Delete Speaker Modal -->
+<div class="modal fade" id="deleteSpeaker" tabindex="-1" role="dialog" aria-labelledby="deleteSpeakerLabel" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
         		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        		<h4 class="modal-title" id="deleteCampusLabel"><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;Archive Campus</h4>
+        		<h4 class="modal-title" id="deleteSpeakerLabel"><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;Archive Speaker</h4>
       		</div>
       		<div class="modal-body">
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
       					<div class="row">
-      						<h5 class="confirm-delete">Are you sure you want to archive this campus?</h5>
+      						<h5 class="confirm-delete">Are you sure you want to archive this speaker?</h5>
 						</div>
 					</div>
 				</div>	
       		</div>
     		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        		<button type="button" id="btn-archive-campus" class="btn btn-danger ">Archive</button>
+        		<button type="button" id="btn-archive-speaker" class="btn btn-danger ">Archive</button>
       		</div>
     	</div>
 	</div>
@@ -268,7 +282,7 @@
 				var id = $(this).attr('data-id');
 
 				var form = $('form[data-update]');
-				var method = form.find('input[name="_method"]').val() || 'POST';
+				var method = form.find('input[name="method"]').val() || 'POST';
 				var url = form.prop('action');
 
 				$('#editSpeaker').on('hidden.bs.modal', function (e) {
@@ -322,18 +336,20 @@
 							else
 							{
 								$('.error-message').empty();
-								$('#error-updatecampus-name').append(data.errors.name);
-								$('#error-updatecampus-address').append(data.errors.address);
+								$('#error-updatespeaker-name').append(data.errors.name);
+								$('#error-updatespeaker-topic').append(data.errors.topic);
+								$('#error-updatespeaker-educationalbackground').append(data.errors.educationalbackground);
+								$('#error-updatespeaker-workbackground').append(data.errors.workbackground);
 							}
 						}
 					});
 				});
 			});
 
-			$('#tb-speakers').on('click', '.btn-delete-spreaker', function (e) {
+			$('#tb-speakers').on('click', '.btn-delete-speaker', function (e) {
 
 				var id = $(this).attr('data-id');
-				var url = "{{ URL::to('campuses') }}";
+				var url = "{{ URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers";
 				$('.message-log').empty();
 
 			    $('#deleteSpeaker').modal({ backdrop: 'static', keyboard: false })
@@ -341,7 +357,7 @@
 
 			            deleteSpeaker(id,url);
 			            //$form.trigger('submit');
-			            //$('.message-log').append('<div class="note note-success">Campus successfully deleted.</div>').fadeIn(300).delay(3000).fadeOut(300);
+			            //$('.message-log').append('<div class="note note-success">Speaker successfully deleted.</div>').fadeIn(300).delay(3000).fadeOut(300);
 			    });
 
 			    $('#deleteSpeaker').on('hidden.bs.modal', function (e) {
@@ -372,17 +388,17 @@
 						if(data.success)
 						{
 							$('#editSpeaker').modal('show');						
-							$('#editSpeaker').find('input[name=name]').val(data.result.name);
-							$('#editSpeaker').find('input[name=topic]').val(data.result.topic);
-							$('#editSpeaker').find('textarea[name=educationalbackground]').val(data.result.educationalbackground);
-							$('#editSpeaker').find('textarea[name=workbackground]').val(data.result.workbackground);
+							$('#update-speaker').find('input[name=name]').val(data.result.name);
+							$('#update-speaker').find('input[name=topic]').val(data.result.topic);
+							$('#update-speaker').find('textarea[name=educational_background]').val(data.result.educational_background);
+							$('#update-speaker').find('textarea[name=work_background]').val(data.result.work_background);
 							$('#editSpeaker').modal({ backdrop: 'static', keyboard: false });
 						}
 					}
 				});
 			}
 
-			function deleteCampus(id,url) {
+			function deleteSpeaker(id,url) {
 
 				$.ajax({
 					type: 'DELETE',
@@ -391,9 +407,9 @@
 					success: function(data) {
 						if(data.success)
 						{		
-							$('#deleteCampus').modal('hide');
+							$('#deleteSpeaker').modal('hide');
 
-							$('.message-log').append('<div class="note note-success">Campus successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
+							$('.message-log').append('<div class="note note-success">Speaker successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
 								
 								table.fnDestroy();
 
