@@ -19,10 +19,6 @@ Route::get('login', function()
 	return View::make('login');
 });
 
-
-Route::get('pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
-
-
 /*
 |--------------------------------------------------------------------------
 | Confide Routes
@@ -100,7 +96,7 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
-
+	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 
 	Route::get('training_plan', array('as' => 'training_plan', function()
@@ -174,7 +170,6 @@ Route::group(array('before' => 'auth'), function()
 |
 */
 
-
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
@@ -193,17 +188,6 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 {
 	return View::make('success-external-training');
 }));
-
-
-
-
-Route::get('test', function()
-{
-	$id = Crypt::encrypt(1);
-
-	return View::make('internal_trainings.attendance')
-		->with('id',$id);
-});
 
 Route::get('{encrypted_internal_training_id}', 'ITAttendanceController@index');
 

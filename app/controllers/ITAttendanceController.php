@@ -9,7 +9,7 @@ class ITAttendanceController extends \BaseController {
 	 */
 	public function index($encrypted_id)
 	{
-		$id = Crypt::decrypt($encrypted_id);
+		/*$id = Crypt::decrypt($encrypted_id);
 
 		$training = Training::find($id);
 
