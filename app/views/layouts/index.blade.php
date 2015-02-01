@@ -74,7 +74,7 @@
                 <li><a href="#">{{ $name or '---' }}</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Account Settings</a></li>
-                <li><a href="{{ URL::to('users/logout') }}">Logout</a></li>
+                <li><a href="{{ URL::to('logout') }}">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -101,7 +101,7 @@
 
     <footer class="footer">
       <div class="container-fluid">
-        <p class="text-muted">© 2014 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
+        <p class="text-muted">© 2015 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
       </div>
     </footer>
 

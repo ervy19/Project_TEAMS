@@ -110,10 +110,70 @@ class EmployeesController extends \BaseController {
 	 */
 	public function show($id) 
 	{
-		$employees = Employee::find($id);
+		$employee = Employee::find($id);
+
+		$designations = Employee_Designation::select(DB::raw('employee_designations.id, positions.title as position_title, ranks.title as rank_title, schools_colleges.name as school_college_name, departments.name as department_name, campuses.name as campus_name'))
+								->leftJoin('positions','positions.id','=','employee_designations.position_id')
+								->leftJoin('ranks','ranks.id','=','employee_designations.rank_id')
+								->leftJoin('schools_colleges','schools_colleges.id','=','employee_designations.schools_colleges_id')
+								->leftJoin('departments','departments.id','=','employee_designations.department_id')
+								->leftJoin('campuses','campuses.id','=','employee_designations.campus_id')
+								->where('employee_designations.isActive', '=', true)
+								->get();
+
+		//$supervisor = DB::table('')
+
+		//count the number of employee designations
+        $currentCount = Employee_Designation::where('employee_id', '=', $id)->count();
+
+        //assign all employee designations to an array
+        $emp_desig_array = Employee_Designation::where('employee_id', '=', $id)->get();
+
+        //make array for each employee designation
+        //put all employee designations to one array to pass to view
+        $selected_data = array();
+        for($i = 0; $i < $currentCount; $i++)
+        {
+        	${'selected_array'.$i} = array();
+        	$current = array_get($emp_desig_array, $i);
+        	
+        	array_push(${'selected_array'.$i}, $current->type);
+			array_push(${'selected_array'.$i}, Campus::where('id', '=', $current->campus_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, School_College::where('id', '=', $current->schools_colleges_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, Department::where('id', '=', $current->department_id)->pluck('name'));
+			array_push(${'selected_array'.$i}, Supervisor::where('id', '=', $current->supervisor_id)->pluck('id'));
+			array_push(${'selected_array'.$i}, Position::where('id', '=', $current->position_id)->pluck('title'));
+			array_push(${'selected_array'.$i}, Rank::where('id', '=', $current->rank_id)->pluck('title'));
+        	
+        	array_push($selected_data, ${'selected_array'.$i});
+        }
+        
+        //Get all internal trainings of the employee
+        $it_attended = Training::select(DB::raw('*'))
+        			->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'trainings.id')
+        			->leftJoin('it_participants', 'it_participants.internal_training_id', '=', 'internal_trainings.training_id')
+        			->where('it_participants.employee_id', '=', $id)
+        			->where('trainings.isInternalTraining', '=', 1)
+        			->where('trainings.isActive', '=', 1)
+        			->get();
+
+        $et_attended = Training::select(DB::raw('*'))
+        			->leftJoin('external_trainings', 'external_trainings.training_id', '=', 'trainings.id')
+        			->leftJoin('employee_designations', 'employee_designations.id', '=', 'external_trainings.designation_id')
+        			->where('employee_designations.employee_id', '=', $id)
+        			->where('trainings.isActive', '=', true)
+        			->where('trainings.isInternalTraining', '=', 0)
+        			->get();
 
 		return View::make('employees.show')
-			->with('employees', $employees );
+			->with('employees', $employee )
+			->with('selected_data', $selected_data)
+			->with('it_attended', $it_attended)
+			->with('et_attended', $et_attended)
+			->with('designations', $designations);
+
+			//->with('employees', $employee )
+			//->with('designations', $designations);
 	}
 
 
@@ -134,6 +194,8 @@ class EmployeesController extends \BaseController {
         $emp_desig_array = Employee_Designation::where('employee_id', '=', $id)->get();
 
         //make array for each employee designation
+        //put all employee designations to one array to pass to view
+        $selected_data = array();
         for($i = 0; $i < $currentCount; $i++)
         {
         	${'selected_array'.$i} = array();
@@ -146,14 +208,10 @@ class EmployeesController extends \BaseController {
 			array_push(${'selected_array'.$i}, Supervisor::where('id', '=', $current->supervisor_id)->pluck('id'));
 			array_push(${'selected_array'.$i}, Position::where('id', '=', $current->position_id)->pluck('title'));
 			array_push(${'selected_array'.$i}, Rank::where('id', '=', $current->rank_id)->pluck('title'));
-        }
-
-        //put all employee designations to one array to pass to view
-        $selected_data = array();
-        for($i = 0; $i < $currentCount; $i++)
-        {
+        	
         	array_push($selected_data, ${'selected_array'.$i});
         }
+
 
         $positions = Position::where('isActive', '=', true)->get();
 		$ranks = Rank::where('isActive', '=', true)->get();
@@ -164,8 +222,6 @@ class EmployeesController extends \BaseController {
 
 		return View::make('employees.edit')
 			->with('employees', $employees )
-			->with('currentCount', $currentCount)
-			->with('selected_data', $selected_data)
 			->with('positions', $positions)
 			->with('ranks', $ranks)
 			->with('schools_colleges', $schools_colleges)

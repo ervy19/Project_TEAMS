@@ -80,8 +80,8 @@
 					</div>
 
 					{{ Form::submit('Add Internal Training', array('class' => 'btn btn-primary pull-right')) }}
-					<a href="{{ URL::to('internal_trainings') }}" class="btn btn-primary pull-right">Back</a>
-
+					<a href="{{ URL::to('internal_trainings') }}" class="btn btn-primary btn-back pull-right">Back</a>
+					<br><br>
 				{{ Form::close() }}
 
 			</div>

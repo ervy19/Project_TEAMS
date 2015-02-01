@@ -10,7 +10,6 @@
 	<div class="panel">
 		<div class="row">
 			<h1>External Trainings</h1>
-			<br>
 		</div>
 	</div>
 </div>
@@ -18,8 +17,9 @@
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
 					<ul class="nav nav-tabs nav-justified">
-						<li role="presentation" class="active"><a>Credited</a></li>
-						<li role="presentation"><a href="{{ URL::to('external_trainings/pending-approval') }}">Pending Approval</a></li>
+						<li role="presentation"><a  href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
+						<li role="presentation" class="active"><a>External Trainings</a></li>
+						<li role="presentation"><a href="{{ URL::to('external_trainings/pending_approval') }}">External Trainings in Queue</a></li>
 					</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">
@@ -34,7 +34,6 @@
 									<th>Organizer</th>
 									<th>Venue</th>
 									<th>Date</th>
-									<th>Designation ID</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -47,11 +46,9 @@
 									<td>{{ $value->organizer }}</td>
 									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
-									<td>{{ $value->designation_id }}</td>
 									<td>
-										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
-										&nbsp;&nbsp;
-									   {{ Form::open(array('route' => array('external_trainings.destroy', $value->id), 'method' => 'delete')) }}
+										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
+									   {{ Form::open(array('route' => array('external_trainings.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
 									    <button type="submit" class="btn btn-small btn-danger">Archive</button>
 									   {{ Form::close() }}
 									</td>

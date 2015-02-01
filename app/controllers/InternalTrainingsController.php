@@ -9,7 +9,7 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$internaltrainings = Training::where('isActive', '=', true)->get();
+		$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
 
 		return View::make('internal_trainings.index')
 			->with('internaltrainings', $internaltrainings);
@@ -63,6 +63,7 @@ class InternalTrainingsController extends \BaseController {
             $trainings->theme_topic = Input::get('theme_topic');
             $trainings->venue = Input::get('venue');
             $trainings->schedule = Input::get('schedule');
+            $trainings->isInternalTraining = 1;
             $trainings->save();         
 
             //Internal Trainings Table
@@ -331,6 +332,7 @@ class InternalTrainingsController extends \BaseController {
             $trainings->theme_topic = Input::get('theme_topic');
             $trainings->venue = Input::get('venue');
             $trainings->schedule = Input::get('schedule');
+            $trainings->isInternalTraining = 1;
             $trainings->save();         
 
             $internaltrainings = Internal_Training::where('training_id','=',$id)->update(

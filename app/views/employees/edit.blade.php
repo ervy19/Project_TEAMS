@@ -69,11 +69,9 @@
 				<div class="form-group" id="dynamicInput">
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
+			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput');" class="btn btn-primary">
 			    <input type="hidden" id='count' value='' />
-			    <input type="hidden" id='currentCount' value={{$currentCount}} />
-			    <!--@foreach($selected_data as $key => $value)
-			    	@foreach($value as $key => $value2)
-			    @endforeach-->
+				
 				{{ Form::submit('Save') }}
 
 			{{ Form::close() }}
@@ -86,19 +84,23 @@
 
 @section('page_js')
 	<script type="text/javascript">
-		var count = 1;
-		var currentCount = document.getElementById('currentCount').value;
+		var count = 0;
 		(function autofill() {
-			for (var i = 0; i < currentCount; i++) {
+			var data_array = {{json_encode($selected_data)}};
+			for (var i = 0; i < data_array.length; i++) {
 				addInput('dynamicInput');
-				//currentChoice = 
-				//$("select option:contains('" + currentChoice + "')").prop('selected',true);
+
+				for(var x = 0; x < data_array[i].length; x++) {	
+					var value = data_array[i][x];
+					$("select option:contains(" + value + ")").prop('selected',true);
+				}
 			};
 		})()
 
 		function addInput(divName) {
-		    //http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
+			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
+		    count++;
 		    newdiv.setAttribute('id', count);
 		    newdiv.innerHTML = 	"<h2>Employee Designation " + count + "</h2>" +
 		    					"<br><label>Designation Type:&nbsp</label><select name='myInputs" + count + "[]'><option>Teaching</option><option>Non-Teaching</option> </select><br>" +
@@ -107,21 +109,21 @@
 		    					"<br><label>Department:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
 								"<br><label>Supervisor:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option><?php echo $value->id ?></option><?php endforeach; ?></select><br>" +
 		    					"<br><label>Position:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
-								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>" + 
-								"<input type='button' value='Remove Employee Designation' onclick=removeInput(&quot;dynamicInput&quot;,&quot;" + count + "&quot;); class='btn btn-primary'>"
+								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>"
 								;
 		    document.getElementById(divName).appendChild(newdiv);
 		    document.getElementById('count').value = count;
-		    count++;    
 		}
 
 		function removeInput(parentDiv, childDiv) {
+			childDiv = document.getElementById('count').value;
 			//http://www.randomsnippets.com/2008/03/26/how-to-dynamically-remove-delete-elements-via-javascript/
 			if (document.getElementById(childDiv)) {     
 		          var child = document.getElementById(childDiv);
 		          var parent = document.getElementById(parentDiv);
 		          parent.removeChild(child);
 		          count--;
+		          document.getElementById('count').value = count;		          
 		     }
 		     else {
 		          alert("Child div has already been removed or does not exist.");

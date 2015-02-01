@@ -69,7 +69,7 @@
 				<div class="form-group" id="dynamicInput">
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
-			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput', count);" class="btn btn-primary">
+			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput');" class="btn btn-primary">
 			    <input type="hidden" id="count" name="count" />
 
 				{{ Form::submit('Add Employee') }}
@@ -84,11 +84,12 @@
 
 @section('page_js')
 	<script type="text/javascript">
-		var count = 1;
+		var count = 0;
 		document.getElementById('count').value = count;
 		function addInput(divName) {	
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
+		    count++;
 		    newdiv.setAttribute('id', count);
 		    newdiv.innerHTML = 	"<h2>Employee Designation " + count + "</h2>" +
 		    					"<br><label>Designation Type:&nbsp</label><select name='myInputs" + count + "[]'><option>Teaching</option><option>Non-Teaching</option> </select><br>" +
@@ -101,17 +102,17 @@
 								;
 		    document.getElementById(divName).appendChild(newdiv);
 		    document.getElementById('count').value = count;
-		    count++;    
 		}
 
 		function removeInput(parentDiv, childDiv) {
+			childDiv = document.getElementById('count').value;
 			//http://www.randomsnippets.com/2008/03/26/how-to-dynamically-remove-delete-elements-via-javascript/
 			if (document.getElementById(childDiv)) {     
 		          var child = document.getElementById(childDiv);
 		          var parent = document.getElementById(parentDiv);
 		          parent.removeChild(child);
 		          count--;
-		          document.getElementById('count').value = count;
+		          document.getElementById('count').value = count;		          
 		     }
 		     else {
 		          alert("Child div has already been removed or does not exist.");

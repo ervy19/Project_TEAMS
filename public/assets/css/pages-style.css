@@ -1,4 +1,4 @@
-.btn-edit, .form-archive {
+.btn-view, .btn-edit, .form-archive {
 	display: inline-block;
 }
 
@@ -137,8 +137,6 @@
 	background: rgba(255,133,243,0.8);
 }
 
-
-
 .tags h3 {
 	display: inline-block;
 }
@@ -154,6 +152,80 @@
 
 .training-contents {
 	padding: 20px;
+}
+
+/**************************************
+  	Employees
+**************************************/
+
+.employee-info, .employee-sidebar {
+	margin-bottom: 8px;
+}
+
+.employee-details, .employee-status, .employee-summary {
+    padding: 15px;
+}
+
+.employee-status, .employee-summary {
+	padding-bottom: 20px;
+}
+
+.employee-info h2 {
+	margin-top: 0px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.employee-info h3, .employee-status h3, .employee-summary h3 {
+	margin-top: 0px;
+	font-size: 1.45em;
+	font-weight: bold;
+}
+
+.employee-details {
+    margin-right: 2px;
+}
+
+.employee-details h3 {
+	font-size: 1.6em;
+}
+
+.employee-info h4 {
+	font-weight: bold;
+}
+
+.employee-details h5 {
+	font-size: 1.3em;
+}
+
+.employee-details h6 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.employee-details p {
+	font-size: 1.2em;
+	letter-spacing: 0.5px;
+	text-align: justify;
+}
+
+.designation {
+	margin-bottom: 1px;
+}
+
+h5.employee-designation, h6.employee-designation {
+	display: inline-block;
+	margin-bottom: 1px;
+}
+
+.no-designation {
+	padding-top: 6px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.employee-details a {
+	margin: 0 auto;
 }
 
 /**************************************
@@ -265,4 +337,8 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 	margin-top: 30px;
 	padding: 10px;
 	font-weight: bold;
+}
+
+.btn-back {
+	margin-right: 10px;
 }

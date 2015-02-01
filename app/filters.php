@@ -43,7 +43,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
-			return Redirect::guest('/');
+			return Redirect::guest('/login');
 		}
 	}
 });
@@ -67,7 +67,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+	if (Auth::check()) return Redirect::to('login');
 });
 
 /*
@@ -99,16 +99,16 @@ Route::filter('csrf', function()
 |
 */
 
-/*Entrust::routeNeedsRole( 'users*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'users*', array('Admin'), Redirect::to('dashboard') );
 
-Entrust::routeNeedsRole( 'campuses*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'campuses*', array('Admin','HR'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'schools_colleges*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'schools_colleges*', array('Admin','HR'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'departments*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'departments*', array('Admin','HR'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'positions*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'positions*', array('Admin','HR'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'ranks*', array('Admin','HR'), Redirect::to('dashboard') );
+Entrust::routeNeedsRole( 'ranks*', array('Admin','HR'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard') );*/
+Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard'), false );

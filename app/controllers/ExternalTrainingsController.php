@@ -9,7 +9,7 @@ class ExternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$externaltrainings = External_Training::where('isActive', '=', true)->get();
+		$externaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 0)->get();
 
 		return View::make('external_trainings.index')
 			->with('externaltrainings', $externaltrainings );
@@ -179,9 +179,8 @@ class ExternalTrainingsController extends \BaseController {
 
 	public function indexQueue()
 	{
-		$externaltrainingsqueue = DB::table('et_queues')
+		$externaltrainingsqueue = ET_Queue::select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
             ->join('employees','et_queues.designation_id','=','employees.id')
-            ->select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
             ->get();
 
 		return View::make('external_trainings.pending-approval')
@@ -242,14 +241,13 @@ class ExternalTrainingsController extends \BaseController {
             }
             else {
                 return Redirect::to('submit-external-training')
-                    ->withErrors('MAY MALI!!!');  
+                    ->withErrors('Wrong Input!!!');  
             }
         }
 	}
 
     public function getQueue($id)
-    {
-        
+    {        
         $externaltraining = DB::table('et_queues')
             ->join('employees','et_queues.employee_id','=','employees.id')
             ->join('employee_designations','employees.id','=','employee_designations.employee_id')
