@@ -23,7 +23,7 @@ class CreateEtQueuesTable extends Migration {
 			$table->date('date_start');
 			$table->date('date_end');
 
-			$table->integer('designation_id')->unsigned();
+			$table->integer('employee_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();
@@ -31,7 +31,7 @@ class CreateEtQueuesTable extends Migration {
 
 		Schema::table('et_queues', function($table) 
 		{
-			$table->foreign('designation_id')->references('id')->on('employee_designations');
+			$table->foreign('employee_id')->references('id')->on('employees');
   		});
 	}
 

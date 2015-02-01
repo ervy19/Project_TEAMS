@@ -180,7 +180,7 @@ class ExternalTrainingsController extends \BaseController {
 	public function indexQueue()
 	{
 		$externaltrainingsqueue = ET_Queue::select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
-            ->join('employees','et_queues.designation_id','=','employees.id')
+            ->join('employees','et_queues.employee_id','=','employees.id')
             ->get();
 
 		return View::make('external_trainings.pending-approval')

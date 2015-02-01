@@ -20,7 +20,7 @@ Route::get('login', function()
 });
 
 
-
+Route::get('pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 
 /*
@@ -163,13 +163,6 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
 
-
-
-	Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
-
-	Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
-
-
 });
 
 /*
@@ -181,6 +174,7 @@ Route::group(array('before' => 'auth'), function()
 |
 */
 
+
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
@@ -190,12 +184,17 @@ Route::get('confirm-external-training', array('as' => 'external_trainings_queue.
 	return View::make('confirm-external-training');
 }));
 
+Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
+
+Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+
+
 Route::get('success-external-training', array('as' => 'external_trainings_queue.success', function()
 {
 	return View::make('success-external-training');
 }));
 
-Route::get('external_trainings/pending-approval', array('as' => 'external_trainings.pending-approval', 'uses' => 'ExternalTrainingsController@indexQueue'));
+
 
 
 Route::get('test', function()
