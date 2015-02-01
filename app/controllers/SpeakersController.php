@@ -7,20 +7,13 @@ class SpeakersController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index($id)
-	{
-		//$internaltrainings=array();
-		$internaltrainings = Training::find($id);
-		$testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
-		
-		if (is_null($testresponse)) {
-			$intent = "accomplish";
-		}
-		else {
-			$intent = "show";
-		}
-				
-		$speakers = Speaker::where('isActive', '=', true)->get();
+	public function index($internal_training_id)
+	{			
+		$internaltraining = Training::find($internal_training_id);
+
+
+
+		$speakers = Speaker::where('internal_training_id', '=', $internal_training_id)->get();
 
 		if(Request::ajax()){
 			return Response::json(['data' => $speakers]);
@@ -28,8 +21,8 @@ class SpeakersController extends \BaseController {
 		else
 		{
 			return View::make('internal_trainings.speakers')
-				->with('internaltrainings', $internaltrainings)
-				->with('intent', $intent);
+				->with('speakers', $speakers)
+				->with('internal_training', $internaltraining);
 		}
 	}
 
@@ -49,7 +42,7 @@ class SpeakersController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($internal_training_id)
 	{
 		// validate
         // read more on validation at http://laravel.com/docs/validation
@@ -74,7 +67,7 @@ class SpeakersController extends \BaseController {
             $speakers->topic = Input::get('topic');
             $speakers->educational_background = Input::get('educational_background');
             $speakers->work_background = Input::get('work_background');
-            $speakers->internal_training_id = 1;
+            $speakers->internal_training_id = $internal_training_id;
             $speakers->save();
 
             return Response::json(['success' => true]);
@@ -106,13 +99,15 @@ class SpeakersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($internal_training_id,$speaker_id)
 	{
-		$speakers = Speaker::find($id);
+		$speaker = Speaker::where('internal_training_id','=',$internal_training_id)
+					->where('id','=',$speaker_id)
+					->first();
 
 		return Response::json([
 			'success' => true,
-			'result' => $speakers
+			'result' => $speaker
 			]);
 	}
 
@@ -163,8 +158,7 @@ class SpeakersController extends \BaseController {
 	public function destroy($id)
 	{
 		$speakers = Speaker::find($id);
-        $speakers->isActive = false;
-        $speakers->save();
+        $speakers->delete();
 
         return Response::json(['success' => true]);
     }

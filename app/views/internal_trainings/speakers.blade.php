@@ -1,12 +1,12 @@
 @extends('layouts.index')
 
 @section('title')
-	Internal Training Speakers - {{ $internaltrainings->title }}
+	Internal Training Speakers - {{ $internal_training->title }}
 @stop
 
 @section('breadcrumb')
 	<li><a href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
-	<li><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}">{{$internaltrainings->title or '---'}}</a></li>
+	<li><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}">{{$internal_training->title or '---'}}</a></li>
 	<li>Speakers</li>
 @stop
 
@@ -15,7 +15,7 @@
 	<div class="col-sm-12 col-md-12 training-info">
 		<div class="panel">
 			<div class="row training-details">
-				<h2>{{  $internaltrainings->title or '---' }}</h2>
+				<h2>{{  $internal_training->title or '---' }}</h2>
 			</div>
 		</div>
 	</div>
@@ -24,9 +24,9 @@
 		<div class="panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a href="#">Speakers</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants">Participants</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/{{$intent}}">After Activity Evaluation</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/after-activity-evaluation/">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
 
@@ -198,7 +198,7 @@
 		$(document).ready( function () {
 
 			var table = $('#tb-speakers').dataTable({
-		        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
+		        "ajax": "{{URL::to('internal_trainings')}}/{{$internal_training->id}}/speakers",
 		        "columns": [
 		            { "data": "name" },
 		            { "data": "topic" },
@@ -244,7 +244,7 @@
 								table.fnDestroy();
 
 								table = $('#tb-speakers').dataTable({
-							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internal_training->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
 							            { "data": "topic" },
@@ -311,7 +311,7 @@
 								table.fnDestroy();
 
 								table = $('#tb-speakers').dataTable({
-							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internal_training->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
 							            { "data": "topic" },
@@ -349,7 +349,7 @@
 			$('#tb-speakers').on('click', '.btn-delete-speaker', function (e) {
 
 				var id = $(this).attr('data-id');
-				var url = "{{ URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers";
+				var url = "{{ URL::to('internal_trainings')}}/{{$internal_training->id}}/speakers";
 				$('.message-log').empty();
 
 			    $('#deleteSpeaker').modal({ backdrop: 'static', keyboard: false })
@@ -393,6 +393,7 @@
 							$('#update-speaker').find('textarea[name=educational_background]').val(data.result.educational_background);
 							$('#update-speaker').find('textarea[name=work_background]').val(data.result.work_background);
 							$('#editSpeaker').modal({ backdrop: 'static', keyboard: false });
+							alert(data.result.name);
 						}
 					}
 				});
@@ -414,7 +415,7 @@
 								table.fnDestroy();
 
 								table = $('#tb-speakers').dataTable({
-							        "ajax": "{{URL::to('internal_trainings')}}/{{$internaltrainings->id}}/speakers",
+							        "ajax": "{{URL::to('internal_trainings')}}/{{$internal_training->id}}/speakers",
 							        "columns": [
 							            { "data": "name" },
 							            { "data": "topic" },
