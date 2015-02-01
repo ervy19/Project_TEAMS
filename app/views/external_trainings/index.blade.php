@@ -19,7 +19,7 @@
 					<ul class="nav nav-tabs nav-justified">
 						<li role="presentation"><a  href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
 						<li role="presentation" class="active"><a>External Trainings</a></li>
-						<li role="presentation"><a href="{{ URL::to('external_trainings/pending_approval') }}">External Trainings in Queue</a></li>
+						<li role="presentation"><a href="{{ URL::to('pending_approval') }}">External Trainings in Queue</a></li>
 					</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">

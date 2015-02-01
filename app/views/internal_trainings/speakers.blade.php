@@ -70,7 +70,7 @@
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
       					<div class="row">
-		      				{{ Form::open(['data-add','id' => 'add-speaker', 'url' => 'internal_trainings/1/speakers/store', 'class' => 'form-horizontal']) }}
+		      				{{ Form::open(['data-add','id' => 'add-speaker', 'url' => 'internal_trainings', 'class' => 'form-horizontal']) }}
 								<div class="form-group row">
 									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
 									<div class="col-sm-4 col-md-4">
@@ -228,11 +228,13 @@
 					var method = form.find('input[name="method"]').val() || 'POST';
 					var url = form.prop('action');	
 
+					var training_id = {{ $internal_training->id }};
+
 					$('.message-log').empty();
 
 					$.ajax({
 						type: method,
-						url: url,
+						url: url + '/' + training_id + '/speakers/store',
 						data: form.serialize(),
 						success: function(data) {
 							if(data.success)
