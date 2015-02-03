@@ -104,12 +104,13 @@ class InternalTrainingsController extends \BaseController {
         $schoolcollege = School_College::where('id', '=', $schoolcollegeid)->pluck('name');
         $departmentid = Internal_Training::where('training_id', '=', $id)->pluck('organizer_department_id');
         $department = Department::where('id', '=', $departmentid)->pluck('name');        
-
+        $encrypted_training_id = Crypt::encrypt($id);
 
 		return View::make('internal_trainings.show')
 			->with('internaltrainings', $internaltrainings)
             ->with('schoolcollege', $schoolcollege)
-            ->with('department', $department);
+            ->with('department', $department)
+            ->with('encrypted_training_id',$encrypted_training_id);
 	}
 
 	public function showSpeakers($id)

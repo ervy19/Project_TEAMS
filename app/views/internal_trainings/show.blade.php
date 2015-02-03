@@ -93,6 +93,9 @@
 			<div class="col-sm-12 col-md-12 requirement">
 				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report" class="btn btn-primary">View After Activity Evaluation</a>
 			</div>
+			<div class="col-sm-12 col-md-12 requirement">
+				<a href="{{ URL::to('') }}/{{ $encrypted_training_id }}" class="btn btn-primary">Show Attendance Page</a>
+			</div>
 		</div>
 		<div class="row panel training-summary">
 			<h3 class="panel-header">Report Summary</h3>

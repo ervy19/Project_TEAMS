@@ -49,7 +49,6 @@
 			<div class="panel">
 				<div class="row">
 					<h2 class="panel-header attendance-title">{{ $title or '---' }}</h2>
-					<p>{{ $id or '---' }}</p>
 				</div>
 			</div>
 		</div>
@@ -62,13 +61,13 @@
 						<!-- if there are creation errors, they will show here -->
 						<!--{{ HTML::ul($errors->all()) }}-->
 
-						{{ Form::open(array('url' => 'internal-training/attendance')) }}
+						{{ Form::open(array('url' => 'attendance', 'id' => 'employee-attendance')) }}
 
 							<div class="form-group row">
 								<div class="col-sm-12 col-md-12">
 								{{ Form::label('employee_number','Employee Number: ') }}
 								{{ Form::text('employee_number', '', array('class' => 'form-control', 'placeholder' => 'Employee Number')) }}
-								{{ $errors->first('employee_number') }}
+								<div id="error-employee_number" class="error-message"></div>
 								</div>
 							</div>
 
@@ -80,9 +79,8 @@
 		</div>
 		<div class="col-sm-8 col-md-8 training-sidebar">
 			<div class="row panel training-status">
-				<h3>Employee Number:</h3>
-				<h3>Name:</h3>
-				
+				<div id="employee-number"><h3>Employee Number:</h3><h2></h2></div>
+				<div id="employee-name"><h3>Name:</h3><h2></h2></div>
 			</div>
 		</div>
 	</div>
@@ -103,29 +101,36 @@
 
     	$(document).ready( function () {
 
-    		var id = $(this).attr('data-id');
+    		$('#employee-attendance').on('submit', function(e) {
+    			e.preventDefault();
 
-			var form = $('form[data-update]');
-			var method = form.find('input[name="_method"]').val() || 'POST';
-			var url = form.prop('action');
+    			$('#employee-number').find('h2').empty();
+    			$('#employee-name').find('h2').empty();
+    			$('#error-employee_number').empty();
 
-    		$.ajax({
-				type: method,
-				url: url,
-				data: form.serialize(),
-				success: function(data) {
-					if(data.success)
-					{
-					
+    			var form = $(this);
+				var method = form.find('input[name="_method"]').val() || 'POST';
+				var url = form.prop('action');
+
+				var training_id = "{{ $encrypted_id }}";
+
+	    		$.ajax({
+					type: method,
+					url: url + '/' + training_id,
+					data: form.serialize(),
+					success: function(data) {
+						if(data.success)
+						{
+							$('#employee-number').find('h2').append(data.result.employee_number);
+							$('#employee-name').find('h2').append(data.result.given_name + " " + data.result.middle_initial + " "+ data.result.last_name);
+						}
+						else
+						{
+							$('#error-employee_number').append(data.errors.employee_number);
+						}
 					}
-					else
-					{
-						$('.error-message').empty();
-						$('#error-addcampus-name').append(data.errors.name);
-						$('#error-addcampus-address').append(data.errors.address);
-					}
-				}
-			});
+				});
+    		});    		
     	});
 
     </script>

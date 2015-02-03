@@ -350,3 +350,13 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 .attendance-title {
 	font-weight: bold;
 }
+
+#employee-number h2, #employee-number h3,
+#employee-name h2, #employee-name h3 {
+	display: inline-block;
+}
+
+#employee-number h3, #employee-name h3 {
+	margin-left: 5px;
+	margin-right: 10px;
+}

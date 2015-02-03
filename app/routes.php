@@ -174,10 +174,7 @@ Route::get('submit-external-training', array('as' => 'external_trainings.createQ
 
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
-Route::get('confirm-external-training', array('as' => 'external_trainings_queue.confirm', function()
-{
-	return View::make('confirm-external-training');
-}));
+Route::post('confirm-external-training', array('as' => 'external_trainings_queue.confirm', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
 Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
 
@@ -191,4 +188,4 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 
 Route::get('{encrypted_internal_training_id}', 'ITAttendanceController@index');
 
-Route::post('{encrypted_internal_training_id}/attendance/{employee_number}', 'ITAttendanceController@store');
+Route::post('attendance/{encrypted_internal_training_id}', 'ITAttendanceController@store');
