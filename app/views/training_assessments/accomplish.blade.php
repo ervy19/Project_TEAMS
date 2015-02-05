@@ -25,10 +25,9 @@
 							<h5>{{ "Sophia Hernandez" }}</h5>
 							<h5>{{ "faculty" }}</h5>
 						</div>
-						@foreach($internaltraining as $training)
 						<div class="col-sm-4 col-md-4">
 							<h6>School/College/Department:</h6>
-							<p>{{ $training->name }}</p>
+							<p>{{ $internaltraining[0]->title }}</p>
 						</div>
 					</div>
 					<div class="row training-details">
@@ -37,8 +36,8 @@
 							<h6>Training Organizer:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ $training->theme_topic }}</h5>
-							<h5>{{ $training->name }}</h5>
+							<h5>{{ $internaltraining[0]->theme_topic }}</h5>
+							<h5>{{ $internaltraining[0]->name }}</h5>
 						</div>
 
 						<div class="col-sm-1 col-md-1">
@@ -46,16 +45,15 @@
 							<h6>Schedule:</h6>
 						</div>
 						<div class="col-sm-3 col-md-3">
-							<h5>{{ $training->venue }}</h5>
-							<h5>{{ $training->schedule }}</h5>
+							<h5>{{ $internaltraining[0]->venue }}</h5>
+							<h5>{{ $internaltraining[0]->schedule }}</h5>
 						</div>
 
 						<div class="col-sm-12 col-md-12">
 							<h6>Objectives:</h6>
-							<p>{{ $training->objectives }}</p>
+							<p>{{ $internaltraining[0]->objectives }}</p>
 						</div>
-						@endforeach
-					</div>
+					]</div>
 				</div>
 			</div>
 		</div>
@@ -81,7 +79,7 @@
 					</p>
 
 					@if ($type === "pta")
-							{{ Form::open(array('url' => 'internal_trainings/1/pta/1', 'class' => 'form-horizontal')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
 
 							<table class="table">
 								<thead>
@@ -119,7 +117,7 @@
 							{{ Form::close() }}					    
 							
 					@elseif ($type === "pte")
-							{{ Form::open(array('url' => 'internal_trainings/1/pte/1', 'class' => 'form-horizontal')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
 									<table class="table">
 										<thead>
 											<tr class="assessment-form">

@@ -146,4 +146,16 @@ class SkillsCompetenciesController extends \BaseController {
 
     	return Response::json(['success' => true]);
     }
+
+    public function summaryReport()
+    {
+    	if(Request::ajax()){
+            //return Response::json(['data' => $scs]);
+        }
+        else
+        {
+            return View::make('summary_reports.scs');
+        }	
+    }
+
 }

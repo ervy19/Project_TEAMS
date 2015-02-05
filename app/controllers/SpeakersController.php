@@ -121,7 +121,7 @@ class SpeakersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($internal_training_id,$id)
+	public function update($internal_training_id,$speaker_id)
 	{
 		// validate
         // read more on validation at http://laravel.com/docs/validation
@@ -140,7 +140,7 @@ class SpeakersController extends \BaseController {
         	);
         } else {
             // store
-           	$speakers = Speaker::find($id);
+           	$speakers = Speaker::find($speaker_id);
             $speakers->name = Input::get('name');
             $speakers->topic = Input::get('topic');
             $speakers->educational_background = Input::get('educational_background');
@@ -158,9 +158,9 @@ class SpeakersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($training_id,$id)
+	public function destroy($training_id,$speaker_id)
 	{
-		$speakers = Speaker::find($id);
+		$speakers = Speaker::find($speaker_id);
         $speakers->delete();
 
         return Response::json(['success' => true]);

@@ -18,6 +18,8 @@
     {{ HTML::style('assets/css/general-style.css'); }}
     {{ HTML::style('assets/css/pages-style.css'); }}
 
+	{{ HTML::style('assets/css/datepicker.css'); }}
+
   </head>
 
   <body>
@@ -46,13 +48,10 @@
     <div class="container-fluid">
 		<div class="col-sm-12 col-md-12">
 			<div class="row submit-et-nav">
-					<div class="col-sm-4 col-md-4 submit-guide active">
+					<div class="col-sm-6 col-md-6 submit-guide active">
 						<i class="fa fa-edit fa-lg"></i>&nbsp;Submit
 					</div>
-					<div class="col-sm-4 col-md-4 submit-guide ">
-						<i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;Confirmation
-					</div>
-					<div class="col-sm-4 col-md-4 submit-guide ">
+					<div class="col-sm-6 col-md-6 submit-guide ">
 						<i class="fa fa-check-circle fa-lg"></i>&nbsp;Successful
 					</div>
 			</div>
@@ -67,8 +66,7 @@
 					<!-- if there are creation errors, they will show here -->
 					{{ HTML::ul($errors->all()) }}
 
-					@if ($employee_number === "")
-					{{ Form::open(array('url' => 'confirm-external-training')) }}
+					{{ Form::open(array('url' => 'submit-external-training')) }}
 						<div class="form-group row">
 							<div class="col-sm-4 col-md-4">
 							{{ Form::label('employee_numberlabel','Employee Number: ') }}
@@ -112,75 +110,17 @@
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-6">
 								{{ Form::label('date_startlabel','Start Date: ') }}
-								{{ Form::text('date_start', '', array('class' => 'form-control')) }}
+								<input class="form-control" type="text" id="date_start" name="date_start">
 								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
 							</div>
 							<div class="col-sm-6 col-md-6">
 								{{ Form::label('date_endlabel','End Date: ') }}
-								{{ Form::text('date_end', '', array('class' => 'form-control')) }}
+								<input class="form-control" type="text" id="date_end" name="date_end">
 								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
 							</div>
 						</div>
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
-					@else
-						{{ Form::open(array('url' => 'confirm-external-training')) }}
-						<div class="form-group row">
-							<div class="col-sm-4 col-md-4">
-							{{ Form::label('employee_numberlabel','Employee Number: ') }}
-							{{ Form::text('employee_number', $employee_number, array('class' => 'form-control')) }}
-							</div>
-							<div class="col-sm-12 col-md-12">
-								{{ $errors->first('employee_number','<div class="error-message">:message</div>') }}
-							</div>
-						</div>
-
-						<div class="form-group row">
-							{{ Form::label('titlelabel','Title: ') }}
-							{{ Form::text('title', $title, array('class' => 'form-control')) }}
-							{{ $errors->first('title','<div class="error-message">:message</div>') }}
-						</div>
-
-						<div class="form-group row">
-							{{ Form::label('theme_topiclabel','Theme/Topic: ') }}
-							{{ Form::text('theme_topic', $theme_topic, array('class' => 'form-control')) }}
-							{{ $errors->first('theme_topic','<div class="error-message">:message</div>') }}
-						</div>
-
-						<div class="form-group row">
-							{{ Form::label('participationlabel','Participation: ') }}
-							{{ Form::text('participation', $participation, array('class' => 'form-control')) }}
-							{{ $errors->first('participation','<div class="error-message">:message</div>') }}
-						</div>
-
-						<div class="form-group row">
-							{{ Form::label('organizerlabel','Organizer: ') }}
-							{{ Form::text('organizer', $organizer, array('class' => 'form-control')) }}
-							{{ $errors->first('organizer','<div class="error-message">:message</div>') }}
-						</div>
-
-						<div class="form-group row">
-							{{ Form::label('venuelabel','Venue: ') }}
-							{{ Form::text('venue', $venue, array('class' => 'form-control')) }}
-							{{ $errors->first('venue','<div class="error-message">:message</div>') }}
-						</div>
-
-						<div class="form-group row">
-							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_startlabel','Start Date: ') }}
-								{{ Form::text('date_start', $date_start, array('class' => 'form-control')) }}
-								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
-							</div>
-							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_endlabel','End Date: ') }}
-								{{ Form::text('date_end', $date_end, array('class' => 'form-control')) }}
-								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
-							</div>
-						</div>
-
-						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
-
-					@endif
 					{{ Form::close() }}
 
 						</div>
@@ -202,6 +142,51 @@
     {{ HTML::script('assets/js/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
+    {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
+
+
+	<script type="text/javascript">
+		var employee_number = document.getElementById("employee_number");
+		employee_number.value = {{$employee_number}};
+
+		var title = document.getElementById("title");
+		title.value = {{$title}};
+
+		var theme_topic = document.getElementById("theme_topic");
+		theme_topic.value = {{$theme_topic}};
+
+		var participation = document.getElementById("participation");
+		participation.value = {{$participation}};
+
+		var organizer = document.getElementById("organizer");
+		organizer.value = {{$organizer}};
+
+		var venue = document.getElementById("venue");
+		venue.value = {{$venue}};
+
+		var date_start = document.getElementById("date_start");
+		date_start.value = {{$date_start}};
+
+		var date_end = document.getElementById("date_end");
+		date_end.value = {{$date_end}};
+
+		var sc = $('#external-training-on-queue');
+		$(sc).change(function() {
+			var elem = document.getElementById("selected");
+			elem.value = $(sc).val();
+		});	
+
+		
+
+	</script>
+	<script>
+	$('#date_start').datepicker({
+		    format: 'yyyy-mm-dd'
+		});
+			$('#date_end').datepicker({
+		    format: 'yyyy-mm-dd'
+		});
+	</script>
 
   </body>
 </html>

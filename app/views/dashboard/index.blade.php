@@ -122,7 +122,7 @@
 						</div>
 					</div>
 				</a>
-				<a href="{{ URL::to('reports') }}">
+				<a href="{{ URL::to('summary_report/trainings') }}">
 					<div class="tile">
 						<div class="tile-body">
 							<i class="fa fa-area-chart fa-lg"></i>
@@ -145,14 +145,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-sm-8 col-md-8">
-		<div class="panel">
-			<div class="row">
-				<h3 class="panel-header">Latest Activity</h3>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-4 col-md-4">
+	<div class="col-sm-12 col-md-12">
 		<div class="panel">
 			<div class="row">
 				<h3 class="panel-header"><i class="fa fa-pencil-square-o"></i>&nbsp;To Be Accomplished</h3>

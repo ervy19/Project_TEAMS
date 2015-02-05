@@ -231,26 +231,6 @@ class InternalTrainingsController extends \BaseController {
             ->with('isAdminHR',$isAdminHR);
 	}
 
-	public function showParticipants($id)
-	{
-		$internaltrainings = Training::with('internal_training')->find($id);
-        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
-        
-        if (is_null($testresponse)) {
-            $intent = "accomplish";
-        }
-        else {
-            $intent = "show";
-        }
-
-        $employees = Employee::where('isActive', true)->get()->lists('full_name','id');
-
-		return View::make('internal_trainings.participants')
-            ->with('employees',$employees)
-			->with('internaltrainings', $internaltrainings)
-            ->with('intent', $intent);
-	}
-
 	public function showAfterActivityEvaluation($id)
 	{
         $internal_training = Training::where('id', '=', $id)->first();
@@ -570,4 +550,14 @@ class InternalTrainingsController extends \BaseController {
         return Redirect::to('internal_trainings');
 	}
 
+    public function summaryReport()
+    {
+        if(Request::ajax()){
+            //return Response::json(['data' => $scs]);
+        }
+        else
+        {
+            return View::make('summary_reports.trainings');
+        }
+    }
 }

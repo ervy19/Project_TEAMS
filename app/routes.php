@@ -70,18 +70,6 @@ Route::get('users/reset_password/{token}', 'UsersController@resetPassword');
 Route::post('users/reset_password', 'UsersController@doResetPassword');
 Route::get('logout', 'UsersController@logout');
 
-	Route::get('internal_trainings/{internal_trainings}/speakers/{speaker}/edit', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@edit'));
-
-	Route::post('internal_trainings/{internal_trainings}/speakers/store', array('as' => 'speakers.store', 'uses' => 'SpeakersController@store'));
-
-	Route::put('internal_trainings/{internal_trainings}/speakers/{speaker}', array('as' => 'speakers.update', 'uses' => 'SpeakersController@update'));
-
-	Route::patch('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@update'));
-
-	Route::delete('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@destroy'));
-
-	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
-
 /*
 |--------------------------------------------------------------------------
 | Authenticated Routes
@@ -96,6 +84,11 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'DashboardController@index'));
 
+	Route::get('summary_report/trainings', array('as' => 'summary_report.trainings', 'uses' => 'InternalTrainingsController@summaryReport'));
+
+	Route::get('summary_report/skills_competencies', array('as' => 'summary_report.skills_competencies', 'uses' => 'SkillsCompetenciesController@summaryReport'));
+
+
 	/*
 	|--------------------------------------------------------------------------
 	| Internal Training Routes
@@ -105,15 +98,35 @@ Route::group(array('before' => 'auth'), function()
 	|
 	*/
 
+	/*Speaker Routes under Internal Trainings*/
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
-	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
-	
+	Route::get('internal_trainings/{internal_trainings}/speakers/{speaker}/edit', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@edit'));
+	Route::post('internal_trainings/{internal_trainings}/speakers/store', array('as' => 'speakers.store', 'uses' => 'SpeakersController@store'));
+	Route::put('internal_trainings/{internal_trainings}/speakers/{speaker}', array('as' => 'speakers.update', 'uses' => 'SpeakersController@update'));
+	Route::patch('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@update'));
+	Route::delete('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@destroy'));
+
+	/*Participant Routes under Internal Trainings*/
+	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.index', 'uses' => 'ParticipantsController@index'));
+	Route::get('internal_trainings/{internal_trainings}/participants/{participant}/edit', array('as' => 'participants.edit', 'uses' => 'ParticipantsController@edit'));
+	Route::post('internal_trainings/{internal_trainings}/participants/store', array('as' => 'participants.store', 'uses' => 'ParticipantsController@store'));
+	Route::put('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.update', 'uses' => 'ParticipantsController@update'));
+	Route::patch('internal_trainings/{internal_trainings}/participants/{participant}', array('uses' => 'ParticipantsController@update'));
+	Route::delete('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.destroy', 'uses' => 'ParticipantsController@destroy'));
+
+
+
+
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 	//Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 	Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
 
 
+
+
 	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
+
+
 
 
 	Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
@@ -128,17 +141,14 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
-
+	//Used for getting specific employee designation
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
 
 
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 
-	Route::get('training_plan', array('as' => 'training_plan', function()
-	{
-		return View::make('training_plan.index');
-	}));
+	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
 
 	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));

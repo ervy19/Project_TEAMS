@@ -271,28 +271,10 @@ class ExternalTrainingsController extends \BaseController {
         $venue = Input::get('venue');
         $date_start = Input::get('date_start');
         $date_end = Input::get('date_end');
-
-        return View::make('submit-external-training')
-            ->with('employee_number', $employee_number)
-            ->with('title', $title)
-            ->with('theme_topic', $theme_topic)
-            ->with('participation', $participation)
-            ->with('organizer', $organizer)
-            ->with('venue', $venue)
-            ->with('date_start', $date_start)
-            ->with('date_end', $date_end);
-
         // validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employee_number' => 'required',
-            'title' => 'required',
-            'theme_topic' => 'required',
-            'participation' => 'required',
-            'organizer' => 'required',
-            'venue' => 'required',
-            'date_start' => 'required',
-            'date_end' => 'required'
+            'employee_number' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -315,17 +297,18 @@ class ExternalTrainingsController extends \BaseController {
             else {
                 // store
                 $externaltrainings = new ET_Queue;
-                $externaltrainings->title = Input::get('title');
-                $externaltrainings->theme_topic = Input::get('theme_topic');
-                $externaltrainings->participation = Input::get('participation');
-                $externaltrainings->organizer = Input::get('organizer');
-                $externaltrainings->venue = Input::get('venue');
-                $externaltrainings->date_start = Input::get('date_start');
-                $externaltrainings->date_end = Input::get('date_end');
+                $externaltrainings->title = $title;
+                $externaltrainings->theme_topic = $theme_topic;
+                $externaltrainings->participation = $participation;
+                $externaltrainings->organizer = $organizer;
+                $externaltrainings->venue = $venue;
+                $externaltrainings->date_start = $date_start;
+                $externaltrainings->date_end = $date_end;
                 $externaltrainings->employee_id = $employee;
                 $externaltrainings->save();
 
-                return Redirect::to('success-external-training');
+                return View::make('success-external-training')
+                    ->with('employee_number',$employee_number);
             }
         }
     }

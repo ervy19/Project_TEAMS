@@ -44,48 +44,45 @@
     </nav>
 
     <div class="container-fluid">
-		<div class="col-sm-12 col-md-12">
-			<div class="row submit-et-nav">
-					<div class="col-sm-4 col-md-4 submit-guide">
-						<i class="fa fa-edit fa-lg"></i>&nbsp;Submit
-					</div>
-					<div class="col-sm-4 col-md-4 submit-guide">
-						<i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;Confirmation
-					</div>
-					<div class="col-sm-4 col-md-4 submit-guide active">
-						<i class="fa fa-check-circle fa-lg"></i>&nbsp;Successful
-					</div>
-			</div>
+    <div class="col-sm-12 col-md-12">
+      <div class="row submit-et-nav">
+          <div class="col-sm-6 col-md-6 submit-guide active">
+            <i class="fa fa-edit fa-lg"></i>&nbsp;Submit
+          </div>
+          <div class="col-sm-6 col-md-6 submit-guide ">
+            <i class="fa fa-check-circle fa-lg"></i>&nbsp;Successful
+          </div>
+      </div>
 
-			<div class="panel submit-et">
-				<div class="row">
-					<div class="col-sm-12 col-md-12 pta-form">
-						<div class="panel">
+      <div class="panel submit-et">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 pta-form">
+            <div class="panel">
 
-						<h2 class="panel-header">Submission Successful</h2>
-						<br>
-						<h5>Employee ID: {{ (string)Session::get('message') }}</h5>
-						<br>
-						<p>
-							Your external training has been submitted. 
-						</p>
-						<p>
-							You may now submit the documentation of your external training to the Human Resources Department Office to complete the process.
-						</p>
+            <h2 class="panel-header">Submission Successful</h2>
+            <br>
+            <h5>Employee ID: {{ $employee_number }}</h5>
+            <br>
+            <p>
+              Your external training has been submitted. 
+            </p>
+            <p>
+              You may now submit the documentation of your external training to the Human Resources Department Office to complete the process.
+            </p>
 
             <a class="btn btn-primary" href="{{ URL::to('submit-external-training')  }}">Submit A New External Training Record</a>
-					<!-- if there are creation errors, they will show here -->
-					<!--{{ HTML::ul($errors->all()) }}-->
+          <!-- if there are creation errors, they will show here -->
+          <!--{{ HTML::ul($errors->all()) }}-->
 
-					
+          
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	</div>
+  </div>
 
     <footer class="footer">
       <div class="container-fluid">

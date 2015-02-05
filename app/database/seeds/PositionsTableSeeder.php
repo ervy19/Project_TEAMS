@@ -12,8 +12,8 @@ class PositionsTableSeeder extends Seeder {
 		DB::table('positions')->delete();
 
 		DB::table('positions')->insert(array(
-			array('name' => ''),
-			array('name' => '')		
+			array('title' => 'Instructor'),
+			array('title' => 'Associate Professor')		
 		));
 
 		$this->command->info('New Positions have been created!');

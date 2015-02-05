@@ -18,7 +18,6 @@
 	<div class="panel">
 		<div class="row">
 			<h1>Training Plan</h1>
-			<br>
 		</div>
 	</div>
 </div>
@@ -45,7 +44,7 @@
 		    	
 		    	events: [
 			        {
-			        	id: 6,
+			        	id: 4,
 			            title  : 'event1',
 			            start  : '2015-01-01'
 			        },
