@@ -25,15 +25,16 @@
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation" class="active"><a href="#">Speakers</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/after-activity-evaluation/">After Activity Evaluation</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
-
+			@if($isAdminHR)
 				<button type="button" id="btn-add-speaker" class="btn btn-primary" data-toggle="modal" data-target="#addSpeaker">
 					Add Speaker<i class="fa fa-plus fa-lg add-plus"></i>
 				</button>
 				<br><br>
+			@endif
 				<table id="tb-speakers" class="table table-striped table-bordered">
 					<thead>
 						<tr>
@@ -46,11 +47,6 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
 						</tr>
 					</tbody>
 				</table>
@@ -178,14 +174,14 @@
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
       					<div class="row">
-      						<h5 class="confirm-delete">Are you sure you want to archive this speaker?</h5>
+      						<h5 class="confirm-delete">Are you sure you want to delete this speaker?</h5>
 						</div>
 					</div>
 				</div>	
       		</div>
     		<div class="modal-footer">
         		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        		<button type="button" id="btn-archive-speaker" class="btn btn-danger ">Archive</button>
+        		<button type="button" id="btn-archive-speaker" class="btn btn-danger ">Delete</button>
       		</div>
     	</div>
 	</div>

@@ -11,7 +11,11 @@
 
 @section('content')
 
-	<div class="col-sm-9 col-md-9 training-info">
+	@if($isAdminHR || $isOrganizer)
+		<div class="col-sm-8 col-md-8 training-info">
+	@else
+		<div class="col-sm-12 col-md-12 training-info">
+	@endif
 		<div class="panel">
 			<div class="row training-details">
 				<h2 class="panel-header">{{  $internaltrainings->title or '---' }}</h2>
@@ -21,7 +25,7 @@
 				</div>
 				<div class="col-sm-11 col-md-11">
 					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->theme_topic or '---' }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $department or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $organizer or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -37,7 +41,7 @@
 					<h6>Format:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lecture-workshop</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->format or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-12 col-md-12">
@@ -51,103 +55,195 @@
 				<div class="col-sm-12 col-md-12">
 					<h6>Focus Areas:</h6>
 					<div class="tags">
-							<a href="#"><h3><span class="label label-default">Instructional Strategy</span></h3></a>
+					@if($focus_areas)
+						@if($focus_areas->instructional_strategy)
+							<h3><span class="label label-default">Instructional Strategy</span></h3>
+						@endif
+						@if($focus_areas->evaluation_of_learning)
+							<h3><span class="label label-default">Evaluation of Learning</span></h3>
+						@endif
+						@if($focus_areas->curriculum_enrichment)
+							<h3><span class="label label-default">Curriculum Enrichment</span></h3>
+						@endif
+						@if($focus_areas->research_aid_instruction)
+							<h3><span class="label label-default">Research Aid Instruction</span></h3>
+						@endif
+						@if($focus_areas->content_update)
+							<h3><span class="label label-default">Content Update</span></h3>
+						@endif
+						@if($focus_areas->materials_production)
+							<h3><span class="label label-default">Materials Production</span></h3>
+						@endif
+						<h3><span class="label label-default">{{ $focus_areas->others }}</span></h3>
+					@else
+						<h3><span class="label label-default">No Focus Areas</span></h3>
+					@endif
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Skills and Competencies Addressed:</h6>
-					<div class="tags">
-						<a href="#"><h3><span class="label label-default">IT Literacy</span></h3></a>
-					</div>
+					@if($scs)
+						@foreach($scs as $key => $value)
+							<div class="tags">
+								<a href="#"><h3><span class="label label-default">{{ $value->name }}</span></h3></a>
+							</div>
+						@endforeach
+					@else
+						<div class="tags">
+							<a href="#"><h3><span class="label label-default">No Skills/Competencies Tagged</span></h3></a>
+						</div>
+					@endif
 				</div>
+				@if(!($isAdminHR || $isOrganizer))
+				<div class="col-sm-12 col-md-12">
+					<h6>Speakers:</h6>
+						@if(!$hasSpeakers)
+							<h5>--- No Speakers Registered ---</h5>
+						@else
+							<table id="tb-speakers" class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Topic</th>
+										<th>Educational Background</th>
+										<th>Work Background</th>
+									</tr>
+								</thead>
+								<tbody>
+								@foreach($speakers as $key => $value)
+									<tr>
+										<td>{{ $value->name }}</td>
+										<td>{{ $value->topic }}</td>
+										<td>{{ $value->educational_background }}</td>
+										<td>{{ $value->work_background }}</td>
+									</tr>
+								@endforeach
+								</tbody>
+							</table>
+						@endif
+				</div>
+				@endif
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-3 col-md-3 training-sidebar">
-		<div class="row panel training-status">
-			<h3 class="panel-header">Requirement Status</h3>
+	@if($isAdminHR || $isOrganizer)
+	<div class="col-sm-4 col-md-4 training-sidebar">
+		<div class="row panel training-participants">
+			<h3 class="panel-header">Participants</h3>
+			<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants" class="label label-primary view-participant pull-right">View</a>
+			<div id="participant-summary" style="margin: 0 auto"></div>
+		</div>
+		<div class="row panel training-requirements">
+			<h3 class="panel-header">Training Requirements</h3>
 			<div class="col-sm-12 col-md-12 requirement">
-				<h4>Assessment Form Template</h4>
-				<span class="label label-success status">Accomplished</span>
+				<h4 class="pull-left">Speakers</h4>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers" class="label label-success pull-right">View Speakers</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<h4>After Activity Evaluation Report</h4>
-				<span class="label label-danger status">Not Yet Available</span>
+				<h4 class="pull-left">Items for Training Assessment</h4>
+				<a class="label label-success pull-right" data-toggle="modal" data-target="#assessmentItems">View Items</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<h4>Training Effectiveness Report</h4>
-				<span class="label label-danger status">Not Yet Available</span>
+				<h4 class="pull-left">After Activity Evaluation Report</h4>
+				<span class="label label-danger status pull-right">Not Yet Available</span>
+			</div>
+			<div class="col-sm-12 col-md-12 requirement">
+				<h4 class="pull-left">Training Effectiveness Report</h4>
+				<span class="label label-danger status pull-right">Not Yet Available</span>
 			</div>
 		</div>
-		<div class="row panel training-status">
-			<h3 class="panel-header">Training Information</h3>
-			<div class="col-sm-12 col-md-12 requirement">
-				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers" class="btn btn-primary">View Speakers</a>
-			</div>
-			<div class="col-sm-12 col-md-12 requirement">
-				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants" class="btn btn-primary">View Participants</a>
-			</div>
-			<div class="col-sm-12 col-md-12 requirement">
-				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/after-activity-evaluation/accomplish" class="btn btn-primary">View After Activity Evaluation</a>
-			</div>
-			<div class="col-sm-12 col-md-12 requirement">
-				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/training-effectiveness-report" class="btn btn-primary">View After Activity Evaluation</a>
-			</div>
-			<div class="col-sm-12 col-md-12 requirement">
-				<a href="{{ URL::to('') }}/{{ $encrypted_training_id }}" class="btn btn-primary">Show Attendance Page</a>
-			</div>
-		</div>
-		<div class="row panel training-summary">
-			<h3 class="panel-header">Report Summary</h3>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					10
-				</div>
-				<div class="title">
-					Attendees
+		@if($isAdminHR)
+			<div class="row panel training-attendance">
+				<div class="col-sm-12 col-md-12 content">
+				@if($hasSpeakers)
+					<a href="{{ URL::to('') }}/{{ $encrypted_training_id }}" target="_blank" class="btn btn-primary">Register Attendees</a>
+				@else
+					<p>Register speakers before you can record attendance</p>
+				@endif
 				</div>
 			</div>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					100
-				</div>
-				<div class="title">
-					Attendees
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					100
-				</div>
-				<div class="title">
-					Attendees
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					10
-				</div>
-				<div class="title">
-					Attendees
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					100
-				</div>
-				<div class="title">
-					Attendees
-				</div>
-			</div>
-			<div class="col-sm-4 col-md-4 summary-name">
-				<div class="count">
-					100
-				</div>
-				<div class="title">
-					Attendees
-				</div>
-			</div>
+		@endif
+	</div>
+
+	<!-- Assessment Items Modal -->
+	<div class="modal fade" id="assessmentItems" tabindex="-1" role="dialog" aria-labelledby="assessmentItemsLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        		<h4 class="modal-title" id="assessmentItemsLabel"><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;Items for Assessment</h4>
+	      		</div>
+	      		<div class="modal-body">
+	      			<div class="container">
+	      				<div class="col-sm-12 col-md-12">
+	      					<div class="row">
+	      						
+							</div>
+						</div>
+					</div>	
+	      		</div>
+	    		<div class="modal-footer">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      		</div>
+	    	</div>
 		</div>
 	</div>
+	@endif
 	
 @stop
+
+@if($isAdminHR || $isOrganizer)
+	@section('page_js')
+		<script type="text/javascript">
+			$(document).ready( function () {
+
+	    $('#participant-summary').highcharts({
+	        chart: {
+	        	marginTop: -50,
+	        	marginBottom: 0,
+	        	height: 200,
+	            plotBackgroundColor: null,
+	            plotBorderWidth: 0,
+	            plotShadow: false
+	        },
+	        title: {
+	            text: ''
+	        },
+	        tooltip: {
+	            pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+	        },
+	        plotOptions: {
+	            pie: {
+	                dataLabels: {
+	                    enabled: false,
+	                    distance: -50,
+	                    style: {
+	                        fontWeight: 'bold',
+	                        color: 'white',
+	                        textShadow: '0px 1px 2px black'
+	                    }
+	                },
+	                startAngle: -90,
+	                endAngle: 90,
+	                center: ['50%', '75%']
+	            }
+	        },
+	        series: [{
+	            type: 'pie',
+	            name: 'Participant Data',
+	            innerSize: '50%',
+	            data: [
+	                ['With PTA only',   45.0],
+	                ['Attended and with PTA',       26.8],
+	                ['Attended only', 15.8],
+	                ['Attended and with both PTA and PTE',    12.4]
+	            ]
+	        }]
+	    });
+
+			    
+
+			});
+		</script>
+	@stop
+@endif

@@ -44,7 +44,7 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+  <div class="container-fluid">
 		<div class="col-sm-12 col-md-12">
 			<div class="panel">
 				<div class="row">
@@ -54,6 +54,7 @@
 		</div>
 	</div>
 
+  @if($hasSpeakers)
 	<div class="container-fluid">
 		<div class="col-sm-4 col-md-4 training-info">
 			<div class="panel">
@@ -84,6 +85,17 @@
 			</div>
 		</div>
 	</div>
+  @else
+   <div class="container-fluid">
+    <div class="col-sm-12 col-md-12">
+      <div class="panel">
+        <div class="row">
+          <h3>Registration of attendance is not yet allowed</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endif
 		
     <footer class="footer">
       <div class="container-fluid">
@@ -106,31 +118,36 @@
 
     			$('#employee-number').find('h2').empty();
     			$('#employee-name').find('h2').empty();
-    			$('#error-employee_number').empty();
+          $('#error-employee_number').empty();
 
     			var form = $(this);
-				var method = form.find('input[name="_method"]').val() || 'POST';
-				var url = form.prop('action');
+  				var method = form.find('input[name="_method"]').val() || 'POST';
+  				var url = form.prop('action');
 
-				var training_id = "{{ $encrypted_id }}";
+  				var training_id = "{{ $encrypted_id }}";
 
-	    		$.ajax({
-					type: method,
-					url: url + '/' + training_id,
-					data: form.serialize(),
-					success: function(data) {
-						if(data.success)
-						{
-							$('#employee-number').find('h2').append(data.result.employee_number);
-							$('#employee-name').find('h2').append(data.result.given_name + " " + data.result.middle_initial + " "+ data.result.last_name);
-						}
-						else
-						{
-							$('#error-employee_number').append(data.errors.employee_number);
-						}
-					}
-				});
-    		});    		
+  	    	$.ajax({
+  					type: method,
+  					url: url + '/' + training_id,
+  					data: form.serialize(),
+  					success: function(data) {
+  						if(data.success)
+  						{
+  							$('#employee-number').find('h2').append(data.result.employee_number);
+  							$('#employee-name').find('h2').append(data.result.given_name + " " + data.result.middle_initial + " "+ data.result.last_name);
+                $('input[name="employee_number"]').val("");
+  						}
+  						else
+  						{
+  							$('#error-employee_number').append(data.errors.employee_number);
+  						}
+  					}
+  				});
+
+
+
+    		});  
+
     	});
 
     </script>

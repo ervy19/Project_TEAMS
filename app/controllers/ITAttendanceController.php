@@ -15,6 +15,15 @@ class ITAttendanceController extends \BaseController {
 
 		$training_title = $training->title;
 
+		$hasSpeakers = false;
+
+		$speakers = Speaker::where('internal_training_id', '=', $id)->first();
+
+        if($speakers)
+        {
+        	$hasSpeakers = true;
+        }
+
 		/*
 			if (not yet expired)
 				return Attendance page
@@ -24,7 +33,8 @@ class ITAttendanceController extends \BaseController {
 
 		return View::make('internal_trainings.attendance')
 					->with('encrypted_id',$encrypted_id)
-					->with('title',$training_title);
+					->with('title',$training_title)
+					->with('hasSpeakers',$hasSpeakers);
 	}
 
 

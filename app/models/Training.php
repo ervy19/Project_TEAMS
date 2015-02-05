@@ -12,6 +12,10 @@ class Training extends Eloquent {
 		return $this->hasOne('Internal_Training');
 	}
 
+	public function external_training() {
+		return $this->hasOne('External_Training');
+	}
+
 }
 
 ?>

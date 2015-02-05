@@ -16,11 +16,13 @@
 
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
-					<ul class="nav nav-tabs nav-justified">
-						<li role="presentation"><a  href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
-						<li role="presentation" class="active"><a>External Trainings</a></li>
-						<li role="presentation"><a href="{{ URL::to('pending_approval') }}">External Trainings in Queue</a></li>
-					</ul>
+		<ul class="nav nav-tabs nav-justified">
+			<li role="presentation"><a  href="{{ URL::to('internal_trainings') }}">Internal Trainings</a></li>
+			<li role="presentation" class="active"><a>External Trainings</a></li>
+			@if($isAdminHR)
+			<li role="presentation"><a href="{{ URL::to('external_trainings/queue') }}">External Trainings in Queue</a></li>
+			@endif
+		</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">
 					<div class="panel">
@@ -48,6 +50,7 @@
 									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
 									<td>
 										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
+									   
 									   {{ Form::open(array('route' => array('external_trainings.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
 									    <button type="submit" class="btn btn-small btn-danger">Archive</button>
 									   {{ Form::close() }}

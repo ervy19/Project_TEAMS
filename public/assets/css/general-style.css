@@ -114,8 +114,16 @@ input[type="radio"] {
     padding-right: 10px;
 }
 
-.label,.alert {
+.label, .alert {
   border-radius: 0px;
+}
+
+.label-primary, .alert-primary {
+  background: rgba(255,57,235,0.6);
+}
+
+.label:hover {
+  background: rgba(255,57,235,0.45);
 }
 
 .label-success, .alert-success {

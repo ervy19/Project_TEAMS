@@ -14,8 +14,10 @@
 	<div class="panel">
 		<div class="row">
 			<h1>Internal Trainings</h1>
-			<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
-			<br><br>
+			@if($isAdminHR)
+				<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
+				<br><br>
+			@endif
 		</div>
 	</div>
 </div>
@@ -23,10 +25,12 @@
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
 			<ul class="nav nav-tabs nav-justified">
-						<li role="presentation" class="active"><a>Internal Trainings</a></li>
-						<li role="presentation"><a href="{{ URL::to('external_trainings') }}">External Trainings</a></li>
-						<li role="presentation"><a href="{{ URL::to('pending_approval') }}">External Trainings in Queue</a></li>
-					</ul>
+				<li role="presentation" class="active"><a>Internal Trainings</a></li>
+				<li role="presentation"><a href="{{ URL::to('external_trainings') }}">External Trainings</a></li>
+				@if($isAdminHR)
+				<li role="presentation"><a href="{{ URL::to('external_trainings/queue') }}">External Trainings in Queue</a></li>
+				@endif
+			</ul>
 					<div class="training-contents">
 					<div class="col-sm-12 col-md-12">
 					<div class="panel">
@@ -53,10 +57,12 @@
 											<th>Organizer</th>
 											<td>
 												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
+												@if($isAdminHR)
 												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
 											   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'class' => 'form-archive', 'method' => 'delete')) }}
 											   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
 											   {{ Form::close() }}
+											   @endif
 											</td>
 										</tr>
 										@endforeach
@@ -78,14 +84,22 @@
 		    $('#tb-internal_trainings').DataTable( {
 
 				"aoColumnDefs": [
+				@if($isAdminHR)
 			      { "sWidth": "23%", "aTargets": [ 0 ] },
 			      { "sWidth": '15%', "aTargets": [ 1 ] },
 			      { "sWidth": '15%', "aTargets": [ 2 ] },
 			      { "sWidth": '15%', "aTargets": [ 3 ] },
 			      { "sWidth": '15%', "aTargets": [ 4 ] },
-			      { "sWidth": '17%', "aTargets": [ 5 ] },
+			      { "sWidth": '17%', "aTargets": [ 5 ] }
+			    @else
+			      { "sWidth": "26%", "aTargets": [ 0 ] },
+			      { "sWidth": '17%', "aTargets": [ 1 ] },
+			      { "sWidth": '17%', "aTargets": [ 2 ] },
+			      { "sWidth": '15%', "aTargets": [ 3 ] },
+			      { "sWidth": '17%', "aTargets": [ 4 ] },
+			      { "sWidth": '8%', "aTargets": [ 5 ] }
+			    @endif
 			    ]
-
 		    });
 		});
 	</script>

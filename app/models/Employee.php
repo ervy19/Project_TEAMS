@@ -6,6 +6,11 @@ class Employee extends Eloquent {
 
 	protected $fillable = array('id', 'employee_number', 'last_name', 'given_name', 'middle_initial', 'email', 'age', 'tenure', 'isActive');
 
+	public function getFullNameAttribute()
+    {
+        return ucfirst($this->given_name) . ' ' . ucfirst($this->middle_initial) . '. ' . ucfirst($this->last_name);
+    }
+
 	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');
 	}

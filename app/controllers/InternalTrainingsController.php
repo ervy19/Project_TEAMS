@@ -11,10 +11,17 @@ class InternalTrainingsController extends \BaseController {
 	{
 		$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
 
-		return View::make('internal_trainings.index')
-			->with('internaltrainings', $internaltrainings);
-	}
+        $isAdminHR = false;
 
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;
+        }
+
+		return View::make('internal_trainings.index')
+			->with('internaltrainings', $internaltrainings)
+            ->with('isAdminHR',$isAdminHR);
+	}
 
 	/**
 	 * Show the form for creating a new resource.
@@ -99,26 +106,129 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$internaltrainings = Training::with('internal_training')->find($id);
-        $schoolcollegeid = Internal_Training::where('training_id', '=', $id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $schoolcollegeid)->pluck('name');
-        $departmentid = Internal_Training::where('training_id', '=', $id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $departmentid)->pluck('name');        
-        $encrypted_training_id = Crypt::encrypt($id);
+        //Get the details of the specified internal training
+        $internaltrainings = Training::join('internal_trainings','trainings.id','=','internal_trainings.training_id')
+                                ->where('trainings.id','=',$id)
+                                ->first();
 
-		return View::make('internal_trainings.show')
-			->with('internaltrainings', $internaltrainings)
-            ->with('schoolcollege', $schoolcollege)
-            ->with('department', $department)
-            ->with('encrypted_training_id',$encrypted_training_id);
+        $focus_areas = Focus_Areas::where('internal_training_id','=',$internaltrainings->id)->first();
+            
+        $scs = DB::table('it_addressed_sc')
+                    ->join('skills_competencies','it_addressed_sc.skills_competencies_id','=','skills_competencies.id')
+                    ->where('internal_training_id','=',$internaltrainings->id)
+                    ->get();
+
+        $organizer = 'No Organizer Tagged';
+
+        //Get the name of the school/college who organized the training
+        $schoolcollege = School_College::find($internaltrainings->organizer_schools_colleges_id);
+
+        //Get the name of the department who organized the training
+        $department = Department::find($internaltrainings->organizer_department_id);        
+            
+        if($schoolcollege)
+        {
+            $organizer = $schoolcollege->name;
+        }
+
+        if($department)
+        {
+            $organizer = $schoolcollege->name . ' | Department of ' . $department->name;
+        }
+
+        $isAdminHR = false;
+        $isOrganizer = false;
+        $hasSpeakers = false;
+
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;
+
+            $encrypted_training_id = Crypt::encrypt($id);
+
+            $speakers = Speaker::where('internal_training_id', '=', $id)->first();
+
+            //dd($speakers);
+
+            if($speakers)
+            {
+                $hasSpeakers = true;
+            }
+
+            return View::make('internal_trainings.show')
+                ->with('internaltrainings', $internaltrainings)
+                ->with('organizer', $organizer)
+                ->with('encrypted_training_id',$encrypted_training_id)
+                ->with('focus_areas',$focus_areas)
+                ->with('scs',$scs)
+                ->with('isAdminHR',$isAdminHR)
+                ->with('isOrganizer',$isOrganizer)
+                ->with('hasSpeakers',$hasSpeakers);
+        }
+        else
+        {
+            //Check if the user's school/college/department has organized the training
+            if(Auth::user()->hasRole('School_College Supervisor'))
+            {
+                $scSupervisor = Supervisor::select(DB::raw('schools_colleges.id as sc_id'))
+                                ->join('schools_colleges_supervisors','supervisors.id','=','schools_colleges_supervisors.supervisor_id')
+                                ->join('schools_colleges','schools_colleges_supervisors.schools_colleges.id','=','schools_colleges')
+                                ->where('supervisors.user_id','=',Auth::user()->id)
+                                ->first();
+
+                if($scSupervisor->sc_id==$internaltrainings->organizer_schools_colleges_id)
+                {
+                    $isOrganizer = true;
+                }
+            }
+            else if(Auth::user()->hasRole('Department Supervisor'))
+            {
+                $departmentSupervisor = Supervisor::select(DB::raw('departments.id as dept_id'))
+                                ->join('department_supervisors','supervisors.id','=','department_supervisors.supervisor_id')
+                                ->join('departments','department_supervisors.department_id','=','departments.id')
+                                ->where('supervisors.user_id','=',Auth::user()->id)
+                                ->first();
+
+                if($departmentSupervisor->dept_id==$internaltrainings->organizer_department_id)
+                {
+                    $isOrganizer = true;
+                }
+            }
+
+            $speakers = Speaker::where('internal_training_id','=',$id)
+                                ->get();
+
+            if($speakers!=null)
+            {
+                $hasSpeakers = true;
+            }
+
+            return View::make('internal_trainings.show')
+                        ->with('internaltrainings', $internaltrainings)
+                        ->with('organizer', $organizer)
+                        ->with('focus_areas',$focus_areas)
+                        ->with('scs',$scs)
+                        ->with('speakers',$speakers)
+                        ->with('hasSpeakers',$hasSpeakers)
+                        ->with('isAdminHR',$isAdminHR)
+                        ->with('isOrganizer',$isOrganizer);
+        }
 	}
 
 	public function showSpeakers($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
 
+        $isAdminHR = false;
+
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;       
+        }
+
 		return View::make('internal_trainings.speakers')
-			->with('internaltrainings', $internaltrainings);
+            ->with('internaltrainings', $internaltrainings)
+            ->with('isAdminHR',$isAdminHR);
 	}
 
 	public function showParticipants($id)
@@ -133,40 +243,79 @@ class InternalTrainingsController extends \BaseController {
             $intent = "show";
         }
 
+        $employees = Employee::where('isActive', true)->get()->lists('full_name','id');
+
 		return View::make('internal_trainings.participants')
+            ->with('employees',$employees)
 			->with('internaltrainings', $internaltrainings)
             ->with('intent', $intent);
 	}
 
-	public function showAfterActivityEvaluation($id, $intent)
+	public function showAfterActivityEvaluation($id)
 	{
-		 if($intent=="accomplish")
-		 {
-		 	$intent="accomplish";
-			$internaltrainings = Training::where('id', '=', $id)->get();
+        $internal_training = Training::where('id', '=', $id)->first();
+        $activityevaluation = Activity_Evaluation::where('internal_training_id', '=', $id)->first();
+        $attendees = IT_Participant::join('participant_attendances','it_participants.id','=','participant_attendances.it_participant_id')
+                        ->where('it_participants.internal_training_id','=',$id)
+                        ->first();
 
-			return View::make('internal_trainings.after-activity-evaluation')
-				->with('internaltrainings', $internaltrainings)
-				->with('intent', $intent);
-		 }
-		 elseif($intent=="show")
-		 {
-		 	$intent="show";
-		 	$activityevaluation = Activity_Evaluation::where('internal_training_id', '=', $id)->get();
-		 	$speaker = Speaker::where('internal_training_id', '=', $id)->pluck('id');
-		 	$speakerevaluation = Speaker_Evaluation::where('speaker_id', '=', $speaker)->get();
-		 	
-		 	//dd($activityevaluation);
-		 	
-			$internaltrainings = Training::where('id', '=', $id)->get();
+        //dd($attendees);
 
-			return View::make('internal_trainings.after-activity-evaluation')
-				->with('internaltrainings', $internaltrainings)
-				->with('intent', $intent)
-				->with('activityevaluation', $activityevaluation)
-				->with('speakerevaluation', $speakerevaluation);
-		 }
-		 
+        $isAdminHR = false;
+        $existsAE = false;
+        $hasAttendees = false;
+
+        if($attendees)
+        {
+            $hasAttendees = true;
+
+            if($activityevaluation)
+            {
+                $existsAE = true;
+
+                if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+                {
+                    $isAdminHR = true;
+                }
+
+                //$speaker = Speaker::where('internal_training_id', '=', $id)->pluck('id');
+                //$speakerevaluation = Speaker_Evaluation::where('speaker_id', '=', $speaker)->first();
+                
+                return View::make('internal_trainings.after-activity-evaluation')
+                    ->with('internal_training', $internal_training)
+                    ->with('activityevaluation', $activityevaluation)
+                    ->with('existsAE',$existsAE)
+                    ->with('hasAttendees',$hasAttendees)
+                    ->with('isAdminHR',$isAdminHR);
+
+            }
+            else
+            {
+                if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+                {
+                    $isAdminHR = true;
+                }
+
+                return View::make('internal_trainings.after-activity-evaluation')
+                    ->with('internal_training', $internal_training)
+                    ->with('existsAE',$existsAE)
+                    ->with('hasAttendees',$hasAttendees)
+                    ->with('isAdminHR',$isAdminHR);
+            }
+        }
+        else
+        {
+            if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+            {
+                $isAdminHR = true;
+            }
+
+            return View::make('internal_trainings.after-activity-evaluation')
+                    ->with('internal_training', $internal_training)
+                    ->with('existsAE',$existsAE)
+                    ->with('hasAttendees',$hasAttendees)
+                    ->with('isAdminHR',$isAdminHR);   
+        }
 	}
 
 	/**
@@ -185,7 +334,7 @@ class InternalTrainingsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/{internal_trainings}/after-activity-evaluation/accomplish')
+            return Redirect::to('internal_trainings/'.$id.'/after-activity-evaluation')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -223,29 +372,76 @@ class InternalTrainingsController extends \BaseController {
 
             // redirect
             Session::flash('message', 'Successfully recorded After Activity Evaluation!');
-            return Redirect::to('dashboard');
+            return Redirect::to('internal_trainings/'.$id.'/after-activity-evaluation');
         }
 	}
 
 	public function showTrainingEffectivenessReport($id)
 	{
-		$internaltrainings = Training::where('id', '=', $id)->get();
-        $trainingdetails = Internal_Training::where('training_id', '=', $id)->get();
-        $tereport = Internal_Training::where('training_id', '=', $id)->pluck('evaluation_narrative');
-        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
-        
-        if (is_null($testresponse)) {
-            $intent = "accomplish";
+        $internal_training = Training::join('internal_trainings','trainings.id','=','internal_trainings.training_id')
+                                ->where('id', '=', $id)
+                                ->first();
+        $activityevaluation = Activity_Evaluation::where('internal_training_id', '=', $id)->first();
+
+        if($internal_training->evaluation_narrative != "" || $internal_training->recommendations != "")
+        {
+            $tereport = true;
         }
-        else {
-            $intent = "show";
+        else
+        {
+            $tereport = false;
         }
 
-		return View::make('internal_trainings.training-effectiveness-report')
-			->with('internaltrainings', $internaltrainings)
-            ->with('tereport', $tereport)
-            ->with('trainingdetails', $trainingdetails)
-            ->with('intent', $intent);
+        $isAdminHR = false;
+        $existsTER = false;
+        $hasAE = false;
+
+        if($activityevaluation)
+        {
+            $hasAE = true;
+
+            if($tereport)
+            {
+                $existsTER = true;
+
+                if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+                {
+                    $isAdminHR = true;
+                }
+ 
+                return View::make('internal_trainings.training-effectiveness-report')
+                    ->with('internal_training', $internal_training)
+                    ->with('isAdminHR',$isAdminHR)
+                    ->with('existsTER',$existsTER)
+                    ->with('hasAE',$hasAE);
+            }
+            else
+            {
+                if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+                {
+                    $isAdminHR = true;
+                }
+
+                return View::make('internal_trainings.training-effectiveness-report')
+                    ->with('internal_training', $internal_training)
+                    ->with('isAdminHR',$isAdminHR)
+                    ->with('existsTER',$existsTER)
+                    ->with('hasAE',$hasAE);
+            }
+        }
+        else
+        {
+            if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+            {
+                $isAdminHR = true;
+            }
+
+                return View::make('internal_trainings.training-effectiveness-report')
+                    ->with('internal_training', $internal_training)
+                    ->with('isAdminHR',$isAdminHR)
+                    ->with('existsTER',$existsTER)
+                    ->with('hasAE',$hasAE);           
+        }
 	}
 
 	public function storeReport($id)
@@ -253,14 +449,14 @@ class InternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'evaluation_narrative' => 'required'
-
+            'evaluation_narrative' => 'required',
+            'recommendations' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('internal_trainings/{internal_trainings}/training-effectiveness-report')
+            return Redirect::to('internal_trainings/'.$id.'/training-effectiveness-report')
                 ->withErrors($validator)
                 ->withInput();
         } else {
@@ -273,7 +469,7 @@ class InternalTrainingsController extends \BaseController {
 
             // redirect
             Session::flash('message', 'Successfully recorded Training Effectiveness Report!');
-            return Redirect::to('dashboard');
+            return Redirect::to('internal_trainings/'.$id.'/training-effectiveness-report');
         }
 	}
 

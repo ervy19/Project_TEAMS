@@ -73,50 +73,50 @@
 						<div class="form-group row">
 							<div class="col-sm-4 col-md-4">
 							{{ Form::label('employee_number','Employee Number: ') }}
-							{{ Form::text('employee_number', '', array('class' => 'form-control')) }}
+							{{ Form::text('employee_number', $employee_number, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('employee_number') }}
 							</div>
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('title','Title: ') }}
-							{{ Form::text('title', '', array('class' => 'form-control')) }}
+							{{ Form::text('title', $title, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('title') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('theme_topic','Theme/Topic: ') }}
-							{{ Form::text('theme_topic', '', array('class' => 'form-control')) }}
+							{{ Form::text('theme_topic', $theme_topic, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('theme_topic') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('participation','Participation: ') }}
-							{{ Form::text('participation', '', array('class' => 'form-control')) }}
+							{{ Form::text('participation', $participation, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('participation') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('organizer','Organizer: ') }}
-							{{ Form::text('organizer', '', array('class' => 'form-control')) }}
+							{{ Form::text('organizer', $organizer, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('organizer') }}
 						</div>
 
 						<div class="form-group row">
 							{{ Form::label('venue','Venue: ') }}
-							{{ Form::text('venue', '', array('class' => 'form-control')) }}
+							{{ Form::text('venue', $venue, array('class' => 'form-control', 'disabled')) }}
 							{{ $errors->first('venue') }}
 						</div>
 
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-6">
 								{{ Form::label('date_start','Date Start: ') }}
-								{{ Form::text('date_start', '', array('class' => 'form-control')) }}
+								{{ Form::text('date_start', $date_start, array('class' => 'form-control', 'disabled')) }}
 								{{ $errors->first('date_start') }}
 							</div>
 							<div class="col-sm-6 col-md-6">
 								{{ Form::label('date_end','Date End: ') }}
-								{{ Form::text('date_end', '', array('class' => 'form-control')) }}
+								{{ Form::text('date_end', $date_end, array('class' => 'form-control', 'disabled')) }}
 								{{ $errors->first('date_end') }}
 							</div>
 						</div>
@@ -124,6 +124,12 @@
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
 					{{ Form::close() }}
+
+						{{ Form::open(array('url' => 'back-external-training')) }}
+					        {{ Form::submit('Back', array('class' => 'btn btn-primary')) }}
+					    {{ Form::close() }}
+
+						
 
 						</div>
 					</div>

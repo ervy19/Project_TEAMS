@@ -67,11 +67,11 @@
 					<!-- if there are creation errors, they will show here -->
 					{{ HTML::ul($errors->all()) }}
 
-					{{ Form::open(array('url' => 'submit-external-training')) }}
-
+					@if ($employee_number === "")
+					{{ Form::open(array('url' => 'confirm-external-training')) }}
 						<div class="form-group row">
 							<div class="col-sm-4 col-md-4">
-							{{ Form::label('employee_number','Employee Number: ') }}
+							{{ Form::label('employee_numberlabel','Employee Number: ') }}
 							{{ Form::text('employee_number', '', array('class' => 'form-control')) }}
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -80,50 +80,107 @@
 						</div>
 
 						<div class="form-group row">
-							{{ Form::label('title','Title: ') }}
+							{{ Form::label('titlelabel','Title: ') }}
 							{{ Form::text('title', '', array('class' => 'form-control')) }}
 							{{ $errors->first('title','<div class="error-message">:message</div>') }}
 						</div>
 
 						<div class="form-group row">
-							{{ Form::label('theme_topic','Theme/Topic: ') }}
+							{{ Form::label('theme_topiclabel','Theme/Topic: ') }}
 							{{ Form::text('theme_topic', '', array('class' => 'form-control')) }}
 							{{ $errors->first('theme_topic','<div class="error-message">:message</div>') }}
 						</div>
 
 						<div class="form-group row">
-							{{ Form::label('participation','Participation: ') }}
+							{{ Form::label('participationlabel','Participation: ') }}
 							{{ Form::text('participation', '', array('class' => 'form-control')) }}
 							{{ $errors->first('participation','<div class="error-message">:message</div>') }}
 						</div>
 
 						<div class="form-group row">
-							{{ Form::label('organizer','Organizer: ') }}
+							{{ Form::label('organizerlabel','Organizer: ') }}
 							{{ Form::text('organizer', '', array('class' => 'form-control')) }}
 							{{ $errors->first('organizer','<div class="error-message">:message</div>') }}
 						</div>
 
 						<div class="form-group row">
-							{{ Form::label('venue','Venue: ') }}
+							{{ Form::label('venuelabel','Venue: ') }}
 							{{ Form::text('venue', '', array('class' => 'form-control')) }}
 							{{ $errors->first('venue','<div class="error-message">:message</div>') }}
 						</div>
 
 						<div class="form-group row">
 							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_start','Start Date: ') }}
+								{{ Form::label('date_startlabel','Start Date: ') }}
 								{{ Form::text('date_start', '', array('class' => 'form-control')) }}
 								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
 							</div>
 							<div class="col-sm-6 col-md-6">
-								{{ Form::label('date_end','End Date: ') }}
+								{{ Form::label('date_endlabel','End Date: ') }}
 								{{ Form::text('date_end', '', array('class' => 'form-control')) }}
+								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
+							</div>
+						</div>
+						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
+
+					@else
+						{{ Form::open(array('url' => 'confirm-external-training')) }}
+						<div class="form-group row">
+							<div class="col-sm-4 col-md-4">
+							{{ Form::label('employee_numberlabel','Employee Number: ') }}
+							{{ Form::text('employee_number', $employee_number, array('class' => 'form-control')) }}
+							</div>
+							<div class="col-sm-12 col-md-12">
+								{{ $errors->first('employee_number','<div class="error-message">:message</div>') }}
+							</div>
+						</div>
+
+						<div class="form-group row">
+							{{ Form::label('titlelabel','Title: ') }}
+							{{ Form::text('title', $title, array('class' => 'form-control')) }}
+							{{ $errors->first('title','<div class="error-message">:message</div>') }}
+						</div>
+
+						<div class="form-group row">
+							{{ Form::label('theme_topiclabel','Theme/Topic: ') }}
+							{{ Form::text('theme_topic', $theme_topic, array('class' => 'form-control')) }}
+							{{ $errors->first('theme_topic','<div class="error-message">:message</div>') }}
+						</div>
+
+						<div class="form-group row">
+							{{ Form::label('participationlabel','Participation: ') }}
+							{{ Form::text('participation', $participation, array('class' => 'form-control')) }}
+							{{ $errors->first('participation','<div class="error-message">:message</div>') }}
+						</div>
+
+						<div class="form-group row">
+							{{ Form::label('organizerlabel','Organizer: ') }}
+							{{ Form::text('organizer', $organizer, array('class' => 'form-control')) }}
+							{{ $errors->first('organizer','<div class="error-message">:message</div>') }}
+						</div>
+
+						<div class="form-group row">
+							{{ Form::label('venuelabel','Venue: ') }}
+							{{ Form::text('venue', $venue, array('class' => 'form-control')) }}
+							{{ $errors->first('venue','<div class="error-message">:message</div>') }}
+						</div>
+
+						<div class="form-group row">
+							<div class="col-sm-6 col-md-6">
+								{{ Form::label('date_startlabel','Start Date: ') }}
+								{{ Form::text('date_start', $date_start, array('class' => 'form-control')) }}
+								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-6 col-md-6">
+								{{ Form::label('date_endlabel','End Date: ') }}
+								{{ Form::text('date_end', $date_end, array('class' => 'form-control')) }}
 								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
 							</div>
 						</div>
 
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
+					@endif
 					{{ Form::close() }}
 
 						</div>

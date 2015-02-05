@@ -13,6 +13,13 @@ class SpeakersController extends \BaseController {
 
 		$speakers = Speaker::where('internal_training_id', '=', $internal_training_id)->get();
 
+		$isAdminHR = false;
+
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;       
+        }
+
 		if(Request::ajax()){
 			return Response::json(['data' => $speakers]);
 		}
@@ -20,7 +27,8 @@ class SpeakersController extends \BaseController {
 		{
 			return View::make('internal_trainings.speakers')
 				->with('speakers', $speakers)
-				->with('internal_training', $internaltraining);
+				->with('internal_training', $internaltraining)
+				->with('isAdminHR',$isAdminHR);
 		}
 	}
 
@@ -84,10 +92,7 @@ class SpeakersController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$campuses = Campus::find($id);
-
-		return View::make('campuses.show')
-			->with('campuses', $campuses );
+		
 	}
 
 
@@ -116,7 +121,7 @@ class SpeakersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($internal_training_id,$id)
 	{
 		// validate
         // read more on validation at http://laravel.com/docs/validation
@@ -153,7 +158,7 @@ class SpeakersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($training_id,$id)
 	{
 		$speakers = Speaker::find($id);
         $speakers->delete();

@@ -11,8 +11,16 @@ class EmployeesController extends \BaseController {
 	{
 		$employees = Employee::where('isActive', '=', true)->get();
 
+		$isAdminHR = false;
+
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;
+        }
+
 		return View::make('employees.index')
-			->with('employees', $employees );
+			->with('employees', $employees )
+			->with('isAdminHR',$isAdminHR);
 	}
 
 
@@ -294,5 +302,25 @@ class EmployeesController extends \BaseController {
         // redirect
         Session::flash('message', 'Successfully deleted Employee!');
         return Redirect::to('employees');
+	}
+
+	public function getEmployeeDesignation($id)
+	{
+		if(Request::ajax())
+		{
+			$employee_designations = Employee_Designation::select('*')
+									->join('positions','employee_designations.position_id','=','positions.id')
+									->where('employee_designations.isActive','=',true)
+									->get();
+
+			if ($employee_designations)
+			{
+				return Response::json(['data' => $employee_designations]);
+			}
+			else
+			{
+
+			}			
+		}
 	}
 }

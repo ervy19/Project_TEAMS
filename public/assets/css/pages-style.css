@@ -47,11 +47,11 @@
 	margin-bottom: 8px;
 }
 
-.training-details, .training-status, .training-summary {
+.training-details,  .training-participants, .training-requirements, .training-attendance {
     padding: 15px;
 }
 
-.training-status, .training-summary {
+.training-participants, .training-requirements, .training-attendance  {
 	padding-bottom: 20px;
 }
 
@@ -61,10 +61,18 @@
 	font-weight: bold;
 }
 
-.training-info h3, .training-status h3, .training-summary h3 {
+.training-info h3, .training-participants h3, .training-requirements h3, .training-attendance h3 {
 	margin-top: 0px;
 	font-size: 1.45em;
 	font-weight: bold;
+}
+
+.training-participants h3, .view-participant {
+	display: inline-block;
+}
+
+.view-participant:hover {
+	background: rgba(255,57,235,0.45);
 }
 
 .training-details {
@@ -90,16 +98,20 @@
 	text-align: justify;
 }
 
-.training-status, .training-summary {
+.training-participants, .training-requirements, .training-attendance {
     margin-left: 2px;
 }
 
-.training-status .label {
-	font-size: 1em;
+.training-participants .label, .training-requirements .label {
+	font-size: 0.9em;
 }
 
-.training-summary {
-	margin-top: 15px;
+.training-requirements .label {
+	margin-top: 10px;
+}
+
+.training-participants .panel-header {
+	margin-bottom: 5px;
 }
 
 .training-summary .summary-name {
@@ -113,7 +125,7 @@
 
 .summary-name .title {
 	color: #FD5DED;
-	font-size: 0.9em;
+	font-size: 1em;
 	font-weight: bold;
 	text-transform: uppercase;
 }
@@ -141,17 +153,23 @@
 	display: inline-block;
 }
 
-.training-status .requirement{
+.training-requirements .requirement, .training-attendance .content {
 	text-align: center;
 	margin-bottom: 5px;
 }
 
-.training-status .requirement h4{
-	text-align: left;
+.training-requirements .requirement h4{
+	font-size: 1.15em;
+	margin-bottom: 5px;
+	text-align: center;
 }
 
 .training-contents {
 	padding: 20px;
+}
+
+.requirement h4, .requirement a, .requirement span {
+	display: inline-block;
 }
 
 /**************************************

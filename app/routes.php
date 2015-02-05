@@ -19,6 +19,36 @@ Route::get('login', function()
 	return View::make('login');
 });
 
+Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
+
+Route::post('confirm-external-training', array('as' => 'external_trainings.confirmQueue', 'uses' => 'ExternalTrainingsController@confirmQueue'));
+
+Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
+
+Route::post('back-external-training', array('as' => 'external_trainings.backDetails', 'uses' => 'ExternalTrainingsController@backDetails'));
+
+
+/*
+|--------------------------------------------------------------------------
+| External Training Submission Routes (PUBLIC)
+|--------------------------------------------------------------------------
+|
+| Different application routes for Submission of External Trainings
+|
+*/
+
+
+Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
+
+Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+
+
+Route::get('success-external-training', array('as' => 'external_trainings_queue.success', function()
+{
+	return View::make('success-external-training');
+}));
+
+
 /*
 |--------------------------------------------------------------------------
 | Confide Routes
@@ -79,7 +109,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'internal_trainings.participants', 'uses' => 'InternalTrainingsController@showParticipants'));
 	
 	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
-	Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
+	//Route::get('internal_trainings/{internal_trainings}/after-activity-evaluation/{intent}', array('as' => 'internal_trainings.after-activity-evaluation', 'uses' => 'InternalTrainingsController@showAfterActivityEvaluation'));
 	Route::post('internal_trainings/{internal_trainings}/after-activity-evaluation', array('as' => 'after_activity_eval.store', 'uses' => 'InternalTrainingsController@storeEval'));
 
 
@@ -90,11 +120,17 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
 
+
+
 	Route::get('internal_trainings/{id}/{type}/show/{participant_id}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@showAccomplished'));
 
 	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
+
+
+	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
+
 
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
@@ -160,31 +196,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::delete('{type}/{training_assessment}', array('as' => 'training_assessment.destroy', 'uses' => 'TrainingAssessmentsController@destroy'));
 
 });
-
-/*
-|--------------------------------------------------------------------------
-| External Training Submission Routes (PUBLIC)
-|--------------------------------------------------------------------------
-|
-| Different application routes for Submission of External Trainings
-|
-*/
-
-Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
-
-Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
-
-Route::post('confirm-external-training', array('as' => 'external_trainings_queue.confirm', 'uses' => 'ExternalTrainingsController@storeQueue'));
-
-Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
-
-Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
-
-
-Route::get('success-external-training', array('as' => 'external_trainings_queue.success', function()
-{
-	return View::make('success-external-training');
-}));
 
 Route::get('{encrypted_internal_training_id}', 'ITAttendanceController@index');
 
