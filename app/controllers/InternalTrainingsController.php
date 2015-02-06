@@ -32,10 +32,12 @@ class InternalTrainingsController extends \BaseController {
 	{
 		$schoolcollege = School_College::where('isActive', true)->lists('name','id');
 		$department = Department::where('isActive', true)->lists('name','id');
+        $sc = SkillsCompetencies::where('isActive', true)->lists('name');
 
 		return View::make('internal_trainings.create')
 			->with('schoolcollege', $schoolcollege)
-			->with('department', $department);
+			->with('department', $department)
+            ->with('sc', $sc);
 	}
 
 
@@ -92,6 +94,18 @@ class InternalTrainingsController extends \BaseController {
 
             $internaltrainings->save();
 
+            //Tagged Skills and Competencies
+            $selectedsc = Input::get('scit');
+            $scidArray = explode(",", $selectedsc);
+
+            for($i = 0; $i < count($scidArray); $i++){
+                $ITsc = new IT_Addressed_SC;
+                $selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
+                $ITsc->skills_competencies_id = $selectedid;
+                $ITsc->internal_training_id = $trainings->id;
+                $ITsc->save();
+            }
+
             // redirect
             Session::flash('message', 'Successfully created the Internal Training!');
             return Redirect::to('internal_trainings');
@@ -110,6 +124,8 @@ class InternalTrainingsController extends \BaseController {
         $internaltrainings = Training::join('internal_trainings','trainings.id','=','internal_trainings.training_id')
                                 ->where('trainings.id','=',$id)
                                 ->first();
+        //for format, objectives, and outcome
+        $internaltraining = Training::with('internal_training')->find($id);
 
         $focus_areas = Focus_Areas::where('internal_training_id','=',$internaltrainings->id)->first();
             
@@ -157,6 +173,7 @@ class InternalTrainingsController extends \BaseController {
 
             return View::make('internal_trainings.show')
                 ->with('internaltrainings', $internaltrainings)
+                ->with('internaltraining', $internaltraining)
                 ->with('organizer', $organizer)
                 ->with('encrypted_training_id',$encrypted_training_id)
                 ->with('focus_areas',$focus_areas)

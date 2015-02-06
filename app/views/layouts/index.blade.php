@@ -132,20 +132,13 @@
         placeholder: "HEHEHE",
           allowClear: true
       });
-    </script>
-    <script>
       $("#skills_competencies_edit").select2();
       $("#skills_competencies_dept").select2();
       $("#skills_competencies_dept_edit").select2();
       $("#school_college").select2();
-    </script>
-    <script>
+      $("#skills_competencies_it").select2();
       $("#schools_colleges").select2();
-    </script>
-    <script>
       $("#schoolorganizer").select2();
-    </script>
-    <script>
       $("#departmentorganizer").select2();
     </script>
     

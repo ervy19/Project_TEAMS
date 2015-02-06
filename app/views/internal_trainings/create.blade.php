@@ -45,6 +45,11 @@
 						{{ $errors->first('schedule') }}
 					</div>
 					<div class="form-group row">
+						{{ Form::label('format','Format: ') }}
+						{{ Form::text('format', '', array( 'class' => 'form-control')) }}
+						{{ $errors->first('format') }}
+					</div>
+					<div class="form-group row">
 						{{ Form::label('objectives','Objectives: ') }}
 						{{ Form::textarea('objectives', '', array( 'class' => 'form-control', 'rows' => '3')) }}
 						{{ $errors->first('objectives') }}
@@ -71,6 +76,19 @@
 						{{ Form::select('department', $department, 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
 					
 					</div>
+
+					<div class="form-group row">
+						<div class="col-sm-12 col-md-12">
+						{{ Form::label('sc','Tagged Skills and Competencies: ') }}
+						<div>
+						<select multiple id="skills_competencies_it" style="width: 300px">
+				      		@foreach($sc as $key => $value)
+				        		<option> {{ $value }} </option>
+				      		@endforeach
+			      		</select>
+			    	</div>
+			    	<input type="hidden" name="scit" id="scit">
+			    	<br>
 
 					<div class="form-group row">
 						{{ Form::label('isTrainingPlan','Training Plan: ') }}
@@ -107,24 +125,12 @@
 	    allowClear: true
 	});
 
-	/*$('#date_start').datepicker({
-    format: 'yyyy-mm-dd'
-});
-	$('#date_end').datepicker({
-    format: 'yyyy-mm-dd'
-});
-	
-	var schtr = $('#school_college_training');
-	$(schtr).change(function() {
-		var elemtr = document.getElementById("selected_sch_training");
-		elemtr.value = $(schtr).val();
-	});
+	var sc = $('#skills_competencies_it');
+	$(sc).change(function() {
+		var elem = document.getElementById("scit");
+		elem.value = $(sc).val();
+	});	
 
-	var depttr = $('#dept_training');
-	$(depttr).change(function() {
-		var elemdepttr = document.getElementById("selected_dept_training");
-		elemdepttr.value = $(depttr).val();
-	});*/
 </script>
 
 @stop

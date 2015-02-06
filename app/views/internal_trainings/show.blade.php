@@ -24,8 +24,8 @@
 					<h6>Organizer:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->theme_topic or '---' }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $organizer or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->theme_topic or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $organizer or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
@@ -33,24 +33,24 @@
 					<h6>Schedule:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->venue or '---' }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->schedule or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->venue or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->schedule or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-1 col-md-1">
 					<h6>Format:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->format or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltraining->internal_training->format or '---' }}</h5>
 				</div>
 
 				<div class="col-sm-12 col-md-12">
 					<h6>Objectives:</h6>
-					<p>{{ $internaltrainings->internal_training->objectives or '---'}}</p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltraining->internal_training->objectives or '---'}}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Expected Outcome:</h6>
-					<p>{{ $internaltrainings->internal_training->expected_outcome or '---'}}</p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltraining->internal_training->expected_outcome or '---'}}</p>
 				</div>
 				<div class="col-sm-12 col-md-12">
 					<h6>Focus Areas:</h6>
