@@ -29,63 +29,18 @@
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
 			<div class="training-contents">
-
+			@if($isAdminHR)
 				<button type="button" id="btn-add-participant" class="btn btn-primary" data-toggle="modal" data-target="#addParticipant">
 					Add Participant<i class="fa fa-plus fa-lg add-plus"></i>
 				</button>
 
 				<br><br>
-
-				<table id="tb-it_participant" class="table table-bordered">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Position</th>
-							<th>Department</th>
-							<th>Assessor</th>
-							<th>Participation Status</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Ana Marie O. Afortunado</td>
-							<td>Head</td>
-							<td>Human Resources</td>
-							<td>VP Espino</td>
-							<td>
-								<span class="label label-danger">No PTA</span>
-								<span class="label label-danger">Not Attended</span>
-								<span class="label label-danger">No PTE</span>
-							</td>
-							<td></td>
-						</tr>
-						@foreach($participants as $key => $value)
-							<tr>
-							<td>
-							@if($value->has_pta)
-							{{ $value->employee_name }}
-							<span class="label label-success">Has PTA</span>
-							@else
-							<span class="label label-danger">No PTA</span>
-							@endif
-							</td>
-							<td>{{ $value->employee_name }}</td>
-							<td>Human Resources</td>
-							<td>VP Espino</td>
-							<td></td>
-							<td></td>
-							</tr>
-						@endforeach
-					</tbody>
-				</table>
-
+			@endif
 				<table id="tb-it_participants" class="table table-bordered">
 					<thead>
 						<tr>
 							<th>Name</th>
 							<th>Position</th>
-							<th>Department</th>
 							<th>Assessor</th>
 							<th>Participation Status</th>
 							<th>Action</th>
@@ -93,7 +48,6 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -118,12 +72,13 @@
 	      			<div class="container">
 	      				<div class="col-sm-12 col-md-12">
 	      					<div class="row">
-	      						{{ Form::open(array('url' => 'internal_trainings', 'class' => 'form-horizontal')) }}
+	      						{{ Form::open(['data-add','id' => 'add-participant', 'url' => 'internal_trainings', 'class' => 'form-horizontal']) }}
 									<div class="form-group row">
 										<div class="col-sm-12 col-md-12">
 										{{ Form::label('employee_name','Employee Name: ') }}
 										</div>
 										{{ Form::select('employee', $employees, 'Select an Employee', array('id' => 'dd-employees', 'class' => 'col-sm-5 col-md-5')) }}
+										<div id="error-addparticipant-name" class="error-message"></div>
 									</div>
 									<div class="form-group row">
 										<div class="col-sm-12 col-md-12">
@@ -180,7 +135,6 @@
 		        "columns": [
 		            { "data": "employee_name" },
 		            { "data": "position_title" },
-		            { "data": "department_id" },
 		            { "data": "supervisor_id" },
 		            { "data": "has_pta",
 		              "render": function ( data, type, full, meta ) {
@@ -197,17 +151,16 @@
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
-		            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+		            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
 						}
 		        	}
 		        ],
 		          "aoColumnDefs": [
-			      { "sWidth": "30%", "aTargets": [ 0 ] },
-			      { "sWidth": '20%', "aTargets": [ 1 ] },
-			      { "sWidth": '10%', "aTargets": [ 2 ] },
-			      { "sWidth": '10%', "aTargets": [ 3 ] },
-			      { "sWidth": '15%', "bSortable": false, "aTargets": [ 4 ] },
-			      { "sWidth": '15%', "aTargets": [ 5 ] }
+			      { "sWidth": "25%", "aTargets": [ 0 ] },
+			      { "sWidth": '18%', "aTargets": [ 1 ] },
+			      { "sWidth": '20%', "aTargets": [ 2 ] },
+			      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
+			      { "sWidth": '15%', "aTargets": [ 4 ] }
 			    ]
 			});
 
@@ -223,10 +176,83 @@
 		        var employee_id = $(this).val();
 		        $.get('{{ URL::to('') }}/internal_trainings/participants/'+employee_id, function(data){
 		            $.each(data, function(element, index){
-		                $('"#dd-employee_designation').append('<option value="'+element.id+'">'+element.title+'</option>')
+		                $('#dd-employee_designation').append('<option value="'+element.id+'">'+element.title+'</option>')
 		            });
 		        }, 'json');
 		    });
+
+
+
+
+			$('form[data-add]').on('submit', function (e) {
+
+					e.preventDefault();
+
+					var form = $(this);
+					var method = form.find('input[name="method"]').val() || 'POST';
+					var url = form.prop('action');	
+
+					var training_id = {{ $internal_training->id }};
+
+					$('.message-log').empty();
+
+					$.ajax({
+						type: method,
+						url: url + '/' + training_id + '/participants/store',
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								$('#addParticipant').modal('hide');
+								$('.message-log').append('<div class="note note-success">Participant successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
+		
+								table.fnDestroy();
+
+								var table = $('#tb-it_participants').dataTable({
+							        "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
+							        "columns": [
+							            { "data": "employee_name" },
+							            { "data": "position_title" },
+							            { "data": "supervisor_id" },
+							            { "data": "has_pta",
+							              "render": function ( data, type, full, meta ) {
+							              	if(data)
+							              	{
+							              		return '<span class="label label-success">Has PTA</span>';
+							              	}
+							              	else
+							              	{
+							              		return '<span class="label label-danger">No PTA Yet</span>';
+							              	}
+							              } 
+							        	},
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+							            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+											}
+							        	}
+							        ],
+							          "aoColumnDefs": [
+								      { "sWidth": "25%", "aTargets": [ 0 ] },
+								      { "sWidth": '18%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] }
+								    ]
+								});
+
+							}
+							else
+							{
+								alert('ERROR');
+								$('.error-message').empty();
+								$('#error-addparticipant-name').append(data.errors.employee_name);
+							}
+						}
+					});
+				});
+
 
 		});
 	</script>

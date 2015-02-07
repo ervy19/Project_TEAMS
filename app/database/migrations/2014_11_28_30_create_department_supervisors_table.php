@@ -15,8 +15,6 @@ class CreateDepartmentSupervisorsTable extends Migration {
 		Schema::create('department_supervisors', function($table)
 		{
 			$table->integer('supervisor_id')->unsigned();
-			$table->string('name', 255);
-			$table->string('title', 255);
 			
 			$table->integer('department_id')->unsigned();
 

@@ -14,7 +14,10 @@ class CreateSupervisorsTable extends Migration {
 	{
 		Schema::create('supervisors', function($table)
 		{
-			$table->increments('id');
+			$table->increments('id');			
+			$table->string('name', 255);
+			$table->string('title', 255);
+
 			$table->integer('user_id')->unsigned();
 
 			$table->boolean('isActive')->default(true);

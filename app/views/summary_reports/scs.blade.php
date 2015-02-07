@@ -38,10 +38,9 @@
 			<thead>
 				<tr>
 					<th>Skill/Competency</th>
+					<th>Trainings Tagged</th>
 					<th>Departments Tagged</th>
 					<th>Positions Tagged</th>
-					<th>Internal Trainings Tagged</th>
-					<th>External Trainings Tagged</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -102,8 +101,8 @@
             layout: 'vertical',
             align: 'right',
             verticalAlign: 'top',
-            x: -40,
-            y: 100,
+            x: 0,
+            y: 0,
             floating: true,
             borderWidth: 1,
             backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
@@ -113,13 +112,13 @@
             enabled: false
         },
         series: [{
-            name: 'Trainings Addressed',
+            name: 'Trainings',
             data: [36, 31, 25, 21, 10]
         }, {
-            name: 'Employee Addressed',
+            name: 'Addressed Needs',
             data: [13, 16, 27, 28, 34]
         }, {
-            name: 'Employee Needs',
+            name: 'Unaddressed Needs',
             data: [23, 14, 20, 32, 34]
         }]
 			    });
@@ -147,15 +146,13 @@
 		            { "data": "name" },
 		            { "data": "departmentsTagged" },
 		            { "data": "positionsTagged" },
-		            { "data": "internalTrainingsTagged" },
-		            { "data": "externalTrainingsTagged" },
+		            { "data": "internalTrainingsTagged" }
 		        ],
 		          "aoColumnDefs": [
-			      { "sWidth": "28%", "aTargets": [ 0 ] },
-			      { "sWidth": '18%', "aTargets": [ 1 ] },
-			      { "sWidth": '18%', "aTargets": [ 2 ] },
-			      { "sWidth": '18%', "aTargets": [ 3 ] },
-			      { "sWidth": '18%', "aTargets": [ 4 ] }
+			      { "sWidth": "34%", "aTargets": [ 0 ] },
+			      { "sWidth": '22%', "aTargets": [ 1 ] },
+			      { "sWidth": '22%', "aTargets": [ 2 ] },
+			      { "sWidth": '22%', "aTargets": [ 3 ] }
 			    ]
 			});
 

@@ -17,10 +17,20 @@ class IT_Participant extends Eloquent {
 
 	public function getPositionTitleAttribute()
 	{
-		$position = Employee_Designation::join('positions','employee_designations.id','=','positions.id')
-						->where('id','=',$this->employee_designation_id);
+		$employee_designation = Employee_Designation::where('employee_designations.employee_id','=',$this->employee_id)->first();
 
-		return $position->title;
+		if($employee_designation)
+		{
+			$position = Position::find($employee_designation->position_id);
+
+			return $position->title;
+		}
+		else
+		{
+			return '';
+		}
+		/*join('positions','employee_designations.position_id','=','positions.id')
+						->where('id','=',$this->employee_designation_id);*/
 	}
 
 	/*public function getSupervisorNameAttribute()

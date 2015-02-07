@@ -29,7 +29,7 @@ class ParticipantsController extends \BaseController {
 		else
 		{
 			$participants = IT_Participant::where('internal_training_id', '=', $internal_training_id)
-							->get();
+							->get();	    
 
 			return View::make('internal_trainings.participants')
 				->with('internal_training', $internaltraining)
@@ -56,9 +56,32 @@ class ParticipantsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($internal_training_id)
 	{
-		//
+		$rules = array(
+            'employee' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+         if ($validator->fails()) {
+         	return Response::json([
+         		'success' => false,
+         		'errors' => $validator->errors()->toArray()]
+         	);
+             /*return Redirect::to('campuses')
+                 ->withErrors($validator)
+                 ->withInput(Input::except('password'));*/
+         } else {
+            // store
+            $speakers = new IT_Participant;
+            $speakers->employee_id = Input::get('employee');
+            $speakers->employee_designation_id = 1;
+            $speakers->internal_training_id = $internal_training_id;
+            $speakers->save();
+
+            return Response::json(['success' => true]);
+        }
 	}
 
 
