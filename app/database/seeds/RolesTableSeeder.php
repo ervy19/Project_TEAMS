@@ -16,7 +16,7 @@ class RolesTableSeeder extends Seeder {
                 $adminRole->save();
 
                 $hrRole = new Role;
-                $hrRole->name = 'HR';
+                $hrRole->name = 'HR Admin';
                 $hrRole->save();
 
                 $campusSupervisorRole = new Role;
@@ -37,25 +37,27 @@ class RolesTableSeeder extends Seeder {
 
 		$this->command->info('New Roles have been created!');
 
-                $user = User::where('username','=','ervy')->first();
-                $user->attachRole( $adminRole );
+                DB::table('assigned_roles')->delete();
 
-                /*DB::table('assigned_roles')->insert(array(
-                        array(
-                                'user_id' => 2,
-                                'role_id' => 2
-                        ),
-                        array(
-                                'user_id' => 3,
-                                'role_id' => 3
-                        )
-                ));*/
+                $user = User::where('username','=','ervy')->first();
+                $user->roles()->attach( $adminRole->id );
 
                 $hrUser = User::where('username','=','ervy_hr')->first();
-                $hrUser->attachRole( $hrRole );
+                $hrUser->roles()->attach( $hrRole->id );
 
-                $supervisorUser = User::where('username','=','ervy_supervisor')->first();
-                $supervisorUser->attachRole( $campusSupervisorRole );
+                $campusSupervisorUser = User::where('username','=','ervy_csup')->first();
+                $campusSupervisorUser->roles()->attach( $campusSupervisorRole->id );
+
+                $scSupervisorUser = User::where('username','=','ervy_scsup')->first();
+                $scSupervisorUser->roles()->attach( $schoolcollegeSupervisorRole->id );
+
+                $deptSupervisorUser = User::where('username','=','ervy_dsup')->first();
+                $deptSupervisorUser->roles()->attach( $departmentSupervisorRole->id );
+
+                $progSupervisorUser = User::where('username','=','ervy_psup')->first();
+                $progSupervisorUser->roles()->attach( $programSupervisorRole->id );
+
+                $this->command->info('Roles have been assigned to User Accounts!');
 	}
 
 }

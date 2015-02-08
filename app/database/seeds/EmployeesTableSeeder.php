@@ -1012,8 +1012,6 @@ class EmployeesTableSeeder extends Seeder {
 			array('employee_number' => '37672', 'last_name' => 'Tan', 'given_name' => 'Cesar', 'middle_initial' => 'F' ),
 			array('employee_number' => '37772', 'last_name' => 'Tiongco', 'given_name' => 'Ma. Corazon', 'middle_initial' => 'M' ),
 			array('employee_number' => '2684', 'last_name' => 'Traje', 'given_name' => 'Bernardita', 'middle_initial' => 'T' ),
-			array('employee_number' => '', 'last_name' => 'Keenan', 'given_name' => 'John', 'middle_initial' => 'F' ),
-
 
 
 			//Non-Teaching

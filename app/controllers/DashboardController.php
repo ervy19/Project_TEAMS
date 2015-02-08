@@ -67,7 +67,6 @@ class DashboardController extends \BaseController {
 			{
 				$user = DB::table('users')->select(DB::raw('*'))
 						->leftJoin('supervisors','users.id','=','supervisors.user_id')
-						->rightJoin('department_supervisors','department_supervisors.supervisor_id', '=', 'supervisors.id')
 						->where('users.id','=',Auth::user()->id)
 						->first();
 			}

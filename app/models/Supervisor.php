@@ -4,8 +4,9 @@ class Supervisor extends Eloquent {
 
 	protected $table ='supervisors';
 
-	protected $fillable = array('id', 'name', 'supervisor_type', 'isActive');
+	protected $fillable = array('name', 'title', 'supervisor_type', 'isActive');
 
+	protected $guarded = 'id';
 	
 	public function campus_supervisor() {
 		return $this->hasMany('Campus_Supervisor');

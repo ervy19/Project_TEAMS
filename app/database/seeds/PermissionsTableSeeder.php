@@ -9,7 +9,7 @@ class PermissionsTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
-/*		DB::table('permissions')->delete();
+		DB::table('permissions')->delete();
 
 		DB::table('permissions')->insert(array(
 			array(
@@ -84,27 +84,9 @@ class PermissionsTableSeeder extends Seeder {
 
 		$this->command->info('New Permissions have been created!');
 
-		
+        DB::table('permission_role')->delete();
 
-		$admin_id = Role::where('name', '=', 'Admin')->first()->id;
-
-        $hr_id = Role::where('name', '=', 'HR')->first()->id;
-
-        $campussupervisor_id = Role::where('name', '=', 'Campus Supervisor')->first()->id;
-/*
-		/*2 = 
-
-		$campus_supervisor_id = 
-
-		$program_supervisor_id = 
-
-		$schoolcollege_supervisor_id = 
-
-		$department_supervisor_id =*/
-
-        DB::table('permission_roles')->delete();
-
-		DB::table('permission_roles')->insert(array(
+		DB::table('permission_role')->insert(array(
 			array(
 	        	'role_id'       => 1,
 	            'permission_id' => 1
@@ -175,14 +157,14 @@ class PermissionsTableSeeder extends Seeder {
             )          
 		));
 
-        DB::table('permission_roles')->insert(array(
+        DB::table('permission_role')->insert(array(
             array(
                 'role_id'       => 2,
                 'permission_id' => 1
             ), 
             array(
                 'role_id'       => 2,
-                'permission_id' => 1
+                'permission_id' => 2
             ),
             array(
                 'role_id'       => 2,
@@ -246,7 +228,7 @@ class PermissionsTableSeeder extends Seeder {
             )          
         ));
 
-        DB::table('permission_roles')->insert(array(
+        DB::table('permission_role')->insert(array(
             array(
                 'role_id'       => 3,
                 'permission_id' => 14
@@ -265,6 +247,64 @@ class PermissionsTableSeeder extends Seeder {
             )          
         ));
 
+        DB::table('permission_role')->insert(array(
+            array(
+                'role_id'       => 4,
+                'permission_id' => 14
+            ),
+            array(
+                'role_id'       => 4,
+                'permission_id' => 15
+            ),
+            array(
+                'role_id'       => 4,
+                'permission_id' => 16
+            ),
+            array(
+                'role_id'       => 4,
+                'permission_id' => 17
+            )          
+        ));
+
+        DB::table('permission_role')->insert(array(
+            array(
+                'role_id'       => 5,
+                'permission_id' => 14
+            ),
+            array(
+                'role_id'       => 5,
+                'permission_id' => 15
+            ),
+            array(
+                'role_id'       => 5,
+                'permission_id' => 16
+            ),
+            array(
+                'role_id'       => 5,
+                'permission_id' => 17
+            )          
+        ));
+
+        DB::table('permission_role')->insert(array(
+            array(
+                'role_id'       => 6,
+                'permission_id' => 14
+            ),
+            array(
+                'role_id'       => 6,
+                'permission_id' => 15
+            ),
+            array(
+                'role_id'       => 6,
+                'permission_id' => 16
+            ),
+            array(
+                'role_id'       => 6,
+                'permission_id' => 17
+            )          
+        ));
+
+        $this->command->info('Permissions have been assigned to Roles!');
 
 	}
 
