@@ -4,7 +4,11 @@ class Employee extends Eloquent {
 
 	protected $table ='employees';
 
-	protected $fillable = array('id', 'employee_number', 'last_name', 'given_name', 'middle_initial', 'email', 'age', 'tenure', 'isActive');
+	protected $fillable = array('employee_number', 'last_name', 'given_name', 'middle_initial', 'email', 'age', 'tenure', 'isActive');
+
+	protected $guarded = 'id';
+
+	protected $appends = array('full_name');
 
 	public function getFullNameAttribute()
     {

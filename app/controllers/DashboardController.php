@@ -26,7 +26,7 @@ class DashboardController extends \BaseController {
 						->where('users.id','=',Auth::user()->id)
 						->first();
 		}
-		else if(Auth::user()->hasRole('HR'))
+		else if(Auth::user()->hasRole('HR Admin'))
 		{
 			$role = 2;
 

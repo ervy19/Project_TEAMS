@@ -26,6 +26,7 @@ class CreateExternalTrainingsTable extends Migration {
 
 		Schema::table('external_trainings', function($table) 
 		{
+			$table->primary('training_id');
 			$table->foreign('training_id')->references('id')->on('trainings');
 			$table->foreign('designation_id')->references('id')->on('employee_designations');
   		});

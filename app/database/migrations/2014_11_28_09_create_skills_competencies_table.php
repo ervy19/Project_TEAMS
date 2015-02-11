@@ -16,6 +16,7 @@ class CreateSkillsCompetenciesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name', 255);
+			$table->string('description', 255)->nullable();
 
 			$table->boolean('isActive')->default(true);
 			$table->timestamps();

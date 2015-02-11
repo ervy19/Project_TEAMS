@@ -38,7 +38,6 @@
 					</tr>
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 </div>
@@ -247,7 +246,7 @@
 		        "ajax": "{{ URL::to('departments') }}",
 		        "columns": [
 		            { "data": "name" },
-		            null,
+		            { "data": "supervisor"},
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {

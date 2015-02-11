@@ -4,7 +4,7 @@ class SkillsCompetencies extends Eloquent {
 
 	protected $table = 'skills_competencies';
 
-	protected $fillable = array('name', 'isActive');
+	protected $fillable = array('name', 'description', 'isActive');
 
 	protected $guarded = 'id';
 

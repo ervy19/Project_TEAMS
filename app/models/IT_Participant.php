@@ -12,7 +12,14 @@ class IT_Participant extends Eloquent {
 	{
 		$employee = Employee::find($this->employee_id);
 
-		return $employee->full_name;
+		if($employee)
+		{
+			return $employee->full_name;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	public function getPositionTitleAttribute()
@@ -29,8 +36,6 @@ class IT_Participant extends Eloquent {
 		{
 			return '';
 		}
-		/*join('positions','employee_designations.position_id','=','positions.id')
-						->where('id','=',$this->employee_designation_id);*/
 	}
 
 	/*public function getSupervisorNameAttribute()

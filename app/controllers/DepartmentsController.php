@@ -9,8 +9,8 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$departments = DB::table('departments')->where('isActive', '=', true)->get();
-		
+		$departments = Department::where('isActive', '=', true)->get();
+
 		$schoolscolleges = School_College::where('isActive', '=', true)->lists('name','id');
 
 		$scs = SkillsCompetencies::where('isActive', '=', true)->lists('name','id');

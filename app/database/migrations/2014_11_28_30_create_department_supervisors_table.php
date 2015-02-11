@@ -24,6 +24,7 @@ class CreateDepartmentSupervisorsTable extends Migration {
 
 		Schema::table('department_supervisors', function($table) 
 		{
+			$table->primary('supervisor_id');
 			$table->foreign('supervisor_id')->references('id')->on('supervisors');
 			$table->foreign('department_id')->references('id')->on('departments');
   		});

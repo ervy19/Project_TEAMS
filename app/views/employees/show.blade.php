@@ -1,12 +1,12 @@
 @extends('layouts.index')
 
 @section('title')
-	Employee - {{ $employees->given_name . ' ' . $employees->middle_initial . '. ' . $employees->last_name }}
+	Employee - {{ $employees->full_name }}
 @stop
 
 @section('breadcrumb')
 	<li><a href="{{ URL::to('employees') }}">Employees</a></li>
-	<li>{{  $employees->given_name . ' ' . $employees->middle_initial . '. ' . $employees->last_name }}</li>
+	<li>{{  $employees->full_name }}</li>
 @stop
 
 @section('content')
@@ -15,7 +15,7 @@
 		<div class="panel">
 			<div class="row employee-details">
 				<h4>&nbsp;&nbsp;{{  $employees->employee_number or 'NN-0011-111' }}</h4>
-				<h2 class="panel-header">{{  $employees->given_name . ' ' . $employees->middle_initial . '. ' . $employees->last_name }}</h2>
+				<h2 class="panel-header">{{  $employees->full_name }}</h2>
 				
 				<div class="row">
 					<div class="col-sm-12 col-md-12">

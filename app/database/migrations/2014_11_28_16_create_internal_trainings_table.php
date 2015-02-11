@@ -31,6 +31,7 @@ class CreateInternalTrainingsTable extends Migration {
 
 		Schema::table('internal_trainings', function($table) 
 		{
+			$table->primary('training_id');
 			$table->foreign('training_id')->references('id')->on('trainings');
 			$table->foreign('organizer_schools_colleges_id')->references('id')->on('schools_colleges');
       		$table->foreign('organizer_department_id')->references('id')->on('departments');

@@ -8,6 +8,25 @@ class Department extends Eloquent {
 
 	protected $guarded = 'id';
 
+	protected $appends = array('supervisor');
+
+	public function getSupervisorAttribute()
+	{
+		$department_supervisor = Department_Supervisor::where('department_supervisors.department_id','=',$this->id)
+									->first();
+
+		if($department_supervisor)
+		{
+			$supervisor = Supervisor::find($department_supervisor->supervisor_id);
+
+			return $supervisor->name;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
 	public function employee_designation() {
 		return $this->hasMany('Employee_Designation');
 	}

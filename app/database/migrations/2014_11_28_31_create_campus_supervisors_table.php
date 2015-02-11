@@ -24,6 +24,7 @@ class CreateCampusSupervisorsTable extends Migration {
 
 		Schema::table('campus_supervisors', function($table) 
 		{
+			$table->primary('supervisor_id');
 			$table->foreign('supervisor_id')->references('id')->on('supervisors');
 			$table->foreign('campus_id')->references('id')->on('campuses');
   		});
