@@ -126,7 +126,7 @@ class ReportsController extends \BaseController {
 
     public function terReport($training_id)
     {
-        //SKILLSCOMPETENCIES PA!!!!
+        //Internal Training Details
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
@@ -140,6 +140,16 @@ class ReportsController extends \BaseController {
         $eval_narrative = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('evaluation_narrative');
         $recommendations = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('recommendations');
         
+        $did = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_department_id');
+        $department = Department::where('isActive', '=', true)->where('id', '=', $did)->pluck('name');
+
+        $sid = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+        $schoolcollege = School_College::where('isActive', '=', true)->where('id', '=', $sid)->pluck('name');
+
+        $speaker = Speaker::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
+        $speakerstring = implode(', ', $speaker);
+
+        //Tagged Skills and Competencies
         $taggedscid = IT_Addressed_SC::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('skills_competencies_id');
         $scnames = array();
         $count = 1;
@@ -150,18 +160,6 @@ class ReportsController extends \BaseController {
             array_push($scnames, array('count' => $count, 'name' => $scname));
             $count++;
         }
-
-
-        //array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev));
-
-        $did = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('isActive', '=', true)->where('id', '=', $did)->pluck('name');
-
-        $sid = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('isActive', '=', true)->where('id', '=', $sid)->pluck('name');
-
-        $speaker = Speaker::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
-        $speakerstring = implode(', ', $speaker);
 
         //schedule
         $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
@@ -176,7 +174,92 @@ class ReportsController extends \BaseController {
         $timeArray_end = explode("-", $end_time_sched);
         $time_start_e = $timeArray_end[0];
         $time_end_e = $timeArray_end[1];
-        
+
+        //average ratings
+        $aae_average = Activity_Evaluation::select(DB::raw('planning_criterion1','planning_criterion2','objectives_criterion1','objectives_criterion2','objectives_criterion3','content_criterion1','content_criterion2','materials_criterion1','materials_criterion2','schedule_criterion1','schedule_criterion2','schedule_criterion3','openForum_criterion1','openForum_criterion2','openForum_criterion3','venue_criterion1','venue_criterion2'))
+                        ->where('internal_training_id', '=', $training_id)
+                        ->avg('planning_criterion1','planning_criterion2','objectives_criterion1','objectives_criterion2','objectives_criterion3','content_criterion1','content_criterion2','materials_criterion1','materials_criterion2','schedule_criterion1','schedule_criterion2','schedule_criterion3','openForum_criterion1','openForum_criterion2','openForum_criterion3','venue_criterion1','venue_criterion2');
+
+        $pta_average = Participant_Assessment::select(DB::raw('participant_assessments.rating'))
+                        ->join('it_participants','participant_assessments.it_participant_id','=','it_participants.id')
+                        ->where('it_participants.internal_training_id','=',$training_id)
+                        ->where('participant_assessments.type','=',"pta")
+                        ->avg('participant_assessments.rating');
+
+        $pte_average = Participant_Assessment::select(DB::raw('participant_assessments.rating'))
+                        ->join('it_participants','participant_assessments.it_participant_id','=','it_participants.id')
+                        ->where('it_participants.internal_training_id','=',$training_id)
+                        ->where('participant_assessments.type','=',"pte")
+                        ->avg('participant_assessments.rating');
+
+        //verbal interpretation
+        //after activity evaluation
+        if($aae_average > 4.5 && $aae_average < 5)
+        {
+            $aae_verbal = "Very Extensive Knowledge";
+        }
+        else if($aae_average > 3.5 && $aae_average < 4.5)
+        {
+            $aae_verbal = "Extensive Knowledge";
+        }
+        else if($aae_average > 2.5 && $aae_average < 3.5)
+        {
+            $aae_verbal = "Adequate Knowledge";
+        }
+        else if($aae_average > 1.5 && $aae_average < 2.5)
+        {
+            $aae_verbal = "Inadequate Knowledge";
+        }
+        else if($aae_average > 0.5 && $aae_average < 1.5)
+        {
+            $aae_verbal = "No Knowledge";
+        }
+
+        //pre-training assessment
+        if($pta_average > 4.5 && $pta_average < 5)
+        {
+            $pta_verbal = "Very Extensive Knowledge";
+        }
+        else if($pta_average > 3.5 && $pta_average < 4.5)
+        {
+            $pta_verbal = "Extensive Knowledge";
+        }
+        else if($pta_average > 2.5 && $pta_average < 3.5)
+        {
+            $pta_verbal = "Adequate Knowledge";
+        }
+        else if($pta_average > 1.5 && $pta_average < 2.5)
+        {
+            $pta_verbal = "Inadequate Knowledge";
+        }
+        else if($pta_average > 0.5 && $pta_average < 1.5)
+        {
+            $pta_verbal = "No Knowledge";
+        }
+
+        //post-training assessment
+        if($pte_average > 4.5 && $pte_average < 5)
+        {
+            $pte_verbal = "Very Extensive Knowledge";
+        }
+        else if($pte_average > 3.5 && $pte_average < 4.5)
+        {
+            $pte_verbal = "Extensive Knowledge";
+        }
+        else if($pte_average > 2.5 && $pte_average < 3.5)
+        {
+            $pte_verbal = "Adequate Knowledge";
+        }
+        else if($pte_average > 1.5 && $pte_average < 2.5)
+        {
+            $pte_verbal = "Inadequate Knowledge";
+        }
+        else if($pte_average > 0.5 && $pte_average < 1.5)
+        {
+            $pte_verbal = "No Knowledge";
+        }
+
+
         return View::make('reports.ter-report')
             ->with('internaltraining', $internaltraining)
             ->with('internaltrainings', $internaltrainings)
@@ -187,6 +270,12 @@ class ReportsController extends \BaseController {
             ->with('recommendations', $recommendations)
             ->with('scnames', $scnames)
             ->with('count', $count)
+            ->with('aae_average', $aae_average)
+            ->with('pta_average', $pta_average)
+            ->with('pte_average', $pte_average)
+            ->with('aae_verbal', $aae_verbal)
+            ->with('pta_verbal', $pta_verbal)
+            ->with('pte_verbal', $pte_verbal)
             ->with('date_start', $date_start)
             ->with('date_end', $date_end)
             ->with('time_start_s', $time_start_s)

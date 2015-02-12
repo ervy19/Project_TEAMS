@@ -64,18 +64,18 @@
 						</tr>
 						<tr>
 							<td colspan="2">HR Development Activity Evaluation</td>
-							<td></td>
-							<td></td>
+							<td><center>{{ $aae_average }}</center></td>
+							<td><center>{{ $aae_verbal }}</center></td>
 						</tr>
 						<tr>
 							<td colspan="2">Pre-Training Assessment</td>
-							<td></td>
-							<td></td>
+							<td><center>{{ $pta_average }}</center></td>
+							<td><center>{{ $pta_verbal }}</center></td>
 						</tr>
 						<tr>
 							<td colspan="2">Post-Training Assessment</td>
-							<td></td>
-							<td></td>
+							<td><center>{{ $pte_average }}</center></td>
+							<td><center>{{ $pte_verbal }}</center></td>
 						</tr>
 					</table>
 					<table id="tb-observations/analysis" class="table table-striped table-bordered">
