@@ -49,6 +49,11 @@
 						<tr>
 							<td colspan="4"><br><br><br><br><br></td>
 						</tr>
+						<tr>
+							<th>Evaluation Instrument</th>
+							<th>Rating</th>
+							<th>Verbal Interpretation</th>
+						</tr>
 						</thead>
 						<tbody>
 						</tbody>

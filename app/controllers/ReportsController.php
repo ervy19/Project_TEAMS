@@ -86,7 +86,7 @@ class ReportsController extends \BaseController {
             array_push($responses, $assessmentresponse);
         }
 
-        $meanresponses = DB::table('orders')->avg('price');
+        /**$meanresponses = DB::table('orders')->avg('price');
 
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
@@ -95,7 +95,7 @@ class ReportsController extends \BaseController {
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
-                                ->first();
+                                ->first();*/
 
         return View::make('reports.pta-report')
             ->with('internaltraining', $internaltraining)
@@ -112,6 +112,21 @@ class ReportsController extends \BaseController {
 
     public function terReport($training_id)
     {
+        $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
+                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
+                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+        $department = Department::where('id', '=', $did)->pluck('name');
+
+        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+        
         return View::make('reports.ter-report');
     }
 
