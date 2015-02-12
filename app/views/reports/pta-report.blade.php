@@ -59,13 +59,15 @@
 									<td>{{$item["name"]}}</td>
 									<td><center>{{$item["mean"]}}</center></td>
 									<td><center>{{$item["stddev"]}}</center></td>
+									<td><center>{{$item["verbalinterpretation"]}}</center></td>
+									<td></td>
 								</tr>
 								@endforeach
 								<tr>
 									<td align="right"><b><i>Overall</td>
-									<td><center><b><i>3.64</b></i></td></center>
-									<td><center><b><i>0.63</b></i></td></center>
-									<td><center><b><i>Extensive Knowledge</b></i></td></center>
+									<td><center><b><i>{{$overall_mean}}</b></i></td></center>
+									<td><center><b><i>{{$overall_stddev}}</b></i></td></center>
+									<td><center><b><i>{{$overall_verbalinterpretation}}</b></i></td></center>
 									<td></td>
 								</tr>
 							</table>

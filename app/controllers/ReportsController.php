@@ -46,11 +46,6 @@ class ReportsController extends \BaseController {
 
 	public function ptaReport($training_id)
 	{
-        /**training
-        Internal_Training
-        IT_Participant
-        Assessment_Item
-        'evaluation_narrative', 'recommendations'*/
 		$internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
@@ -93,8 +88,8 @@ class ReportsController extends \BaseController {
                         ->get();
 
             $stddev_tmp = array();
-            foreach ($ratings as $key => $valuevalue) {
-                $tmp = pow($valuevalue->rating - $mean, 2);
+            foreach ($ratings as $key2 => $value2) {
+                $tmp = pow($value2->rating - $mean, 2);
                 array_push($stddev_tmp, $tmp);
             }
 
@@ -108,15 +103,112 @@ class ReportsController extends \BaseController {
                 $stddev = 0;
             }
 
+            //VERBAL INTERPRETATION
+            if($mean <= 1)
+            {
+                $verbalinterpretation = "No Knowledge";
+            }
+            else if(1 < $mean && $mean <= 2)
+            {
+                $verbalinterpretation = "Inadequate Knowledge";
+            }
+            else if(2 < $mean && $mean <= 3)
+            {
+                $verbalinterpretation = "Adequate Knowledge";
+            }
+            else if(3 < $mean && $mean <= 4)
+            {
+                $verbalinterpretation = "Extensive Knowledge";
+            }
+            else if(4 < $mean && $mean <= 5)
+            {
+                $verbalinterpretation = "Very Extensive Knowledge";
+            }
 
-            array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev));
+            array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev, 'verbalinterpretation' => $verbalinterpretation));
+        }
+
+        //RANK
+        /**$rank_array = array();
+        $init = $assessment_items[0]->"mean";
+        $rank_array[0] = 1;
+        for ($i=1; $i <= count($assessment_items); $i++) {
+            
+            if($assessment_items[$i]->"mean" > $init)
+            {
+                $rank_array[$i]
+            }
+            else if($assessment_items[i]->"mean" < $init)
+            {
+
+            }
+            else
+            {
+                return 'DRAW';
+            }
+        }*/
+
+        //OVERALLS
+        //OVERALL MEAN
+        $mean_sum = array();
+        foreach ($assessment_items as $key3 => $value3) {
+            array_push($mean_sum, $value3["mean"]);
+        }
+        $overall_mean = array_sum($mean_sum) / count($mean_sum);
+
+        //OVERALL SD (SD OF SD)
+        $sd_mean_array = array();
+        foreach ($assessment_items as $key4 => $value4) {
+            array_push($sd_mean_array, $value4["stddev"]);
+        }
+        $sd_mean = array_sum($sd_mean_array) / count($sd_mean_array);
+
+        $stddev_tmp2 = array();
+        foreach ($sd_mean_array as $key5 => $value5) {
+            $tmp2 = pow($value5 - $sd_mean, 2);
+            array_push($stddev_tmp2, $tmp2);
+        }
+
+        if(count($stddev_tmp2)-1 != 0)
+        {
+            $overall_variance = array_sum($stddev_tmp2) / (count($stddev_tmp2) - 1);
+            $overall_stddev = sqrt($overall_variance);
+        }
+        else
+        {
+            $overall_stddev = 0;
+        }
+
+        //OVERALL VERBAL INTERPRETATION
+        if($overall_mean <= 1)
+        {
+            $overall_verbalinterpretation = "No Knowledge";
+        }
+        else if(1 < $overall_mean && $overall_mean <= 2)
+        {
+            $overall_verbalinterpretation = "Inadequate Knowledge";
+        }
+        else if(2 < $overall_mean && $overall_mean <= 3)
+        {
+            $overall_verbalinterpretation = "Adequate Knowledge";
+        }
+        else if(3 < $overall_mean && $overall_mean <= 4)
+        {
+            $overall_verbalinterpretation = "Extensive Knowledge";
+        }
+        else if(4 < $overall_mean && $overall_mean <= 5)
+        {
+            $overall_verbalinterpretation = "Very Extensive Knowledge";
         }
 
         return View::make('reports.pta-report')
             ->with('internaltraining', $internaltraining)
             ->with('department', $department)
             ->with('schoolcollege', $schoolcollege)
-            ->with('assessment_items', $assessment_items);
+            ->with('assessment_items', $assessment_items)
+            ->with('overall_mean', $overall_mean)
+            ->with('overall_stddev', $overall_stddev)
+            ->with('overall_verbalinterpretation', $overall_verbalinterpretation);
 	}
 
     public function pteReport($training_id)
