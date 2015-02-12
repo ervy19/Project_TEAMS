@@ -41,6 +41,11 @@ class UploadsController extends \BaseController {
 	/**
 	 * Store a newly created resource in storage.
 	 *
+	 * ACCEPTS:
+	 *	- radio button 'isIndividual'
+	 *	- file (Excel)
+	 *	- text 'individual_id'
+	 *
 	 * @return Response
 	 */
 	public function store($internal_training_id)
