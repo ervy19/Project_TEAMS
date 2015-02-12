@@ -70,7 +70,7 @@
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
 			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput');" class="btn btn-primary">
-			    <input type="hidden" id='count' value='' />
+			    <input type="hidden" id="count" name="count" />
 				
 				{{ Form::submit('Save') }}
 
@@ -85,34 +85,40 @@
 @section('page_js')
 	<script type="text/javascript">
 		var count = 0;
+		var univID = 10;
+		document.getElementById('count').value = count;
 		(function autofill() {
 			var data_array = {{json_encode($selected_data)}};
 			for (var i = 0; i < data_array.length; i++) {
 				addInput('dynamicInput');
 
-				for(var x = 0; x < data_array[i].length; x++) {	
-					var value = data_array[i][x];
-					$("select option:contains(" + value + ")").prop('selected',true);
-				}
+					$("#" + (univID-7)).val(data_array[i][0]);
+					$("#" + (univID-6)).val(data_array[i][1]);
+					$("#" + (univID-5)).val(data_array[i][2]);
+					$("#" + (univID-4)).val(data_array[i][3]);
+					$("#" + (univID-3)).val(data_array[i][4]);
+					$("#" + (univID-2)).val(data_array[i][5]);
+					$("#" + (univID-1)).val(data_array[i][6]);
 			};
 		})()
 
-		function addInput(divName) {
+		function addInput(divName) {	
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
 		    count++;
+		    document.getElementById('count').value = count;
 		    newdiv.setAttribute('id', count);
 		    newdiv.innerHTML = 	"<h2>Employee Designation " + count + "</h2>" +
-		    					"<br><label>Designation Type:&nbsp</label><select name='myInputs" + count + "[]'><option>Teaching</option><option>Non-Teaching</option> </select><br>" +
-		    					"<br><label>Campus:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>School/College:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>Department:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-								"<br><label>Supervisor:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option><?php echo $value->id ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>Position:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
-								"<br><label>Rank:&nbsp</label><select name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option><?php echo $value->title ?></option><?php endforeach; ?></select><br>"
+		    					"<br><label>Designation Type:&nbsp</label><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Teaching'>Teaching</option><option value='Non-Teaching'>Non-Teaching</option> </select><br>" +
+		    					"<br><label>Campus:&nbsp</label><select id=" + (univID+1) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+		    					"<br><label>School/College:&nbsp</label><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+		    					"<br><label>Department:&nbsp</label><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+								"<br><label>Supervisor:&nbsp</label><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
+		    					"<br><label>Position:&nbsp</label><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
+								"<br><label>Rank:&nbsp</label><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br>"
 								;
+			univID = univID + 7;
 		    document.getElementById(divName).appendChild(newdiv);
-		    document.getElementById('count').value = count;
 		}
 
 		function removeInput(parentDiv, childDiv) {
@@ -123,7 +129,8 @@
 		          var parent = document.getElementById(parentDiv);
 		          parent.removeChild(child);
 		          count--;
-		          document.getElementById('count').value = count;		          
+		          document.getElementById('count').value = count;
+		          univID = univID -	7;	          
 		     }
 		     else {
 		          alert("Child div has already been removed or does not exist.");

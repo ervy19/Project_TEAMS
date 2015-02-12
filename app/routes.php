@@ -48,6 +48,8 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 	return View::make('success-external-training');
 }));
 
+Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'EmployeesController@getTrainingLog'));
+
 
 /*
 |--------------------------------------------------------------------------
