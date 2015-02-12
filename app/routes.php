@@ -48,6 +48,22 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 	return View::make('success-external-training');
 }));
 
+/*
+|--------------------------------------------------------------------------
+| Reports Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for reports
+|
+*/
+Route::get('reports/pta-report/{internal_training}', array('as' => 'reports.pta-report', 'uses' => 'ReportsController@ptaReport'));
+
+Route::get('reports/pte-report/{internal_training}', array('as' => 'reports.pte-report', 'uses' => 'ReportsController@pteReport'));
+
+Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
+
+Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
+
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +160,12 @@ Route::group(array('before' => 'auth'), function()
 	//Used for getting specific employee designation
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
 
+
+	//Upload Excel File Routes
+	Route::get('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.participants', 'uses' => 'UploadsController@create'));
+
+	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
+	//End Upload Excel File Routes
 
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 

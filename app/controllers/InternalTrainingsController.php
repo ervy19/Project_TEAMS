@@ -9,7 +9,13 @@ class InternalTrainingsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
+		//$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
+        $internaltrainings = Internal_Training::select(DB::raw('*'))
+                                ->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->where('internal_trainings.isActive', '=', true)
+                                ->groupBy('internal_trainings.training_id')
+                                ->get();
 
         $isAdminHR = false;
 
@@ -79,11 +85,11 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings = new Internal_Training;
             $internaltrainings->training_id = $trainings->id;
 
+            $internaltrainings->format = Input::get('format');
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
 
             //initialize columns
-            $internaltrainings->format = "";
             $internaltrainings->evaluation_narrative = "";
             $internaltrainings->recommendations = "";
             

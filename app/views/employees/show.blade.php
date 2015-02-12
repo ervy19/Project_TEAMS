@@ -54,7 +54,7 @@
 				<a href="#" class="btn btn-primary">View Employee's Trainings</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
-				<a href="#" class="btn btn-primary">View Employee's Training Report</a>
+				<a href="{{ URL::to('employees') }}/{{$employees->id}}/training-log" class="btn btn-primary">View Employee's Training Report</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<a href="#" class="btn btn-primary">Download Employee's Training Log</a>
