@@ -54,7 +54,7 @@
 											<th>{{ $value->theme_topic }}</th>
 											<th>{{ $value->venue }}</th>
 											<th>{{ $value->schedule }}</th>
-											<th>Organizer</th>
+											<th>{{ $value->name }}</th>
 											<td>
 												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
 												@if($isAdminHR)

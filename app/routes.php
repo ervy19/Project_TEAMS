@@ -48,6 +48,20 @@ Route::get('success-external-training', array('as' => 'external_trainings_queue.
 	return View::make('success-external-training');
 }));
 
+/*
+|--------------------------------------------------------------------------
+| Reports Routes
+|--------------------------------------------------------------------------
+|
+| Different application routes for reports
+|
+*/
+Route::get('reports/pta-report/{internal_training}', array('as' => 'reports.pta-report', 'uses' => 'ReportsController@ptaReport'));
+
+Route::get('reports/pte-report/{internal_training}', array('as' => 'reports.pte-report', 'uses' => 'ReportsController@pteReport'));
+
+Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
+
 Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'EmployeesController@getTrainingLog'));
 
 
