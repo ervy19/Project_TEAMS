@@ -101,14 +101,14 @@ Route::filter('csrf', function()
 
 Entrust::routeNeedsRole( 'users*', array('Admin'), Redirect::to('dashboard') );
 
-Entrust::routeNeedsRole( 'campuses*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'campuses*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'schools_colleges*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'schools_colleges*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'departments*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'departments*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'positions*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'positions*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'ranks*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'ranks*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
-Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR'), Redirect::to('dashboard'), false );
+Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );

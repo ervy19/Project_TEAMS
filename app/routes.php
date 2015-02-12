@@ -150,6 +150,9 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
 
+	Route::get('test/test', array('as' => 'testing', 'uses' => 'TrainingPlanController@index'));
+
+
 	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));
 
