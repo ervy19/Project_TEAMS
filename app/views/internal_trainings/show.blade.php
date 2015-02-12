@@ -130,14 +130,14 @@
 	<div class="col-sm-4 col-md-4 training-sidebar">
 		<div class="row panel training-participants">
 			<h3 class="panel-header">Participants</h3>
-			<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/participants" class="label label-primary view-participant pull-right">View</a>
+			<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->training_id}}/participants" class="label label-primary view-participant pull-right">View</a>
 			<div id="participant-summary" style="margin: 0 auto"></div>
 		</div>
 		<div class="row panel training-requirements">
 			<h3 class="panel-header">Training Requirements</h3>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4 class="pull-left">Speakers</h4>
-				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->id}}/speakers" class="label label-success pull-right">View Speakers</a>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internaltrainings->training_id}}/speakers" class="label label-success pull-right">View Speakers</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4 class="pull-left">Items for Training Assessment</h4>

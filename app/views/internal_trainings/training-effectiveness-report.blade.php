@@ -44,6 +44,7 @@
 								{{ Form::textarea('recommendations', '', array( 'class' => 'form-control', 'rows' => '3')) }}
 								{{ $errors->first('recommendations') }}
 						</div>
+						<br>
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary pull-right')) }}
 		      		{{ Form::close() }}
 	      			@else

@@ -126,6 +126,7 @@ class ReportsController extends \BaseController {
 
     public function terReport($training_id)
     {
+        //SKILLSCOMPETENCIES PA!!!!
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
@@ -135,13 +136,63 @@ class ReportsController extends \BaseController {
                                 ->where('training_id', '=', $training_id)
                                 ->first();
 
-        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $did)->pluck('name');
-
-        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+        $internaltrainings = Training::where('isActive', '=', true)->where('id', '=', $training_id)->first();
+        $eval_narrative = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('evaluation_narrative');
+        $recommendations = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('recommendations');
         
-        return View::make('reports.ter-report');
+        $taggedscid = IT_Addressed_SC::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('skills_competencies_id');
+        $scnames = array();
+        $count = 1;
+
+        foreach($taggedscid as $key)
+        {
+            $scname = SkillsCompetencies::where('isActive', '=', true)->where('id', '=', $key)->pluck('name');
+            array_push($scnames, array('count' => $count, 'name' => $scname));
+            $count++;
+        }
+
+
+        //array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev));
+
+        $did = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_department_id');
+        $department = Department::where('isActive', '=', true)->where('id', '=', $did)->pluck('name');
+
+        $sid = Internal_Training::where('isActive', '=', true)->where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+        $schoolcollege = School_College::where('isActive', '=', true)->where('id', '=', $sid)->pluck('name');
+
+        $speaker = Speaker::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
+        $speakerstring = implode(', ', $speaker);
+
+        //schedule
+        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        
+        $start_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $training_id)->where('isStartDate', '=', 1)->pluck('timeslot');
+        $timeArray_start = explode("-", $start_time_sched);
+        $time_start_s = $timeArray_start[0];
+        $time_end_s = $timeArray_start[1];
+
+        $end_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $training_id)->where('isEndDate', '=', 1)->pluck('timeslot');
+        $timeArray_end = explode("-", $end_time_sched);
+        $time_start_e = $timeArray_end[0];
+        $time_end_e = $timeArray_end[1];
+        
+        return View::make('reports.ter-report')
+            ->with('internaltraining', $internaltraining)
+            ->with('internaltrainings', $internaltrainings)
+            ->with('department', $department)
+            ->with('schoolcollege', $schoolcollege)
+            ->with('speakerstring', $speakerstring)
+            ->with('eval_narrative', $eval_narrative)
+            ->with('recommendations', $recommendations)
+            ->with('scnames', $scnames)
+            ->with('count', $count)
+            ->with('date_start', $date_start)
+            ->with('date_end', $date_end)
+            ->with('time_start_s', $time_start_s)
+            ->with('time_end_s', $time_end_s)
+            ->with('time_start_e', $time_start_e)
+            ->with('time_end_e', $time_end_e);
     }
 
 	/**
