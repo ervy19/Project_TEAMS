@@ -183,7 +183,7 @@
 	$('#date_start').datepicker({
 		    format: 'yyyy-mm-dd'
 		});
-			$('#date_end').datepicker({
+	$('#date_end').datepicker({
 		    format: 'yyyy-mm-dd'
 		});
 	</script>

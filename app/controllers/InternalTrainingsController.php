@@ -13,6 +13,7 @@ class InternalTrainingsController extends \BaseController {
         $internaltrainings = Internal_Training::select(DB::raw('*'))
                                 ->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->leftJoin('training_schedules','internal_trainings.training_id','=','training_schedules.training_id')
                                 ->where('internal_trainings.isActive', '=', true)
                                 ->groupBy('internal_trainings.training_id')
                                 ->get();
@@ -58,7 +59,6 @@ class InternalTrainingsController extends \BaseController {
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'theme_topic' => 'required|max:255',
-            'schedule' => 'required|max:255',
             'objectives' => 'required',
             'isTrainingPlan' => 'required'
         );
@@ -77,7 +77,6 @@ class InternalTrainingsController extends \BaseController {
             $trainings->title = Input::get('title');
             $trainings->theme_topic = Input::get('theme_topic');
             $trainings->venue = Input::get('venue');
-            $trainings->schedule = Input::get('schedule');
             $trainings->isInternalTraining = 1;
             $trainings->save();         
 
@@ -100,6 +99,28 @@ class InternalTrainingsController extends \BaseController {
 
             $internaltrainings->save();
 
+            //Schedule
+            $time_start_s = Input::get('time_start_s');
+            $time_end_s = Input::get('time_end_s');
+            $time_start_e = Input::get('time_start_e');
+            $time_end_e = Input::get('time_end_e');
+
+            $startdate = new Training_Schedule;
+            $startdate->date_scheduled = Input::get('date_start');
+            $startdate->timeslot = $time_start_s . "-" . $time_end_s;
+            $startdate->isStartDate = 1;
+            $startdate->isEndDate = 0;
+            $startdate->training_id = $trainings->id;
+            $startdate->save();
+
+            $enddate = new Training_Schedule;
+            $enddate->date_scheduled = Input::get('date_end');
+            $enddate->timeslot = $time_start_e . "-" . $time_end_e;
+            $enddate->isStartDate = 0;
+            $enddate->isEndDate = 1;
+            $enddate->training_id = $trainings->id;
+            $enddate->save();
+            
             //Tagged Skills and Competencies
             $selectedsc = Input::get('scit');
             $scidArray = explode(",", $selectedsc);
@@ -128,6 +149,7 @@ class InternalTrainingsController extends \BaseController {
 	{
         //Get the details of the specified internal training
         $internaltrainings = Training::join('internal_trainings','trainings.id','=','internal_trainings.training_id')
+                                ->join('training_schedules','internal_trainings.training_id','=','training_schedules.training_id')
                                 ->where('trainings.id','=',$id)
                                 ->first();
         //for format, objectives, and outcome
@@ -485,14 +507,49 @@ class InternalTrainingsController extends \BaseController {
 	public function edit($id)
 	{
 		$internaltrainings = Training::with('internal_training')->find($id);
+        $internaltraining = Internal_Training::where('training_id', '=', $id)->first();
 
 		$schoolcollege = School_College::where('isActive', true)->lists('name','id');
 		$department = Department::where('isActive', true)->lists('name','id');
 
+        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        
+        $start_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $id)->where('isStartDate', '=', 1)->pluck('timeslot');
+        $timeArray_start = explode("-", $start_time_sched);
+        $time_start_s_edit = $timeArray_start[0];
+        $time_end_s = $timeArray_start[1];
+
+        $end_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $id)->where('isEndDate', '=', 1)->pluck('timeslot');
+        $timeArray_end = explode("-", $end_time_sched);
+        $time_start_e = $timeArray_end[0];
+        $time_end_e = $timeArray_end[1];
+
+        $sc = SkillsCompetencies::where('isActive', true)->lists('name');
+
+        $currentscid = IT_Addressed_SC::where('internal_training_id', '=', $id)->lists('skills_competencies_id');
+        $currentscs = array();
+
+        foreach($currentscid as $key)
+        {
+            $scsname = SkillsCompetencies::where('isActive', '=', true)->where('id', '=', $key)->pluck('name');
+            array_push($currentscs, $scsname);
+        }
+
 		return View::make('internal_trainings.edit')
 			->with('internaltrainings', $internaltrainings)
+            ->with('internaltraining', $internaltraining)
 			->with('schoolcollege', $schoolcollege)
-			->with('department', $department);
+			->with('department', $department)
+            ->with('date_start', $date_start)
+            ->with('date_end', $date_end)
+            ->with('time_start_s_edit', $time_start_s_edit)
+            ->with('time_end_s', $time_end_s)
+            ->with('time_start_e', $time_start_e)
+            ->with('time_end_e', $time_end_e)
+            ->with('sc', $sc)
+            ->with('currentscs', $currentscs);
+
 	}
 
 
@@ -506,46 +563,111 @@ class InternalTrainingsController extends \BaseController {
 	{
 		// validate
         // read more on validation at http://laravel.com/docs/validation
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'theme_topic' => 'required|max:255',
-            'schedule' => 'required|max:255'
+            'theme_topic' => 'required|max:255'
         );
         $validator = Validator::make(Input::all(), $rules);
 
-        $v_rules = array(
-            'objectives' => 'required',
-            'isTrainingPlan' => 'required'
-        );
-        $validator_two = Validator::make(Input::all()['internal_training'], $v_rules);
-
         // process the login
-        if ($validator->fails() || $validator_two->fails()) {
-            return Redirect::to('internal_trainings/' . $id . '/edit')
+        if ($validator->fails()) {
+            return Redirect::to('internal_trainings/create')
                 ->withErrors($validator)
-                ->withErrors($validator_two)
                 ->withInput();
         } else {
+            // store
 
             //Trainings Table
             $trainings = Training::find($id);
             $trainings->title = Input::get('title');
             $trainings->theme_topic = Input::get('theme_topic');
             $trainings->venue = Input::get('venue');
-            $trainings->schedule = Input::get('schedule');
             $trainings->isInternalTraining = 1;
             $trainings->save();         
 
-            $internaltrainings = Internal_Training::where('training_id','=',$id)->update(
-            	array(
-            		'objectives' => Input::get('internal_training')['objectives'],
-            		'expected_outcome' => Input::get('internal_training')['expected_outcome'],
-                    'organizer_schools_colleges_id' => Input::get('internal_training')['organizer_schools_colleges_id'],
-            		'organizer_department_id' => Input::get('internal_training')['organizer_department_id'],
-					'isTrainingPlan' => Input::get('internal_training')['isTrainingPlan']
-            	));
+            $trainingid = Training::where('id', '=', $id);
+
+            DB::table('internal_trainings')
+            ->where('training_id', $id)
+            ->update(array(
+                'format' => Input::get('format'),
+                'objectives' => Input::get('objectives'),
+                'expected_outcome' => Input::get('expected_outcome'),
+                'evaluation_narrative' => "",
+                'recommendations' => "",
+                'organizer_schools_colleges_id' => Input::get('organizer_schools_colleges_id'),
+                'organizer_department_id' => Input::get('organizer_department_id'),
+                'isTrainingPlan' => Input::get('isTrainingPlan')
+                ));
+
+            /**Internal Trainings Table
+            $internaltrainings = Internal_Training::where('training_id', '=', $trainings->id)->find($);
+
+            $internaltrainings->format = Input::get('internal_training[format]');
+            $internaltrainings->objectives = Input::get('internal_training[objectives]');
+            $internaltrainings->expected_outcome = Input::get('internal_training[expected_outcome]');
+
+            //initialize columns
+            $internaltrainings->evaluation_narrative = "";
+            $internaltrainings->recommendations = "";
+            
+            $internaltrainings->organizer_schools_colleges_id = Input::get('internal_training[organizer_schools_colleges_id]');
+            $internaltrainings->organizer_department_id = Input::get('internal_training[organizer_department_id]');
+
+            $internaltrainings->isTrainingPlan = Input::get('internal_training[isTrainingPlan]');
+
+            $internaltrainings->save();*/
+
+            //Schedule
+            $time_start_s = Input::get('time_start_s_edit');
+            $time_end_s = Input::get('time_end_s');
+            $time_start_e = Input::get('time_start_e');
+            $time_end_e = Input::get('time_end_e');
+
+            $dsid = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $id)->where('isStartDate', '=', 1)->pluck('id');
+            $deid = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $id)->where('isEndDate', '=', 1)->pluck('id');
+
+            $startdate = Training_Schedule::find($dsid);
+            $startdate->date_scheduled = Input::get('date_start');
+            $startdate->timeslot = $time_start_s . "-" . $time_end_s;
+            $startdate->isStartDate = 1;
+            $startdate->isEndDate = 0;
+            $startdate->training_id = $trainings->id;
+            $startdate->save();
+
+            /**$startdate = Training_Schedule::find($deid);
+            $enddate->date_scheduled = Input::get('date_end');
+            $enddate->timeslot = $time_start_e . "-" . $time_end_e;
+            $enddate->isStartDate = 0;
+            $enddate->isEndDate = 1;
+            $enddate->training_id = $trainings->id;
+            $enddate->save();*/
+
+            DB::table('training_schedules')
+            ->where('training_id', $id)
+            ->where('id', $deid)
+            ->update(array(
+                'date_scheduled' => Input::get('date_end'),
+                'timeslot' => $time_start_e . "-" . $time_end_e,
+                ));
+            
+            //Tagged Skills and Competencies
+            $selectedsc = Input::get('it_sc_edit');
+            $scidArray = explode(",", $selectedsc);
+
+            IT_Addressed_SC::where('internal_training_id', '=', $id)->delete();
+
+            for($i = 0; $i < count($scidArray); $i++){
+                $ITsc = new IT_Addressed_SC;
+                $selectedid = SkillsCompetencies::where('isActive', '=', true)->where('name', '=', $scidArray[$i])->pluck('id');
+                $ITsc->skills_competencies_id = $selectedid;
+                $ITsc->internal_training_id = $trainings->id;
+                $ITsc->save();
+            }
 
             // redirect
-            Session::flash('message', 'Successfully edited the Internal Training!');
+            Session::flash('message', 'Successfully created the Internal Training!');
             return Redirect::to('internal_trainings');
         }
 	}

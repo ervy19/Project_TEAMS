@@ -140,6 +140,7 @@
       $("#schools_colleges").select2();
       $("#schoolorganizer").select2();
       $("#departmentorganizer").select2();
+      $("#skills_competencies_itraining_edit").select2();
     </script>
     
     @yield('page_js')
