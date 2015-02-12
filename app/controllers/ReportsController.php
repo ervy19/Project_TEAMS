@@ -66,43 +66,57 @@ class ReportsController extends \BaseController {
         $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
         $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
 
-        $assessment_items = Assessment_Item::where('internal_training_id', '=', $training_id)->get();
-
         //Get Participant Ratings
-        $itparticipant = IT_Participant::where('internal_training_id', '=', $training_id)->lists('id');
-        $partassessments = array();
+        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->distinct()
+                        ->get();
 
-        foreach($itparticipant as $key)
-        {
-            $participantassessment = Participant_Assessment::where('it_participant_id', '=', $key)->pluck('id');
-            array_push($partassessments, $participantassessment);
+        $assessment_items = array();
+        foreach ($assessment_item_names as $key => $value) {
+            //GET THE MEAN
+            $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('assessment_responses.name', '=', $value->name)
+                        ->avg('assessment_responses.rating');
+
+            //GET THE STANDARD DEVIATION
+            $ratings = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('assessment_responses.name', '=', $value->name)
+                        ->get();
+
+            $stddev_tmp = array();
+            foreach ($ratings as $key => $valuevalue) {
+                $tmp = pow($valuevalue->rating - $mean, 2);
+                array_push($stddev_tmp, $tmp);
+            }
+
+            if(count($stddev_tmp)-1 != 0)
+            {
+                $variance = array_sum($stddev_tmp) / (count($stddev_tmp) - 1);
+                $stddev = sqrt($variance);
+            }
+            else
+            {
+                $stddev = 0;
+            }
+
+
+            array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev));
         }
-
-        $responses = array();
-
-        foreach($partassessments as $assessment)
-        {
-            $assessmentresponse = Assessment_Response::where('participant_assessment_id', '=', $assessment)->pluck('rating');
-            array_push($responses, $assessmentresponse);
-        }
-
-        /**$meanresponses = DB::table('orders')->avg('price');
-
-        $internaltraining = Internal_Training::select(DB::raw('*'))
-                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
-                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
-                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
-                                ->where('training_id', '=', $training_id)
-                                ->first();*/
 
         return View::make('reports.pta-report')
             ->with('internaltraining', $internaltraining)
             ->with('department', $department)
             ->with('schoolcollege', $schoolcollege)
-            ->with('assessment_items', $assessment_items)
-            ->with('responses', $responses);
+            ->with('assessment_items', $assessment_items);
 	}
 
     public function pteReport($training_id)
@@ -161,7 +175,7 @@ class ReportsController extends \BaseController {
         $desig_id = Employee_Designation::where('employee_id', '=', $id)->first();
         $emp_desig_details = array();
 
-        //try {
+        try {
             array_push($emp_desig_details, $desig_id->type);
             array_push($emp_desig_details, Campus::where('id', '=', $desig_id->campus_id)->pluck('name'));
             array_push($emp_desig_details, School_College::where('id', '=', $desig_id->schools_colleges_id)->pluck('name'));
@@ -171,11 +185,13 @@ class ReportsController extends \BaseController {
 
                 //Get all internal trainings of the employee
                 $it_attended = Training::select(DB::raw('*'))
-                            ->leftJoin('it_attendances', 'it_attendances.internal_training_id', '=', 'trainings.id')
-                            ->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'it_attendances.internal_training_id')
+                            ->leftJoin('it_participants', 'it_participants.internal_training_id', '=', 'trainings.id')
+                            ->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'it_participants.internal_training_id')
                             ->leftJoin('schools_colleges', 'schools_colleges.id','=','internal_trainings.organizer_schools_colleges_id')
                             //->leftJoin('departments', 'departments.id', '=', 'internal_trainings.organizer_department_id')
-                            ->where('it_attendances.employee_id', '=', $id)
+                            ->leftJoin('training_schedules', 'training_schedules.training_id', '=', 'trainings.id')
+                            ->where('training_schedules.isStartDate', '=', 1)
+                            ->where('it_participants.employee_id', '=', $id)
                             ->where('trainings.isInternalTraining', '=', 1)
                             ->where('trainings.isActive', '=', 1)
                             ->get();
@@ -184,16 +200,17 @@ class ReportsController extends \BaseController {
                 $et_attended = Training::select(DB::raw('*'))
                             ->leftJoin('external_trainings', 'external_trainings.training_id', '=', 'trainings.id')
                             ->leftJoin('employee_designations', 'employee_designations.id', '=', 'external_trainings.designation_id')
+                            ->leftJoin('training_schedules', 'training_schedules.et_id', '=', 'external_trainings.training_id')
+                            ->where('training_schedules.isStartDate', '=', 1)
                             ->where('employee_designations.employee_id', '=', $id)
                             ->where('trainings.isActive', '=', true)
                             ->where('trainings.isInternalTraining', '=', 0)
                             ->get();
-        
-    /** }
+        }
         catch (Exception $e) {
             Session::flash('error', 'Employee has no designations');
             return Redirect::to('employees');
-        }**/
+        }
         
 
         return View::make('reports.training-log')
@@ -201,7 +218,7 @@ class ReportsController extends \BaseController {
             ->with('et_attended', $et_attended)
             ->with('emp_details', $emp_details)
             ->with('emp_desig_details', $emp_desig_details);
-        
-        //return PDF::load($html, 'A4', 'portrait')->download('my_pdf');
+ 
+        //return PDF::load($html, 'A4', 'portrait')->download('my_pdf');  
     }
 }

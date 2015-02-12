@@ -79,23 +79,23 @@
 				<tbody>
 					@foreach($it_attended as $key => $value)
 						<tr>
-							<td>{{$value->schedule}}</td>
+							<td>{{$value->date_scheduled}}</td>
 							<td>{{$value->theme_topic}}</td>
 							<td>CLASSIFICATION SAMPLE</td>
 							<td>{{$value->name}}</td>
 							<td>{{$value->venue}}</td>
-							<td>IS SUBSIDIZED?</td>
+							<td></td>
 						</tr>
 					@endforeach
 
 					@foreach($et_attended as $key => $value)
 						<tr>
-							<td>{{$value->schedule}}</td>
+							<td>{{$value->date_scheduled}}</td>
 							<td>{{$value->theme_topic}}</td>
 							<td>CLASSIFICATION SAMPLE</td>
 							<td>{{$value->organizer}}</td>
 							<td>{{$value->venue}}</td>
-							<td>IS SUBSIDIZED?</td>
+							<td></td>
 						</tr>
 					@endforeach
 				</tbody>

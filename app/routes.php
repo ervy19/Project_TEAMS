@@ -161,10 +161,19 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
 
 
+	//Upload Excel File Routes
+	Route::get('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.participants', 'uses' => 'UploadsController@create'));
+
+	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
+	//End Upload Excel File Routes
+
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
+
+	Route::get('test/test', array('as' => 'testing', 'uses' => 'TrainingPlanController@index'));
+
 
 	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));

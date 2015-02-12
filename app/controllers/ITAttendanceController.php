@@ -85,8 +85,8 @@ class ITAttendanceController extends \BaseController {
         		{
         			$new_attendance = new Participant_Attendance;
         			date_default_timezone_set('Asia/Manila');
-        			$new_attendance->date = date('Y/m/d', time());;
-        			$new_attendance->time = date('h:i:s', time());;
+        			$new_attendance->date = date('Y/m/d', time());
+        			$new_attendance->time = date('h:i:s', time());
         			$new_attendance->it_participant_id = $participant->id;
         			$new_attendance->save();
         		}
@@ -99,8 +99,8 @@ class ITAttendanceController extends \BaseController {
 
         			$new_attendance = new Participant_Attendance;
         			date_default_timezone_set('Asia/Manila');
-        			$new_attendance->date = date('Y/m/d', time());;
-        			$new_attendance->time = date('h:i:s', time());;
+        			$new_attendance->date = date('Y/m/d', time());
+        			$new_attendance->time = date('h:i:s', time());
         			$new_attendance->it_participant_id = $new_participant->id;
         			$new_attendance->save();
         		}

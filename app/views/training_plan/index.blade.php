@@ -22,7 +22,6 @@
 	</div>
 </div>
 
-
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
@@ -41,25 +40,23 @@
 	<script type="text/javascript">
 		$(document).ready( function () {
 		    $('#calendar').fullCalendar({
-		    	
 		    	events: [
-			        {
-			        	id: 4,
-			            title  : 'event1',
-			            start  : '2015-01-01'
-			        },
-			        {
-			            title  : 'event2',
-			            start  : '2015-01-05',
-			            end    : '2015-01-07'
-			        },
-			        {
-			            title  : 'event3',
-			            start  : '2015-01-09 12:30:00',
-			            allDay : false // will make the time show
-			        }
-    			],
-
+		    		@foreach($consecutive_trainings as $key => $value)
+		    			{
+		    				id: '{{ $value->id }}',
+		    				title: "{{ $value->title }}",
+		    				start: '{{ $value->start_date }}',
+		    				end: '{{ $value->end_date }}'
+		    			},
+		    		@endforeach
+		    		@foreach($separated_trainings as $k => $v)
+		    			{
+		    				id: "{{ $v['id'] }}",
+		    				title: "{{ $v['title'] }}",
+		    				start: "{{ $v['start'] }}"
+		    			},
+		    		@endforeach
+		    	],
     			eventClick: function(event) {
 			        if (event.id) {
 			            window.location = "./internal_trainings/" + event.id;

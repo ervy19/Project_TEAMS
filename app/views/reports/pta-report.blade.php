@@ -56,14 +56,11 @@
 								<!--SAMPLE CRITERIA-->
 								@foreach ($assessment_items as $item)
 								<tr>
-									<td>{{$item->name}}</td>
-									<td><center>3.64</td></center>
-									<td><center>0.63</td></center>
-									<td><center>Extensive Knowledge</td></center>
-									<td><center>1</td></center>
+									<td>{{$item["name"]}}</td>
+									<td><center>{{$item["mean"]}}</center></td>
+									<td><center>{{$item["stddev"]}}</center></td>
 								</tr>
 								@endforeach
-
 								<tr>
 									<td align="right"><b><i>Overall</td>
 									<td><center><b><i>3.64</b></i></td></center>
