@@ -123,7 +123,7 @@
 				      		@endforeach
 			      		</select>
 			    	</div>
-			    	<input type="text" name="it_sc_edit" id="it_sc_edit">
+			    	<input type="hidden" name="it_sc_edit" id="it_sc_edit">
 			    	<br>
 
 					<div class="form-group row">
