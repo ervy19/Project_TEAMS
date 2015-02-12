@@ -18,7 +18,6 @@ class CreateTrainingsTable extends Migration {
 			$table->string('title', 255)->nullable();
 			$table->string('theme_topic', 255);
 			$table->string('venue', 255)->nullable();
-			$table->string('schedule', 255);
 
 			$table->boolean('isInternalTraining')->default(false);
 

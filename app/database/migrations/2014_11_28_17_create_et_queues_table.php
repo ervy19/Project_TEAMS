@@ -20,8 +20,6 @@ class CreateEtQueuesTable extends Migration {
 			$table->string('participation', 255);
 			$table->string('organizer', 255);
 			$table->string('venue', 255);
-			$table->date('date_start');
-			$table->date('date_end');
 
 			$table->integer('employee_id')->unsigned();
 

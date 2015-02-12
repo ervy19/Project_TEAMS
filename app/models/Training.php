@@ -4,7 +4,7 @@ class Training extends Eloquent {
 
 	protected $table ='trainings';
 
-	protected $fillable = array('title', 'theme_topic', 'venue', 'schedule', 'isTrainingPlan', 'isActive');
+	protected $fillable = array('title', 'theme_topic', 'venue', 'isTrainingPlan', 'isActive');
 
 	protected $guarded = 'id';
 
