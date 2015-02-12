@@ -20,7 +20,21 @@ class UploadsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('uploads.create');
+		$internaltrainings = Training::with('internal_training')->find($id);
+		$internaltraining = Training::where('id', '=', $id)->get();
+        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+        
+        if (is_null($testresponse)) {
+            $intent = "accomplish";
+        }
+        else {
+            $intent = "show";
+        }
+
+		return View::make('uploads.create')
+			->with('internaltrainings', $internaltrainings)
+            ->with('intent', $intent)
+            ->with('internaltraining', $internaltraining);
 	}
 
 
@@ -29,27 +43,134 @@ class UploadsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($internal_training_id)
 	{
-		if(file_exists(Input::file('file'))) {
-			Excel::load(Input::file('file'), function($reader) {
-				$results = $reader->get();
+		date_default_timezone_set('Asia/Calcutta'); 
+		$currentTimeDate = date("Y-m-d H:i:s"); 
 
-				//save the contents to the database
-				for ($i = 0; $i < count($results) ; $i++) { 
-					$it_attendances = new IT_Attendance;
-					$it_attendances->time = 'time_example'; //EDIT THIS
-					$it_attendances->employee_id = $results[$i]->employee_number;
-					$it_attendances->internal_training_id = 1; //EDIT THIS
+		//excel file must contain 2 columns (employee_number & time)
+		if(Input::get('isIndividual') == 0) { //IF UPLOAD OPTION IS SELECTED
+			if(file_exists(Input::file('file'))) {
+				Excel::load(Input::file('file'), function($reader) {
+					$results = $reader->get();
+
+					//save the contents to the it_attendance table
+					for ($i = 0; $i < count($results) ; $i++) { 
+						$it_attendances = new Participant_Attendance;
+
+						$exists = IT_Participant::where('employee_id', '=', $results[i]->employee_number)->where('internal_training_id', '=', $internal_training_id)->get();
+						//$exists = Employee::where('employee_number', '=', $results[i]->employee_number)->where('isActive', '=', true);
+						if($exists != null)	
+						{
+							$it_attendances->date = $currentTimeDate; //Check this please
+							if($results[$i]->time != null)
+							{
+								$it_attendances->time = $results[$i]->time;
+							}
+							else
+							{
+								$it_attendances->time = $currentTimeDate; //Check this please
+							}
+							$it_attendances->it_participant_id = $exists->id;
+							//$it_attendances->save();
+						}
+						else
+						{
+							$emp_valid = Employee::where('employee_number', '=', $results[i]->employee_number)->where('isActive', '=', true)->get();
+							if($emp_valid != null)
+							{
+								//WRITE TO IT_PARTICIPANTS
+								$it_participant = new IT_Participant;
+								$it_participant->employee_id = Employee::where('employee_number', '=', $results[i]->employee_number)->where('isActive', '=', 1)->pluck('id');
+
+								/**$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[i]->employee_number)->pluck('id'))->first();
+								$it_participant->employee_designation_id = Employee_Designation::where('')*/
+
+								$it_participant->internal_training_id = $internal_training_id;
+								$it_participant->save();
+
+								//WRITE TO PARTICIPANT_ATTENDANCES
+								$exists2 = IT_Participant::where('employee_id', '=', $results[i]->employee_number)->where('internal_training_id', '=', $internal_training_id)->get();
+								$it_attendances->date = $currentTimeDate; //Check this please
+								if($results[$i]->time != null)
+								{
+									$it_attendances->time = $results[$i]->time;
+								}
+								else
+								{
+									$it_attendances->time = $currentTimeDate; //Check this please
+								}
+								$it_attendances->it_participant_id = $exists2->id;
+								//$it_attendances->save();
+								}
+							else
+							{
+								return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants')
+									->withErrors('Employee number doesn\'t exist');
+							}
+						}
+					}
 					$it_attendances->save();
-				}	
-			});
+				});
+			}
+			else {
+				echo 'No file selected';
+			}
+		}
+		else if(Input::get('isIndividual') == 1) { //IF INDIVIDUAL OPTION IS SELECTED
+			if(Input::get('individual_id') != "") {
+				$individual_id = Input::get('individual_id');
+				$it_attendances = new Participant_Attendance;
+				$exists = IT_Participant::where('employee_id', '=', $individual_id)->where('internal_training_id', '=', $internal_training_id)->get();
+				if($exists != null)	
+				{
+					$it_attendances->date = $currentTimeDate; //Check this please
+					$it_attendances->time = $currentTimeDate; //Check this please
+
+					$it_attendances->it_participant_id = $exists->id;
+					//$it_attendances->save();
+				}
+				else {
+					$emp_valid = Employee::where('employee_number', '=', $individual_id)->where('isActive', '=', true)->get();
+					if($emp_valid != null)
+					{
+						//WRITE TO IT_PARTICIPANTS
+						$it_participant = new IT_Participant;
+						$it_participant->employee_id = Employee::where('employee_number', '=', $individual_id)->where('isActive', '=', 1)->pluck('id');
+						
+						/**$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[i]->employee_number)->pluck('id'))->first();
+						$it_participant->employee_designation_id = Employee_Designation::where('')*/
+						
+						$it_participant->internal_training_id = $internal_training_id;
+						$it_participant->save();
+						
+						//WRITE TO PARTICIPANT_ATTENDANCES
+						$exists2 = IT_Participant::where('employee_id', '=', $individual_id)->where('internal_training_id', '=', $internal_training_id)->get();
+						$it_attendances->date = $currentTimeDate; //Check this please
+						$it_attendances->time = $currentTimeDate; //Check this please
+						
+						$it_attendances->it_participant_id = $exists2->id;
+						//$it_attendances->save();
+						}
+					else
+					{
+						return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants')
+							->withErrors('Employee number doesn\'t exist');
+					}
+				}
+				$it_attendances->save();
+			}
+			else {
+				return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants')
+					->withErrors('Please input an employee number');
+			}
 		}
 		else {
-			echo 'No file selected';
+			return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants')
+				->withErrors('Select if individual or batch');
 		}
 
-		return Redirect::to('uploads/create');
+		return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants');
 	}
 
 
