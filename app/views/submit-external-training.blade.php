@@ -19,6 +19,7 @@
     {{ HTML::style('assets/css/pages-style.css'); }}
 
 	{{ HTML::style('assets/css/datepicker.css'); }}
+	{{ HTML::style('assets/css/jquery.timepicker.css'); }}
 
   </head>
 
@@ -108,15 +109,37 @@
 						</div>
 
 						<div class="form-group row">
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-5 col-md-5">
 								{{ Form::label('date_startlabel','Start Date: ') }}
 								<input class="form-control" type="text" id="date_start" name="date_start">
 								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
 							</div>
-							<div class="col-sm-6 col-md-6">
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time Start: ') }}
+								<input class="form-control" type="text" id="time_start_s" name="time_start_s">
+								{{ $errors->first('time_start_s','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time End: ') }}
+								<input class="form-control" type="text" id="time_end_s" name="time_end_s">
+								{{ $errors->first('time_end_s','<div class="error-message">:message</div>') }}
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-5 col-md-5">
 								{{ Form::label('date_endlabel','End Date: ') }}
 								<input class="form-control" type="text" id="date_end" name="date_end">
 								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time Start: ') }}
+								<input class="form-control" type="text" id="time_start_e" name="time_start_e">
+								{{ $errors->first('time_start_e','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time End: ') }}
+								<input class="form-control" type="text" id="time_end_e" name="time_end_e">
+								{{ $errors->first('time_end_e','<div class="error-message">:message</div>') }}
 							</div>
 						</div>
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
@@ -143,6 +166,7 @@
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
     {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
+    {{ HTML::script('assets/js/jquery.timepicker.js'); }}
 
 
 	<script type="text/javascript">
@@ -180,12 +204,17 @@
 
 	</script>
 	<script>
-	$('#date_start').datepicker({
+		$('#date_start').datepicker({
 		    format: 'yyyy-mm-dd'
 		});
+
 	$('#date_end').datepicker({
 		    format: 'yyyy-mm-dd'
 		});
+	$('#time_start_s').timepicker();
+	$('#time_end_s').timepicker();
+	$('#time_start_e').timepicker();
+	$('#time_end_e').timepicker();
 	</script>
 
   </body>
