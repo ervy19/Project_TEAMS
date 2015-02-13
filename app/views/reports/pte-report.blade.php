@@ -24,16 +24,16 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<b>Title: </b>
+								<b>Title: {{ $internaltraining->title }}</b>
 							</td>
 						</tr>
 						<tr>
-							<td class="col-sm-7 col-md-7"><b>Office/School/Department: </b></td>
-							<td class="col-sm-5 col-md-5"><b>Date: </b></td>
+							<td class="col-sm-7 col-md-7"><b>Office/School/Department: {{ $department . " | " . $schoolcollege}}</b></td>
+							<td class="col-sm-5 col-md-5"><b>Date: {{ $internaltraining->schedule }}</b></td>
 						</tr>
 						<tr>
 							<td class="col-sm-7 col-md-7"><b>Participants: </b></td>
-							<td class="col-sm-5 col-md-5"><b>Venue: </b></td>
+							<td class="col-sm-5 col-md-5"><b>Venue: {{ $internaltraining->venue }}</b></td>
 						</tr>
 						</table>
 					</thead>
@@ -54,33 +54,20 @@
 									<th><center>Rank</center></th>
 								</tr>
 								<!--SAMPLE CRITERIA-->
-								<tr>
-									<td>1. Criterion 1</td>
-									<td><center>3.64</td></center>
-									<td><center>0.63</td></center>
-									<td><center>Extensive Knowledge</td></center>
-									<td><center>1</td></center>
-								</tr>
-								<tr>
-									<td>1. Criterion 2</td>
-									<td><center>3.50</td></center>
-									<td><center>0.76</td></center>
-									<td><center>Extensive Knowledge</td></center>
-									<td><center>3</td></center>
-								</tr>
-								<tr>
-									<td>1. Criterion 2</td>
-									<td><center>3.42</td></center>
-									<td><center>0.84</td></center>
-									<td><center>Extensive Knowledge</td></center>
-									<td><center>2</td></center>
-								</tr>
-
+								@foreach ($assessment_items as $item)
+									<tr>
+										<td>{{$item["name"]}}</td>
+										<td><center>{{$item["mean"]}}</center></td>
+										<td><center>{{$item["stddev"]}}</center></td>
+										<td><center>{{$item["verbalinterpretation"]}}</center></td>
+										<td></td>
+									</tr>
+								@endforeach
 								<tr>
 									<td align="right"><b><i>Overall</td>
-									<td><center><b><i>3.64</b></i></td></center>
-									<td><center><b><i>0.63</b></i></td></center>
-									<td><center><b><i>Extensive Knowledge</b></i></td></center>
+									<td><center><b><i>{{$overall_mean}}</b></i></td></center>
+									<td><center><b><i>{{$overall_stddev}}</b></i></td></center>
+									<td><center><b><i>{{$overall_verbalinterpretation}}</b></i></td></center>
 									<td></td>
 								</tr>
 							</table>
@@ -89,7 +76,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.5 - 5   Very Extensive Knowledge/ Very Skillful/ Highly Positive Attitude<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.5 - 4 Extensive Knowledge/ Skillful/ Positive Attitude<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.5 - 3 Adequate Knowledge/ Adequately Skillful/ Neutral Attitude<br>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5 - 2 Inadequate Knowledge/ Lacks Skillful/ Ambivalent<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.5 - 2 Inadequate Knowledge/ Lacks Skill/ Ambivalent<br>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.5 - 1 No Knowledge/ No Skill/ Unfavorable Attitude<br>
 						<br>
 						<br>
@@ -98,7 +85,12 @@
 							<th colspan="5"><u>Summary of Comments/Suggestions:</u></th>
 						</tr>
 						<tr>
-							<td colspan="5"> <br><br><br><br><br></td>
+							<td>Evaluation Narrative:</td>
+							<td>{{$evaluation_and_recomendations_array["evaluation"]}}</td>
+						</tr>
+						<tr>
+							<td>Recommendations</td>
+							<td>{{$evaluation_and_recomendations_array["recommendation"]}}</td>
 						</tr>
 						<tr>
 								<td class="col-sm-6 col-md-6">

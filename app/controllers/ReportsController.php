@@ -66,6 +66,7 @@ class ReportsController extends \BaseController {
                         ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
                         ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
                         ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('participant_assessments.type', '=', "pta")
                         ->distinct()
                         ->get();
 
@@ -77,6 +78,7 @@ class ReportsController extends \BaseController {
                         ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
                         ->where('it_participants.internal_training_id', '=', $training_id)
                         ->where('assessment_responses.name', '=', $value->name)
+                        ->where('participant_assessments.type', '=', "pta")
                         ->avg('assessment_responses.rating');
 
             //GET THE STANDARD DEVIATION
@@ -85,6 +87,7 @@ class ReportsController extends \BaseController {
                         ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
                         ->where('it_participants.internal_training_id', '=', $training_id)
                         ->where('assessment_responses.name', '=', $value->name)
+                        ->where('participant_assessments.type', '=', "pta")
                         ->get();
 
             $stddev_tmp = array();
@@ -201,6 +204,10 @@ class ReportsController extends \BaseController {
             $overall_verbalinterpretation = "Very Extensive Knowledge";
         }
 
+        //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
+        $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
+        $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+
         return View::make('reports.pta-report')
             ->with('internaltraining', $internaltraining)
             ->with('department', $department)
@@ -208,12 +215,183 @@ class ReportsController extends \BaseController {
             ->with('assessment_items', $assessment_items)
             ->with('overall_mean', $overall_mean)
             ->with('overall_stddev', $overall_stddev)
-            ->with('overall_verbalinterpretation', $overall_verbalinterpretation);
+            ->with('overall_verbalinterpretation', $overall_verbalinterpretation)
+            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array);
 	}
 
     public function pteReport($training_id)
     {
-        return View::make('reports.pte-report');
+        $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
+                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
+                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+        $department = Department::where('id', '=', $did)->pluck('name');
+
+        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+
+        //Get Participant Ratings
+        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('participant_assessments.type', '=', "pte")
+                        ->distinct()
+                        ->get();
+
+        $assessment_items = array();
+        foreach ($assessment_item_names as $key => $value) {
+            //GET THE MEAN
+            $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('assessment_responses.name', '=', $value->name)
+                        ->where('participant_assessments.type', '=', "pte")
+                        ->avg('assessment_responses.rating');
+
+            //GET THE STANDARD DEVIATION
+            $ratings = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                        ->where('it_participants.internal_training_id', '=', $training_id)
+                        ->where('assessment_responses.name', '=', $value->name)
+                        ->where('participant_assessments.type', '=', "pte")
+                        ->get();
+
+            $stddev_tmp = array();
+            foreach ($ratings as $key2 => $value2) {
+                $tmp = pow($value2->rating - $mean, 2);
+                array_push($stddev_tmp, $tmp);
+            }
+
+            if(count($stddev_tmp)-1 != 0)
+            {
+                $variance = array_sum($stddev_tmp) / (count($stddev_tmp) - 1);
+                $stddev = sqrt($variance);
+            }
+            else
+            {
+                $stddev = 0;
+            }
+
+            //VERBAL INTERPRETATION
+            if($mean <= 1)
+            {
+                $verbalinterpretation = "No Knowledge";
+            }
+            else if(1 < $mean && $mean <= 2)
+            {
+                $verbalinterpretation = "Inadequate Knowledge";
+            }
+            else if(2 < $mean && $mean <= 3)
+            {
+                $verbalinterpretation = "Adequate Knowledge";
+            }
+            else if(3 < $mean && $mean <= 4)
+            {
+                $verbalinterpretation = "Extensive Knowledge";
+            }
+            else if(4 < $mean && $mean <= 5)
+            {
+                $verbalinterpretation = "Very Extensive Knowledge";
+            }
+
+            array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev, 'verbalinterpretation' => $verbalinterpretation));
+        }
+
+        //RANK
+        /**$rank_array = array();
+        $init = $assessment_items[0]->"mean";
+        $rank_array[0] = 1;
+        for ($i=1; $i <= count($assessment_items); $i++) {
+            
+            if($assessment_items[$i]->"mean" > $init)
+            {
+                $rank_array[$i]
+            }
+            else if($assessment_items[i]->"mean" < $init)
+            {
+
+            }
+            else
+            {
+                return 'DRAW';
+            }
+        }*/
+
+        //OVERALLS
+        //OVERALL MEAN
+        $mean_sum = array();
+        foreach ($assessment_items as $key3 => $value3) {
+            array_push($mean_sum, $value3["mean"]);
+        }
+        $overall_mean = array_sum($mean_sum) / count($mean_sum);
+
+        //OVERALL SD (SD OF SD)
+        $sd_mean_array = array();
+        foreach ($assessment_items as $key4 => $value4) {
+            array_push($sd_mean_array, $value4["stddev"]);
+        }
+        $sd_mean = array_sum($sd_mean_array) / count($sd_mean_array);
+
+        $stddev_tmp2 = array();
+        foreach ($sd_mean_array as $key5 => $value5) {
+            $tmp2 = pow($value5 - $sd_mean, 2);
+            array_push($stddev_tmp2, $tmp2);
+        }
+
+        if(count($stddev_tmp2)-1 != 0)
+        {
+            $overall_variance = array_sum($stddev_tmp2) / (count($stddev_tmp2) - 1);
+            $overall_stddev = sqrt($overall_variance);
+        }
+        else
+        {
+            $overall_stddev = 0;
+        }
+
+        //OVERALL VERBAL INTERPRETATION
+        if($overall_mean <= 1)
+        {
+            $overall_verbalinterpretation = "No Knowledge";
+        }
+        else if(1 < $overall_mean && $overall_mean <= 2)
+        {
+            $overall_verbalinterpretation = "Inadequate Knowledge";
+        }
+        else if(2 < $overall_mean && $overall_mean <= 3)
+        {
+            $overall_verbalinterpretation = "Adequate Knowledge";
+        }
+        else if(3 < $overall_mean && $overall_mean <= 4)
+        {
+            $overall_verbalinterpretation = "Extensive Knowledge";
+        }
+        else if(4 < $overall_mean && $overall_mean <= 5)
+        {
+            $overall_verbalinterpretation = "Very Extensive Knowledge";
+        }
+
+        //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
+        $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
+        $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+
+        return View::make('reports.pte-report')
+            ->with('internaltraining', $internaltraining)
+            ->with('department', $department)
+            ->with('schoolcollege', $schoolcollege)
+            ->with('assessment_items', $assessment_items)
+            ->with('overall_mean', $overall_mean)
+            ->with('overall_stddev', $overall_stddev)
+            ->with('overall_verbalinterpretation', $overall_verbalinterpretation)
+            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array);
     }
 
     public function terReport($training_id)

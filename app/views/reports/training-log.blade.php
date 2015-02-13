@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-<a class="btn btn-primary" align="left">Export to PDF</a>
+<!--<a class="btn btn-primary" align="left">Export to PDF</a>-->
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
