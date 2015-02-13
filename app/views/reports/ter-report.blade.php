@@ -40,7 +40,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">Topic/Theme: <b>{{ $internaltrainings->theme_topic }}</b></td>
+							<td colspan="2">Topic/Theme: <b>{{ $internaltrainings->title . " | " . $internaltrainings->theme_topic }}</b></td>
 							<td colspan="2">Speaker/s: <b>{{ $speakerstring }}</b></td>
 						</tr>
 					</table>
@@ -64,17 +64,17 @@
 						</tr>
 						<tr>
 							<td colspan="2">HR Development Activity Evaluation</td>
-							<td><center>{{ $aae_average }}</center></td>
+							<td><center>{{ number_format($aae_average, 2) }}</center></td>
 							<td><center>{{ $aae_verbal }}</center></td>
 						</tr>
 						<tr>
 							<td colspan="2">Pre-Training Assessment</td>
-							<td><center>{{ $pta_average }}</center></td>
-							<td><center>{{ $pta_verbal }}</center></td>
+							<td><center>{{ number_format($pta_average, 2) }}</center></td>
+							<td><center>{{$ptaverbal}}</center></td>
 						</tr>
 						<tr>
 							<td colspan="2">Post-Training Assessment</td>
-							<td><center>{{ $pte_average }}</center></td>
+							<td><center>{{ number_format($pte_average, 2) }}</center></td>
 							<td><center>{{ $pte_verbal }}</center></td>
 						</tr>
 					</table>
@@ -83,7 +83,7 @@
 							<td colspan="4"><b>Observations/ Analysis/ Evaluation on knowledge/ skills/ attitude/ competency acquired/ developed and potential/ actual impact in the workplace/ expected outcome/ return on investment</b></td>
 						</tr>
 						<tr> 
-							<td colspan="4">{{ $eval_narrative or 'Not Accomplished Yet'}}</td>
+							<td colspan="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
 						</tr>
 					</table>
 					<table id="tb-reco/evals" class="table table-striped table-bordered">
@@ -91,7 +91,7 @@
 							<td colspan="4"><b>Recommendation/s on training planning, content design and development, administration/ management, facilitation and delivery, evaluation</b></td>
 						</tr>
 						<tr>
-							<td colspan="4">{{ $recommendations or 'Not Accomplished Yet' }}</td>
+							<td colspan="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
 						</tr>
 					</table>
 						</tbody>

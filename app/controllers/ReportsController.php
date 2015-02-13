@@ -464,67 +464,67 @@ class ReportsController extends \BaseController {
 
         //verbal interpretation
         //after activity evaluation
-        if($aae_average > 4.5 && $aae_average < 5)
+        if($aae_average >= 4.5 && $aae_average <= 5)
         {
             $aae_verbal = "Very Extensive Knowledge";
         }
-        else if($aae_average > 3.5 && $aae_average < 4.5)
+        else if($aae_average >= 3.5 && $aae_average < 4.5)
         {
             $aae_verbal = "Extensive Knowledge";
         }
-        else if($aae_average > 2.5 && $aae_average < 3.5)
+        else if($aae_average >= 2.5 && $aae_average < 3.5)
         {
             $aae_verbal = "Adequate Knowledge";
         }
-        else if($aae_average > 1.5 && $aae_average < 2.5)
+        else if($aae_average >= 1.5 && $aae_average < 2.5)
         {
             $aae_verbal = "Inadequate Knowledge";
         }
-        else if($aae_average > 0.5 && $aae_average < 1.5)
+        else if($aae_average >= 0.5 && $aae_average < 1.5)
         {
             $aae_verbal = "No Knowledge";
         }
 
-        //pre-training assessment
-        if($pta_average > 4.5 && $pta_average < 5)
+        //after activity evaluation
+        if($pta_average >= 4.5 && $pta_average <= 5)
         {
-            $pta_verbal = "Very Extensive Knowledge";
+            $ptaverbal = "Very Extensive Knowledge";
         }
-        else if($pta_average > 3.5 && $pta_average < 4.5)
+        else if($pta_average >= 3.5 && $pta_average < 4.5)
         {
-            $pta_verbal = "Extensive Knowledge";
+            $ptaverbal = "Extensive Knowledge";
         }
-        else if($pta_average > 2.5 && $pta_average < 3.5)
+        else if($pta_average >= 2.5 && $pta_average < 3.5)
         {
-            $pta_verbal = "Adequate Knowledge";
+            $ptaverbal = "Adequate Knowledge";
         }
-        else if($pta_average > 1.5 && $pta_average < 2.5)
+        else if($pta_average >= 1.5 && $pta_average < 2.5)
         {
-            $pta_verbal = "Inadequate Knowledge";
+            $ptaverbal = "Inadequate Knowledge";
         }
-        else if($pta_average > 0.5 && $pta_average < 1.5)
+        else if($pta_average >= 0.5 && $pta_average < 1.5)
         {
-            $pta_verbal = "No Knowledge";
+            $ptaverbal = "No Knowledge";
         }
 
         //post-training assessment
-        if($pte_average > 4.5 && $pte_average < 5)
+        if($pte_average >= 4.5 && $pte_average <= 5)
         {
             $pte_verbal = "Very Extensive Knowledge";
         }
-        else if($pte_average > 3.5 && $pte_average < 4.5)
+        else if($pte_average >= 3.5 && $pte_average < 4.5)
         {
             $pte_verbal = "Extensive Knowledge";
         }
-        else if($pte_average > 2.5 && $pte_average < 3.5)
+        else if($pte_average >= 2.5 && $pte_average < 3.5)
         {
             $pte_verbal = "Adequate Knowledge";
         }
-        else if($pte_average > 1.5 && $pte_average < 2.5)
+        else if($pte_average >= 1.5 && $pte_average < 2.5)
         {
             $pte_verbal = "Inadequate Knowledge";
         }
-        else if($pte_average > 0.5 && $pte_average < 1.5)
+        else if($pte_average >= 0.5 && $pte_average < 1.5)
         {
             $pte_verbal = "No Knowledge";
         }
@@ -544,8 +544,8 @@ class ReportsController extends \BaseController {
             ->with('pta_average', $pta_average)
             ->with('pte_average', $pte_average)
             ->with('aae_verbal', $aae_verbal)
-            ->with('pta_verbal', $pta_verbal)
             ->with('pte_verbal', $pte_verbal)
+            ->with('ptaverbal', $ptaverbal)
             ->with('date_start', $date_start)
             ->with('date_end', $date_end)
             ->with('time_start_s', $time_start_s)
