@@ -29,7 +29,7 @@
 						</tr>
 						<tr>
 							<td class="col-sm-7 col-md-7"><b>Office/School/Department: {{ $department . " | " . $schoolcollege}} </b></td>
-							<td class="col-sm-5 col-md-5"><b>Date: {{ $internaltraining->schedule }} </b></td>
+							<td class="col-sm-5 col-md-5"><b>Date: {{ $date_start . " - " . $date_end }} </b></td>
 						</tr>
 						<tr>
 							<td class="col-sm-7 col-md-7"><b>Participants: </b></td>
@@ -56,18 +56,18 @@
 								<!--SAMPLE CRITERIA-->
 								@foreach ($assessment_items as $item)
 								<tr>
-									<td>{{$item["name"]}}</td>
-									<td><center>{{$item["mean"]}}</center></td>
-									<td><center>{{$item["stddev"]}}</center></td>
-									<td><center>{{$item["verbalinterpretation"]}}</center></td>
+									<td>{{ $item["name"] }}</td>
+									<td><center>{{ number_format($item["mean"], 2) }}</center></td>
+									<td><center>{{ number_format($item["stddev"], 2) }}</center></td>
+									<td><center>{{ $item["verbalinterpretation"] }}</center></td>
 									<td></td>
 								</tr>
 								@endforeach
 								<tr>
 									<td align="right"><b><i>Overall</td>
-									<td><center><b><i>{{$overall_mean}}</b></i></td></center>
-									<td><center><b><i>{{$overall_stddev}}</b></i></td></center>
-									<td><center><b><i>{{$overall_verbalinterpretation}}</b></i></td></center>
+									<td><center><b><i>{{ number_format($overall_mean, 2) }}</b></i></td></center>
+									<td><center><b><i>{{ number_format($overall_stddev, 2) }}</b></i></td></center>
+									<td><center><b><i>{{ $overall_verbalinterpretation }}</b></i></td></center>
 									<td></td>
 								</tr>
 							</table>

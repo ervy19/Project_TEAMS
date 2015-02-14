@@ -55,11 +55,16 @@ class ReportsController extends \BaseController {
                                 ->where('training_id', '=', $training_id)
                                 ->first();
 
+        //Get School/College and Department
         $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
         $department = Department::where('id', '=', $did)->pluck('name');
 
         $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
         $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+
+        //Get Schedule
+        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
         //Get Participant Ratings
         $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
@@ -216,7 +221,9 @@ class ReportsController extends \BaseController {
             ->with('overall_mean', $overall_mean)
             ->with('overall_stddev', $overall_stddev)
             ->with('overall_verbalinterpretation', $overall_verbalinterpretation)
-            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array);
+            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array)
+            ->with('date_start', $date_start)
+            ->with('date_end', $date_end);
 	}
 
     public function pteReport($training_id)
@@ -230,11 +237,16 @@ class ReportsController extends \BaseController {
                                 ->where('training_id', '=', $training_id)
                                 ->first();
 
+        //Get School/College and Department
         $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
         $department = Department::where('id', '=', $did)->pluck('name');
 
         $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
         $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+
+        //Get schedule
+        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
         //Get Participant Ratings
         $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
@@ -391,7 +403,9 @@ class ReportsController extends \BaseController {
             ->with('overall_mean', $overall_mean)
             ->with('overall_stddev', $overall_stddev)
             ->with('overall_verbalinterpretation', $overall_verbalinterpretation)
-            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array);
+            ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array)
+            ->with('date_start', $date_start)
+            ->with('date_end', $date_end);
     }
 
     public function terReport($training_id)
@@ -605,7 +619,7 @@ class ReportsController extends \BaseController {
                             ->where('trainings.isInternalTraining', '=', 1)
                             ->where('trainings.isActive', '=', 1)
                             ->get();
-         
+
                 //get all external trainings of the employee
                 $et_attended = Training::select(DB::raw('*'))
                             ->leftJoin('external_trainings', 'external_trainings.training_id', '=', 'trainings.id')

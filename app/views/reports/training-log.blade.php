@@ -81,7 +81,7 @@
 						<tr>
 							<td>{{$value->date_scheduled}}</td>
 							<td>{{$value->theme_topic}}</td>
-							<td>CLASSIFICATION SAMPLE</td>
+							<td></td>
 							<td>{{$value->name}}</td>
 							<td>{{$value->venue}}</td>
 							<td></td>
@@ -92,7 +92,7 @@
 						<tr>
 							<td>{{$value->date_scheduled}}</td>
 							<td>{{$value->theme_topic}}</td>
-							<td>CLASSIFICATION SAMPLE</td>
+							<td></td>
 							<td>{{$value->organizer}}</td>
 							<td>{{$value->venue}}</td>
 							<td></td>
