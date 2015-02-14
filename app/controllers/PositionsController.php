@@ -9,10 +9,23 @@ class PositionsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$positions = DB::table('positions')->where('isActive', '=', true)->get();
+		$positions = Position::where('isActive', '=', true)->get();
+		$positions_array = array();
+		foreach ($positions as $key => $value) {
+			$id = $value->id;
+			$title = $value->title;
+		
+			$count = Employee_Designation::select(DB::raw('*'))
+	               ->join('employees', 'employees.id', '=', 'employee_designations.employee_id')
+	               ->join('positions', 'positions.id', '=', 'employee_designations.position_id')
+	               ->where('positions.title', '=', $value->title)
+	               ->count();
 
+	        array_push($positions_array, array('id' => $id, 'title' => $title, 'count' => $count));
+		}
+		
 		return View::make('positions.index')
-			->with('positions', $positions );
+			->with('positions_array', $positions_array);
 	}
 
 
