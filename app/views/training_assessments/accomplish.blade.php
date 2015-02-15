@@ -118,40 +118,41 @@
 							
 					@elseif ($type === "pte")
 							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
-									<table class="table">
-										<thead>
-											<tr class="assessment-form">
-												<th>Items for Assessment</th>
-												<th>5</th>
-												<th>4</th>
-												<th>3</th>
-												<th>2</th>
-												<th>1</th>
-											</tr>
-										</thead>
-										<tbody>
-											@foreach ($assessmentitems as $key => $value)
-											<tr>
-												<td>{{ $value }}</td>
-												<td>{{ Form::radio($value, '5'); }}</td>
-												<td>{{ Form::radio($value, '4'); }}</td>
-												<td>{{ Form::radio($value, '3'); }}</td>
-												<td>{{ Form::radio($value, '2'); }}</td>
-												<td>{{ Form::radio($value, '1'); }}</td>
-											</tr>
-											@endforeach
-										</tbody>
-									</table>
 
-									<h5 class="label-remarks">Verbal Interpretation</h5>
-									<textarea class="remarks" name="verbalinterpretation"></textarea>
+							<table class="table">
+								<thead>
+									<tr class="assessment-form">
+										<th>Items for Assessment</th>
+										<th>5</th>
+										<th>4</th>
+										<th>3</th>
+										<th>2</th>
+										<th>1</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($assessmentitems as $key => $value)
+									<tr>
+										<td>{{ $value }}</td>
+										<td>{{ Form::radio($value, '5'); }}</td>
+										<td>{{ Form::radio($value, '4'); }}</td>
+										<td>{{ Form::radio($value, '3'); }}</td>
+										<td>{{ Form::radio($value, '2'); }}</td>
+										<td>{{ Form::radio($value, '1'); }}</td>
+									</tr>
+									@endforeach
+								</tbody>
+							</table>
 
-									<h5 class="label-remarks">Remarks</h5>
-									<textarea class="remarks" name="remarks"></textarea>
+							<h5 class="label-remarks">Verbal Interpretation</h5>
+							<textarea class="remarks" name="verbalinterpretation"></textarea>
 
-									{{ Form::submit('Submit PTE Report', array('class' => 'pta-form-btn pull-right')) }}
+							<h5 class="label-remarks">Remarks</h5>
+							<textarea class="remarks" name="remarks"></textarea>
 
-								{{ Form::close() }}							    
+							{{ Form::submit('Submit PTE Report', array('class' => 'pta-form-btn pull-right')) }}
+
+							{{ Form::close() }}			    
 							
 							
 							@endif

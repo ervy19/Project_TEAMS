@@ -187,12 +187,13 @@ class ExternalTrainingsController extends \BaseController {
 
     public function indexQueue()
     {
-        $externaltrainingsqueue = ET_Queue::select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
+        $externaltrainingsqueue = ET_Queue::select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','training_schedules.date_scheduled','training_schedules.timeslot')
             ->join('employees','et_queues.employee_id','=','employees.id')
+            ->join('training_schedules','et_queues.id','=','training_schedules.et_id')
             ->get();
 
         return View::make('external_trainings.pending-approval')
-            ->with('externaltrainingsqueue', $externaltrainingsqueue );
+            ->with('externaltrainingsqueue', $externaltrainingsqueue);
     }
 
     public function createQueue()
@@ -205,6 +206,10 @@ class ExternalTrainingsController extends \BaseController {
         $venue = "";
         $date_start = "";
         $date_end = "";
+        $time_start_s = "";
+        $time_end_s = "";
+        $time_start_e = "";
+        $time_end_e = "";
 
         return View::make('submit-external-training')
             ->with('employee_number', $employee_number)
@@ -214,7 +219,11 @@ class ExternalTrainingsController extends \BaseController {
             ->with('organizer', $organizer)
             ->with('venue', $venue)
             ->with('date_start', $date_start)
-            ->with('date_end', $date_end);
+            ->with('date_end', $date_end)
+            ->with('time_start_s', $time_start_s)
+            ->with('time_end_s', $time_end_s)
+            ->with('time_start_e', $time_start_e)
+            ->with('time_end_e', $time_end_e);
     }
 
     public function confirmQueue()
@@ -271,6 +280,12 @@ class ExternalTrainingsController extends \BaseController {
         $venue = Input::get('venue');
         $date_start = Input::get('date_start');
         $date_end = Input::get('date_end');
+
+        $time_start_s = Input::get('time_start_s');
+        $time_end_s = Input::get('time_end_s');
+        $time_start_e = Input::get('time_start_e');
+        $time_end_e = Input::get('time_end_e');
+
         // validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
@@ -302,10 +317,25 @@ class ExternalTrainingsController extends \BaseController {
                 $externaltrainings->participation = $participation;
                 $externaltrainings->organizer = $organizer;
                 $externaltrainings->venue = $venue;
-                $externaltrainings->date_start = $date_start;
-                $externaltrainings->date_end = $date_end;
                 $externaltrainings->employee_id = $employee;
                 $externaltrainings->save();
+
+                //Schedule
+                $startdate = new Training_Schedule;
+                $startdate->date_scheduled = Input::get('date_start');
+                $startdate->timeslot = $time_start_s . "-" . $time_end_s;
+                $startdate->isStartDate = 1;
+                $startdate->isEndDate = 0;
+                $startdate->et_id = $externaltrainings->id;
+                $startdate->save();
+
+                $enddate = new Training_Schedule;
+                $enddate->date_scheduled = Input::get('date_end');
+                $enddate->timeslot = $time_start_e . "-" . $time_end_e;
+                $enddate->isStartDate = 0;
+                $enddate->isEndDate = 1;
+                $enddate->et_id = $externaltrainings->id;
+                $enddate->save();
 
                 return View::make('success-external-training')
                     ->with('employee_number',$employee_number);
@@ -347,7 +377,6 @@ class ExternalTrainingsController extends \BaseController {
             'date_start' => 'required',
             'date_end' => 'required',
             'designation_id' => 'required'
-
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -364,8 +393,6 @@ class ExternalTrainingsController extends \BaseController {
             $externaltraining->participation = Input::get('participation');
             $externaltraining->organizer = Input::get('organizer');
             $externaltraining->venue = Input::get('venue');
-            $externaltraining->date_start = Input::get('date_start');
-            $externaltraining->date_end = Input::get('date_end');
             $externaltraining->designation_id = Input::get('designation_id');
             $externaltraining->save();
 

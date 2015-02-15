@@ -50,17 +50,16 @@
 									@if(isset($internaltrainings))
 										@foreach($internaltrainings as $key => $value)
 										<tr>
-											<th>{{ $value->title }}</th>
-											<th>{{ $value->theme_topic }}</th>
-											<th>{{ $value->venue }}</th>
-											<th>{{ $value->is_consecutive }}</th>
-											<th>Organizer</th>
-
-				s							<td>
-												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
+											<td>{{ $value->title }}</td>
+											<td>{{ $value->theme_topic }}</td>
+											<td>{{ $value->venue }}</td>
+											<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
+											<td>{{ $value->name }}</td>
+											<td>
+												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->training_id) }}">View</a>
 												@if($isAdminHR)
-												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>
-											   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->id), 'class' => 'form-archive', 'method' => 'delete')) }}
+												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->training_id . '/edit') }}">Edit</a>
+											   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->training_id), 'class' => 'form-archive', 'method' => 'delete')) }}
 											   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
 											   {{ Form::close() }}
 											   @endif

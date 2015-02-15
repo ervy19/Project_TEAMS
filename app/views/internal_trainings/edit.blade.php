@@ -4,6 +4,12 @@
 	Update Internal Training Information - {{ $internaltrainings->title or '' }}
 @stop
 
+@section('page_css')
+	{{ HTML::style('assets/css/datepicker.css'); }}
+	{{ HTML::style('assets/css/datepicker.css'); }}
+	{{ HTML::style('assets/css/jquery.timepicker.css'); }}
+@stop
+
 @section('content')
 
 <div class="col-sm-12 col-md-12">
@@ -36,19 +42,58 @@
 						{{ $errors->first('venue') }}
 					</div>
 					<div class="form-group row">
-						{{ Form::label('schedule','Schedule: ') }}
-						{{ Form::text('schedule', $internaltrainings->schedule, array( 'class' => 'form-control')) }}
-						{{ $errors->first('schedule') }}
+							<div class="col-sm-4 col-md-4">
+								{{ Form::label('date_startlabel','Start Date: ') }}
+								<input class="form-control" type="text" id="date_start" name="date_start" value="{{$date_start}}">
+								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time Start: ') }}
+								<input class="form-control" type="text" id="time_start_s_edit" name="time_start_s_edit" value="{{$time_start_s_edit}}">
+								{{ $errors->first('time_start_s_edit','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time End: ') }}
+								<input class="form-control" type="text" id="time_end_s" name="time_end_s" value="{{$time_end_s}}">
+								{{ $errors->first('time_end_s','<div class="error-message">:message</div>') }}
+							</div>
+					</div>
+					 <input type="button" value="Add Date" onClick="addInput('dynamicInput');" class="btn btn-primary">
+					 	<div class="form-group row" id="dynamicInput">
+				     		<br>
+					    </div>
+					<div class="form-group row">
+							<div class="col-sm-4 col-md-4">
+								{{ Form::label('date_endlabel','End Date: ') }}
+								<input class="form-control" type="text" id="date_end" name="date_end" value="{{$date_end}}">
+								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time Start: ') }}
+								<input class="form-control" type="text" id="time_start_e" name="time_start_e" value="{{$time_start_e}}">
+								{{ $errors->first('time_start_e','<div class="error-message">:message</div>') }}
+							</div>
+							<div class="col-sm-2 col-md-2">
+								{{ Form::label('time','Time End: ') }}
+								<input class="form-control" type="text" id="time_end_e" name="time_end_e" value="{{$time_end_s}}">
+								{{ $errors->first('time_end_e','<div class="error-message">:message</div>') }}
+							</div>
+					</div>
+					
+					<div class="form-group row">
+						{{ Form::label('format','Format: ') }}
+						{{ Form::text('format', $internaltraining->format, array( 'class' => 'form-control')) }}
+						{{ $errors->first('format') }}
 					</div>
 					<div class="form-group row">
-						{{ Form::label('objectives','Objectives: ') }}
-						{{ Form::textarea('internal_training[objectives]', $internaltrainings->objectives, array( 'class' => 'form-control', 'rows' => '3')) }}
+						{{ Form::label('objectiveslabel','Objectives: ') }}
+						{{ Form::textarea('objectives', $internaltraining->objectives, array( 'class' => 'form-control', 'rows' => '3')) }}
 						{{ $errors->first('objectives') }}
 					</div>
 
 					<div class="form-group row">
-						{{ Form::label('expected_outcome','Expected Outcome: ') }}
-						{{ Form::textarea('internal_training[expected_outcome]', $internaltrainings->expected_outcome, array( 'class' => 'form-control', 'rows' => '3')) }}
+						{{ Form::label('expected_outcomelabel','Expected Outcome: ') }}
+						{{ Form::textarea('expected_outcome', $internaltraining->expected_outcome, array( 'class' => 'form-control', 'rows' => '3')) }}
 						{{ $errors->first('expected_outcome') }}
 					</div>
 
@@ -56,7 +101,7 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_schools_colleges_id','Organizing School/College: ') }}
 						</div>
-						{{ Form::select('internal_training[organizer_schools_colleges_id]', $schoolcollege, 'Select a School or College Organizer', array('id' => 'dd-schoolscolleges', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('organizer_schools_colleges_id', $schoolcollege, 'Select a School or College Organizer', array('id' => 'dd-schoolscolleges', 'class' => 'col-sm-6 col-md-6')) }}
 						
 					</div>
 
@@ -64,9 +109,22 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_department_id','Organizing Department: ') }}
 						</div>
-						{{ Form::select('internal_training[organizer_department_id]', $department, 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('organizer_department_id', $department, 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
 					
 					</div>
+
+					<div class="form-group row">
+						<div class="col-sm-12 col-md-12">
+						{{ Form::label('sc','Tagged Skills and Competencies: ') }}
+						<div>
+						<select multiple id="skills_competencies_itraining_edit" style="width: 300px">
+				      		@foreach($sc as $key => $value)
+				        		<option> {{ $value }} </option>
+				      		@endforeach
+			      		</select>
+			    	</div>
+			    	<input type="hidden" name="it_sc_edit" id="it_sc_edit">
+			    	<br>
 
 					<div class="form-group row">
 						{{ Form::label('isTrainingPlan','Training Plan: ') }}
@@ -80,6 +138,8 @@
 
 					{{ Form::submit('Save Information', array('class' => 'btn btn-primary pull-right')) }}
 					<a href="{{ URL::to('internal_trainings') }}" class="btn btn-primary pull-right">Back</a>
+					<br><br><br>
+
 				{{ Form::close() }}
 
 			</div>
@@ -93,10 +153,26 @@
 @section('page_js')
 
     {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
+    {{ HTML::script('assets/js/jquery.timepicker.js'); }}
 
 <script>
+	var pausecontent = new Array();
+	    <?php foreach($currentscs as $key => $val){ ?>
+	        pausecontent.push('<?php echo $val; ?>');
+	    <?php } ?>
+    	$('#skills_competencies_itraining_edit').select2('val',pausecontent);
+
+    var initial = $('#skills_competencies_itraining_edit');
+		var hiddensc = document.getElementById("it_sc_edit");
+		hiddensc.value = $(initial).val();	
+
+    var itscedit = $('#skills_competencies_itraining_edit');
+	$(itscedit).change(function() {
+		var iteditsc = document.getElementById("it_sc_edit");
+		iteditsc.value = $(itscedit).val();
+	});	
+
 	$("#dd-schoolscolleges").select2({
-		placeholder: 'HEHEHE',
 	    allowClear: true
 	});
 
@@ -104,24 +180,34 @@
 	    allowClear: true
 	});
 
-	/*$('#date_start').datepicker({
-    format: 'yyyy-mm-dd'
-});
-	$('#date_end').datepicker({
-    format: 'yyyy-mm-dd'
-});
-	
-	var schtr = $('#school_college_training');
-	$(schtr).change(function() {
-		var elemtr = document.getElementById("selected_sch_training");
-		elemtr.value = $(schtr).val();
-	});
+	$('#date_start').datepicker({
+		    format: 'yyyy-mm-dd'
+		});
 
-	var depttr = $('#dept_training');
-	$(depttr).change(function() {
-		var elemdepttr = document.getElementById("selected_dept_training");
-		elemdepttr.value = $(depttr).val();
-	});*/
+	$('#date_end').datepicker({
+		    format: 'yyyy-mm-dd'
+		});
+
+	$('#time_start_s_edit').timepicker();
+	$('#time_end_s').timepicker();
+	$('#time_start_e').timepicker();
+	$('#time_end_e').timepicker();
+
+	
+
+	var count = 2;
+		function addInput(divName){
+			
+		    var newdiv = document.createElement('div');
+		    newdiv.innerHTML = "<div class='form-group row'><div class='col-sm-4 col-md-4'><b>Date: </b><input class='form-control' type='text' id='date" + count + "' " + "name='date" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time Start: </b><input class='form-control' type='text' id='timestart" + count + "' " + "name='timestart" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time End: </b><input class='form-control' type='text' id='timeend" + count + "' " + "name='timeend" + count + "'></div></div>";
+
+			document.getElementById(divName).appendChild(newdiv);
+			document.getElementById('count').value = count;
+			var box = "item" + count;
+			document.getElementById('items').value = box;
+			count++;    
+		}
+
 </script>
 
 @stop

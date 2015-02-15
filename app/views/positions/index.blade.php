@@ -25,14 +25,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($positions as $key => $value)
+					@foreach($positions_array as $value)
 					<tr>
-						<td>{{ $value->title }}</td>
-						<td>DUMMY</td>
+						<td>{{ $value["title"] }}</td>
+						<td>{{ $value["count"] }}</td>
 						<td>
-							<a class="btn btn-small btn-info" href="{{ URL::to('positions/' . $value->id . '/edit') }}">Edit</a>
+							<a class="btn btn-small btn-info" href="{{ URL::to('positions/' . $value['id'] . '/edit') }}">Edit</a>
 							&nbsp;&nbsp;
-						   {{ Form::open(array('route' => array('positions.destroy', $value->id), 'method' => 'delete')) }}
+						   {{ Form::open(array('route' => array('positions.destroy', $value['id']), 'method' => 'delete')) }}
 						    <button type="submit" class="btn btn-small btn-danger">Archive</button>
 						   {{ Form::close() }}
 						</td>

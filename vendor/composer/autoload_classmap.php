@@ -136,6 +136,7 @@ return array(
     'TrainingAssessmentsController' => $baseDir . '/app/controllers/TrainingAssessmentsController.php',
     'TrainingPlanController' => $baseDir . '/app/controllers/TrainingPlanController.php',
     'TrainingResponsesController' => $baseDir . '/app/controllers/TrainingResponsesController.php',
+    'Training_Schedule' => $baseDir . '/app/models/Training_Schedule.php',
     'UploadsController' => $baseDir . '/app/controllers/UploadsController.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserRepository' => $baseDir . '/app/models/UserRepository.php',
