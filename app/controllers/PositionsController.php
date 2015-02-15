@@ -9,10 +9,18 @@ class PositionsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$positions = DB::table('positions')->where('isActive', '=', true)->get();
+		$positions = Position::where('isActive', '=', true)->get();
 
-		return View::make('positions.index')
+		if(Request::ajax()){
+			return Response::json(['data' => $positions]);
+		}
+		else
+		{
+			return View::make('positions.index')
 			->with('positions', $positions );
+		}
+
+		
 	}
 
 

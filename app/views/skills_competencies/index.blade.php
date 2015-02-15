@@ -145,10 +145,10 @@
 		        "ajax": "{{ URL::to('skills_competencies') }}",
 		        "columns": [
 		            { "data": "name" },
-		            { "data": "departmentsTagged" },
-		            { "data": "positionsTagged" },
-		            { "data": "internalTrainingsTagged" },
-		            { "data": "externalTrainingsTagged" },
+		            { "data": "departments_tagged" },
+		            { "data": "positions_tagged" },
+		            { "data": "internaltrainings_tagged" },
+		            { "data": "externaltrainings_tagged" },
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
@@ -196,10 +196,10 @@
 							        "ajax": "{{ URL::to('skills_competencies') }}",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "departmentsTagged" },
-							            { "data": "positionsTagged" },
-							            { "data": "internalTrainingsTagged" },
-							            { "data": "externalTrainingsTagged" },
+							            { "data": "departments_tagged" },
+							            { "data": "positions_tagged" },
+							            { "data": "internaltrainings_tagged" },
+							            { "data": "externaltrainings_tagged" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
@@ -261,10 +261,10 @@
 							        "ajax": "{{ URL::to('skills_competencies') }}",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "departmentsTagged" },
-							            { "data": "positionsTagged" },
-							            { "data": "internalTrainingsTagged" },
-							            { "data": "externalTrainingsTagged" },
+							            { "data": "departments_tagged" },
+							            { "data": "positions_tagged" },
+							            { "data": "internaltrainings_tagged" },
+							            { "data": "externaltrainings_tagged" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
@@ -358,10 +358,10 @@
 							        "ajax": "{{ URL::to('skills_competencies') }}",
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "departmentsTagged" },
-							            { "data": "positionsTagged" },
-							            { "data": "internalTrainingsTagged" },
-							            { "data": "externalTrainingsTagged" },
+							        	{ "data": "departments_tagged" },
+							            { "data": "positions_tagged" },
+							            { "data": "internaltrainings_tagged" },
+							            { "data": "externaltrainings_tagged" },
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {

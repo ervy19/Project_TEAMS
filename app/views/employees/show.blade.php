@@ -62,6 +62,8 @@
 		</div>
 	</div>
 
+
+
 	@if(!(null !== $designations))
 		@foreach( $designations as $key => $value)
 		<div class="col-sm-12 col-md-12 employee-info">

@@ -8,6 +8,8 @@ class SkillsCompetencies extends Eloquent {
 
 	protected $guarded = 'id';
 
+	protected $appends = array('internaltrainings_tagged', 'externaltrainings_tagged', 'trainings_tagged', 'departments_tagged', 'positions_tagged');
+
 	public function position_sc() {
 		return $this->hasMany('Position_SC');
 	}
@@ -24,17 +26,40 @@ class SkillsCompetencies extends Eloquent {
 		return $this->hasOne('ET_Addressed_SC');
 	}
 
-	public function positionsCountRelation()
+	public function getInternaltrainingsTaggedAttribute()
 	{
-	    return $this->position_sc()->selectRaw('skills_competencies_id, count(*) as count')
-	        ->groupBy('skills_competencies_id');
+		$internal_tagged = IT_Addressed_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+		
+		return $internal_tagged;
 	}
 
-	public function getPositionsCountAttribute()
+	public function getExternaltrainingsTaggedAttribute()
 	{
-
-	    return $this->positionsCountRelation ?
-	    	$this->positionsCountRelation->count:0;
+		$external_tagged = ET_Addressed_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+		
+		return $external_tagged;
 	}
 
+	public function getTrainingsTaggedAttribute()
+	{
+		
+		$trainings_tagged = IT_Addressed_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+		$trainings_tagged += ET_Addressed_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+
+		return $trainings_tagged;
+	}
+
+	public function getDepartmentsTaggedAttribute()
+	{
+		$departments_tagged = Department_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+
+		return $departments_tagged;
+	}
+
+	public function getPositionsTaggedAttribute()
+	{
+		$positions_tagged = Position_SC::where('isActive','=',true)->where('skills_competencies_id','=',$this->id)->count();
+
+		return $positions_tagged;
+	}
 }

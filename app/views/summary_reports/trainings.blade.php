@@ -25,27 +25,9 @@
 			<li role="presentation" class="active"><a>Trainings</a></li>
 			<li role="presentation"><a href="{{ URL::to('summary_report/skills_competencies') }}">Skills and Competencies</a></li>
 		</ul>
+        <div id="container" style="min-width: 310px; max-width: 800px; margin: 0 auto"></div>
 	</div>
 </div>
-
-<div class="col-sm-12 col-md-12">
-	<div class="panel">
-		<div class="row">
-			<div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
-		</div>
-	</div>
-</div>
-
-
-<div class="col-sm-12 col-md-12">
-	<div class="panel">
-		<div class="row">
-
-		</div>
-	</div>
-</div>
-
-
 
 @stop
 
@@ -154,7 +136,7 @@ Highcharts.data({
                     series: drilldownSeries
                 }
             });
-        });
+  
     });
 
 		});

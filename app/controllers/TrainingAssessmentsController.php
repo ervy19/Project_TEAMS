@@ -7,9 +7,17 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($training_id)
 	{
-		//
+		$assessmentitems = Assessment_Item::where('internal_training_id', '=', $training_id)->get();
+
+		if(Request::ajax()){
+			return Response::json(['data' => $campuses]);
+		}
+		else
+		{
+			return View::make('internal_trainings.assessment-items');
+		}
 	}
 
 	/**
@@ -17,7 +25,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create($type)
+	public function create($training_id, $type)
 	{
 		if($type=="pta")
 		{
@@ -64,7 +72,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store($type)
+	public function store($$training_id, $type)
 	{
 		if($type=="pta")
 			{

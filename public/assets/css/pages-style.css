@@ -378,3 +378,20 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 	margin-left: 5px;
 	margin-right: 10px;
 }
+
+/****************************************
+    Skills&Competencies Summary Report
+****************************************/
+
+.filter-label, #dd-sc-filter {
+	display: inline;
+}
+
+#dd-sc-filter {
+	width: 65%;
+}
+
+
+#sc {
+	padding-bottom: 20px;
+}

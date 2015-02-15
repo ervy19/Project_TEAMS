@@ -8,6 +8,8 @@ class Employee_Designation extends Eloquent {
 
 	protected $guarded = 'id';
 
+	protected $appends = array('required_scs');
+
 	public function campus() {
 		return $this->belongsTo('Campus');
 	}
@@ -31,10 +33,6 @@ class Employee_Designation extends Eloquent {
 	public function external_training() {
 		return $this->hasMany('External_Training');
 	}
-	
-	public function et_queue() {
-		return $this->hasMany('ET_Queue');
-	}
 
 	public function employee() {
 		return $this->belongsTo('Employee');
@@ -42,6 +40,29 @@ class Employee_Designation extends Eloquent {
 
 	public function participant_assessment() {
 		return $this->hasMany('Participant_Assessment');
+	}
+
+	public function getRequiredScsAttribute()
+	{
+		$department_scs = Department_SC::where('isActive','=',true)
+							->where('department_id','=',$this->department_id)
+							->get();
+
+		$position_scs = Position_SC::where('isActive','=',true)
+							->where('position_id','=',$this->position_id)
+							->get();
+
+		$required_scs = $department_scs->union($position_scs);
+
+		if(!$required_scs->isEmpty())
+		{
+			return $required_scs;
+		}
+		else
+		{
+			return '';
+		}
+		
 	}
 	
 }

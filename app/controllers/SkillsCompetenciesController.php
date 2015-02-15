@@ -9,14 +9,8 @@ class SkillsCompetenciesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$scs = SkillsCompetencies::select(DB::raw('skills_competencies.id, skills_competencies.name, count(department_sc.id) as departmentsTagged, count(position_sc.id) as positionsTagged, count(it_addressed_sc.id) as internalTrainingsTagged, count(et_addressed_sc.id) as externalTrainingsTagged'))
-								->leftJoin('department_sc','skills_competencies.id','=','department_sc.skills_competencies_id')
-								->leftJoin('position_sc','skills_competencies.id','=','position_sc.skills_competencies_id')
-								->leftJoin('it_addressed_sc','skills_competencies.id','=','it_addressed_sc.skills_competencies_id')
-								->leftJoin('et_addressed_sc','skills_competencies.id','=','et_addressed_sc.skills_competencies_id')
-								->where('skills_competencies.isActive', '=', true)
-								->groupBy('skills_competencies.id')
-								->get();	
+		$scs = SkillsCompetencies::where('skills_competencies.isActive', '=', true)
+								->get();
 
 		if(Request::ajax()){
 			return Response::json(['data' => $scs]);
@@ -80,8 +74,18 @@ class SkillsCompetenciesController extends \BaseController {
 	{
         $scs = SkillsCompetencies::find($id);
 
-		return View::make('skills_competencies.show')
-			->with('scs', $scs );
+        if(Request::ajax()){
+        	$scs = SkillsCompetencies::where('skills_competencies.isActive', '=', true)
+								->where('skills_competencies.id', '=', $id)
+								->first();
+
+			return Response::json(['success' => true, 'data' => $scs]);
+		}
+		else
+		{
+			return View::make('skills_competencies.show')
+						->with('scs', $scs );
+		}
 	}
 
 
@@ -149,12 +153,38 @@ class SkillsCompetenciesController extends \BaseController {
 
     public function summaryReport()
     {
+    	$scs = SkillsCompetencies::where('isActive','=',true)->first();
+
+    	//Count number of active trainings
+    	$sc_count = SkillsCompetencies::where('isActive','=',true)->count();
+
+    	/*Compute for average number of SCs per training */
+    	$itsc_count = IT_Addressed_SC::where('isActive','=',true)->count();
+    	$etsc_count = ET_Addressed_SC::where('isActive','=',true)->count();
+
+    	$trainingsc_count = $itsc_count + $etsc_count;
+
+    	$scPerTraining = $trainingsc_count / (Training::where('isActive','=',true)->count());
+
+    	/*Compute for average number of SCs per department */
+
+    	$scPerDepartment = Department_SC::where('isActive','=',true)->count() / Department::where('isActive','=',true)->count();
+
+    	/*Compute for average number of SCs per position */
+
+    	$scPerPosition = Position_SC::where('isActive','=',true)->count() / Position::where('isActive','=',true)->count();
+
     	if(Request::ajax()){
-            //return Response::json(['data' => $scs]);
+            return Response::json(['data' => $scs]);
         }
         else
         {
-            return View::make('summary_reports.scs');
+        	return View::make('summary_reports.scs')
+            				->with('scs',$scs)
+            				->with('sc_count',$sc_count)
+            				->with('sctraining',$scPerTraining)
+            				->with('scdepartment',$scPerDepartment)
+            				->with('scposition',$scPerPosition);
         }	
     }
 

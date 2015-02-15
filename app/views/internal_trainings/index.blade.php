@@ -56,7 +56,7 @@
 											<th>{{ $value->is_consecutive }}</th>
 											<th>Organizer</th>
 
-											<td>
+				s							<td>
 												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->id) }}">View</a>
 												@if($isAdminHR)
 												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->id . '/edit') }}">Edit</a>

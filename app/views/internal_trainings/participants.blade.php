@@ -175,8 +175,8 @@
 			$('#dd-employees').change(function(){
 		        var employee_id = $(this).val();
 		        $.get('{{ URL::to('') }}/internal_trainings/participants/'+employee_id, function(data){
-		            $.each(data, function(element, index){
-		                $('#dd-employee_designation').append('<option value="'+element.id+'">'+element.title+'</option>')
+		            $.each(data.data, function(element, index){
+		                $('#dd-employee_designation').append('<option value="'+index.id+'">'+index.title+'</option>')
 		            });
 		        }, 'json');
 		    });
