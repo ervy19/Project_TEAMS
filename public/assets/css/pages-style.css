@@ -188,10 +188,8 @@
 	padding-bottom: 20px;
 }
 
-.employee-info h2 {
-	margin-top: 0px;
-	padding-left: 10px;
-	font-weight: bold;
+.employee-info  {
+	margin-bottom: 0px;
 }
 
 .employee-info h3, .employee-status h3, .employee-summary h3 {
@@ -204,12 +202,17 @@
     margin-right: 2px;
 }
 
+.employee-details h2  {
+	margin-top: 0px;
+}
+
 .employee-details h3 {
-	font-size: 1.6em;
+	font-size: 1.55em;
 }
 
 .employee-info h4 {
 	font-weight: bold;
+	margin-bottom: 0px;
 }
 
 .employee-details h5 {
@@ -227,6 +230,19 @@
 	text-align: justify;
 }
 
+.employee-details .information-header {
+	margin-left: 10px;
+}
+
+.employee-details h2.information-header {
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+.employee-details h4.information-header {
+	margin-top: 0px;
+}
+
 .designation {
 	margin-bottom: 1px;
 }
@@ -242,8 +258,28 @@ h5.employee-designation, h6.employee-designation {
 	text-align: center;
 }
 
+.has-designation {
+	text-align: left;
+	padding-top: 0px !important;
+	font-size: 1.65em !important;
+}
+
+h5.has-designation {
+	margin: 0px;
+	margin-left: 10px;
+}
+
 .employee-details a {
 	margin: 0 auto;
+}
+
+.employee-details .line-division {
+  margin-left: 7px;
+  margin-bottom: 10px; 
+}
+
+.employee-details .email {
+	margin-bottom: 0px;
 }
 
 /**************************************

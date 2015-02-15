@@ -35,6 +35,11 @@ a:hover {
   padding: 5px 5px 5px 20px;
 }
 
+.line-division {
+  width: 100%;
+  border-top: 1px #888 solid;
+}
+
 /**************************************
     Other Standard Bootstrap Components
 **************************************/
@@ -285,10 +290,18 @@ Dashboard Stats
 }
 
 
-
 /**************************************
     Tables
 **************************************/
+.table-no-border>thead>tr>th, 
+.table-no-border>tbody>tr>th, 
+.table-no-border>tfoot>tr>th, 
+.table-no-border>thead>tr>td, 
+.table-no-border>tbody>tr>td, 
+.table-no-border>tfoot>tr>td {
+  border-top: none; 
+}
+
 .assessment-form th {
   font-size: 1.25em;
 }
