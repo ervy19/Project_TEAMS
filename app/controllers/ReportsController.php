@@ -476,7 +476,7 @@ class ReportsController extends \BaseController {
                         ->where('participant_assessments.type','=',"pte")
                         ->avg('participant_assessments.rating');
 
-        //verbal interpretation
+        //VERBAL INTERPRETATION FOR OVERALL AVERAGE RATINGS
         //after activity evaluation
         if($aae_average >= 4.5 && $aae_average <= 5)
         {
@@ -502,23 +502,23 @@ class ReportsController extends \BaseController {
         //after activity evaluation
         if($pta_average >= 4.5 && $pta_average <= 5)
         {
-            $ptaverbal = "Very Extensive Knowledge";
+            $pta_verbal = "Very Extensive Knowledge";
         }
         else if($pta_average >= 3.5 && $pta_average < 4.5)
         {
-            $ptaverbal = "Extensive Knowledge";
+            $pta_verbal = "Extensive Knowledge";
         }
         else if($pta_average >= 2.5 && $pta_average < 3.5)
         {
-            $ptaverbal = "Adequate Knowledge";
+            $pta_verbal = "Adequate Knowledge";
         }
         else if($pta_average >= 1.5 && $pta_average < 2.5)
         {
-            $ptaverbal = "Inadequate Knowledge";
+            $pta_verbal = "Inadequate Knowledge";
         }
         else if($pta_average >= 0.5 && $pta_average < 1.5)
         {
-            $ptaverbal = "No Knowledge";
+            $pta_verbal = "No Knowledge";
         }
 
         //post-training assessment
@@ -543,6 +543,149 @@ class ReportsController extends \BaseController {
             $pte_verbal = "No Knowledge";
         }
 
+        //PARTICIPANTS TABLE
+        $allparticipants = IT_Participant::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('id');
+        $participants = array();
+        $ptatotal = 0;
+        $ptetotal = 0;
+        $count = 0;
+
+        foreach ($allparticipants as $participant_id)
+        {
+            $lastname = IT_Participant::select(DB::raw('*'))
+                    ->join('employees','it_participants.employee_id','=','employees.id')
+                    ->where('it_participants.internal_training_id','=',$training_id)
+                    ->where('it_participants.id','=',$participant_id)
+                    ->pluck('last_name');
+
+            $givenname = IT_Participant::select(DB::raw('*'))
+                    ->join('employees','it_participants.employee_id','=','employees.id')
+                    ->where('it_participants.internal_training_id','=',$training_id)
+                    ->where('it_participants.id','=',$participant_id)
+                    ->pluck('given_name');
+
+            $mi = IT_Participant::select(DB::raw('*'))
+                    ->join('employees','it_participants.employee_id','=','employees.id')
+                    ->where('it_participants.internal_training_id','=',$training_id)
+                    ->where('it_participants.id','=',$participant_id)
+                    ->pluck('middle_initial');
+            
+            $pta = IT_Participant::select(DB::raw('*'))
+                    ->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+                    ->where('it_participants.internal_training_id','=',$training_id)
+                    ->where('participant_assessments.type','=',"pta")
+                    ->where('participant_assessments.it_participant_id', '=', $participant_id)
+                    ->avg('participant_assessments.rating');
+            
+            $ptatotal += $pta;
+
+            //post-training assessment
+                if($pta >= 4.5 && $pte_average <= 5)
+                {
+                    $ptaverbal = "Very Extensive Knowledge";
+                }
+                else if($pta >= 3.5 && $pte_average < 4.5)
+                {
+                    $ptaverbal = "Extensive Knowledge";
+                }
+                else if($pta >= 2.5 && $pte_average < 3.5)
+                {
+                    $ptaverbal = "Adequate Knowledge";
+                }
+                else if($pta >= 1.5 && $pte_average < 2.5)
+                {
+                    $ptaverbal = "Inadequate Knowledge";
+                }
+                else if($pta >= 0.5 && $pte_average < 1.5)
+                {
+                    $ptaverbal = "No Knowledge";
+                }
+
+                $pte = IT_Participant::select(DB::raw('*'))
+                    ->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+                    ->where('it_participants.internal_training_id','=',$training_id)
+                    ->where('participant_assessments.type','=',"pte")
+                    ->where('participant_assessments.it_participant_id', '=', $participant_id)
+                    ->avg('participant_assessments.rating');
+
+                $ptetotal += $pte;
+
+            //post-training assessment
+                if($pte >= 4.5 && $pte_average <= 5)
+                {
+                    $pteverbal = "Very Extensive Knowledge";
+                }
+                else if($pte >= 3.5 && $pte_average < 4.5)
+                {
+                    $pteverbal = "Extensive Knowledge";
+                }
+                else if($pte >= 2.5 && $pte_average < 3.5)
+                {
+                    $pteverbal = "Adequate Knowledge";
+                }
+                else if($pte >= 1.5 && $pte_average < 2.5)
+                {
+                    $pteverbal = "Inadequate Knowledge";
+                }
+                else if($pte >= 0.5 && $pte_average < 1.5)
+                {
+                    $pteverbal = "No Knowledge";
+                }
+
+                $count++;
+            
+            array_push($participants, array('last' => $lastname, 'given' => $givenname, 'mi' => $mi, 'pta' => $pta, 'ptaverbal' => $ptaverbal, 'pte' => $pte, 'pteverbal' => $pteverbal));
+        }
+
+        $overallpta = $ptatotal/$count;
+        $overallpte = $ptetotal/$count;
+
+        //pre-training assessment
+            if($overallpta >= 4.5 && $pte_average <= 5)
+            {
+                $overallptaverbal = "Very Extensive Knowledge";
+            }
+            else if($overallpta >= 3.5 && $pte_average < 4.5)
+            {
+                $overallptaverbal = "Extensive Knowledge";
+            }
+            else if($overallpta >= 2.5 && $pte_average < 3.5)
+            {
+                $overallptaverbal = "Adequate Knowledge";
+            }
+            else if($overallpta >= 1.5 && $pte_average < 2.5)
+            {
+                $overallptaverbal = "Inadequate Knowledge";
+            }
+            else if($overallpta >= 0.5 && $pte_average < 1.5)
+            {
+                $overallptaverbal = "No Knowledge";
+            }
+
+        //pre-training assessment
+            if($overallpte >= 4.5 && $pte_average <= 5)
+            {
+                $overallpteverbal = "Very Extensive Knowledge";
+            }
+            else if($overallpte >= 3.5 && $pte_average < 4.5)
+            {
+                $overallpteverbal = "Extensive Knowledge";
+            }
+            else if($overallpte >= 2.5 && $pte_average < 3.5)
+            {
+                $overallpteverbal = "Adequate Knowledge";
+            }
+            else if($overallpte >= 1.5 && $pte_average < 2.5)
+            {
+                $overallpteverbal = "Inadequate Knowledge";
+            }
+            else if($overallpte >= 0.5 && $pte_average < 1.5)
+            {
+                $overallpteverbal = "No Knowledge";
+            }
+
+        $overallaveratings = array();
+        array_push($overallaveratings, array('overallpta' => $overallpta, 'overallptaverbal' => $overallptaverbal, 'overallpte' => $overallpte, 'overallpteverbal' => $overallpteverbal));
 
         return View::make('reports.ter-report')
             ->with('internaltraining', $internaltraining)
@@ -559,13 +702,15 @@ class ReportsController extends \BaseController {
             ->with('pte_average', $pte_average)
             ->with('aae_verbal', $aae_verbal)
             ->with('pte_verbal', $pte_verbal)
-            ->with('ptaverbal', $ptaverbal)
+            ->with('pta_verbal', $pta_verbal)
             ->with('date_start', $date_start)
             ->with('date_end', $date_end)
             ->with('time_start_s', $time_start_s)
             ->with('time_end_s', $time_end_s)
             ->with('time_start_e', $time_start_e)
-            ->with('time_end_e', $time_end_e);
+            ->with('time_end_e', $time_end_e)
+            ->with('participants', $participants)
+            ->with('overallaveratings', $overallaveratings);
     }
 
 	/**

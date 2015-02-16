@@ -167,12 +167,13 @@
 	});	
 
 	$('#date_start').datepicker({
-		    format: 'yyyy-mm-dd'
-		});
+	 	    format: 'MM d, yyyy'
+	 	});
 
 	$('#date_end').datepicker({
-		    format: 'yyyy-mm-dd'
+		    format: 'MM d, yyyy'
 		});
+
 	$('#time_start_s').timepicker();
 	$('#time_end_s').timepicker();
 	$('#time_start_e').timepicker();

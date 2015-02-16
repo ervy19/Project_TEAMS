@@ -84,10 +84,10 @@
 							<th colspan="6"><u>Summary of Comments/Suggestions:</u></th>
 						</tr>
 						<tr>
-							<td colspan="6">{{ "Evaluation Narrative: " . $evaluation_and_recomendations_array["evaluation"]}}
+							<td colspan="6">{{ "Evaluation Narrative: " . $evaluation_and_recomendations_array["evaluation"] }}
 								<br>
 								<br>
-								{{"Recommendations: " . $evaluation_and_recomendations_array["recommendation"]}}
+								{{ "Recommendations: " . $evaluation_and_recomendations_array["recommendation"] }}
 							</td>
 						</tr>
 							<td></td>

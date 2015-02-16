@@ -167,6 +167,17 @@ class EmployeesController extends \BaseController {
 	{
 		$employees = Employee::find($id);
 
+		//Get employee details
+		$employee_details = array('employee_number' => $employees->employee_number, 
+									'last_name' => $employees->last_name, 
+									'given_name' => $employees->given_name, 
+									'middle_initial' => $employees->middle_initial,
+									'email' => $employees->email,
+									'age' => $employees->age,
+									'tenure' => $employees->tenure
+								);
+
+
 		//count the number of employee designations
         $currentCount = Employee_Designation::where('employee_id', '=', $id)->count();
 
@@ -208,7 +219,8 @@ class EmployeesController extends \BaseController {
 			->with('departments', $departments)
 			->with('campuses', $campuses)
 			->with('supervisors', $supervisors)
-			->with('selected_data', $selected_data); 
+			->with('selected_data', $selected_data)
+			->with('employee_details', $employee_details); 
 	}
 
 
