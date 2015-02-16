@@ -26,43 +26,43 @@
 
 				<div class="form-group">
 					{{ Form::label('employee_number','Employee Number: ') }}
-					{{ Form::text('employee_number') }}
+					{{ Form::text('employee_number', $employee_details["employee_number"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('employee_number') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('last_name','Last Name: ') }}
-					{{ Form::text('last_name') }}
+					{{ Form::text('last_name', $employee_details["last_name"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('last_name') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('given_name','Given Name: ') }}
-					{{ Form::text('given_name') }}
+					{{ Form::text('given_name', $employee_details["given_name"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('given_name') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('middle_initial','Middle Initial: ') }}
-					{{ Form::text('middle_initial') }}
+					{{ Form::text('middle_initial', $employee_details["middle_initial"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('middle_initial') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('email','Email Address: ') }}
-					{{ Form::text('email') }}
+					{{ Form::text('email', $employee_details["email"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('email') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('age','Age: ') }}
-					{{ Form::text('age') }}
+					{{ Form::text('age', $employee_details["age"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('age') }}
 				</div>
 
 				<div class="form-group">
 					{{ Form::label('tenure','Tenure: ') }}
-					{{ Form::text('tenure') }}
+					{{ Form::text('tenure', $employee_details["tenure"], array( 'class' => 'form-control')) }}
 					{{ $errors->first('tenure') }}
 				</div>
 
@@ -108,14 +108,17 @@
 		    count++;
 		    document.getElementById('count').value = count;
 		    newdiv.setAttribute('id', count);
-		    newdiv.innerHTML = 	"<h2>Employee Designation " + count + "</h2>" +
-		    					"<br><label>Designation Type:&nbsp</label><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Teaching'>Teaching</option><option value='Non-Teaching'>Non-Teaching</option> </select><br>" +
-		    					"<br><label>Campus:&nbsp</label><select id=" + (univID+1) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>School/College:&nbsp</label><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>Department:&nbsp</label><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-								"<br><label>Supervisor:&nbsp</label><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br>" +
-		    					"<br><label>Position:&nbsp</label><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br>" +
-								"<br><label>Rank:&nbsp</label><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br>"
+		    newdiv.innerHTML = 	"<table id='employee_designation_" + count + " class='table'>" +
+		    					"<thead> <tr> <td colspan='2'><h3>Employee Designation " + count + "</h3></td> </tr> </thead>" +
+		    					"<tbody>" +
+		    					"<tr><td><label>Designation Type:&nbsp</label></td><td><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Teaching'>Teaching</option><option value='Non-Teaching'>Non-Teaching</option> </select><br></td></tr>" +
+		    					"<tr><td><label>Campus:&nbsp</label></td><td><select id=" + (univID+1) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>School/College:&nbsp</label></td><td><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Department:&nbsp</label></td><td><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+								"<tr><td><label>Supervisor:&nbsp</label></td><td><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Position:&nbsp</label></td><td><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br></td></tr>" +
+								"<tr><td><label>Rank:&nbsp</label></td><td><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br></td></tr>" +
+								"</tbody></table>"
 								;
 			univID = univID + 7;
 		    document.getElementById(divName).appendChild(newdiv);
