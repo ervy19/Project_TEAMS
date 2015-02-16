@@ -150,42 +150,4 @@ class SkillsCompetenciesController extends \BaseController {
 
     	return Response::json(['success' => true]);
     }
-
-    public function summaryReport()
-    {
-    	$scs = SkillsCompetencies::where('isActive','=',true)->first();
-
-    	//Count number of active trainings
-    	$sc_count = SkillsCompetencies::where('isActive','=',true)->count();
-
-    	/*Compute for average number of SCs per training */
-    	$itsc_count = IT_Addressed_SC::where('isActive','=',true)->count();
-    	$etsc_count = ET_Addressed_SC::where('isActive','=',true)->count();
-
-    	$trainingsc_count = $itsc_count + $etsc_count;
-
-    	$scPerTraining = $trainingsc_count / (Training::where('isActive','=',true)->count());
-
-    	/*Compute for average number of SCs per department */
-
-    	$scPerDepartment = Department_SC::where('isActive','=',true)->count() / Department::where('isActive','=',true)->count();
-
-    	/*Compute for average number of SCs per position */
-
-    	$scPerPosition = Position_SC::where('isActive','=',true)->count() / Position::where('isActive','=',true)->count();
-
-    	if(Request::ajax()){
-            return Response::json(['data' => $scs]);
-        }
-        else
-        {
-        	return View::make('summary_reports.scs')
-            				->with('scs',$scs)
-            				->with('sc_count',$sc_count)
-            				->with('sctraining',$scPerTraining)
-            				->with('scdepartment',$scPerDepartment)
-            				->with('scposition',$scPerPosition);
-        }	
-    }
-
 }

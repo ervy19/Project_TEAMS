@@ -40,7 +40,6 @@
 									<tr>
 										<th>Title</th>
 										<th>Theme/Topic</th>
-										<th>Venue</th>
 										<th>Schedule</th>
 										<th>Organizer</th>
 										<th>Action</th>
@@ -52,7 +51,6 @@
 										<tr>
 											<td>{{ $value->title }}</td>
 											<td>{{ $value->theme_topic }}</td>
-											<td>{{ $value->venue }}</td>
 											<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
 											<td>{{ $value->name }}</td>
 											<td>
@@ -86,18 +84,16 @@
 				"aoColumnDefs": [
 				@if($isAdminHR)
 			      { "sWidth": "23%", "aTargets": [ 0 ] },
-			      { "sWidth": '15%', "aTargets": [ 1 ] },
-			      { "sWidth": '15%', "aTargets": [ 2 ] },
-			      { "sWidth": '15%', "aTargets": [ 3 ] },
-			      { "sWidth": '15%', "aTargets": [ 4 ] },
-			      { "sWidth": '17%', "aTargets": [ 5 ] }
+			      { "sWidth": '20%', "aTargets": [ 1 ] },
+			      { "sWidth": '20%', "aTargets": [ 2 ] },
+			      { "sWidth": '20%', "aTargets": [ 3 ] },
+			      { "sWidth": '17%', "aTargets": [ 4 ] }
 			    @else
-			      { "sWidth": "26%", "aTargets": [ 0 ] },
-			      { "sWidth": '17%', "aTargets": [ 1 ] },
-			      { "sWidth": '17%', "aTargets": [ 2 ] },
-			      { "sWidth": '15%', "aTargets": [ 3 ] },
-			      { "sWidth": '17%', "aTargets": [ 4 ] },
-			      { "sWidth": '8%', "aTargets": [ 5 ] }
+			      { "sWidth": "25%", "aTargets": [ 0 ] },
+			      { "sWidth": '20%', "aTargets": [ 1 ] },
+			      { "sWidth": '15%', "aTargets": [ 2 ] },
+			      { "sWidth": '20%', "aTargets": [ 3 ] },
+			      { "sWidth": '10%', "aTargets": [ 4 ] }
 			    @endif
 			    ]
 		    });

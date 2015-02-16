@@ -416,6 +416,14 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 }
 
 /****************************************
+    Training Summary Report
+****************************************/
+
+.it-summary .dashboard-stat {
+	margin-top: 5px;
+}
+
+/****************************************
     Skills&Competencies Summary Report
 ****************************************/
 

@@ -24,9 +24,15 @@ class PositionsController extends \BaseController {
 
 	        array_push($positions_array, array('id' => $id, 'title' => $title, 'count' => $count));
 		}
-		
-		return View::make('positions.index')
-			->with('positions_array', $positions_array);
+
+		if(Request::ajax()){
+			return Response::json(['data' => $positions]);
+		}
+		else
+		{
+			return View::make('positions.index')
+					->with('positions_array', $positions_array);
+		}
 	}
 
 
@@ -211,6 +217,24 @@ class PositionsController extends \BaseController {
         // redirect
         Session::flash('message', 'Successfully deleted Position!');
         return Redirect::to('positions');
+	}
+
+	public function neededSkillsCompetencies($id)
+	{
+		$position_scs = Position_SC::where('isActive','=',true)
+							->where('position_id','=',$id)
+							->get();
+
+		$needed_scs = array();
+
+		foreach ($position_scs as $key => $value) {
+			$sc = SkillsCompetencies::find($value->skills_competencies_id);
+			array_push($needed_scs, $sc);
+		}
+
+		if(Request::ajax()){
+			return Response::json(['success' => true, 'data' => $needed_scs]);
+		}
 	}
 
 }

@@ -694,15 +694,4 @@ class InternalTrainingsController extends \BaseController {
         Session::flash('message', 'Successfully deleted Internal Training!');
         return Redirect::to('internal_trainings');
 	}
-
-    public function summaryReport()
-    {
-        if(Request::ajax()){
-            //return Response::json(['data' => $scs]);
-        }
-        else
-        {
-            return View::make('summary_reports.trainings');
-        }
-    }
 }

@@ -249,5 +249,22 @@ class DepartmentsController extends \BaseController {
         return Redirect::to('departments');
 	}
 
+	public function neededSkillsCompetencies($id)
+	{
+		$department_scs = Department_SC::where('isActive','=',true)
+							->where('department_id','=',$id)
+							->get();
+
+		$needed_scs = array();
+
+		foreach ($department_scs as $key => $value) {
+			$sc = SkillsCompetencies::find($value->skills_competencies_id);
+			array_push($needed_scs, $sc);
+		}
+
+		if(Request::ajax()){
+			return Response::json(['success' => true,'data' => $needed_scs]);
+		}
+	}
 
 }

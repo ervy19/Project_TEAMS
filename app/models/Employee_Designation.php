@@ -8,7 +8,7 @@ class Employee_Designation extends Eloquent {
 
 	protected $guarded = 'id';
 
-	protected $appends = array('supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, required_scs');
+	protected $appends = array('supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, department_scs, position_scs');
 
 	public function campus() {
 		return $this->belongsTo('Campus');
@@ -127,29 +127,37 @@ class Employee_Designation extends Eloquent {
 		}
 	}
 
-	public function getRequiredScsAttribute()
+	public function getDepartmentScsAttribute()
 	{
 		$department_scs = Department_SC::where('isActive','=',true)
 							->where('department_id','=',$this->department_id)
 							->get();
 
-		$position_scs = Position_SC::where('isActive','=',true)
-							->where('position_id','=',$this->position_id)
-							->get();
-
-		$required_scs = $department_scs->union($position_scs);
-
-		if(!$required_scs->isEmpty())
+		if(!$department_scs->isEmpty())
 		{
-			return $required_scs;
+			return $department_scs;
 		}
 		else
 		{
 			return '';
 		}
-		
 	}
-	
+
+	public function getPositionScsAttribute()
+	{
+		$position_scs = Position_SC::where('isActive','=',true)
+							->where('position_id','=',$this->position_id)
+							->get();
+
+		if(!$position_scs->isEmpty())
+		{
+			return $position_scs;
+		}
+		else
+		{
+			return '';
+		}
+	}
 }
 
 ?>

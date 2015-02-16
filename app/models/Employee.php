@@ -8,7 +8,7 @@ class Employee extends Eloquent {
 
 	protected $guarded = 'id';
 
-	protected $appends = array('full_name');
+	protected $appends = array('full_name','designations');
 
 	public function getFullNameAttribute()
     {
@@ -25,6 +25,26 @@ class Employee extends Eloquent {
 
 	public function IT_attendance() {
 		return $this->belongsToMany('IT_Attendance');
+	}
+
+	public function getDesignationsAttribute()
+	{
+		$employee_designations = Employee_Designation::where('employee_id','=',$this->id)
+									->get();
+
+		if(!$employee_designations->isEmpty())
+		{
+			return $employee_designations;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
+	public function getCounttrainingsAttendedAttribute()
+	{
+
 	}
 }
 

@@ -200,7 +200,8 @@ Dashboard Stats
 .dashboard-stat {
   background: rgba(235,235,235,0.5);
   display: block;
-  margin-bottom: 25px;
+  margin-top: 25px;
+  margin-bottom: 10px;
   overflow: hidden;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;

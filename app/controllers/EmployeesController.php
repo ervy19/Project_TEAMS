@@ -276,6 +276,14 @@ class EmployeesController extends \BaseController {
         return Redirect::to('employees');
 	}
 
+	public function showTrainingReport($id)
+	{
+		$employee = Employee::find($id);
+
+		return View::make('summary_reports.employee_training')
+					->with('employee',$employee);
+	}
+
 	public function getEmployeeDesignation($id)
 	{
 		if(Request::ajax())

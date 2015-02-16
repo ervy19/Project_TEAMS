@@ -100,9 +100,9 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('dashboard', array('as' => 'dashboard', 'uses' => 'DashboardController@index'));
 
-	Route::get('summary_report/trainings', array('as' => 'summary_report.trainings', 'uses' => 'InternalTrainingsController@summaryReport'));
+	Route::get('summary_report/trainings', array('as' => 'summary_report.trainings', 'uses' => 'SummaryReportsController@trainingsReport'));
 
-	Route::get('summary_report/skills_competencies', array('as' => 'summary_report.skills_competencies', 'uses' => 'SkillsCompetenciesController@summaryReport'));
+	Route::get('summary_report/skills_competencies', array('as' => 'summary_report.skills_competencies', 'uses' => 'SummaryReportsController@scsReport'));
 
 
 	/*
@@ -190,7 +190,13 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('uploads','UploadsController');
 
 
+	Route::get('employees/{employee_id}/individual-training-report', array('as' => 'employees.individual_training_report', 'uses' => 'EmployeesController@showTrainingReport'));
+
 //Route::resource('speakers','SpeakersController');
+
+	Route::get('departments/{department_id}/needed-skills-competencies', array('as' => 'departments.needed_skills_competencies', 'uses' => 'DepartmentsController@neededSkillsCompetencies'));
+
+	Route::get('positions/{position_id}/needed-skills-competencies', array('as' => 'positions.needed_skills_competencies', 'uses' => 'PositionsController@neededSkillsCompetencies'));
 
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));

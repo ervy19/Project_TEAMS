@@ -201,13 +201,16 @@
 	        chart: {
 	        	marginTop: -50,
 	        	marginBottom: 0,
-	        	height: 200,
+	        	height: 300,
 	            plotBackgroundColor: null,
 	            plotBorderWidth: 0,
 	            plotShadow: false
 	        },
 	        title: {
 	            text: ''
+	        },
+	        credits: {
+	        	enabled: false
 	        },
 	        tooltip: {
 	            pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
