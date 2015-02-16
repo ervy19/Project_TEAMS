@@ -181,11 +181,11 @@
 	});
 
 	$('#date_start').datepicker({
-		    format: 'yyyy-mm-dd'
+		    format: 'MM d, yyyy'
 		});
 
 	$('#date_end').datepicker({
-		    format: 'yyyy-mm-dd'
+		    format: 'MM d, yyyy'
 		});
 
 	$('#time_start_s_edit').timepicker();

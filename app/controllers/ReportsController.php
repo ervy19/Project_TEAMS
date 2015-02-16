@@ -687,7 +687,6 @@ class ReportsController extends \BaseController {
         $overallaveratings = array();
         array_push($overallaveratings, array('overallpta' => $overallpta, 'overallptaverbal' => $overallptaverbal, 'overallpte' => $overallpte, 'overallpteverbal' => $overallpteverbal));
 
-
         return View::make('reports.ter-report')
             ->with('internaltraining', $internaltraining)
             ->with('internaltrainings', $internaltrainings)
