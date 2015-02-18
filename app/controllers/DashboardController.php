@@ -72,13 +72,17 @@ class DashboardController extends \BaseController {
 			}
 		}
 
+		$notifications = Notification::where('user_id','=',Auth::user()->id)
+							->get();
+
 		$name = $user->name;
 		
 		//$name = Auth::user()->username;
-
+		View::share('name',$name);
 		return View::make('dashboard.index')
 			->with('name',$name)
-			->with('role',$role);
+			->with('role',$role)
+			->with('notifications',$notifications);
 	}
 
 

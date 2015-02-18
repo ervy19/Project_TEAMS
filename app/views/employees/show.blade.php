@@ -109,8 +109,6 @@
 							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->department_name or 'Campus Name'}}</h5>
 						</div>
 					</div>
-				</div>
-				<div class="row employee-details">
 					<h6 class="employee-designation">Needed Skills and Competencies:</h6>
 					<div class="tags">
 					@foreach($value->department_scs as $k => $v)

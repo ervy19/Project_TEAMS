@@ -18,11 +18,11 @@ class UploadsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($internal_training_id)
 	{
-		$internaltrainings = Training::with('internal_training')->find($id);
-		$internaltraining = Training::where('id', '=', $id)->get();
-        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+		$internaltrainings = Training::with('internal_training')->find($internal_training_id);
+		$internaltraining = Training::where('id', '=', $internal_training_id)->get();
+        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $internal_training_id)->get();
         
         if (is_null($testresponse)) {
             $intent = "accomplish";
@@ -50,7 +50,7 @@ class UploadsController extends \BaseController {
 	 */
 	public function store($internal_training_id)
 	{
-		date_default_timezone_set('Asia/Calcutta'); 
+		date_default_timezone_set('Asia/Manila');
 		$currentTimeDate = date("Y-m-d H:i:s"); 
 
 		//excel file must contain 2 columns (employee_number & time)

@@ -294,6 +294,11 @@ h5.has-designation {
     Accomplish PTA/PTE
 **************************************/
 
+.training-assessment .training-details {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
 .pta-form, .pte-form {
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -317,6 +322,10 @@ h5.has-designation {
 	font-size: 1.2em;
 	letter-spacing: 0.5px;
 	text-align: justify;
+}
+
+.inline-block h6, .inline-block h5 {
+  display: inline-block;
 }
 
 .assessment-scale {
@@ -416,9 +425,26 @@ input[type="submit"].pta-form-btn, input[type="submit"].pte-form-btn {
 }
 
 /****************************************
+    Individual Employee Summary Report
+****************************************/
+.individual-training-summary .tags {
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.individual-training-summary .tags h3 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.individual-training-summary .dashboard-stat {
+	margin-top: 0px;
+	margin-bottom: 25px;
+}
+
+/****************************************
     Training Summary Report
 ****************************************/
-
 .it-summary .dashboard-stat {
 	margin-top: 5px;
 }

@@ -8,6 +8,22 @@ class Internal_Training extends Eloquent {
 
 	protected $guarded = 'training_id';
 
+	protected $appends = array('training_title');
+
+	public function getTrainingTitleAttribute()
+	{
+		$training = Training::find($this->training_id);
+
+		if(!$training->isEmpty())
+		{
+			return $training->title;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
 	public function department() {
 		return $this->belongsTo('Department');
 	}

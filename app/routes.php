@@ -125,7 +125,7 @@ Route::group(array('before' => 'auth'), function()
 	/*Participant Routes under Internal Trainings*/
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.index', 'uses' => 'ParticipantsController@index'));
 	Route::get('internal_trainings/{internal_trainings}/participants/{participant}/edit', array('as' => 'participants.edit', 'uses' => 'ParticipantsController@edit'));
-	Route::post('internal_trainings/{internal_trainings}/participants/store', array('as' => 'participants.store', 'uses' => 'ParticipantsController@store'));
+	Route::post('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.store', 'uses' => 'ParticipantsController@store'));
 	Route::put('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.update', 'uses' => 'ParticipantsController@update'));
 	Route::patch('internal_trainings/{internal_trainings}/participants/{participant}', array('uses' => 'ParticipantsController@update'));
 	Route::delete('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.destroy', 'uses' => 'ParticipantsController@destroy'));
@@ -150,6 +150,8 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
+
+
 	//Used for getting specific employee designation
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
 
@@ -159,6 +161,8 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
 	//End Upload Excel File Routes
+
+
 
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
@@ -191,6 +195,7 @@ Route::group(array('before' => 'auth'), function()
 
 
 	Route::get('employees/{employee_id}/individual-training-report', array('as' => 'employees.individual_training_report', 'uses' => 'EmployeesController@showTrainingReport'));
+	Route::get('employees/{employee_id}/individual-training-data', array('as' => 'employees.individual_training_data', 'uses' => 'SummaryReportsController@individualTrainingReport'));
 
 //Route::resource('speakers','SpeakersController');
 

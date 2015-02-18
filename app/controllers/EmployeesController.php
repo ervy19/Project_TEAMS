@@ -292,27 +292,41 @@ class EmployeesController extends \BaseController {
 	{
 		$employee = Employee::find($id);
 
+		$it_count = Internal_Training::join('it_participants','it_participants.internal_training_id','=','internal_trainings.training_id')
+						->where('it_participants.employee_id','=',$id)
+						->count();
+
+		$et_count = External_Training::join('employee_designations','external_trainings.designation_id','=','employee_designations.id')
+								->where('employee_designations.employee_id','=',$id)
+								->count();
+
 		return View::make('summary_reports.employee_training')
-					->with('employee',$employee);
+					->with('employee',$employee)
+					->with('itCount',$it_count)
+					->with('etCount',$et_count);
 	}
 
 	public function getEmployeeDesignation($id)
 	{
 		if(Request::ajax())
 		{
-			$employee_designations = Employee_Designation::select('*')
-									->join('positions','employee_designations.position_id','=','positions.id')
-									->where('employee_designations.isActive','=',true)
-									->get();
+			$employee_designations = Employee_Designation::where('employee_id','=',$id)
+										->where('isActive','=',true)
+										->get();
 
-			if ($employee_designations)
+			if (!$employee_designations->isEmpty())
 			{
-				return Response::json(['data' => $employee_designations]);
+				return Response::json(['hasDesignation' => true, 'data' => $employee_designations]);
 			}
 			else
 			{
-
+				return Response::json(['hasDesignation' => false]);
 			}			
 		}
+	}
+
+	public function getEmployeeTraininings($id)
+	{
+
 	}
 }

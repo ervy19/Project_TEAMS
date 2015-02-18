@@ -3,6 +3,40 @@
 class SummaryReportsController extends \BaseController {
 
 
+	public function individualTrainingReport($id)
+	{
+		$internal_trainings = IT_Participant::select(DB::raw('trainings.id,trainings.title'))
+						->join('trainings','it_participants.internal_training_id','=','trainings.id')
+						->where('it_participants.employee_id','=',$id)
+						->where('trainings.isActive','=',true)
+						->get();
+
+		$external_trainings = Training::select(DB::raw('trainings.id,trainings.title'))
+								->join('external_trainings','trainings.id','=','external_trainings.training_id')
+								->join('employee_designations','external_trainings.designation_id','=','employee_designations.id')
+								->where('employee_designations.employee_id','=',$id)
+								->where('trainings.isActive','=',true)
+								->get();
+
+		$trainings = array();
+
+		foreach ($internal_trainings as $key => $value) {
+			array_push($trainings, $value);
+		}
+
+		foreach ($external_trainings as $key => $value) {
+			array_push($trainings, $value);
+		}
+
+		usort($trainings, function($a, $b) {
+		    return $a['id'] - $b['id'];
+		});
+
+		if(Request::ajax()){
+			return Response::json(['data' => $trainings]);
+		}
+	}
+
 	public function trainingsReport()
 	{
 		$it_count = Internal_Training::where('isActive','=',true)->count();

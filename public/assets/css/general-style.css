@@ -458,11 +458,14 @@ table.dataTable.no-footer {
 
 .dropdown-menu {
     background: #FFF;
+    min-width: 225px;
+    padding: 0px;
 }
 
 .dropdown-menu>li>a {
     color: #777;
     padding: 4px 15px;
+    white-space: normal;
 }
 
 .navbar-default .navbar-nav>.active>a, 
@@ -494,6 +497,12 @@ table.dataTable.no-footer {
 
 .add-plus {
   margin-left: 5px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 150px;
+    overflow-x: hidden;
 }
 
 

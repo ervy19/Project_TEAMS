@@ -72,13 +72,12 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store($$training_id, $type)
+	public function store($training_id, $type)
 	{
 		if($type=="pta")
 			{
 				$rules = array(
-					'internaltraining' => 'required'
-					
+					'internaltraining' => 'required'		
 	        );
 
 	        $validator = Validator::make(Input::all(), $rules);
@@ -104,7 +103,7 @@ class TrainingAssessmentsController extends \BaseController {
 		        }        
 
 	            // redirect
-	            Session::flash('message', 'Successfully created Assessment Items!');
+	            Session::flash('message', 'Successfully accomplished PTA!');
 	            return Redirect::to('dashboard');
 			}
 		}
@@ -227,7 +226,8 @@ class TrainingAssessmentsController extends \BaseController {
 			$type = "pta";
 			$sectiontitle = "Accomplish Pre-Training Assessment";
 			$header = "Pre-Training Assessment";
-			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->lists('name');
+			$participant = IT_Participant::find($participant_id);
+			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
 			$assessmentresponse = Assessment_Response::where('isActive', '=', true)->where('participant_assessment_id', '=', $participant_id)->get();
 			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('id', '=', $participant_id)->get();
 			$itemcount = count($assessmentitems);
@@ -237,14 +237,15 @@ class TrainingAssessmentsController extends \BaseController {
 			$internaltraining = Internal_Training::select(DB::raw('*'))
 								->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
 								->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
+								->where('internal_trainings.training_id','=',$id)
 								->where('internal_trainings.isActive', '=', true)
-								->groupBy('internal_trainings.training_id')
-								->get();
+								->first();
 
 			return View::make('training_assessments.accomplish')
 				->with('internaltraining', $internaltraining)
 				->with('assessmentitems', $assessmentitems)
 				->with('assessmentresponse', $assessmentresponse)
+				->with('participant',$participant)
 				->with('participantassessment', $participantassessment)
 				->with('participant_id', $participant_id)
 				->with('itemcount', $itemcount)
@@ -258,25 +259,28 @@ class TrainingAssessmentsController extends \BaseController {
 			$type = "pte";
 			$sectiontitle = "Accomplish Post-Training Evaluation";
 			$header = "Post-Training Evaluation";
-			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->lists('name');
-			$assessmentresponse = Participant_Assessment::where('isActive', '=', true)->where('it_participant_id', '=', $participant_id)->get();
+			$participant = IT_Participant::find($participant_id);
+			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+			$assessmentresponse = Assessment_Response::where('isActive', '=', true)->where('participant_assessment_id', '=', $participant_id)->get();
 			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('id', '=', $participant_id)->get();
 			$itemcount = count($assessmentitems);
 
-	        $intent = "accomplish";
+			$intent = "accomplish";
 
 			$internaltraining = Internal_Training::select(DB::raw('*'))
 								->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
 								->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
+								->where('internal_trainings.training_id','=',$id)
 								->where('internal_trainings.isActive', '=', true)
-								->groupBy('internal_trainings.training_id')
-								->get();
+								->first();
 
 			return View::make('training_assessments.accomplish')
 				->with('internaltraining', $internaltraining)
 				->with('assessmentitems', $assessmentitems)
 				->with('assessmentresponse', $assessmentresponse)
+				->with('participant',$participant)
 				->with('participantassessment', $participantassessment)
+				->with('participant_id', $participant_id)
 				->with('itemcount', $itemcount)
 				->with('header', $header)
 				->with('sectiontitle', $sectiontitle)

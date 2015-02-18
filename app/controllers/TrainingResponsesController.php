@@ -30,111 +30,102 @@ class TrainingResponsesController extends \BaseController {
 	 */
 	public function store($training_id, $type, $participant_id)
 	{
-		if($type=="pta")
-			{
-				$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
-				$rules = array(
-					
-					);
+			$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->get();
+			$rules = ['remarks' => 'required'];
+
+			foreach ($itemname as $key => $value) {
+					$rules += [$value->id  => 'required'];
+			};
+
+			//dd($rules);
 
 	        $validator = Validator::make(Input::all(), $rules);
 
 	        // process the login
 	        if ($validator->fails()) {
-	            return Redirect::to('internal_trainings/'.$id.'/pta/accomplish')
+	            return Redirect::to('internal_trainings/'.$training_id.'/pta/accomplish/'.$participant_id)
 	                ->withErrors($validator)
 	                ->withInput();
 	        } 
 	        else {
 	            // store
+	        	
+	        	if($type=='pte')
+	            {
+	            	$participant_assessment = new Participant_Assessment;
+	            	$participant_assessment->type = 'pte';
+	            	$participant_assessment->it_participant_id = $participant_id;
+	            	$participant_assessment->save();
+	            }
 
-	        	$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
+	            $participant_assessment = Participant_Assessment::where('it_participant_id','=',$participant_id)
+	            								->where('type','=',$type)
+	            								->first();
+	        	
+	        	$totalRating = 0;
 
-	        	$participant_assessment = new Participant_Assessment;
-	        	$participant_assessment->type = $type;
-	        	$participant_assessment->rating = null;
-	        	$participant_assessment->verbal_interpretation = Input::get('verbalinterpretation');
-	        	$participant_assessment->remarks = Input::get('remarks');
-	        	$participant_assessment->it_participant_id = $participant_id;
-	        	$participant_assessment->save();
-
-	        	$rating = 0;
+	        	//dd($itemname);
 
 	        	foreach ($itemname as $key => $value)
-	        	{
+	        	{	        		
 	            	$response = new Assessment_Response;
-	            	$response->name = $value;
-	            	$response->rating = Input::get($value);
-	            	$rating += $response->rating;
+	            	$response->name = $value->name;
+	            	$response->rating = Input::get($value->id);
+	            	$totalRating += $response->rating;
 	            	$response->participant_assessment_id = $participant_assessment->id;
 		            $response->save();
 		        }
 
-		        $itemnameCount = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->count();
+		        $rating = $totalRating/(count($itemname));
 
-		        $participant_assessment = Participant_Assessment::find($participant_assessment->id);
-		        $participant_assessment->rating = $rating/$itemnameCount;
-		        $participant_assessment->save();
+	        	$participant_assessment->rating = $rating;
 
+	        	if($rating <= 5 && $rating >= 4.5)
+	        	{
+	        		$participant_assessment->verbal_interpretation = 'Excellent';
+	        	}
+	        	else if($rating < 4.5 && $rating >= 3.5)
+	        	{
+	        		$participant_assessment->verbal_interpretation = 'Very Good';
+	        	}
+	        	else if($rating < 3.5 && $rating >= 2.5)
+	        	{
+	        		$participant_assessment->verbal_interpretation = 'Good';
+	        	}
+	        	else if($rating < 2.5 && $rating >= 1.5)
+	        	{
+	        		$participant_assessment->verbal_interpretation = 'Fair';
+	        	}
+	        	else if($rating < 1.5)
+	        	{
+	        		$participant_assessment->verbal_interpretation = 'Poor';
+	        	}
+	        	else
+	        	{
+	     	        $participant_assessment->verbal_interpretation = 'None';
+	        	}
 
-	            // redirect
-	            Session::flash('message', 'Successfully recorded participant response!');
-	            return Redirect::to('dashboard');
-			}
-		}
-
-		elseif($type=="pte")
-		{
-			$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
-				$rules = array(
-					
-					);
-
-	        $validator = Validator::make(Input::all(), $rules);
-
-	        // process the login
-	        if ($validator->fails()) {
-	            return Redirect::to('internal_trainings/'.$id.'/pte/accomplish')
-	                ->withErrors($validator)
-	                ->withInput();
-	        } 
-	        else {
-	            // store
-
-	        	$itemname = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->lists('name');
-
-	        	$participant_assessment = new Participant_Assessment;
-	        	$participant_assessment->type = $type;
-	        	$participant_assessment->rating = null;
-	        	$participant_assessment->verbal_interpretation = Input::get('verbalinterpretation');
 	        	$participant_assessment->remarks = Input::get('remarks');
 	        	$participant_assessment->it_participant_id = $participant_id;
 	        	$participant_assessment->save();
 
-	        	$rating = 0;
-
-	        	foreach ($itemname as $key => $value)
-	        	{
-	            	$response = new Assessment_Response;
-	            	$response->name = $value;
-	            	$response->rating = Input::get($value);
-	            	$rating += $response->rating;
-	            	$response->participant_assessment_id = $participant_assessment->id;
-		            $response->save();
-		        }
-
-		        $itemnameCount = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->count();
-
-		        $participant_assessment = Participant_Assessment::find($participant_assessment->id);
-		        $participant_assessment->rating = $rating/$itemnameCount;
-		        $participant_assessment->save();
-
+	        	$notification = Notification::where('type','=',$type)
+	        						->where('user_id','=',Auth::user()->id)
+	        						->where('training_link','=',$training_id)
+	        						->where('participant_link','=',$participant_id)
+	        						->delete();
 
 	            // redirect
-	            Session::flash('message', 'Successfully recorded participant response!');
+	            if($type=='pta')
+	            {
+	            	Session::flash('message', 'Successfully recorded PTA!');
+	            }
+	            else if($type=='pte')
+	            {
+	            	Session::flash('message', 'Successfully recorded PTE!');
+	            }
 	            return Redirect::to('dashboard');
 			}
-		}
 	}
 
 

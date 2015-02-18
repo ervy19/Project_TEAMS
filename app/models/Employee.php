@@ -42,10 +42,20 @@ class Employee extends Eloquent {
 		}
 	}
 
-	public function getCounttrainingsAttendedAttribute()
+	/*public function getTrainingsAttendedAttribute()
 	{
 
-	}
+
+
+		if(!$->isEmpty())
+		{
+			return $;
+		}
+		else
+		{
+			return '';
+		}
+	}*/
 }
 
 ?>
