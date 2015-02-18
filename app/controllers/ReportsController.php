@@ -787,7 +787,62 @@ class ReportsController extends \BaseController {
             ->with('et_attended', $et_attended)
             ->with('emp_details', $emp_details)
             ->with('emp_desig_details', $emp_desig_details);
- 
-        //return PDF::load($html, 'A4', 'portrait')->download('my_pdf');  
+    }
+
+    public function downloadTrainingLog($id)
+    {
+        //get employee details
+        $emp_details = Employee::where('id', '=', $id)->get();
+
+        //get employee designation details
+        $desig_id = Employee_Designation::where('employee_id', '=', $id)->first();
+        $emp_desig_details = array();
+
+        try {
+            array_push($emp_desig_details, $desig_id->type);
+            array_push($emp_desig_details, Campus::where('id', '=', $desig_id->campus_id)->pluck('name'));
+            array_push($emp_desig_details, School_College::where('id', '=', $desig_id->schools_colleges_id)->pluck('name'));
+            array_push($emp_desig_details, Department::where('id', '=', $desig_id->department_id)->pluck('name'));
+
+
+
+                //Get all internal trainings of the employee
+                $it_attended = Training::select(DB::raw('*'))
+                            ->leftJoin('it_participants', 'it_participants.internal_training_id', '=', 'trainings.id')
+                            ->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'it_participants.internal_training_id')
+                            ->leftJoin('schools_colleges', 'schools_colleges.id','=','internal_trainings.organizer_schools_colleges_id')
+                            //->leftJoin('departments', 'departments.id', '=', 'internal_trainings.organizer_department_id')
+                            ->leftJoin('training_schedules', 'training_schedules.training_id', '=', 'trainings.id')
+                            ->where('training_schedules.isStartDate', '=', 1)
+                            ->where('it_participants.employee_id', '=', $id)
+                            ->where('trainings.isInternalTraining', '=', 1)
+                            ->where('trainings.isActive', '=', 1)
+                            ->get();
+
+                //get all external trainings of the employee
+                $et_attended = Training::select(DB::raw('*'))
+                            ->leftJoin('external_trainings', 'external_trainings.training_id', '=', 'trainings.id')
+                            ->leftJoin('employee_designations', 'employee_designations.id', '=', 'external_trainings.designation_id')
+                            ->leftJoin('training_schedules', 'training_schedules.et_id', '=', 'external_trainings.training_id')
+                            ->where('training_schedules.isStartDate', '=', 1)
+                            ->where('employee_designations.employee_id', '=', $id)
+                            ->where('trainings.isActive', '=', true)
+                            ->where('trainings.isInternalTraining', '=', 0)
+                            ->get();
+        }
+        catch (Exception $e) {
+            Session::flash('error', 'Employee has no designations');
+            return Redirect::to('employees');
+        }
+
+        $data = array(
+            'it_attended' => $it_attended,
+            'et_attended' => $et_attended,
+            'emp_details' => $emp_details,
+            'emp_desig_details' => $emp_desig_details
+            );
+
+        $pdf = PDF::loadView('reports.training-log', $data);
+        return $pdf->download('training_log.pdf');
     }
 }

@@ -64,6 +64,8 @@ Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-
 
 Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
 
+Route::get('employees/{id}/training-log-download', array('as' => 'employees.training-log-download', 'uses' => 'ReportsController@downloadTrainingLog'));
+
 
 /*
 |--------------------------------------------------------------------------
