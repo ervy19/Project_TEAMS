@@ -9,9 +9,9 @@
 @stop
 
 @section('content')
-<!--<a class="btn btn-primary" align="left">Export to PDF</a>-->
+<!--<href class="btn btn-primary" align="left" onClick="download()">Export to PDF</href>-->
 <div class="col-sm-12 col-md-12">
-	<div class="panel">
+	<div id="training-log-content" class="panel">
 		<div class="row">
 		<div class="panel-heading">
 			<div align="center">

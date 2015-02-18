@@ -9,7 +9,7 @@
 		"zizaco/confide": "~4.0@dev",
 		"zizaco/entrust": "1.2.*@dev",
 		"maatwebsite/excel": "~1.2.1",
-		"thujohn/pdf": "~1.0"
+		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
 		"classmap": [
