@@ -79,7 +79,7 @@
 					</p>
 
 					@if ($type === "pta")
-							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $training_id, $type, $participant_id), 'method' => 'POST')) }}
 
 							<table class="table">
 								<thead>
@@ -117,7 +117,7 @@
 							{{ Form::close() }}					    
 							
 					@elseif ($type === "pte")
-							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $training_id, $type, $participant_id), 'method' => 'POST')) }}
 
 							<table class="table">
 								<thead>

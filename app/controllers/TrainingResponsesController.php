@@ -70,8 +70,7 @@ class TrainingResponsesController extends \BaseController {
 		            $response->save();
 		        }
 
-		        $itemnameCount = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->count();
-
+		        $itemnameCount = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->count();
 		        $participant_assessment = Participant_Assessment::find($participant_assessment->id);
 		        $participant_assessment->rating = $rating/$itemnameCount;
 		        $participant_assessment->save();
@@ -123,8 +122,7 @@ class TrainingResponsesController extends \BaseController {
 		            $response->save();
 		        }
 
-		        $itemnameCount = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $training_id)->count();
-
+		        $itemnameCount = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->count();
 		        $participant_assessment = Participant_Assessment::find($participant_assessment->id);
 		        $participant_assessment->rating = $rating/$itemnameCount;
 		        $participant_assessment->save();

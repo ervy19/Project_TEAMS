@@ -25,7 +25,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create($training_id, $type)
+	public function create($type)
 	{
 		if($type=="pta")
 		{
@@ -72,7 +72,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store($$training_id, $type)
+	public function store($type)
 	{
 		if($type=="pta")
 			{
@@ -241,6 +241,8 @@ class TrainingAssessmentsController extends \BaseController {
 								->groupBy('internal_trainings.training_id')
 								->get();
 
+			$training_id = $id;
+
 			return View::make('training_assessments.accomplish')
 				->with('internaltraining', $internaltraining)
 				->with('assessmentitems', $assessmentitems)
@@ -251,7 +253,9 @@ class TrainingAssessmentsController extends \BaseController {
 				->with('header', $header)
 				->with('sectiontitle', $sectiontitle)
 				->with('type', $type)
-				->with('intent', $intent);
+				->with('intent', $intent)
+				->with('participant_id', $participant_id)
+				->with('training_id', $training_id);
 		}
 		elseif($type=="pte")
 		{
@@ -272,6 +276,8 @@ class TrainingAssessmentsController extends \BaseController {
 								->groupBy('internal_trainings.training_id')
 								->get();
 
+			$training_id = $id;
+
 			return View::make('training_assessments.accomplish')
 				->with('internaltraining', $internaltraining)
 				->with('assessmentitems', $assessmentitems)
@@ -281,7 +287,9 @@ class TrainingAssessmentsController extends \BaseController {
 				->with('header', $header)
 				->with('sectiontitle', $sectiontitle)
 				->with('type', $type)
-				->with('intent', $intent);
+				->with('intent', $intent)
+				->with('participant_id', $participant_id)
+				->with('training_id', $training_id);
 		}
 
 	}

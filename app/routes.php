@@ -19,6 +19,12 @@ Route::get('login', function()
 	return View::make('login');
 });
 
+Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
+
+Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
+
+Route::get('ter-report', array('as' => 'reports.get-ter-report', 'uses' => 'ReportsController@terReport'));
+
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('confirm-external-training', array('as' => 'external_trainings.confirmQueue', 'uses' => 'ExternalTrainingsController@confirmQueue'));
@@ -26,7 +32,6 @@ Route::post('confirm-external-training', array('as' => 'external_trainings.confi
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
 Route::post('back-external-training', array('as' => 'external_trainings.backDetails', 'uses' => 'ExternalTrainingsController@backDetails'));
-
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +65,8 @@ Route::get('reports/pta-report/{internal_training}', array('as' => 'reports.pta-
 
 Route::get('reports/pte-report/{internal_training}', array('as' => 'reports.pte-report', 'uses' => 'ReportsController@pteReport'));
 
-Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
 
-Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
+
 
 Route::get('employees/{id}/training-log-download', array('as' => 'employees.training-log-download', 'uses' => 'ReportsController@downloadTrainingLog'));
 
