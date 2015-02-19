@@ -156,6 +156,8 @@
       $("#schoolorganizer").select2();
       $("#departmentorganizer").select2();
       $("#skills_competencies_itraining_edit").select2();
+      $("#skills_competencies_credit").select2();
+      $("#skills_competencies_et_edit").select2();
     </script>
     
     @yield('page_js')

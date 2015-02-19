@@ -109,7 +109,7 @@
 				      		@endforeach
 			      		</select>
 			    	</div>
-			    	<input type="hidden" name="scit" id="scit">
+			    	<input type="text" name="scit" id="scit">
 					<input type="hidden" name="countbox" id="countbox">
 			    	<br>
 
