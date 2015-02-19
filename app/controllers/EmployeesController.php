@@ -123,7 +123,7 @@ class EmployeesController extends \BaseController {
 
 		$designations = Employee_Designation::where('isActive', '=', true)
 								->where('employee_id','=',$id)
-								->get();
+								->first();
         $hasDesignations = false;
         //Get all internal trainings of the employee
         /*$it_attended = Training::select(DB::raw('*'))
@@ -303,6 +303,7 @@ class EmployeesController extends \BaseController {
 					$employee_designation[$i-1]->save();
 				}
 			}
+
             // redirect
             Session::flash('message', 'Successfully updated the Employee!');
             return Redirect::to('employees');

@@ -200,6 +200,10 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('positions/{position_id}/needed-skills-competencies', array('as' => 'positions.needed_skills_competencies', 'uses' => 'PositionsController@neededSkillsCompetencies'));
 
+	Route::get('internal_trainings/{internal_trainings}/participants/upload', array('as' => 'internal_trainings.upload-participants', 'uses' => 'UploadsController@createParticipant'));
+
+	Route::post('internal_trainings/{internal_trainings}/participants/upload', array('as' => 'internal_trainings.participants-store', 'uses' => 'UploadsController@storeParticipant'));
+
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 

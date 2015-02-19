@@ -72,7 +72,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store($$training_id, $type)
+	public function store($training_id, $type)
 	{
 		if($type=="pta")
 			{
