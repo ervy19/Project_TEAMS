@@ -76,9 +76,6 @@ Route::get('employees/{id}/training-log-download', array('as' => 'employees.trai
 |
 */
 
-Route::get('users/create', 'UsersController@create');
-Route::get('users', 'UsersController@index');
-Route::post('users', 'UsersController@store');
 Route::get('login', 'UsersController@login');
 Route::post('login', 'UsersController@doLogin');
 Route::get('users/confirm/{code}', 'UsersController@confirm');
@@ -172,6 +169,12 @@ Route::group(array('before' => 'auth'), function()
 	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));
 
+
+	Route::get('users/create', 'UsersController@create');
+	Route::get('users', 'UsersController@index');
+	Route::post('users', 'UsersController@store');
+
+	Route::resource('roles','RolesController');
 
 	Route::resource('employees','EmployeesController');
 

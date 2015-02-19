@@ -59,7 +59,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge badge-default">2</span><i class="fa fa-inbox fa-lg"></i>&nbsp;&nbsp;Notifications</a>
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge badge-default">{{ $notifications_count or '' }}</span><i class="fa fa-inbox fa-lg"></i>&nbsp;&nbsp;Notifications</a>
               <ul id="notifications" class="dropdown-menu scrollable-menu" role="menu">
                 @if(isset($notifications))
                   @if(!$notifications->isEmpty())
@@ -78,7 +78,7 @@
                     <li><a><center><b>You don't have new notifications</b></center></a></li>
                   @endif
                 @else
-                  <li><a>TEST!!!</a></li>
+                  <li><a><center><b>You don't have new notifications</b></center></a></li>
                 @endif
               </ul>
             </li>

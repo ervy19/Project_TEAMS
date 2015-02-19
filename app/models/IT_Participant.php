@@ -6,7 +6,7 @@ class IT_Participant extends Eloquent {
 
 	protected $fillable = array('id', 'employee_id', 'employee_designation_id', 'internal_training_id', 'isActive');
 
-	protected $appends = array('employee_name','position_title','supervisor_name','has_pta','attended','has_pte','requirement_statuses');
+	protected $appends = array('employee_name','position_title','supervisor_name','has_pta','attended','has_pte','requirement_statuses','training_scs');
 
 	public function getEmployeeNameAttribute()
 	{
@@ -150,6 +150,23 @@ class IT_Participant extends Eloquent {
 
 		return $requirementStatus;
 
+	}
+
+	public function getTrainingScsAttribute()
+	{
+		$scs = IT_Addressed_SC::where('internal_training_id','=',$this->internal_training_id)
+					->where('isActive','=',true)
+					->get();
+
+		if(!$scs->isEmpty())
+		{
+
+			return $scs;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	public function employee() {

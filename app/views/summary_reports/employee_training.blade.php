@@ -88,7 +88,12 @@
                             </div>
                             <div class="details">
                                 <div class="number">
-                                     10
+                                     @if(isset($averagePTA))
+                                        {{ round($averagePTA->average_score,2)}}
+                                    @else
+                                        0
+                                    @endif
+                                    &nbsp;/&nbsp;<span class="over">5.0</span>
                                 </div>
                                 <div class="desc">
                                      Average PTA Rating
@@ -103,7 +108,12 @@
                             </div>
                             <div class="details">
                                 <div class="number">
-                                     10
+                                    @if(isset($averagePTE))
+                                        {{ round($averagePTE->average_score,2)}}
+                                    @else
+                                        0
+                                    @endif
+                                    &nbsp;/&nbsp;<span class="over">5.0</span>
                                 </div>
                                 <div class="desc">
                                      Average PTE Rating
@@ -146,12 +156,29 @@
 @section('page_js')
 	<script type="text/javascript">
 		$(document).ready( function () {
-
+            var x;
             var table = $('#tb-trainings-scs').dataTable({
                 "ajax": "{{ URL::to('employees') }}/{{ $employee->id }}/individual-training-data",
                 "columns": [
                     { "data": "title" },
-                    { "data": "title" },
+                    { "data": "training_scs",
+                        "render": function ( data, type, full, meta ) {
+                            var scs = '';
+                            if(data)
+                            {
+                                $.each(data, function(element, index){
+                                    scs += '<span class="tags label label-primary">'+index.name+'</span>';
+                                });
+                            }
+                            else
+                            {
+                                scs += 'No skills/competencies tagged'
+                            }
+                            
+
+                            return scs;
+                        }
+                    },
                     { "data": "requirement_statuses",
                       "render": function ( data, type, full, meta ) {
                         if(data)
@@ -200,13 +227,12 @@
                     }
                 ],
                   "aoColumnDefs": [
-                  { "sWidth": "20%", "aTargets": [ 0 ] },
-                  { "sWidth": '50%', "aTargets": [ 1 ] },
-                  { "sWidth": '25%', "aTargets": [ 2 ] },
+                  { "sWidth": "30%", "aTargets": [ 0 ] },
+                  { "sWidth": '45%', "aTargets": [ 1 ] },
+                  { "sWidth": '20%', "aTargets": [ 2 ] },
                   { "sWidth": '5%', "aTargets": [ 3 ] }
                 ]
             });
-
 		});
 	</script>
 @stop

@@ -246,19 +246,19 @@
 								table.fnDestroy();
 
 								table = $('#tb-it_participants').dataTable({
-							        "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
-							        "columns": [
-							            { "data": "employee_name" },
-							            { "data": "position_title" },
-							            { "data": "supervisor_name" },
-							            { "data": "requirement_statuses",
-							              "render": function ( data, type, full, meta ) {
+								    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
+								    "columns": [
+								        { "data": "employee_name" },
+								        { "data": "position_title" },
+								        { "data": "supervisor_name" },
+								        { "data": "requirement_statuses",
+									        "render": function ( data, type, full, meta ) {
 							              	if(data)
 							              	{
 							              		var status = '';
 							              		if(data[0])
 							              		{
-							              			status += '<span class="label label-danger">Has PTA</span>&nbsp;';
+							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
 							              		}
 							              		else
 							              		{
@@ -267,7 +267,7 @@
 
 							              		if(data[1])
 							              		{
-							              			status += '<span class="label label-danger">Has Attended</span>&nbsp;';
+							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
 							              		}
 							              		else
 							              		{
@@ -276,7 +276,7 @@
 
 							              		if(data[2])
 							              		{
-							              			status += '<span class="label label-danger">Has PTE</span>';
+							              			status += '<span class="label label-success">Has PTE</span>';
 							              		}
 							              		else
 							              		{

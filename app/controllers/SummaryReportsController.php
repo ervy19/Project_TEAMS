@@ -5,14 +5,14 @@ class SummaryReportsController extends \BaseController {
 
 	public function individualTrainingReport($id)
 	{
-		$internal_trainings = IT_Participant::select(DB::raw('trainings.id,trainings.title'))
+		$internal_trainings = IT_Participant::select(DB::raw('*'))
 						->join('trainings','it_participants.internal_training_id','=','trainings.id')
 						->where('it_participants.employee_id','=',$id)
 						->where('trainings.isActive','=',true)
 						->get();
 
-		$external_trainings = Training::select(DB::raw('trainings.id,trainings.title'))
-								->join('external_trainings','trainings.id','=','external_trainings.training_id')
+		$external_trainings = External_Training::select(DB::raw('*'))
+								->join('trainings','external_trainings.training_id','=','trainings.id')
 								->join('employee_designations','external_trainings.designation_id','=','employee_designations.id')
 								->where('employee_designations.employee_id','=',$id)
 								->where('trainings.isActive','=',true)
@@ -28,9 +28,9 @@ class SummaryReportsController extends \BaseController {
 			array_push($trainings, $value);
 		}
 
-		usort($trainings, function($a, $b) {
+		/*usort($trainings, function($a, $b) {
 		    return $a['id'] - $b['id'];
-		});
+		});*/
 
 		if(Request::ajax()){
 			return Response::json(['data' => $trainings]);

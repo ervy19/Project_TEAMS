@@ -28,8 +28,7 @@ class Participant_Assessment extends Eloquent {
 		{
 			return false;
 		}
-	}
-	
+	}	
 }
 
 ?>

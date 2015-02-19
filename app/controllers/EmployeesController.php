@@ -333,12 +333,26 @@ class EmployeesController extends \BaseController {
 								->where('employee_designations.employee_id','=',$id)
 								->count();
 
-		//dd($employee->designations);
+		$average_pta = IT_Participant::select('it_participants.*', DB::raw('avg(participant_assessments.rating) AS average_score'))
+							->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+							->groupBy('participant_assessments.rating')
+							->where('it_participants.employee_id','=',$id)
+							->where('participant_assessments.type','=','pta')
+							->first();
+
+		$average_pte = IT_Participant::select('it_participants.*', DB::raw('avg(participant_assessments.rating) AS average_score'))
+							->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+							->groupBy('participant_assessments.rating')
+							->where('it_participants.employee_id','=',$id)
+							->where('participant_assessments.type','=','pte')
+							->first();
 
 		return View::make('summary_reports.employee_training')
 					->with('employee',$employee)
 					->with('itCount',$it_count)
-					->with('etCount',$et_count);
+					->with('etCount',$et_count)
+					->with('averagePTA',$average_pta)
+					->with('averagePTE',$average_pte);
 	}
 
 	public function getEmployeeDesignation($id)
@@ -358,10 +372,5 @@ class EmployeesController extends \BaseController {
 				return Response::json(['hasDesignation' => false]);
 			}			
 		}
-	}
-
-	public function getEmployeeTraininings($id)
-	{
-
 	}
 }
