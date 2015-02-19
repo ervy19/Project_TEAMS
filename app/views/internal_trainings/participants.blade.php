@@ -33,9 +33,15 @@
 				<button type="button" id="btn-add-participant" class="btn btn-primary" data-toggle="modal" data-target="#addParticipant">
 					Add Participant<i class="fa fa-plus fa-lg add-plus"></i>
 				</button>
-
+				<button type="button" id="btn-add-participant" class="btn btn-primary">
+					Upload List of Participants
+				</button>
+				<button type="button" id="btn-add-participant" class="btn btn-primary">
+					Upload Attendees
+				</button>
 				<br><br>
 			@endif
+				<div class="message-log"></div>
 				<table id="tb-it_participants" class="table table-bordered">
 					<thead>
 						<tr>
@@ -92,7 +98,7 @@
 	      		</div>
 	    		<div class="modal-footer">
 	        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-	        		<button type="button" id="btn-add-participant" class="btn btn-primary ">Add</button>
+	        		<button type="submit" id="btn-participant" class="btn btn-primary ">Add</button>
 	        					{{ Form::close() }}
 	      		</div>
 	    	</div>
@@ -131,98 +137,48 @@
 		$(document).ready( function () {
 
 		    var table = $('#tb-it_participants').dataTable({
-		        "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
-		        "columns": [
-		            { "data": "employee_name" },
-		            { "data": "position_title" },
-		            { "data": "supervisor_id" },
-		            { "data": "has_pta",
-		              "render": function ( data, type, full, meta ) {
-		              	if(data)
-		              	{
-		              		return '<span class="label label-success">Has PTA</span>';
-		              	}
-		              	else
-		              	{
-		              		return '<span class="label label-danger">No PTA Yet</span>';
-		              	}
-		              } 
-		        	},
-		            { 
-		            	"data": "id",
-		            	"render": function ( data, type, full, meta ) {
-		            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
-						}
-		        	}
-		        ],
-		          "aoColumnDefs": [
-			      { "sWidth": "25%", "aTargets": [ 0 ] },
-			      { "sWidth": '18%', "aTargets": [ 1 ] },
-			      { "sWidth": '20%', "aTargets": [ 2 ] },
-			      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
-			      { "sWidth": '15%', "aTargets": [ 4 ] }
-			    ]
-			});
-
-		    $("#dd-employees").select2({
-			    allowClear: true
-			});
-
-			$("#dd-employee_designation").select2({
-			    allowClear: true
-			});
-
-			$('#dd-employees').change(function(){
-		        var employee_id = $(this).val();
-		        $.get('{{ URL::to('') }}/internal_trainings/participants/'+employee_id, function(data){
-		            $.each(data.data, function(element, index){
-		                $('#dd-employee_designation').append('<option value="'+index.id+'">'+index.title+'</option>')
-		            });
-		        }, 'json');
-		    });
-
-
-
-
-			$('form[data-add]').on('submit', function (e) {
-
-					e.preventDefault();
-
-					var form = $(this);
-					var method = form.find('input[name="method"]').val() || 'POST';
-					var url = form.prop('action');	
-
-					var training_id = {{ $internal_training->id }};
-
-					$('.message-log').empty();
-
-					$.ajax({
-						type: method,
-						url: url + '/' + training_id + '/participants/store',
-						data: form.serialize(),
-						success: function(data) {
-							if(data.success)
-							{
-								$('#addParticipant').modal('hide');
-								$('.message-log').append('<div class="note note-success">Participant successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
-		
-								table.fnDestroy();
-
-								var table = $('#tb-it_participants').dataTable({
-							        "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
-							        "columns": [
-							            { "data": "employee_name" },
-							            { "data": "position_title" },
-							            { "data": "supervisor_id" },
-							            { "data": "has_pta",
-							              "render": function ( data, type, full, meta ) {
+			    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
+			    "columns": [
+			        { "data": "employee_name" },
+			        { "data": "position_title" },
+			        { "data": "supervisor_name" },
+			        { "data": "requirement_statuses",
+				        "render": function ( data, type, full, meta ) {
 							              	if(data)
 							              	{
-							              		return '<span class="label label-success">Has PTA</span>';
+							              		var status = '';
+							              		if(data[0])
+							              		{
+							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+							              		}
+
+							              		if(data[1])
+							              		{
+							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+							              		}
+
+							              		if(data[2])
+							              		{
+							              			status += '<span class="label label-success">Has PTE</span>';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTE Yet</span>';
+							              		}
+
+							              		return status;
 							              	}
 							              	else
 							              	{
-							              		return '<span class="label label-danger">No PTA Yet</span>';
+							              		return '';
 							              	}
 							              } 
 							        	},
@@ -242,17 +198,123 @@
 								    ]
 								});
 
+		    $("#dd-employees").select2({
+			    allowClear: true
+			});
+
+			$("#dd-employee_designation").select2({
+			    allowClear: true
+			});
+
+			$('#dd-employees').change(function(){
+		        var employee_id = $(this).val();
+		        $.get('{{ URL::to('') }}/internal_trainings/participants/'+employee_id, function(data){
+		            if(data.hasDesignation)
+		            {
+		            	$.each(data.data, function(element, index){
+		                	$('#dd-employee_designation').append('<option value="'+index.id+'">'+index.title+'</option>');
+		            	});
+		            }
+		            else
+		            {
+		            	$('#dd-employee_designation').append('<option value="0">Employee has no current designation</option>')
+		            }		            
+		        }, 'json');
+		    });
+
+			$('form[data-add]').on('submit', function (e) {
+					e.preventDefault();
+
+					var form = $(this);
+					var method = form.find('input[name="method"]').val() || 'POST';
+					var url = form.prop('action');	
+
+					var training_id = {{ $internal_training->id }};
+
+					$('.message-log').empty();
+
+					$.ajax({
+						type: method,
+						url: url + '/' + training_id + '/participants',
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								$('#addParticipant').modal('hide');
+								$('.message-log').append('<div class="note note-success">Participant successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								
+								table.fnDestroy();
+
+								table = $('#tb-it_participants').dataTable({
+								    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
+								    "columns": [
+								        { "data": "employee_name" },
+								        { "data": "position_title" },
+								        { "data": "supervisor_name" },
+								        { "data": "requirement_statuses",
+									        "render": function ( data, type, full, meta ) {
+							              	if(data)
+							              	{
+							              		var status = '';
+							              		if(data[0])
+							              		{
+							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+							              		}
+
+							              		if(data[1])
+							              		{
+							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+							              		}
+
+							              		if(data[2])
+							              		{
+							              			status += '<span class="label label-success">Has PTE</span>';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTE Yet</span>';
+							              		}
+
+							              		return status;
+							              	}
+							              	else
+							              	{
+							              		return '';
+							              	}
+							              } 
+							        	},
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+							            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+											}
+							        	}
+							        ],
+							          "aoColumnDefs": [
+								      { "sWidth": "25%", "aTargets": [ 0 ] },
+								      { "sWidth": '18%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] }
+								    ]
+								});
 							}
 							else
 							{
-								alert('ERROR');
 								$('.error-message').empty();
 								$('#error-addparticipant-name').append(data.errors.employee_name);
 							}
 						}
 					});
 				});
-
 
 		});
 	</script>

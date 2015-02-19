@@ -659,7 +659,7 @@ class ReportsController extends \BaseController {
         $overallaveratings = array();
         array_push($overallaveratings, array('overallpta' => $overallpta, 'overallptaverbal' => $overallptaverbal, 'overallpte' => $overallpte, 'overallpteverbal' => $overallpteverbal));
 
-        return View::make('reports.ter-report')
+        /**return View::make('reports.ter-report')
             ->with('internaltraining', $internaltraining)
             ->with('internaltrainings', $internaltrainings)
             ->with('department', $department)
@@ -682,8 +682,40 @@ class ReportsController extends \BaseController {
             ->with('time_start_e', $time_start_e)
             ->with('time_end_e', $time_end_e)
             ->with('participants', $participants)
-            ->with('overallaveratings', $overallaveratings);
+            ->with('overallaveratings', $overallaveratings);*/
+
+            $data = array(
+            'internaltraining' => $internaltraining,
+            'internaltrainings'=> $internaltrainings,
+            'department'=> $department,
+            'schoolcollege' => $schoolcollege,
+            'speakerstring' => $speakerstring,
+            'eval_narrative' => $eval_narrative,
+            'recommendations' => $recommendations,
+            'scnames' => $scnames,
+            'count' => $count,
+            'aae_average' => $aae_average,
+            'pta_average' => $pta_average,
+            'pte_average' => $pte_average,
+            'aae_verbal' => $aae_verbal,
+            'pte_verbal' => $pte_verbal,
+            'pta_verbal' => $pta_verbal,
+            'date_start' => $date_start,
+            'date_end' => $date_end,
+            'time_start_s' => $time_start_s,
+            'time_end_s' => $time_end_s,
+            'time_start_e' => $time_start_e,
+            'time_end_e' => $time_end_e,
+            'participants' => $participants,
+            'overallaveratings' => $overallaveratings
+            );
+        
+        //$route = 
+
+        $pdf = PDF::loadView('ter-report', $data);
+        return $pdf->download('ter-report.pdf');
     }
+
 
 	/**
 	 * Remove the specified resource from storage.

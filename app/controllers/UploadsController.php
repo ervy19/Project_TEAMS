@@ -18,11 +18,15 @@ class UploadsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+<<<<<<< HEAD
 	public function create($id)
+=======
+	public function create($internal_training_id)
+>>>>>>> origin/master
 	{
-		$internaltrainings = Training::with('internal_training')->find($id);
-		$internaltraining = Training::where('id', '=', $id)->get();
-        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
+		$internaltrainings = Training::with('internal_training')->find($internal_training_id);
+		$internaltraining = Training::where('id', '=', $internal_training_id)->get();
+        $testresponse = Activity_Evaluation::where('isActive', '=', true)->where('internal_training_id', '=', $internal_training_id)->get();
         
         if (is_null($testresponse)) {
             $intent = "accomplish";
@@ -50,8 +54,8 @@ class UploadsController extends \BaseController {
 	 */
 	public function store($internal_training_id)
 	{
-		date_default_timezone_set('Asia/Calcutta'); 
-		$currentTimeDate = date("Y-m-d H:i:s");
+		date_default_timezone_set('Asia/Manila');
+		$currentTimeDate = date("Y-m-d H:i:s"); 
 		$currentTime = time("H:i:s"); 
 		$currentDate = date("Y-m-d");
 

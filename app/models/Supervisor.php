@@ -8,6 +8,10 @@ class Supervisor extends Eloquent {
 
 	protected $guarded = 'id';
 	
+	public function users() {
+		return $this->belongsTo('users');
+	}
+
 	public function campus_supervisor() {
 		return $this->hasMany('Campus_Supervisor');
 	}

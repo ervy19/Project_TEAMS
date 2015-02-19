@@ -14,7 +14,7 @@
 
 		</div>
 		<div class="row">
-			<div class="col-sm-12 col-md-12 training-info">
+			<div class="col-sm-12 col-md-12 training-info training-assessment">
 				<div class="panel">
 					<div class="row training-details">
 						<div class="col-sm-2 col-md-2">
@@ -22,12 +22,12 @@
 							<h6>Position:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ "Sophia Hernandez" }}</h5>
-							<h5>{{ "faculty" }}</h5>
+							<h5>{{ $participant->employee_name or "--Participant Name--" }}</h5>
+							<h5>{{ $participant->position_title or "--Position Title--" }}</h5>
 						</div>
 						<div class="col-sm-4 col-md-4">
 							<h6>School/College/Department:</h6>
-							<p>{{ $internaltraining[0]->title }}</p>
+							<p>{{ $internaltraining->title }}</p>
 						</div>
 					</div>
 					<div class="row training-details">
@@ -35,25 +35,26 @@
 							<h6>Training Theme: </h6>
 							<h6>Training Organizer:</h6>
 						</div>
-						<div class="col-sm-6 col-md-6">
-							<h5>{{ $internaltraining[0]->theme_topic }}</h5>
-							<h5>{{ $internaltraining[0]->name }}</h5>
+						<div class="col-sm-10 col-md-10">
+							<h5>{{ $internaltraining->theme_topic }}</h5>
+							<h5>{{ $internaltraining->name }}</h5>
 						</div>
-
-						<div class="col-sm-1 col-md-1">
-							<h6>Venue:</h6>
-							<h6>Schedule:</h6>
+					</div>
+					<div class="row training-details">
+						<div class="col-sm-2 col-md-2">
+							<h6>Schedule and Venue:</h6>
 						</div>
-						<div class="col-sm-3 col-md-3">
-							<h5>{{ $internaltraining[0]->venue }}</h5>
-							<h5>{{ $internaltraining[0]->schedule }}</h5>
+						<div class="col-sm-10 col-md-10 inline-block">
+							<h5>{{ $internaltraining->schedule or 'No schedule yet'}}&nbsp;&nbsp;|&nbsp;</h5>
+							<h5>{{ $internaltraining->venue or 'No venue yet'}}</h5>
 						</div>
-
+					</div>
+					<div class="row training-details">
 						<div class="col-sm-12 col-md-12">
 							<h6>Objectives:</h6>
-							<p>{{ $internaltraining[0]->objectives }}</p>
+							<p>{{ $internaltraining->objectives }}</p>
 						</div>
-					]</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -79,7 +80,7 @@
 					</p>
 
 					@if ($type === "pta")
-							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining->id, $type, $participant_id), 'method' => 'POST')) }}
 
 							<table class="table">
 								<thead>
@@ -95,19 +96,16 @@
 								<tbody>
 									@foreach ($assessmentitems as $key => $value)
 									<tr>
-										<td>{{ $value }}</td>
-										<td>{{ Form::radio($value, '5'); }}</td>
-										<td>{{ Form::radio($value, '4'); }}</td>
-										<td>{{ Form::radio($value, '3'); }}</td>
-										<td>{{ Form::radio($value, '2'); }}</td>
-										<td>{{ Form::radio($value, '1'); }}</td>
+										<td><p>{{ $value->name }}</p></td>
+										<td>{{ Form::radio($value->id, '5'); }}</td>
+										<td>{{ Form::radio($value->id, '4'); }}</td>
+										<td>{{ Form::radio($value->id, '3'); }}</td>
+										<td>{{ Form::radio($value->id, '2'); }}</td>
+										<td>{{ Form::radio($value->id, '1'); }}</td>
 									</tr>
 									@endforeach
 								</tbody>
 							</table>
-
-							<h5 class="label-remarks">Verbal Interpretation</h5>
-							<textarea class="remarks" name="verbalinterpretation"></textarea>
 
 							<h5 class="label-remarks">Remarks</h5>
 							<textarea class="remarks" name="remarks"></textarea>
@@ -117,7 +115,7 @@
 							{{ Form::close() }}					    
 							
 					@elseif ($type === "pte")
-							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining[0]->id, $type, $participant_id), 'method' => 'POST')) }}
+							{{ Form::model($internaltraining, array('route' => array('training_response.store', $internaltraining->id, $type, $participant_id), 'method' => 'POST')) }}
 
 							<table class="table">
 								<thead>
@@ -133,20 +131,17 @@
 								<tbody>
 									@foreach ($assessmentitems as $key => $value)
 									<tr>
-										<td>{{ $value }}</td>
-										<td>{{ Form::radio($value, '5'); }}</td>
-										<td>{{ Form::radio($value, '4'); }}</td>
-										<td>{{ Form::radio($value, '3'); }}</td>
-										<td>{{ Form::radio($value, '2'); }}</td>
-										<td>{{ Form::radio($value, '1'); }}</td>
+										<td><p>{{ $value->name }}</p></td>	
+										<td>{{ Form::radio($value->id, '5'); }}</td>
+										<td>{{ Form::radio($value->id, '4'); }}</td>
+										<td>{{ Form::radio($value->id, '3'); }}</td>
+										<td>{{ Form::radio($value->id, '2'); }}</td>
+										<td>{{ Form::radio($value->id, '1'); }}</td>
 									</tr>
 									@endforeach
 								</tbody>
 							</table>
-
-							<h5 class="label-remarks">Verbal Interpretation</h5>
-							<textarea class="remarks" name="verbalinterpretation"></textarea>
-
+							<div class="error-message">{{ HTML::ul($errors->all()) }}</div>
 							<h5 class="label-remarks">Remarks</h5>
 							<textarea class="remarks" name="remarks"></textarea>
 

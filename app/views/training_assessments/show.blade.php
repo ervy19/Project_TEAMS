@@ -14,7 +14,7 @@
 
 		</div>
 		<div class="row">
-			<div class="col-sm-12 col-md-12 training-info">
+			<div class="col-sm-12 col-md-12 training-info training-assessment">
 				<div class="panel">
 					<div class="row training-details">
 						<div class="col-sm-2 col-md-2">
@@ -22,13 +22,12 @@
 							<h6>Position:</h6>
 						</div>
 						<div class="col-sm-6 col-md-6">
-							<h5>{{ "Sophia Hernandez" }}</h5>
-							<h5>{{ "faculty" }}</h5>
+							<h5>{{ $participant->employee_name or "--Participant Name--" }}</h5>
+							<h5>{{ $participant->position_title or "--Position Title--" }}</h5>
 						</div>
-						@foreach($internaltraining as $training)
 						<div class="col-sm-4 col-md-4">
 							<h6>School/College/Department:</h6>
-							<p>{{ $training->name }}</p>
+							<p>{{ $internaltraining->title }}</p>
 						</div>
 					</div>
 					<div class="row training-details">
@@ -36,25 +35,25 @@
 							<h6>Training Theme: </h6>
 							<h6>Training Organizer:</h6>
 						</div>
-						<div class="col-sm-6 col-md-6">
-							<h5>{{ $training->theme_topic }}</h5>
-							<h5>{{ $training->name }}</h5>
+						<div class="col-sm-10 col-md-10">
+							<h5>{{ $internaltraining->theme_topic }}</h5>
+							<h5>{{ $internaltraining->name }}</h5>
 						</div>
-
-						<div class="col-sm-1 col-md-1">
-							<h6>Venue:</h6>
-							<h6>Schedule:</h6>
+					</div>
+					<div class="row training-details">
+						<div class="col-sm-2 col-md-2">
+							<h6>Schedule and Venue:</h6>
 						</div>
-						<div class="col-sm-3 col-md-3">
-							<h5>{{ $training->venue }}</h5>
-							<h5>{{ $training->schedule }}</h5>
+						<div class="col-sm-10 col-md-10 inline-block">
+							<h5>{{ $internaltraining->schedule or 'No schedule yet'}}&nbsp;&nbsp;|&nbsp;</h5>
+							<h5>{{ $internaltraining->venue or 'No venue yet'}}</h5>
 						</div>
-
+					</div>
+					<div class="row training-details">
 						<div class="col-sm-12 col-md-12">
 							<h6>Objectives:</h6>
-							<p>{{ $training->objectives }}</p>
+							<p>{{ $internaltraining->objectives }}</p>
 						</div>
-						@endforeach
 					</div>
 				</div>
 			</div>
@@ -89,22 +88,22 @@
 											</tr>
 										</thead>
 										<tbody>
-											@for ($i = 0; $i < $itemcount; $i++)
+											@foreach($assessmentresponse as $key => $value)
 												<tr>
-													<td>{{ $assessmentresponse[$i]->name }}</td>
-													<td>{{ $assessmentresponse[$i]->rating }}</td>
+													<td><p>{{ $value->name }}</p></td>
+													<td><p>{{ $value->rating }}</p></td>
 												</tr>
-											@endfor
+											@endforeach
 										</tbody>
 									</table>
 
 									<div class="label-remarks">
 										<h6>Verbal Interpretation</h6>
-										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
+										<p>{{ $participantassessment->verbal_interpretation or '---'}}</p>
 									</div>
 									<div class="label-remarks">
 										<h6>Remarks</h6>
-										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
+										<p>{{ $participantassessment->remarks or '---'}}</p>
 									</div>
 									<br>
 									
@@ -118,22 +117,22 @@
 											</tr>
 										</thead>
 										<tbody>
-											@for ($i = 0; $i < $itemcount; $i++)
+											@foreach($assessmentresponse as $key => $value)
 												<tr>
-													<td>{{ $assessmentresponse[$i]->name }}</td>
-													<td>{{ $assessmentresponse[$i]->rating }}</td>
+													<td><p>{{ $value->name }}</p></td>
+													<td><p>{{ $value->rating }}</p></td>
 												</tr>
-											@endfor
+											@endforeach
 										</tbody>
 									</table>
 
 									<div class="label-remarks">
 										<h6>Verbal Interpretation</h6>
-										<p>{{ $participantassessment[0]->verbal_interpretation or '---'}}</p>
+										<p>{{ $participantassessment->verbal_interpretation or '---'}}</p>
 									</div>
 									<div class="label-remarks">
 										<h6>Remarks</h6>
-										<p>{{ $participantassessment[0]->remarks or '---'}}</p>
+										<p>{{ $participantassessment->remarks or '---'}}</p>
 									</div>
 									<br>
 					@endif

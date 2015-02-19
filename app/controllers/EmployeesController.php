@@ -124,7 +124,8 @@ class EmployeesController extends \BaseController {
 		$designations = Employee_Designation::where('isActive', '=', true)
 								->where('employee_id','=',$id)
 								->first();
-        $hasDesignations = false;
+
+		//dd($designations);
         //Get all internal trainings of the employee
         /*$it_attended = Training::select(DB::raw('*'))
         			->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'trainings.id')
@@ -143,15 +144,9 @@ class EmployeesController extends \BaseController {
         			->get();*/
         //dd($designations);
 
-        if(!$designations->isEmpty())
-        {
-        	$hasDesignations = true;
-        }
-
 		return View::make('employees.show')
 			->with('employees', $employee )
-			->with('designations', $designations)
-			->with('hasDesignations', $hasDesignations);
+			->with('designations', $designations);
 
 			//->with('employees', $employee )
 			//->with('designations', $designations);
@@ -331,26 +326,51 @@ class EmployeesController extends \BaseController {
 	{
 		$employee = Employee::find($id);
 
+		$it_count = Internal_Training::join('it_participants','it_participants.internal_training_id','=','internal_trainings.training_id')
+						->where('it_participants.employee_id','=',$id)
+						->count();
+
+		$et_count = External_Training::join('employee_designations','external_trainings.designation_id','=','employee_designations.id')
+								->where('employee_designations.employee_id','=',$id)
+								->count();
+
+		$average_pta = IT_Participant::select('it_participants.*', DB::raw('avg(participant_assessments.rating) AS average_score'))
+							->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+							->groupBy('participant_assessments.rating')
+							->where('it_participants.employee_id','=',$id)
+							->where('participant_assessments.type','=','pta')
+							->first();
+
+		$average_pte = IT_Participant::select('it_participants.*', DB::raw('avg(participant_assessments.rating) AS average_score'))
+							->join('participant_assessments','it_participants.id','=','participant_assessments.it_participant_id')
+							->groupBy('participant_assessments.rating')
+							->where('it_participants.employee_id','=',$id)
+							->where('participant_assessments.type','=','pte')
+							->first();
+
 		return View::make('summary_reports.employee_training')
-					->with('employee',$employee);
+					->with('employee',$employee)
+					->with('itCount',$it_count)
+					->with('etCount',$et_count)
+					->with('averagePTA',$average_pta)
+					->with('averagePTE',$average_pte);
 	}
 
 	public function getEmployeeDesignation($id)
 	{
 		if(Request::ajax())
 		{
-			$employee_designations = Employee_Designation::select('*')
-									->join('positions','employee_designations.position_id','=','positions.id')
-									->where('employee_designations.isActive','=',true)
-									->get();
+			$employee_designations = Employee_Designation::where('employee_id','=',$id)
+										->where('isActive','=',true)
+										->get();
 
-			if ($employee_designations)
+			if (!$employee_designations->isEmpty())
 			{
-				return Response::json(['data' => $employee_designations]);
+				return Response::json(['hasDesignation' => true, 'data' => $employee_designations]);
 			}
 			else
 			{
-
+				return Response::json(['hasDesignation' => false]);
 			}			
 		}
 	}

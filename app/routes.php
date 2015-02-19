@@ -19,6 +19,17 @@ Route::get('login', function()
 	return View::make('login');
 });
 
+Route::get('test', function()
+{
+	return View::make('user_accounts.account-settings');
+});
+
+Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
+
+Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
+
+Route::get('ter-report', array('as' => 'reports.get-ter-report', 'uses' => 'ReportsController@terReport'));
+
 Route::get('submit-external-training', array('as' => 'external_trainings.createQueue', 'uses' => 'ExternalTrainingsController@createQueue'));
 
 Route::post('confirm-external-training', array('as' => 'external_trainings.confirmQueue', 'uses' => 'ExternalTrainingsController@confirmQueue'));
@@ -26,7 +37,6 @@ Route::post('confirm-external-training', array('as' => 'external_trainings.confi
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
 Route::post('back-external-training', array('as' => 'external_trainings.backDetails', 'uses' => 'ExternalTrainingsController@backDetails'));
-
 
 /*
 |--------------------------------------------------------------------------
@@ -60,9 +70,8 @@ Route::get('reports/pta-report/{internal_training}', array('as' => 'reports.pta-
 
 Route::get('reports/pte-report/{internal_training}', array('as' => 'reports.pte-report', 'uses' => 'ReportsController@pteReport'));
 
-Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
 
-Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
+
 
 Route::get('employees/{id}/training-log-download', array('as' => 'employees.training-log-download', 'uses' => 'ReportsController@downloadTrainingLog'));
 
@@ -76,9 +85,6 @@ Route::get('employees/{id}/training-log-download', array('as' => 'employees.trai
 |
 */
 
-Route::get('users/create', 'UsersController@create');
-Route::get('users', 'UsersController@index');
-Route::post('users', 'UsersController@store');
 Route::get('login', 'UsersController@login');
 Route::post('login', 'UsersController@doLogin');
 Route::get('users/confirm/{code}', 'UsersController@confirm');
@@ -127,7 +133,7 @@ Route::group(array('before' => 'auth'), function()
 	/*Participant Routes under Internal Trainings*/
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.index', 'uses' => 'ParticipantsController@index'));
 	Route::get('internal_trainings/{internal_trainings}/participants/{participant}/edit', array('as' => 'participants.edit', 'uses' => 'ParticipantsController@edit'));
-	Route::post('internal_trainings/{internal_trainings}/participants/store', array('as' => 'participants.store', 'uses' => 'ParticipantsController@store'));
+	Route::post('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.store', 'uses' => 'ParticipantsController@store'));
 	Route::put('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.update', 'uses' => 'ParticipantsController@update'));
 	Route::patch('internal_trainings/{internal_trainings}/participants/{participant}', array('uses' => 'ParticipantsController@update'));
 	Route::delete('internal_trainings/{internal_trainings}/participants/{participant}', array('as' => 'participants.destroy', 'uses' => 'ParticipantsController@destroy'));
@@ -140,8 +146,6 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
-
-
 	//Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
 	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
@@ -151,6 +155,8 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
 	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
+
+
 
 	//Used for getting specific employee designation
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
@@ -162,6 +168,8 @@ Route::group(array('before' => 'auth'), function()
 	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
 	//End Upload Excel File Routes
 
+
+
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 
@@ -170,6 +178,12 @@ Route::group(array('before' => 'auth'), function()
 	//Route::get('internal_trainings/{id}/participants/import', array('as' => 'uploads.create', 'uses' => 'UploadsController@create'));
 	//Route::post('internal_trainings/{id}/participants/import', array('as' => 'uploads.store', 'uses' => 'UploadsController@store'));
 
+
+	Route::get('users/create', 'UsersController@create');
+	Route::get('users', 'UsersController@index');
+	Route::post('users', 'UsersController@store');
+
+	Route::resource('roles','RolesController');
 
 	Route::resource('employees','EmployeesController');
 
@@ -192,7 +206,11 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('uploads','UploadsController');
 
 
+	Route::get('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@index'));
+	Route::post('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@storeAI'));
+
 	Route::get('employees/{employee_id}/individual-training-report', array('as' => 'employees.individual_training_report', 'uses' => 'EmployeesController@showTrainingReport'));
+	Route::get('employees/{employee_id}/individual-training-data', array('as' => 'employees.individual_training_data', 'uses' => 'SummaryReportsController@individualTrainingReport'));
 
 //Route::resource('speakers','SpeakersController');
 

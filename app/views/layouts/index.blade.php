@@ -59,22 +59,36 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge badge-default">2</span><i class="fa fa-inbox fa-lg"></i>&nbsp;&nbsp;Notifications</a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Edit Profile</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Logout</a></li>
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge badge-default">{{ $notifications_count or '' }}</span><i class="fa fa-inbox fa-lg"></i>&nbsp;&nbsp;Notifications</a>
+              <ul id="notifications" class="dropdown-menu scrollable-menu" role="menu">
+                @if(isset($notifications))
+                  @if(!$notifications->isEmpty())
+                    @foreach($notifications as $key => $value)
+                      <li>
+                      @if($value->type == 'pta')
+                        <a href="{{URL::to('internal_trainings')}}/{{$value->training_link}}/{{$value->type}}/accomplish/{{$value->participant_link}}">Accomplish PTA of {{ $value->employee_name }}</a>
+                      @elseif($value->type == 'pte')
+                        <a href="{{URL::to('internal_trainings')}}/{{$value->training_link}}/{{$value->type}}/{{$value->participant_link}}">Accomplish PTE of {{ $value->employee_name }}</a>
+                      @elseif($value->type == 'et_queue')
+                        <a href="#">{{ $value->employee_name }} has submitted an external training data</a>
+                      @endif
+                      </li>
+                    @endforeach
+                  @else
+                    <li><a><center><b>You don't have new notifications</b></center></a></li>
+                  @endif
+                @else
+                  <li><a><center><b>You don't have new notifications</b></center></a></li>
+                @endif
               </ul>
             </li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user fa-lg"></i>&nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">{{ $name or '---' }}</a></li>
+                <li><a><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;{{ $name or '---' }}</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Account Settings</a></li>
-                <li><a href="{{ URL::to('logout') }}">Logout</a></li>
+                <li><a href="#"><i class="fa fa-cog fa-lg"></i>&nbsp;&nbsp;Account Settings</a></li>
+                <li><a href="{{ URL::to('logout') }}"><i class="fa fa-unlock-alt fa-lg"></i>&nbsp;&nbsp;Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -135,6 +149,7 @@
       $("#skills_competencies_edit").select2();
       $("#skills_competencies_dept").select2();
       $("#skills_competencies_dept_edit").select2();
+      $("#school_college_it_create").select2();
       $("#school_college").select2();
       $("#skills_competencies_it").select2();
       $("#schools_colleges").select2();

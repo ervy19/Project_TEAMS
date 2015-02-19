@@ -3,6 +3,35 @@
 class SummaryReportsController extends \BaseController {
 
 
+	public function individualTrainingReport($id)
+	{
+		$internal_trainings = IT_Participant::where('it_participants.employee_id','=',$id)
+						->where('it_participants.isActive','=',true)
+						->get();
+
+		$external_trainings = External_Training::where('external_trainings.isActive','=',true)
+								->get();
+
+		$trainings = array();
+
+		foreach ($internal_trainings as $key => $value) {
+			array_push($trainings, $value);
+		}
+
+		foreach ($external_trainings as $k => $v) {
+			array_push($trainings, $v);
+		}
+
+		/*usort($trainings, function($a, $b) {
+		    return $a['id'] - $b['id'];
+		});*/
+
+
+		if(Request::ajax()){
+			return Response::json(['data' => $trainings]);
+		}
+	}
+
 	public function trainingsReport()
 	{
 		$it_count = Internal_Training::where('isActive','=',true)->count();

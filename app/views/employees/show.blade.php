@@ -74,56 +74,120 @@
 			</div>
 		</div>
 
-	@if($hasDesignations)		
-		@foreach( $designations as $key => $value)
-		<div class="col-sm-12 col-md-12 employee-info">
-			<div class="panel">
-				<div class="row employee-details">
-					<h3>&nbsp;&nbsp;{{ $value->title or 'Designation Title' }}</h3>
-					<h4>&nbsp;&nbsp;Supervisor: &nbsp;{{ $value->supervisor_name or 'Supervisor Name' }}</h4>
-					<div class="col-sm-5 col-md-5">
-						<div class="row designation">
-							<h6 class="employee-designation">Classification:</h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;{{ $value->classification or 'Classification' }}</h5>
+	@if($designations)
+		@if(count($designations) > 1)
+			@foreach( $designations as $key => $value)
+			<div class="col-sm-12 col-md-12 employee-info">
+				<div class="panel">
+					<div class="row employee-details">
+						<h3>&nbsp;&nbsp;{{ $value->title or 'Designation Title' }}</h3>
+						<h4>&nbsp;&nbsp;Supervisor: &nbsp;{{ $value->supervisor_name or 'Supervisor Name' }}</h4>
+						<div class="col-sm-5 col-md-5">
+							<div class="row designation">
+								<h6 class="employee-designation">Classification:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;{{ $value->classification or 'Classification' }}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Position:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->position_title or 'Position Title' }}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Rank:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->rank_title or 'Rank Title' }}</h5>
+							</div>
 						</div>
-						<div class="row designation">
-							<h6 class="employee-designation">Position:</h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->position_title or 'Position Title' }}</h5>
+						<div class="col-sm-6 col-md-6">
+							<div class="row designation">
+								<h6 class="employee-designation">Campus: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->campus_name or 'Campus Name'}}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">School/College: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;{{ $value->schoolcollege_name or 'Campus Name'}}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Department: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->department_name or 'Campus Name'}}</h5>
+							</div>
 						</div>
-						<div class="row designation">
-							<h6 class="employee-designation">Rank:</h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->rank_title or 'Rank Title' }}</h5>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-6">
-						<div class="row designation">
-							<h6 class="employee-designation">Campus: </h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->campus_name or 'Campus Name'}}</h5>
-						</div>
-						<div class="row designation">
-							<h6 class="employee-designation">School/College: </h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;{{ $value->schoolcollege_name or 'Campus Name'}}</h5>
-						</div>
-						<div class="row designation">
-							<h6 class="employee-designation">Department: </h6>
-							<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->department_name or 'Campus Name'}}</h5>
+						<h6 class="employee-designation">Needed Skills and Competencies:</h6>
+						<div class="tags">
+								@if(count($designations->department_scs) > 1)
+									@foreach($designations->department_scs as $k => $v)
+										<h3><span class="label label-default">{{ $v->name }}</span></h3>
+									@endforeach
+								@else
+									<h3><span class="label label-default">{{ $designations->department_scs->name }}</span></h3>
+								@endif
+
+								@if(count($designations->position_scs) > 1)
+									@foreach($designations->position_scs as $k => $v)
+										<h3><span class="label label-default">{{ $v->name }}</span></h3>
+									@endforeach
+								@else
+									<h3><span class="label label-default">{{ $designations->position_scs->name }}</span></h3>
+								@endif
 						</div>
 					</div>
 				</div>
-				<div class="row employee-details">
-					<h6 class="employee-designation">Needed Skills and Competencies:</h6>
-					<div class="tags">
-					@foreach($value->department_scs as $k => $v)
-						<h3><span class="label label-default">{{ $v->name }}</span></h3>
-					@endforeach
-					@foreach($value->position_scs as $k => $v)
-						<h3><span class="label label-default">{{ $v->name }}</span></h3>
-					@endforeach
+			</div>	
+			@endforeach
+		@else
+			<div class="col-sm-12 col-md-12 employee-info">
+				<div class="panel">
+					<div class="row employee-details">
+						<h3>&nbsp;&nbsp;{{ $designations->title or 'Designation Title' }}</h3>
+						<h4>&nbsp;&nbsp;Supervisor: &nbsp;{{ $designations->supervisor_name or 'Supervisor Name' }}</h4>
+						<div class="col-sm-5 col-md-5">
+							<div class="row designation">
+								<h6 class="employee-designation">Classification:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;{{ $designations->classification or 'Classification' }}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Position:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designations->position_title or 'Position Title' }}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Rank:</h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designations->rank_title or 'Rank Title' }}</h5>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<div class="row designation">
+								<h6 class="employee-designation">Campus: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designations->campus_name or 'Campus Name'}}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">School/College: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;{{ $designations->schoolcollege_name or 'Campus Name'}}</h5>
+							</div>
+							<div class="row designation">
+								<h6 class="employee-designation">Department: </h6>
+								<h5 class="employee-designation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $designations->department_name or 'Campus Name'}}</h5>
+							</div>
+						</div>
+						<h6 class="employee-designation">Needed Skills and Competencies:</h6>
+						<div class="tags">
+								@if(count($designations->department_scs) > 1)
+									@foreach($designations->department_scs as $k => $v)
+										<h3><span class="label label-default">{{ $v->name }}</span></h3>
+									@endforeach
+								@else
+									<h3><span class="label label-default">{{ $designations->department_scs->name }}</span></h3>
+								@endif
+
+								@if(count($designations->position_scs) > 1)
+									@foreach($designations->position_scs as $k => $v)
+										<h3><span class="label label-default">{{ $v->name }}</span></h3>
+									@endforeach
+								@else
+									<h3><span class="label label-default">{{ $designations->position_scs->name }}</span></h3>
+								@endif
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>	
-		@endforeach
+		@endif
 	@else
 		<div class="col-sm-12 col-md-12 employee-info">
 			<div class="panel">

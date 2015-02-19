@@ -6,7 +6,17 @@ class IT_Participant extends Eloquent {
 
 	protected $fillable = array('id', 'employee_id', 'employee_designation_id', 'internal_training_id', 'isActive');
 
-	protected $appends = array('employee_name','position_title');
+	protected $appends = array('training_id','training_type','employee_name','position_title','supervisor_name','training_title','has_pta','attended','has_pte','requirement_statuses','training_scs');
+
+	public function getTrainingIdAttribute()
+	{
+		return $this->internal_training_id;
+	}	
+
+	public function getTrainingTypeAttribute()
+	{
+		return 'Internal';
+	}
 
 	public function getEmployeeNameAttribute()
 	{
@@ -38,20 +48,45 @@ class IT_Participant extends Eloquent {
 		}
 	}
 
-	/*public function getSupervisorNameAttribute()
+	public function getSupervisorNameAttribute()
 	{
-		$supervisor = Employee_Designation::find($this->employee_designation_id)
-						->join('supervisors','employee_designations.id','=','supervisors.id')
-						->
-	}*/
+		$supervisor = Employee_Designation::join('supervisors','employee_designations.supervisor_id','=','supervisors.id')
+						->where('employee_designations.id','=',$this->employee_designation_id)
+						->where('employee_designations.isActive','=',true)
+						->first();
+
+		if($supervisor)
+		{
+			return $supervisor->name;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
+	public function getTrainingTitleAttribute()
+	{
+		$training = Training::find($this->internal_training_id);
+
+		if($training)
+		{
+			return $training->title;
+		}
+		else
+		{
+			return '';
+		}
+	}
 
 	public function getHasPtaAttribute()
 	{
 		$pta = Participant_Assessment::where('type','=','pta')
-				->where('it_participant_id','=',$this->id)
-				->first();
+									->where('it_participant_id','=',$this->id)
+									->where('isActive','=',true)
+									->first();
 
-		if($pta)
+		if($pta && $pta->has_response)
 		{
 			return true;
 		}
@@ -63,7 +98,8 @@ class IT_Participant extends Eloquent {
 
 	public function getAttendedAttribute()
 	{
-		$attendance = IT_Attendance::where('it_participant_id','=',$this->id)
+		$attendance = Participant_Attendance::where('it_participant_id','=',$this->id)
+						->where('isActive','=',true)
 						->first();
 
 		if($attendance)
@@ -79,16 +115,82 @@ class IT_Participant extends Eloquent {
 	public function getHasPteAttribute()
 	{
 		$pte = Participant_Assessment::where('type','=','pte')
-				->where('it_participant_id','=',$this->id)
-				->first();	
+									->where('it_participant_id','=',$this->id)
+									->where('isActive','=',true)
+									->first();
 
-		if($pte)
+		if($pte && $pte->has_response)
 		{
 			return true;
 		}
 		else
 		{
 			return false;
+		}
+	}
+
+	public function getRequirementStatusesAttribute()
+	{
+		$pta = Participant_Assessment::where('type','=','pta')
+									->where('it_participant_id','=',$this->id)
+									->where('isActive','=',true)
+									->first();
+
+		$attendance = Participant_Attendance::where('it_participant_id','=',$this->id)
+						->first();
+
+		$pte = Participant_Assessment::where('type','=','pte')
+									->where('it_participant_id','=',$this->id)
+									->where('isActive','=',true)
+									->first();
+
+		$requirementStatus = array();
+
+		if($pta && $pta->has_response)
+		{
+			array_push($requirementStatus, true);
+		}
+		else
+		{
+			array_push($requirementStatus, false);
+		}
+
+		if($attendance)
+		{
+			array_push($requirementStatus, true);
+		}
+		else
+		{
+			array_push($requirementStatus, false);
+		}
+
+		if($pte && $pte->has_response)
+		{
+			array_push($requirementStatus, true);
+		}
+		else
+		{
+			array_push($requirementStatus, false);
+		}
+
+		return $requirementStatus;
+
+	}
+
+	public function getTrainingScsAttribute()
+	{
+		$scs = IT_Addressed_SC::where('internal_training_id','=',$this->internal_training_id)
+					->where('isActive','=',true)
+					->get();
+
+		if(!$scs->isEmpty())
+		{
+
+			return $scs;
+		}
+		else
+		{
+			return '';
 		}
 	}
 

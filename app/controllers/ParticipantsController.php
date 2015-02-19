@@ -69,16 +69,32 @@ class ParticipantsController extends \BaseController {
          		'success' => false,
          		'errors' => $validator->errors()->toArray()]
          	);
-             /*return Redirect::to('campuses')
-                 ->withErrors($validator)
-                 ->withInput(Input::except('password'));*/
          } else {
             // store
-            $speakers = new IT_Participant;
-            $speakers->employee_id = Input::get('employee');
-            $speakers->employee_designation_id = 1;
-            $speakers->internal_training_id = $internal_training_id;
-            $speakers->save();
+            $it_participant = new IT_Participant;
+            $it_participant->employee_id = Input::get('employee');
+            $it_participant->employee_designation_id = 1;
+            $it_participant->internal_training_id = $internal_training_id;
+            $it_participant->save();
+
+            $participant_assessment = new Participant_Assessment;
+            $participant_assessment->type = 'pta';
+            $participant_assessment->it_participant_id = $it_participant->id;
+            $participant_assessment->save();
+
+            $supervisor = Employee_Designation::find($it_participant->employee_designation_id);
+
+            $notification = new Notification;
+            $notification->type = 'pta';
+            $notification->training_link = $internal_training_id;
+            $notification->participant_link = $it_participant->id;
+            $notification->user_id = $supervisor->supervisor->user_id;
+            $notification->save();
+
+            /*Mail::send('emails.welcome', array('key' => 'value'), function($message)
+			{
+			    $message->to('test@ceu.edu.ph', 'Juan Dela Cruz')->subject('Answer PTA!');
+			});*/
 
             return Response::json(['success' => true]);
         }
@@ -129,7 +145,9 @@ class ParticipantsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$it_participant = IT_Participant::find($id);
+		$it_participant->isActive = false;
+		$it_participant->save();		
 	}
 
 

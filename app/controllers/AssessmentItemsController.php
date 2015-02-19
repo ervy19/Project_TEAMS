@@ -125,46 +125,10 @@ class AssessmentItemsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($training_id)
 	{
-		// validate
-        // read more on validation at http://laravel.com/docs/validation
-        $rules = array(
-            'theme_topic' => 'required',
-            'isTrainingPlan' => 'required',
-        );
-        $validator = Validator::make(Input::all(), $rules);
-
-        // process the login
-        if ($validator->fails()) {
-            return Redirect::to('internal_trainings/create')
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            // store
-            $internaltrainings = new Internal_Training;
-            $internaltrainings->title = Input::get('title');
-            $internaltrainings->theme_topic = Input::get('theme_topic');
-            $internaltrainings->venue = Input::get('venue');
-            $internaltrainings->date_start = Input::get('date_start');
-            $internaltrainings->date_end = Input::get('date_end');
-            $internaltrainings->time_start = Input::get('time_start');
-            $internaltrainings->time_end = Input::get('time_end');
-            $internaltrainings->objectives = Input::get('objectives');
-            $internaltrainings->expected_outcome = Input::get('expected_outcome');
-            $internaltrainings->evaluation_narrative = Input::get('evaluation_narrative');
-            $internaltrainings->recommendations = Input::get('recommendations');
-            $schoolorganizer = Input::get('selected_sch_training');
-           	$internaltrainings->organizer_schools_colleges_id = School_College::where('isActive', '=', true)->where('name', '=', $schoolorganizer)->pluck('id');
-            $deptorganizer = Input::get('selected_dept_training');
-            $internaltrainings->organizer_department_id = Department::where('isActive', '=', true)->where('name', '=', $deptorganizer)->pluck('id');
-            $internaltrainings->isTrainingPlan = Input::get('isTrainingPlan');
-            $internaltrainings->save();
-
-            // redirect
-            Session::flash('message', 'Successfully created the Internal Training!');
-            return Redirect::to('internal_trainings');
-        }
+		
+        
 	}
 
 	/**

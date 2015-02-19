@@ -21,12 +21,37 @@
 
 <div class="col-sm-12 col-md-12 training-data">
 	<div class="row panel">
-		<ul class="nav nav-tabs nav-justified">
-			<li role="presentation" class="active"><a>Trainings</a></li>
-			<li role="presentation"><a href="{{ URL::to('summary_report/skills_competencies') }}">Skills and Competencies</a></li>
-		</ul>
-        <div id="container" style="min-width: 310px; max-width: 1000px; height: 125px; margin: 0 auto"></div>
-	</div>
+        <ul class="nav nav-tabs nav-justified">
+	       <li role="presentation" class="active"><a>Trainings</a></li>
+	       <li role="presentation"><a href="{{ URL::to('summary_report/skills_competencies') }}">Skills and Competencies</a></li>
+	   </ul>
+       <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <div class="col-sm-3 col-md-3">
+                    <h4 class="filter-label">Filter from:&nbsp;&nbsp;</h4>
+                    {{ Form::select('sc-filter', ['Select Filter','Skill/Competency','Department','Position'], null, array('id' => 'dd-sc-filter', 'class' => 'form-control')) }}
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-1 col-md-1">
+                        <h4 class="filter-label">to</h4>
+                    </div>
+                    <div class="col-sm-7 col-md-7">
+                        {{ Form::select('sc-filter-options', [], null, array('id' => 'dd-sc-options', 'class' => 'form-control')) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+</div>
+
+<div class="col-sm-12 col-md-12 training-data">
+    <div class="row panel">
+       <div id="trainingcount-barchart" style="min-width: 310px; max-width: 1000px; height: 125px; margin: 0 auto"></div>
+       <div class="col-sm-18 col-md-8">
+           <div id="trainingcount-linechart" style="min-width: 310px; margin: 0 auto"></div>
+        </div>
+    </div>
 </div>
 
 <div class="col-sm-12 col-md-12 training-data">
@@ -47,8 +72,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3 col-md-3">
                     <div class="dashboard-stat">
                         <div class="visual">
                             <i class="fa fa-comments"></i>
@@ -58,12 +81,10 @@
                                 10
                             </div>
                             <div class="desc">
-                                 Average PTA Completion
+                                 Average PTA Compliance
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3 col-md-3">
                     <div class="dashboard-stat">
                         <div class="visual">
                             <i class="fa fa-user"></i>
@@ -77,8 +98,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3 col-md-3">
                     <div class="dashboard-stat">
                         <div class="visual">
                             <i class="fa fa-comments"></i>
@@ -88,18 +107,54 @@
                                 10
                             </div>
                             <div class="desc">
-                                 Average PTE Completion
+                                 Average PTE Compliance
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-9 col-md-9">
+                    <div id="internaltraining-percentageareachart" style="min-width: 310px; margin: 0 auto"></div>
                 </div>
             </div>
     </div>
 </div>
 
 <div class="col-sm-12 col-md-12 training-data">
-    <div class="row panel et-summary">
+    <div class="row panel">
         <h2 class="header-panel">External Trainings</h2>
+        <div class="row sc-stats it-summary">
+                <div class="col-sm-3 col-md-3">
+                    <div class="dashboard-stat">
+                        <div class="visual">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                10
+                            </div>
+                            <div class="desc">
+                                 Credited External Trainings
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-stat">
+                        <div class="visual">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                10
+                            </div>
+                            <div class="desc">
+                                 External Trainings in Queue
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-md-9">
+                    <div id="externaltraining-stackedchart" style="min-width: 310px; margin: 0 auto"></div>
+                </div>
+            </div>
     </div>
 </div>
 
@@ -109,11 +164,17 @@
 	<script type="text/javascript">
 		$(document).ready( function () {
 
-            stackedBar();
+            stackedBar('#trainingcount-barchart');
 
-            function stackedBar()
+            lineChart('#trainingcount-linechart');
+
+            percentageAreaChart('#internaltraining-percentageareachart')
+
+            stackedChart('#externaltraining-stackedchart');
+
+            function stackedBar(element)
             {
-                $('#container').highcharts({
+                $(element).highcharts({
                     chart: {
                         type: 'bar'
                     },
@@ -154,6 +215,151 @@
                 });
             }
 
+            function lineChart(element)
+            {
+                $(element).highcharts({
+                    title: {
+                        text: null
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Trainings'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Internal Trainings',
+                        data: [10,15,26,23,27,12,21,19,10,5,2,1]
+                    }, {
+                        name: 'External Trainings',
+                        data: [5,3,10,16,32,22,17,16,12,21,18,19]
+                    }]
+                });
+            }
+
+            function percentageAreaChart(element)
+            {
+                $(element).highcharts({
+                    chart: {
+                        type: 'area'
+                    },
+                    title: {
+                        text: null
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        tickmarkPlacement: 'on',
+                        title: {
+                            enabled: false
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Percentage'
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f})<br/>',
+                        shared: true
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        area: {
+                            stacking: 'percent',
+                            lineColor: '#ffffff',
+                            lineWidth: 1,
+                            marker: {
+                                lineWidth: 1,
+                                lineColor: '#ffffff'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'With PTA but without attendance',
+                        data: [10,15,26,23,27,12,21,19,10,5,2,1]
+                    }, {
+                        name: 'Attended and with PTA only',
+                        data: [5,3,10,16,32,22,17,16,12,21,18,19]
+                    }, {
+                        name: 'Attended only',
+                        data: [10,15,26,23,32,22,17,16,22,17,16,12]
+                    }, {
+                        name: 'Attended and has both PTA and PTE',
+                        data: [10,15,26,23,27,12,17,16,12,21,18,19]
+                    }]
+                });
+            }
+
+            function stackedChart(element)
+            {
+                $(element).highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: null
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    yAxis: [{
+                        min: 0,
+                        title: {
+                            text: 'External Trainings'
+                        }
+                    }],
+                    legend: {
+                        shadow: false
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        column: {
+                            grouping: false,
+                            shadow: false,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Credited',
+                        color: 'rgba(165,170,217,1)',
+                        data: [10,15,26,23,27,12,21,19,10,5,2,1],
+                        pointPadding: 0.3,
+                        pointPlacement: -0.2
+                    }, {
+                        name: 'In Queue',
+                        color: 'rgba(126,86,134,.9)',
+                        data: [5,3,10,16,32,22,17,16,12,21,18,19],
+                        pointPadding: 0.4,
+                        pointPlacement: -0.2
+                    }]
+                });
+            }
 		});
 	</script>
 @stop

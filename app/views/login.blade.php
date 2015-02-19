@@ -26,6 +26,10 @@
     <div>{{ $error }}</div>
     @endif
 
+    @if(isset($notice))
+    <div>{{ $notice }}</div>
+    @endif
+
 	<div class="login">
 		<div class="row panel">
             {{ Form::open(array('url'=>'login', 'class' => 'form-signin')) }}

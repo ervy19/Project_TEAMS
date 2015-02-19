@@ -120,6 +120,11 @@ input[type="radio"] {
     padding-right: 10px;
 }
 
+span.tags {
+  font-size: 100%;
+  font-weight: normal;
+}
+
 .label, .alert {
   border-radius: 0px;
 }
@@ -458,11 +463,18 @@ table.dataTable.no-footer {
 
 .dropdown-menu {
     background: #FFF;
+    min-width: 200px;
+    padding: 0px;
+}
+
+#notifications {
+  min-width: 250px;
 }
 
 .dropdown-menu>li>a {
     color: #777;
     padding: 4px 15px;
+    white-space: normal;
 }
 
 .navbar-default .navbar-nav>.active>a, 
@@ -494,6 +506,12 @@ table.dataTable.no-footer {
 
 .add-plus {
   margin-left: 5px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 150px;
+    overflow-x: hidden;
 }
 
 

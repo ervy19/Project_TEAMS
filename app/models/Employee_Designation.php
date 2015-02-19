@@ -8,7 +8,7 @@ class Employee_Designation extends Eloquent {
 
 	protected $guarded = 'id';
 
-	protected $appends = array('supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, department_scs, position_scs');
+	protected $appends = array('supervisor, supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, department_scs, position_scs');
 
 	public function campus() {
 		return $this->belongsTo('Campus');
@@ -40,6 +40,20 @@ class Employee_Designation extends Eloquent {
 
 	public function participant_assessment() {
 		return $this->hasMany('Participant_Assessment');
+	}
+
+	public function getSupervisorAttribute()
+	{
+		$supervisor = Supervisor::find($this->supervisor_id);
+
+		if($supervisor)
+		{
+			return $supervisor;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	public function getSupervisorNameAttribute()
