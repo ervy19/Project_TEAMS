@@ -18,11 +18,7 @@ class UploadsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-<<<<<<< HEAD
-	public function create($id)
-=======
 	public function create($internal_training_id)
->>>>>>> origin/master
 	{
 		$internaltrainings = Training::with('internal_training')->find($internal_training_id);
 		$internaltraining = Training::where('id', '=', $internal_training_id)->get();
