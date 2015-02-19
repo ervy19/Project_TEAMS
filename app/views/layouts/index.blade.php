@@ -149,6 +149,7 @@
       $("#skills_competencies_edit").select2();
       $("#skills_competencies_dept").select2();
       $("#skills_competencies_dept_edit").select2();
+      $("#school_college_it_create").select2();
       $("#school_college").select2();
       $("#skills_competencies_it").select2();
       $("#schools_colleges").select2();

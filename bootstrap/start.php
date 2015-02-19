@@ -30,6 +30,8 @@ $env = $app->detectEnvironment(array(
 
 ));
 
+function withEmpty($selectList, $emptyLabel='') { return array(''=>$emptyLabel) + $selectList; }
+
 /*
 |--------------------------------------------------------------------------
 | Bind Paths
