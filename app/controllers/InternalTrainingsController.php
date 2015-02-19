@@ -11,7 +11,7 @@ class InternalTrainingsController extends \BaseController {
 	{
 		//$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
         $internaltrainings = Internal_Training::select(DB::raw('*'))
-                                ->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->leftJoin('departments','internal_trainings.organizer_department_id','=','departments.id')
                                 ->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->leftJoin('training_schedules','internal_trainings.training_id','=','training_schedules.training_id')
                                 ->where('internal_trainings.isActive', '=', true)
