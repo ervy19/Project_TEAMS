@@ -110,38 +110,28 @@
 
 						<div class="form-group row">
 							<div class="col-sm-5 col-md-5">
-								{{ Form::label('date_startlabel','Start Date: ') }}
-								<input class="form-control" type="text" id="date_start" name="date_start">
-								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
+								{{ Form::label('datelabel','Date: ') }}
+								<input class="form-control" type="text" id="date1" name="date1">
+								{{ $errors->first('date1','<div class="error-message">:message</div>') }}
 							</div>
 							<div class="col-sm-2 col-md-2">
-								{{ Form::label('time','Time Start: ') }}
-								<input class="form-control" type="text" id="time_start_s" name="time_start_s">
-								{{ $errors->first('time_start_s','<div class="error-message">:message</div>') }}
+								{{ Form::label('timestartlabel','Time Start: ') }}
+								<input class="form-control" type="text" id="timestart1" name="timestart1">
+								{{ $errors->first('timestart1','<div class="error-message">:message</div>') }}
 							</div>
 							<div class="col-sm-2 col-md-2">
-								{{ Form::label('time','Time End: ') }}
-								<input class="form-control" type="text" id="time_end_s" name="time_end_s">
-								{{ $errors->first('time_end_s','<div class="error-message">:message</div>') }}
+								{{ Form::label('timeendlabel','Time End: ') }}
+								<input class="form-control" type="text" id="timeend1" name="timeend1">
+								{{ $errors->first('timeend1','<div class="error-message">:message</div>') }}
 							</div>
 						</div>
-						<div class="form-group row">
-							<div class="col-sm-5 col-md-5">
-								{{ Form::label('date_endlabel','End Date: ') }}
-								<input class="form-control" type="text" id="date_end" name="date_end">
-								{{ $errors->first('date_end','<div class="error-message">:message</div>') }}
-							</div>
-							<div class="col-sm-2 col-md-2">
-								{{ Form::label('time','Time Start: ') }}
-								<input class="form-control" type="text" id="time_start_e" name="time_start_e">
-								{{ $errors->first('time_start_e','<div class="error-message">:message</div>') }}
-							</div>
-							<div class="col-sm-2 col-md-2">
-								{{ Form::label('time','Time End: ') }}
-								<input class="form-control" type="text" id="time_end_e" name="time_end_e">
-								{{ $errors->first('time_end_e','<div class="error-message">:message</div>') }}
-							</div>
+						<div class="form-group row" id="dynamicInput">
+					     
 						</div>
+						<br>
+							<input type="button" value="Add Date" onClick="addInput('dynamicInput');" class="btn btn-primary">
+							<input type="button" value="Remove Date" onclick="removeInput('dynamicInput');" class="btn btn-primary">
+							<input type="hidden" name="countbox" id="countbox">
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
 					{{ Form::close() }}
@@ -200,21 +190,57 @@
 			elem.value = $(sc).val();
 		});	
 
-		
-
 	</script>
 	<script>
-		$('#date_start').datepicker({
+
+		$('#date1').datepicker({
 		    format: 'MM d, yyyy'
 		});
 
-	$('#date_end').datepicker({
-		    format: 'MM d, yyyy'
-		});
-	$('#time_start_s').timepicker();
-	$('#time_end_s').timepicker();
-	$('#time_start_e').timepicker();
-	$('#time_end_e').timepicker();
+	$('#timestart1').timepicker();
+	$('#timeend1').timepicker();
+
+	var count = 1;
+
+		function addInput(divName){
+			
+			count++;
+		    var newdiv = document.createElement('div');
+		    newdiv.setAttribute('id', count);
+		    newdiv.innerHTML = "<div class='form-group row'><div class='col-sm-5 col-md-5'><b>Date: </b><input class='form-control' type='text' id='date" + count + "' " + "name='date" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time Start: </b><input class='form-control' type='text' id='timestart" + count + "' " + "name='timestart" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time End: </b><input class='form-control' type='text' id='timeend" + count + "' " + "name='timeend" + count + "'></div></div>";
+
+			document.getElementById(divName).appendChild(newdiv);
+			
+		    $("#date"+count).datepicker({
+	 	    	format: 'MM d, yyyy'
+	 		});
+		    $("#timestart"+count).timepicker();
+			$("#timeend"+count).timepicker();
+
+			var box = count;
+			document.getElementById('countbox').value = box;
+		}
+
+		var cb = count;
+		document.getElementById('countbox').value = cb;
+
+		function removeInput(parentDiv, childDiv) {
+			childDiv = document.getElementById('countbox').value;
+			//http://www.randomsnippets.com/2008/03/26/how-to-dynamically-remove-delete-elements-via-javascript/
+			if (document.getElementById(childDiv)) {     
+		          var child = document.getElementById(childDiv);
+		          var parent = document.getElementById(parentDiv);
+		          parent.removeChild(child);
+		          count--;
+		          document.getElementById('countbox').value = count;
+		          	          
+		     }
+		     else {
+		          alert("Child div has already been removed or does not exist.");
+		          return false;
+		     }
+		}
+
 	</script>
 
   </body>
