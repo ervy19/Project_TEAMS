@@ -52,7 +52,9 @@
 									<td>
 										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/credit-external-training') }}">Credit</a>
 										<br><br>
-										<a class="btn btn-small btn-danger" href="">Reject</a>
+									   {{ Form::model($externaltrainingsqueue, array('route' => array('external_trainings.destroyQueue', $value->id), 'method' => 'delete')) }}
+										<button type="submit" class="btn btn-small btn-danger">Reject</button>
+										{{ Form::close() }}
 									</td>
 								</tr>
 								@endforeach

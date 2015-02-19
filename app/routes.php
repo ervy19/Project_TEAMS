@@ -24,6 +24,7 @@ Route::get('test', function()
 	return View::make('user_accounts.account-settings');
 });
 
+
 Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
 
 Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-report', 'uses' => 'ReportsController@terReport'));
@@ -37,6 +38,9 @@ Route::post('confirm-external-training', array('as' => 'external_trainings.confi
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
 Route::post('back-external-training', array('as' => 'external_trainings.backDetails', 'uses' => 'ExternalTrainingsController@backDetails'));
+Route::DELETE('external_trainings/index/{external_trainings}', array('as' => 'external_trainings.destroy', 'uses' => 'ExternalTrainingsController@destroy'));
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +54,10 @@ Route::post('back-external-training', array('as' => 'external_trainings.backDeta
 
 Route::get('external_trainings/{external_trainings}/credit-external-training', array('as' => 'external_trainings.getQueue', 'uses' => 'ExternalTrainingsController@getQueue'));
 
-Route::put('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
+Route::post('external_trainings/{external_trainings}', array('as' => 'external_trainings.credit', 'uses' => 'ExternalTrainingsController@creditQueue'));
 
+Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
+Route::delete('external_trainings/queue/{external_trainings}', array('as' => 'external_trainings.destroyQueue', 'uses' => 'ExternalTrainingsController@destroyQueue'));
 
 Route::get('success-external-training', array('as' => 'external_trainings_queue.success', function()
 {
@@ -167,11 +173,6 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
 	//End Upload Excel File Routes
-
-
-
-	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
-
 
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
 

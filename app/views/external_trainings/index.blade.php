@@ -47,11 +47,10 @@
 									<td>{{ $value->participation }}</td>
 									<td>{{ $value->organizer }}</td>
 									<td>{{ $value->venue }}</td>
-									<td>{{ $value->date_start . " - " . $value->date_end }}</td>
+									<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
 									<td>
-										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->id . '/edit') }}">Edit</a>
-									   
-									   {{ Form::open(array('route' => array('external_trainings.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
+										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->training_id . '/edit') }}">Edit</a>
+									   	{{ Form::model($externaltrainings, array('route' => array('external_trainings.destroy', $value->training_id), 'method' => 'delete')) }}
 									    <button type="submit" class="btn btn-small btn-danger">Archive</button>
 									   {{ Form::close() }}
 									</td>

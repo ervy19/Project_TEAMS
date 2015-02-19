@@ -9,7 +9,12 @@ class ExternalTrainingsController extends \BaseController {
      */
     public function index()
     {
-        $externaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 0)->get();
+        $externaltrainings = External_Training::select('trainings.title','trainings.theme_topic','trainings.venue','external_trainings.participation','external_trainings.organizer','training_schedules.date_scheduled','training_schedules.timeslot','external_trainings.training_id')
+            ->join('trainings','external_trainings.training_id','=','trainings.id')
+            ->join('training_schedules','trainings.id','=','training_schedules.training_id')
+            ->where('external_trainings.isActive','=',true)
+            ->groupBy('external_trainings.training_id')
+            ->get();
 
         $isAdminHR = false;
 
@@ -47,44 +52,69 @@ class ExternalTrainingsController extends \BaseController {
     public function store()
     {
         // validate
-        // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'title' => 'required',
             'theme_topic' => 'required',
             'participation' => 'required',
-            'organizer' => 'required',
             'venue' => 'required',
-            'schedule' => 'required',
             'designation_id' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('external_trainings/create')
+            return Redirect::to('external_trainings/edit')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
             // store
 
-            //trainings table
-            $newtraining = new Training;
-            $newtraining->title = Input::get('title');
-            $newtraining->theme_topic = Input::get('theme_topic');
-            $newtraining->venue = Input::get('venue');
-            $newtraining->schedule = Input::get('schedule');
-            $newtraining->isTrainingPlan = Input::get('isTrainingPlan');
-            $newtraining->save();
+            //Trainings Table
+            $training = new Training;
+            $training->title = Input::get('title');
+            $training->theme_topic = Input::get('theme_topic');
+            $training->venue = Input::get('venue');
+            $training->isInternalTraining = 0;
+            $training->isTrainingPlan = 0;
+            $training->save();
+         
+            $externaltraining = new External_Training;
+            $externaltraining->training_id = $training->id;
+            $externaltraining->participation = Input::get('participation');
+            $externaltraining->organizer = Input::get('organizer');
+            $externaltraining->designation_id = Input::get('designation_id');
+            $externaltraining->save();
 
-            //external_trainings table
-            $externaltrainings = new External_Training;
-            $externaltrainings->participation = Input::get('participation');
-            $externaltrainings->organizer = Input::get('organizer');
-            $externaltrainings->designation_id = Input::get('designation_id');
-            $externaltrainings->save();
+            //Schedule
+            $schedules = Training_Schedule::where('isActive','=',true)->where('et_id','=',$id)->lists('id');
+            foreach($schedules as $value)
+            {
+                $sid = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->first();
+                $sid->et_id = NULL;
+                $sid->training_id = $training->id;
+                $sid->save();
+            }
+
+             //Tagged Skills and Competencies
+            $selectedsc = Input::get('scet_credit');
+            if($selectedsc == "")
+            {}
+            else 
+            {
+                $scidArray = explode(",", $selectedsc);
+
+                for($i = 0; $i < count($scidArray); $i++){
+                    $ETsc = new ET_Addressed_SC;
+                    $selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
+                    $ETsc->skills_competencies_id = $selectedid;
+                    $ETsc->external_training_id = $trainings->id;
+                    $ETsc->save();
+                }
+            }
+            
 
             // redirect
-            Session::flash('message', 'Successfully created the External Training!');
+            Session::flash('message', 'Successfully credited the External Training!');
             return Redirect::to('external_trainings');
         }
     }
@@ -98,7 +128,7 @@ class ExternalTrainingsController extends \BaseController {
      */
     public function show($id)
     {
-        $externaltrainings = External_Training::find($id);
+        $externaltrainings = External_Training::where('isActive', '=', true)->where('training_id', '=', $id)->first();
 
         return View::make('external_trainings.show')
             ->with('externaltrainings', $externaltrainings);
@@ -113,10 +143,32 @@ class ExternalTrainingsController extends \BaseController {
      */
     public function edit($id)
     {
-        $externaltrainings = ET_Queue::find($id);
+        $externaltraining = External_Training::select(DB::raw('*'))
+            ->join('trainings','external_trainings.training_id','=','trainings.id')
+            ->join('training_schedules','trainings.id','=','training_schedules.training_id')
+            ->where('external_trainings.training_id','=',$id)
+            ->first();
+
+        $designations = Employee_Designation::where('isActive','=',true)->where('id','=',$externaltraining->designation_id)->lists('title','id');
+        $sc = SkillsCompetencies::where('isActive', true)->lists('name');
+
+        $currentscid = ET_Addressed_SC::where('external_training_id', '=', $id)->lists('skills_competencies_id');
+        $currentscs = array();
+
+        foreach($currentscid as $key)
+        {
+            $scsname = SkillsCompetencies::where('isActive', '=', true)->where('id', '=', $key)->pluck('name');
+            array_push($currentscs, $scsname);
+        }
+
+        $currentdesig = External_Training::where('isActive','=',true)->where('training_id','=',$id)->pluck('designation_id');
 
         return View::make('external_trainings.edit')
-            ->with('externaltrainings', $externaltrainings );
+            ->with('externaltraining', $externaltraining)
+            ->with('designations', $designations)
+            ->with('sc', $sc)
+            ->with('currentscs', $currentscs)
+            ->with('currentdesig', $currentdesig);
     }
 
 
@@ -131,39 +183,60 @@ class ExternalTrainingsController extends \BaseController {
         // validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'title' => 'required',
-            'theme_topic' => 'required',
-            'participation' => 'required',
-            'organizer' => 'required',
-            'venue' => 'required',
-            'date_start' => 'required',
-            'date_end' => 'required',
-            'designation_id' => 'required'
+            'designation' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('external_trainings/create')
+            return Redirect::to('external_trainings/edit')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
             // store
-            $externaltrainings = External_Training::find($id);
-            $externaltrainings->title = Input::get('title');
-            $externaltrainings->theme_topic = Input::get('theme_topic');
-            $externaltrainings->participation = Input::get('participation');
-            $externaltrainings->organizer = Input::get('organizer');
-            $externaltrainings->venue = Input::get('venue');
-            $externaltrainings->date_start = Input::get('date_start');
-            $externaltrainings->date_end = Input::get('date_end');
-            $externaltrainings->designation_id = Input::get('designation_id');
-            $externaltrainings->save();
+
+            //Trainings Table
+            $training = Training::find($id);
+            /*$training->title = Input::get('title');
+            $training->theme_topic = Input::get('theme_topic');
+            $training->venue = Input::get('venue');*/
+            $training->isInternalTraining = 0;
+            $training->isTrainingPlan = 0;
+            $training->save();
+         
+            $externaltraining = External_Training::where('isActive','=',true)->where('training_id','=',$id)
+            ->update(array(
+                    'training_id' => $training->id
+                    /**'participation' => Input::get('participation'),
+                    'organizer' => Input::get('organizer'),
+                    'designation_id' => Input::get('designation'),*/
+                ));
+
+             //Tagged Skills and Competencies
+            $selectedsc = Input::get('scet_credit');
+            ET_Addressed_SC::where('external_training_id', '=', $id)->delete();
+
+            if($selectedsc == "")
+            {}
+            else 
+            {
+                $scidArray = explode(",", $selectedsc);
+
+                for($i = 0; $i < count($scidArray); $i++){
+                    $ETsc = new ET_Addressed_SC;
+                    $selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
+                    $ETsc->skills_competencies_id = $selectedid;
+                    $ETsc->external_training_id = $training->id;
+                    $ETsc->save();
+                }
+            }
+            
 
             // redirect
-            Session::flash('message', 'Successfully updated the External Training!');
+            Session::flash('message', 'Successfully credited the External Training!');
             return Redirect::to('external_trainings');
         }
+
     }
 
 
@@ -173,11 +246,12 @@ class ExternalTrainingsController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($training_id)
     {
-        $externaltrainings = External_Training::find($id);
-        $externaltrainings->isActive = false;
-        $externaltrainings->save();
+        $externaltraining = External_Training::where('training_id','=',$training_id)
+            ->update(array(
+                    'isActive' => false
+                ));
 
         // redirect
         Session::flash('message', 'Successfully deleted External Training!');
@@ -190,6 +264,8 @@ class ExternalTrainingsController extends \BaseController {
         $externaltrainingsqueue = ET_Queue::select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','training_schedules.date_scheduled','training_schedules.timeslot')
             ->join('employees','et_queues.employee_id','=','employees.id')
             ->join('training_schedules','et_queues.id','=','training_schedules.et_id')
+            ->where('et_queues.isActive','=',true)
+            ->groupBy('training_schedules.et_id')
             ->get();
 
         return View::make('external_trainings.pending-approval')
@@ -204,12 +280,6 @@ class ExternalTrainingsController extends \BaseController {
         $participation = "";
         $organizer = "";
         $venue = "";
-        $date_start = "";
-        $date_end = "";
-        $time_start_s = "";
-        $time_end_s = "";
-        $time_start_e = "";
-        $time_end_e = "";
 
         return View::make('submit-external-training')
             ->with('employee_number', $employee_number)
@@ -217,13 +287,7 @@ class ExternalTrainingsController extends \BaseController {
             ->with('theme_topic', $theme_topic)
             ->with('participation', $participation)
             ->with('organizer', $organizer)
-            ->with('venue', $venue)
-            ->with('date_start', $date_start)
-            ->with('date_end', $date_end)
-            ->with('time_start_s', $time_start_s)
-            ->with('time_end_s', $time_end_s)
-            ->with('time_start_e', $time_start_e)
-            ->with('time_end_e', $time_end_e);
+            ->with('venue', $venue);
     }
 
     public function confirmQueue()
@@ -278,13 +342,6 @@ class ExternalTrainingsController extends \BaseController {
         $participation = Input::get('participation');
         $organizer = Input::get('organizer');
         $venue = Input::get('venue');
-        $date_start = Input::get('date_start');
-        $date_end = Input::get('date_end');
-
-        $time_start_s = Input::get('time_start_s');
-        $time_end_s = Input::get('time_end_s');
-        $time_start_e = Input::get('time_start_e');
-        $time_end_e = Input::get('time_end_e');
 
         // validate
         // read more on validation at http://laravel.com/docs/validation
@@ -321,21 +378,81 @@ class ExternalTrainingsController extends \BaseController {
                 $externaltrainings->save();
 
                 //Schedule
-                $startdate = new Training_Schedule;
-                $startdate->date_scheduled = Input::get('date_start');
-                $startdate->timeslot = $time_start_s . "-" . $time_end_s;
-                $startdate->isStartDate = 1;
-                $startdate->isEndDate = 0;
-                $startdate->et_id = $externaltrainings->id;
-                $startdate->save();
+                $time_start = Input::get('timestart1');
+                $time_end = Input::get('timeend1');
+                $date1 = Input::get('date1');
 
-                $enddate = new Training_Schedule;
-                $enddate->date_scheduled = Input::get('date_end');
-                $enddate->timeslot = $time_start_e . "-" . $time_end_e;
-                $enddate->isStartDate = 0;
-                $enddate->isEndDate = 1;
-                $enddate->et_id = $externaltrainings->id;
-                $enddate->save();
+                if($date1 == "")
+                {
+
+                }
+                else
+                {
+                    $dateCount = Input::get('countbox');
+                    $dateCountInt = (int)$dateCount;
+
+                    if ($dateCountInt == 1)
+                    {
+                        $startdate = new Training_Schedule;
+                        $date1 = Input::get('date1');
+                        $startdate->date_scheduled = date("Y-m-d", strtotime($date1));
+                        $startdate->timeslot = $time_start . "-" . $time_end;
+                        $startdate->isStartDate = 1;
+                        $startdate->isEndDate = 1;
+                        $startdate->et_id = $externaltrainings->id;
+                        $startdate->save();
+                    }
+                    else if($dateCountInt > 1)
+                    {
+
+                        for($i=1; $i<=$dateCountInt; $i++)
+                        {
+                            $last = $dateCountInt;
+                            if($i == 1)
+                            {
+                                $timestart2 = Input::get('timestart1');
+                                $timeend2 = Input::get('timeend1');
+
+                                $startdate = new Training_Schedule;
+                                $date2 = Input::get('date1');
+                                $startdate->date_scheduled = date("Y-m-d", strtotime($date2));
+                                $startdate->timeslot = $timestart2 . "-" . $timeend2;
+                                $startdate->isStartDate = 1;
+                                $startdate->isEndDate = 0;
+                                $startdate->et_id = $externaltrainings->id;
+                                $startdate->save();
+                            }
+                            else if($i == $last)
+                            {
+                                $timestartlast = Input::get("timestart".$i);
+                                $timeendlast = Input::get("timeend".$i);
+
+                                $startdate = new Training_Schedule;
+                                $lastdate = Input::get("date".$i);
+                                $startdate->date_scheduled = date("Y-m-d", strtotime($lastdate));
+                                $startdate->timeslot = $timestartlast . "-" . $timeendlast;
+                                $startdate->isStartDate = 0;
+                                $startdate->isEndDate = 1;
+                                $startdate->et_id = $externaltrainings->id;
+                                $startdate->save();
+                            }
+                            else
+                            {
+                                $timestart = Input::get("timestart".$i);
+                                $timeend = Input::get("timeend".$i);
+
+                                $startdate = new Training_Schedule;
+                                $datescheduled = Input::get("date".$i);
+                                $startdate->date_scheduled = date("Y-m-d", strtotime($datescheduled));
+                                $startdate->timeslot = $timestart . "-" . $timeend;
+                                $startdate->isStartDate = 0;
+                                $startdate->isEndDate = 0;
+                                $startdate->et_id = $externaltrainings->id;
+                                $startdate->save();
+                            }
+                        }
+                    }
+                }
 
                 return View::make('success-external-training')
                     ->with('employee_number',$employee_number);
@@ -348,14 +465,22 @@ class ExternalTrainingsController extends \BaseController {
         $externaltraining = DB::table('et_queues')
             ->join('employees','et_queues.employee_id','=','employees.id')
             ->join('employee_designations','employees.id','=','employee_designations.employee_id')
-            ->select('et_queues.id','employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','et_queues.date_start','et_queues.date_end')
+            ->join('training_schedules','et_queues.id','=','training_schedules.et_id')
+            ->select('employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','training_schedules.date_scheduled','training_schedules.timeslot','training_schedules.et_id','employee_designations.employee_id','et_queues.id')
             ->where('et_queues.id', '=', $id)
-            ->get();
+            ->first();
+
+        $schoolcollege = School_College::where('isActive', '=', true)->lists('name');
+        $designations = Employee_Designation::where('isActive','=',true)->where('employee_id', '=', $externaltraining->employee_id)->lists('title','id');
+        $sc = SkillsCompetencies::where('isActive', true)->lists('name');
 
         if ($externaltraining)
         {
             return View::make('external_trainings.credit-external-training')
-                ->with('externaltraining', $externaltraining );
+                ->with('externaltraining', $externaltraining)
+                ->with('schoolcollege', $schoolcollege)
+                ->with('designations', $designations)
+                ->with('sc', $sc);
         }
         else
         {
@@ -372,11 +497,8 @@ class ExternalTrainingsController extends \BaseController {
             'title' => 'required',
             'theme_topic' => 'required',
             'participation' => 'required',
-            'organizer' => 'required',
             'venue' => 'required',
-            'date_start' => 'required',
-            'date_end' => 'required',
-            'designation_id' => 'required'
+            'designation' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -387,14 +509,56 @@ class ExternalTrainingsController extends \BaseController {
                 ->withInput(Input::except('password'));
         } else {
             // store
+
+            //Trainings Table
+            $training = new Training;
+            $training->title = Input::get('title');
+            $training->theme_topic = Input::get('theme_topic');
+            $training->venue = Input::get('venue');
+            $training->isInternalTraining = 0;
+            $training->isTrainingPlan = 0;
+            $training->save();
+         
             $externaltraining = new External_Training;
-            $externaltraining->title = Input::get('title');
-            $externaltraining->theme_topic = Input::get('theme_topic');
+            $externaltraining->training_id = $training->id;
             $externaltraining->participation = Input::get('participation');
             $externaltraining->organizer = Input::get('organizer');
-            $externaltraining->venue = Input::get('venue');
-            $externaltraining->designation_id = Input::get('designation_id');
+            $externaltraining->designation_id = Input::get('designation');
             $externaltraining->save();
+
+            //Schedule
+            $schedules = Training_Schedule::where('isActive','=',true)->where('et_id','=',$id)->lists('id');
+            foreach($schedules as $value)
+            {
+                $sid = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->first();
+                $etid = $sid->et_id;
+                $sid->et_id = NULL;
+                $sid->training_id = $training->id;
+                $sid->save();
+
+                $et = ET_Queue::where('isActive','=',true)->where('id','=',$etid)
+                ->update(array(
+                    'isActive' => false
+                ));
+            }
+
+             //Tagged Skills and Competencies
+            $selectedsc = Input::get('scet_credit');
+            if($selectedsc == "")
+            {}
+            else 
+            {
+                $scidArray = explode(",", $selectedsc);
+
+                for($i = 0; $i < count($scidArray); $i++){
+                    $ETsc = new ET_Addressed_SC;
+                    $selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
+                    $ETsc->skills_competencies_id = $selectedid;
+                    $ETsc->external_training_id = $training->id;
+                    $ETsc->save();
+                }
+            }
+            
 
             // redirect
             Session::flash('message', 'Successfully credited the External Training!');
@@ -410,7 +574,7 @@ class ExternalTrainingsController extends \BaseController {
 
         // redirect
         Session::flash('message', 'Successfully deleted External Training!');
-        return Redirect::to('external_trainings/pending-approvals');
+        return Redirect::to('external_trainings/queue');
     }
 
 }
