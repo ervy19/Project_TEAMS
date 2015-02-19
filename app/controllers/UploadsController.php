@@ -52,6 +52,8 @@ class UploadsController extends \BaseController {
 	{
 		date_default_timezone_set('Asia/Manila');
 		$currentTimeDate = date("Y-m-d H:i:s"); 
+		$currentTime = time("H:i:s"); 
+		$currentDate = date("Y-m-d");
 
 		//excel file must contain 2 columns (employee_number & time)
 		if(Input::get('isIndividual') == 0) { //IF UPLOAD OPTION IS SELECTED
@@ -67,14 +69,14 @@ class UploadsController extends \BaseController {
 						//$exists = Employee::where('employee_number', '=', $results[i]->employee_number)->where('isActive', '=', true);
 						if($exists != null)	
 						{
-							$it_attendances->date = $currentTimeDate; //Check this please
+							$it_attendances->date = $currentDate; //Check this please
 							if($results[$i]->time != null)
 							{
 								$it_attendances->time = $results[$i]->time;
 							}
 							else
 							{
-								$it_attendances->time = $currentTimeDate; //Check this please
+								$it_attendances->time = $currentTime; //Check this please
 							}
 							$it_attendances->it_participant_id = $exists->id;
 							//$it_attendances->save();
@@ -96,14 +98,14 @@ class UploadsController extends \BaseController {
 
 								//WRITE TO PARTICIPANT_ATTENDANCES
 								$exists2 = IT_Participant::where('employee_id', '=', $results[i]->employee_number)->where('internal_training_id', '=', $internal_training_id)->get();
-								$it_attendances->date = $currentTimeDate; //Check this please
+								$it_attendances->date = $currentDate; //Check this please
 								if($results[$i]->time != null)
 								{
 									$it_attendances->time = $results[$i]->time;
 								}
 								else
 								{
-									$it_attendances->time = $currentTimeDate; //Check this please
+									$it_attendances->time = $currentTime; //Check this please
 								}
 								$it_attendances->it_participant_id = $exists2->id;
 								//$it_attendances->save();
@@ -129,8 +131,8 @@ class UploadsController extends \BaseController {
 				$exists = IT_Participant::where('employee_id', '=', $individual_id)->where('internal_training_id', '=', $internal_training_id)->get();
 				if($exists != null)	
 				{
-					$it_attendances->date = $currentTimeDate; //Check this please
-					$it_attendances->time = $currentTimeDate; //Check this please
+					$it_attendances->date = $currentDate; //Check this please
+					$it_attendances->time = $currentTime; //Check this please
 
 					$it_attendances->it_participant_id = $exists->id;
 					//$it_attendances->save();
@@ -151,8 +153,8 @@ class UploadsController extends \BaseController {
 						
 						//WRITE TO PARTICIPANT_ATTENDANCES
 						$exists2 = IT_Participant::where('employee_id', '=', $individual_id)->where('internal_training_id', '=', $internal_training_id)->get();
-						$it_attendances->date = $currentTimeDate; //Check this please
-						$it_attendances->time = $currentTimeDate; //Check this please
+						$it_attendances->date = $currentDate; //Check this please
+						$it_attendances->time = $currentTime; //Check this please
 						
 						$it_attendances->it_participant_id = $exists2->id;
 						//$it_attendances->save();

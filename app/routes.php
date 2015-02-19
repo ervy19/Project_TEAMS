@@ -64,6 +64,8 @@ Route::get('reports/ter-report/{internal_training}', array('as' => 'reports.ter-
 
 Route::get('employees/{id}/training-log', array('as' => 'employees.training-log', 'uses' => 'ReportsController@getTrainingLog'));
 
+Route::get('employees/{id}/training-log-download', array('as' => 'employees.training-log-download', 'uses' => 'ReportsController@downloadTrainingLog'));
+
 
 /*
 |--------------------------------------------------------------------------
@@ -138,8 +140,6 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report', array('as' => 'internal_trainings.training-effectiveness-report', 'uses' => 'InternalTrainingsController@showTrainingEffectivenessReport'));
 
-
-
 	//Route::get('internal_trainings/{id}/{type}/accomplish', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
 	Route::post('internal_trainings/{internal_trainings}', array('as' => 'internal_trainings.store-report', 'uses' => 'InternalTrainingsController@storeReport'));
@@ -193,6 +193,9 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::resource('uploads','UploadsController');
 
+
+	Route::get('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@index'));
+	Route::post('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@storeAI'));
 
 	Route::get('employees/{employee_id}/individual-training-report', array('as' => 'employees.individual_training_report', 'uses' => 'EmployeesController@showTrainingReport'));
 	Route::get('employees/{employee_id}/individual-training-data', array('as' => 'employees.individual_training_data', 'uses' => 'SummaryReportsController@individualTrainingReport'));

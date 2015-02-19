@@ -8,7 +8,7 @@ class Employee_Designation extends Eloquent {
 
 	protected $guarded = 'id';
 
-	//protected $appends = array('supervisor, supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, department_scs, position_scs');
+	protected $appends = array('supervisor, supervisor_name, campus_name, schoolcollege_name, department_name, position_title, rank_title, department_scs, position_scs');
 
 	public function campus() {
 		return $this->belongsTo('Campus');

@@ -60,9 +60,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="badge badge-default">2</span><i class="fa fa-inbox fa-lg"></i>&nbsp;&nbsp;Notifications</a>
-              <ul class="dropdown-menu scrollable-menu" role="menu">
+              <ul id="notifications" class="dropdown-menu scrollable-menu" role="menu">
                 @if(isset($notifications))
-                  @if($notifications)
+                  @if(!$notifications->isEmpty())
                     @foreach($notifications as $key => $value)
                       <li>
                       @if($value->type == 'pta')
@@ -75,10 +75,10 @@
                       </li>
                     @endforeach
                   @else
-                    <li><a>You don't have any notifications</a></li>
+                    <li><a><center><b>You don't have new notifications</b></center></a></li>
                   @endif
                 @else
-                  <li><a>FUCK YOU!!!</a></li>
+                  <li><a>TEST!!!</a></li>
                 @endif
               </ul>
             </li>

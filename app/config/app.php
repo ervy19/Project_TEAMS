@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Zizaco\Confide\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
-		'Maatwebsite\Excel\ExcelServiceProvider'
+		'Barryvdh\DomPDF\ServiceProvider',
 	),
 
 	/*
@@ -193,6 +193,7 @@ return array(
 		'Confide'   		=> 'Zizaco\Confide\Facade',
 		'Entrust'    		=> 'Zizaco\Entrust\EntrustFacade',
 		'Excel' 			=> 'Maatwebsite\Excel\Facades\Excel',
+		'PDF' 				=> 'Barryvdh\DomPDF\Facade',
 	),
 
 );

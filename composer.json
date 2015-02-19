@@ -9,16 +9,18 @@
 		"zizaco/confide": "~4.0@dev",
 		"zizaco/entrust": "1.2.*@dev",
 		"maatwebsite/excel": "~1.2.1",
-		"thujohn/pdf": "~1.0"
+		"barryvdh/laravel-dompdf": "0.4.*"
 	},
 	"autoload": {
 		"classmap": [
 			"app/commands",
+			"app/composers",
 			"app/controllers",
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+			"app/repositories"
 		]
 	},
 	"scripts": {

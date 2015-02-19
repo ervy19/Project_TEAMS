@@ -141,7 +141,7 @@
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4 class="pull-left">Items for Training Assessment</h4>
-				<a class="label label-success pull-right" data-toggle="modal" data-target="#assessmentItems">View Items</a>
+				<a id="btn-view-item" class="label label-success pull-right">View Items</a>
 			</div>
 			<div class="col-sm-12 col-md-12 requirement">
 				<h4 class="pull-left">After Activity Evaluation Report</h4>
@@ -171,17 +171,37 @@
 			<div class="modal-content">
 				<div class="modal-header">
 	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        		<h4 class="modal-title" id="assessmentItemsLabel"><i class="fa fa-trash fa-lg"></i>&nbsp;&nbsp;Items for Assessment</h4>
+	        		<h4 class="modal-title" id="assessmentItemsLabel"><i class="fa fa-users fa-lg"></i>&nbsp;&nbsp;Items for Assessment</h4>
 	      		</div>
-	      		<div class="modal-body">
+	      		<div class="modal-header">
 	      			<div class="container">
-	      				<div class="col-sm-12 col-md-12">
-	      					<div class="row">
-	      						
+		      			<div class="col-sm-12 col-md-12">
+		      				<div class="row">
+		      					{{ Form::open(['data-add','id' => 'add-assessment-item', 'class' => 'form-horizontal']) }}
+								<div class="form-group row">
+									{{ Form::label('name','Name: ', array('class' => 'col-sm-1 col-md-1 control-label')) }}
+									<div class="col-sm-3 col-md-3">
+										{{ Form::text('name', '',array('class' => 'form-control')) }}
+										<div id="error-addsc-name" class="error-message"></div>
+									</div>
+									<div class="col-sm-2 col-md-2">
+									{{ Form::submit('Add Item', array('class' => 'btn btn-primary')) }}
+									</div>
+								</div>
+      							{{ Form::close() }}
 							</div>
 						</div>
 					</div>	
 	      		</div>
+	      		<div class="modal-body">
+	      			<div class="container">
+		      			<div class="col-sm-12 col-md-12">
+		      				<div class="row">
+		      					<div id="assessment-items-tags" class="tags"></div>
+		      				</div>
+		      			</div>
+		      		</div>
+		      	</div>
 	    		<div class="modal-footer">
 	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      		</div>
@@ -192,61 +212,110 @@
 	
 @stop
 
-@if($isAdminHR || $isOrganizer)
-	@section('page_js')
-		<script type="text/javascript">
+@section('page_js')
+<script type="text/javascript">
 			$(document).ready( function () {
+@if($isAdminHR || $isOrganizer)
+		
 
-	    $('#participant-summary').highcharts({
-	        chart: {
-	        	marginTop: -50,
-	        	marginBottom: 0,
-	        	height: 300,
-	            plotBackgroundColor: null,
-	            plotBorderWidth: 0,
-	            plotShadow: false
-	        },
-	        title: {
-	            text: ''
-	        },
-	        credits: {
-	        	enabled: false
-	        },
-	        tooltip: {
-	            pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
-	        },
-	        plotOptions: {
-	            pie: {
-	                dataLabels: {
-	                    enabled: false,
-	                    distance: -50,
-	                    style: {
-	                        fontWeight: 'bold',
-	                        color: 'white',
-	                        textShadow: '0px 1px 2px black'
-	                    }
-	                },
-	                startAngle: -90,
-	                endAngle: 90,
-	                center: ['50%', '75%']
-	            }
-	        },
-	        series: [{
-	            type: 'pie',
-	            name: 'Participant Data',
-	            innerSize: '50%',
-	            data: [
-	                ['With PTA only',   45.0],
-	                ['Attended and with PTA',       26.8],
-	                ['Attended only', 15.8],
-	                ['Attended and with both PTA and PTE',    12.4]
-	            ]
-	        }]
-	    });
+			    $('#participant-summary').highcharts({
+			        chart: {
+			        	marginTop: -50,
+			        	marginBottom: 0,
+			        	height: 300,
+			            plotBackgroundColor: null,
+			            plotBorderWidth: 0,
+			            plotShadow: false
+			        },
+			        title: {
+			            text: ''
+			        },
+			        credits: {
+			        	enabled: false
+			        },
+			        tooltip: {
+			            pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+			        },
+			        plotOptions: {
+			            pie: {
+			                dataLabels: {
+			                    enabled: false,
+			                    distance: -50,
+			                    style: {
+			                        fontWeight: 'bold',
+			                        color: 'white',
+			                        textShadow: '0px 1px 2px black'
+			                    }
+			                },
+			                startAngle: -90,
+			                endAngle: 90,
+			                center: ['50%', '75%']
+			            }
+			        },
+			        series: [{
+			            type: 'pie',
+			            name: 'Participant Data',
+			            innerSize: '50%',
+			            data: [
+			                ['With PTA only',   45.0],
+			                ['Attended and with PTA',       26.8],
+			                ['Attended only', 15.8],
+			                ['Attended and with both PTA and PTE',    12.4]
+			            ]
+			        }]
+			    });
 
-			    
+				$('#btn-view-item').on('click', function() {
+					var id = {{ $internaltrainings->id }}
 
-			});
-		</script>
-	@stop
+					$('#assessment-items-tags').empty();
+
+					$.get('{{ URL::to('') }}/internal_trainings/'+id+'/assessment-items', function(data){
+						if(data.success)
+						{
+							$.each(data.data, function(element, index){
+				            	$('#assessmentItems').find('.tags').append('<h3><span class="label label-default">'+index.name+'</span></h3>&nbsp;');
+				          	});
+						}
+					},'json');
+
+					$('#assessmentItems').modal('show');
+				});	
+
+				$('form[data-add]').on('submit', function (e) {
+
+					e.preventDefault();
+
+					var form = $(this);
+					var method = form.find('input[name="method"]').val() || 'POST';
+					var url = form.prop('action');
+
+					$.ajax({
+						type: method,
+						url: url + '/assessment-items',
+						data: form.serialize(),
+						success: function(data) {
+							if(data.success)
+							{
+								$.get('{{ URL::to('') }}/internal_trainings/'+id+'/assessment-items', function(data){
+									if(data.success)
+									{
+										$('#assessmentItems').find('.tags').empty();
+										$.each(data.data, function(element, index){
+							            	$('#assessmentItems').find('.tags').append('<h3><span class="label label-default">'+index.name+'</span></h3>&nbsp;');
+							          	});
+									}
+								},'json');
+							}
+							else
+							{
+								$('.error-message').empty();
+								$('#error-addsc-name').append(data.errors.name);
+							}
+						}
+					});
+				});		    
 @endif
+		});
+	</script>
+@stop

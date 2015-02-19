@@ -458,8 +458,12 @@ table.dataTable.no-footer {
 
 .dropdown-menu {
     background: #FFF;
-    min-width: 225px;
+    min-width: 200px;
     padding: 0px;
+}
+
+#notifications {
+  min-width: 250px;
 }
 
 .dropdown-menu>li>a {

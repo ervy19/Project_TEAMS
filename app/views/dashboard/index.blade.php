@@ -144,15 +144,6 @@
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-sm-12 col-md-12">
-		<div class="panel">
-			<div class="row">
-				<h3 class="panel-header"><i class="fa fa-pencil-square-o"></i>&nbsp;To Be Accomplished</h3>
-			</div>
-		</div>
-	</div>	
-</div>
 
 @stop
 

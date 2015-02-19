@@ -93,13 +93,14 @@ class EmployeesController extends \BaseController {
 				$employee_designation = new Employee_Designation;
 				$employee_designation->employee_id = $employees->id;
 				
-				$employee_designation->classifications = array_get($myInputs, '0'); 
-				$employee_designation->campus_id = Campus::where('name', '=', array_get($myInputs, '1'))->pluck('id');
-				$employee_designation->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '2'))->pluck('id');
-				$employee_designation->department_id = Department::where('name', '=', array_get($myInputs, '3'))->pluck('id');
-				$employee_designation->supervisor_id = Supervisor::where('id', '=', array_get($myInputs, '4'))->pluck('id');
-				$employee_designation->position_id = Position::where('title', '=', array_get($myInputs, '5'))->pluck('id');
-				$employee_designation->rank_id = Rank::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+				$employee_designation->classifications = array_get($myInputs, '0');
+				$employee_designation->title = array_get($myInputs, '1');
+				$employee_designation->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
+				$employee_designation->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
+				$employee_designation->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
+				$employee_designation->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
+				$employee_designation->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+				$employee_designation->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
 				
 				$employee_designation->save();
 			}
@@ -122,8 +123,9 @@ class EmployeesController extends \BaseController {
 
 		$designations = Employee_Designation::where('isActive', '=', true)
 								->where('employee_id','=',$id)
-								->get();
-        $hasDesignations = false;
+								->first();
+
+		//dd($designations);
         //Get all internal trainings of the employee
         /*$it_attended = Training::select(DB::raw('*'))
         			->leftJoin('internal_trainings', 'internal_trainings.training_id', '=', 'trainings.id')
@@ -142,15 +144,9 @@ class EmployeesController extends \BaseController {
         			->get();*/
         //dd($designations);
 
-        if(!$designations->isEmpty())
-        {
-        	$hasDesignations = true;
-        }
-
 		return View::make('employees.show')
 			->with('employees', $employee )
-			->with('designations', $designations)
-			->with('hasDesignations', $hasDesignations);
+			->with('designations', $designations);
 
 			//->with('employees', $employee )
 			//->with('designations', $designations);
@@ -192,11 +188,12 @@ class EmployeesController extends \BaseController {
         	${'selected_array'.$i} = array();
         	$current = array_get($emp_desig_array, $i);
         	
-        	array_push(${'selected_array'.$i}, $current->type);
+        	array_push(${'selected_array'.$i}, $current->classifications);
+        	array_push(${'selected_array'.$i}, $current->title);
 			array_push(${'selected_array'.$i}, Campus::where('id', '=', $current->campus_id)->pluck('name'));
 			array_push(${'selected_array'.$i}, School_College::where('id', '=', $current->schools_colleges_id)->pluck('name'));
 			array_push(${'selected_array'.$i}, Department::where('id', '=', $current->department_id)->pluck('name'));
-			array_push(${'selected_array'.$i}, Supervisor::where('id', '=', $current->supervisor_id)->pluck('id'));
+			array_push(${'selected_array'.$i}, Supervisor::where('id', '=', $current->supervisor_id)->pluck('name'));
 			array_push(${'selected_array'.$i}, Position::where('id', '=', $current->position_id)->pluck('title'));
 			array_push(${'selected_array'.$i}, Rank::where('id', '=', $current->rank_id)->pluck('title'));
         	
@@ -252,9 +249,9 @@ class EmployeesController extends \BaseController {
                 ->withInput();
         } else {
         	//count the number of employee designations
-        	$count = Employee_Designation::where('employee_id', '=', $id)->count();
+        	$count = Employee_Designation::where('employee_id', '=', $id)->where('isActive', '=', true)->count();
 
-            // update
+            //update employee
             $employees = Employee::find($id);
             $employees->employee_number = Input::get('employee_number');
             $employees->last_name = Input::get('last_name');
@@ -265,6 +262,42 @@ class EmployeesController extends \BaseController {
             $employees->tenure = Input::get('tenure');
             $employees->save();
 
+            $limit = Input::get('count');
+            //update employees designation
+			for($i = 1; $i <= $limit; $i++)
+			{
+				if($i > $count) {
+					$myInputs = Input::get("myInputs".$i);
+					$new_desig = new Employee_Designation;
+
+					$new_desig->classifications = array_get($myInputs, '0');
+					$new_desig->title = array_get($myInputs, '1');
+					$new_desig->employee_id = $employees->id;
+					$new_desig->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
+					$new_desig->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
+					$new_desig->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
+					$new_desig->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
+					$new_desig->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+					$new_desig->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
+
+					$new_desig->save();
+				}
+				else {
+					$myInputs = Input::get("myInputs".$i);
+					$employee_designation = Employee_Designation::where('employee_id', '=', $id)->where('isActive', '=', true)->get();
+					
+					$employee_designation[$i-1]->classifications = array_get($myInputs, '0');
+					$employee_designation[$i-1]->title = array_get($myInputs, '1');
+					$employee_designation[$i-1]->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
+					$employee_designation[$i-1]->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
+					$employee_designation[$i-1]->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
+					$employee_designation[$i-1]->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
+					$employee_designation[$i-1]->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+					$employee_designation[$i-1]->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
+					
+					$employee_designation[$i-1]->save();
+				}
+			}
             // redirect
             Session::flash('message', 'Successfully updated the Employee!');
             return Redirect::to('employees');
@@ -299,6 +332,8 @@ class EmployeesController extends \BaseController {
 		$et_count = External_Training::join('employee_designations','external_trainings.designation_id','=','employee_designations.id')
 								->where('employee_designations.employee_id','=',$id)
 								->count();
+
+		//dd($employee->designations);
 
 		return View::make('summary_reports.employee_training')
 					->with('employee',$employee)

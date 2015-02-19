@@ -93,18 +93,20 @@
 		    newdiv.innerHTML = 	"<table id='employee_designation_" + count + " class='table'>" +
 		    					"<thead> <tr> <td colspan='2'><h3>Employee Designation " + count + "</h3></td> </tr> </thead>" +
 		    					"<tbody>" +
-		    					"<tr><td><label>Designation Type:&nbsp</label></td><td><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Teaching'>Teaching</option><option value='Non-Teaching'>Non-Teaching</option> </select><br></td></tr>" +
-		    					"<tr><td><label>Campus:&nbsp</label></td><td><select id=" + (univID+1) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>School/College:&nbsp</label></td><td><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>Department:&nbsp</label></td><td><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-								"<tr><td><label>Supervisor:&nbsp</label></td><td><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>Position:&nbsp</label></td><td><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br></td></tr>" +
-								"<tr><td><label>Rank:&nbsp</label></td><td><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Classification:&nbsp</label></td><td><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Faculty'>Faculty</option><option value='Non-Teaching'>Non-Teaching</option> </select><br></td></tr>" +
+		    					"<tr><td><label>Title:&nbsp</label></td><td><input type='text' id=" + (univID+1) + " name='myInputs" + count + "[]'><br></td></tr>" +
+		    					"<tr><td><label>Campus:&nbsp</label></td><td><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>School/College:&nbsp</label></td><td><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Department:&nbsp</label></td><td><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+								"<tr><td><label>Supervisor:&nbsp</label></td><td><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Position:&nbsp</label></td><td><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br></td></tr>" +
+								"<tr><td><label>Rank:&nbsp</label></td><td><select id=" + (univID+7) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br></td></tr>" +
 								"</tbody></table>"
 								;
-			univID = univID + 7;
+			univID = univID + 8;
 		    document.getElementById(divName).appendChild(newdiv);
 		    document.getElementById('count').value = count;
+		    $("#" + (univID-3)).select2();
 		}
 
 		function removeInput(parentDiv, childDiv) {
@@ -116,24 +118,12 @@
 		          parent.removeChild(child);
 		          count--;
 		          document.getElementById('count').value = count;
-		          univID = univID -	7;	          
+		          univID = univID -	8;	          
 		     }
 		     else {
 		          alert("Child div has already been removed or does not exist.");
 		          return false;
 		     }
 		}
-
-	/**	$('#11').on('change', function(e){
-			console.log(e);
-
-			var id = e.target.value;
-
-			//ajax
-			$.get('employees/create/getoption', function(data){
-				//success data
-				console.log(data);
-			});
-		}); **/
 	</script>
 @stop

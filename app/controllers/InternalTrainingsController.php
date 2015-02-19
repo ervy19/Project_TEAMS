@@ -170,14 +170,16 @@ class InternalTrainingsController extends \BaseController {
         //Get the name of the department who organized the training
         $department = Department::find($internaltrainings->organizer_department_id);        
             
+        $organizer = '';
+
         if($schoolcollege)
         {
-            $organizer = $schoolcollege->name;
+            $organizer = $schoolcollege->name . ' | ' ;
         }
 
         if($department)
         {
-            $organizer = $schoolcollege->name . ' | Department of ' . $department->name;
+            $organizer .= 'Department of ' . $department->name;
         }
 
         $isAdminHR = false;
@@ -233,7 +235,6 @@ class InternalTrainingsController extends \BaseController {
                                 ->join('departments','department_supervisors.department_id','=','departments.id')
                                 ->where('supervisors.user_id','=',Auth::user()->id)
                                 ->first();
-
                 if($departmentSupervisor->dept_id==$internaltrainings->organizer_department_id)
                 {
                     $isOrganizer = true;
