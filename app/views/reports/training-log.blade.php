@@ -1,15 +1,4 @@
-@extends('layouts.index')
 
-@section('title')
-	Training Log
-@stop
-
-@section('breadcrumb')
-	<li>Training Log</li>
-@stop
-
-@section('content')
-<!--<href class="btn btn-primary" align="left" onClick="download()">Export to PDF</href>-->
 <div class="col-sm-12 col-md-12">
 	<div id="training-log-content" class="panel">
 		<div class="row">

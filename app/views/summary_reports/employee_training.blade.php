@@ -129,6 +129,7 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
+                                <th>Type</th>
                                 <th>Skills Competencies Addressed</th>
                                 <th>Training Requirements</th>
                                 <th>Action</th>
@@ -160,7 +161,8 @@
             var table = $('#tb-trainings-scs').dataTable({
                 "ajax": "{{ URL::to('employees') }}/{{ $employee->id }}/individual-training-data",
                 "columns": [
-                    { "data": "title" },
+                    { "data": "training_title" },
+                    { "data": "training_type" },
                     { "data": "training_scs",
                         "render": function ( data, type, full, meta ) {
                             var scs = '';
@@ -180,35 +182,42 @@
                         }
                     },
                     { "data": "requirement_statuses",
-                      "render": function ( data, type, full, meta ) {
+                      "render": function ( data, type, row, meta ) {
                         if(data)
                         {
                             var status = '';
-                            if(data[0])
+                            if(row.training_type === "Internal")
                             {
-                                status += '<span class="label label-success">Has PTA</span>&nbsp;';
-                            }
-                            else
-                            {
-                                status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
-                            }
+                                if(data[0])
+                                {
+                                    status += '<span class="label label-success">Has PTA</span>&nbsp;';
+                                }
+                                else
+                                {
+                                    status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+                                }
 
-                            if(data[1])
-                            {
-                                status += '<span class="label label-success">Has Attended</span>&nbsp;';
-                            }
-                            else
-                            {
-                                status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
-                            }
+                                if(data[1])
+                                {
+                                    status += '<span class="label label-success">Has Attended</span>&nbsp;';
+                                }
+                                else
+                                {
+                                    status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+                                }
 
-                            if(data[2])
-                            {
-                                status += '<span class="label label-success">Has PTE</span>';
+                                if(data[2])
+                                {
+                                    status += '<span class="label label-success">Has PTE</span>';
+                                }
+                                else
+                                {
+                                    status += '<span class="label label-danger">No PTE Yet</span>';
+                                }
                             }
                             else
                             {
-                                status += '<span class="label label-danger">No PTE Yet</span>';
+                                status += '<span class="label label-success">Credited</span>';
                             }
 
                             return status;
@@ -220,17 +229,25 @@
                       } 
                     },
                     { 
-                        "data": "id",
-                        "render": function ( data, type, full, meta ) {
-                         return '<a href="{{ URL::to("internal_trainings") }}/'+data+'" class="btn btn-primary"><i class="fa fa-file-text-o"></i>&nbsp;View</button>';
+                        "data": "training_id",
+                        "render": function ( data, type, row, meta ) {
+                            if(row.training_type === "Internal")
+                            {
+                                return '<a href="{{ URL::to("internal_trainings") }}/'+data+'" class="btn btn-primary"><i class="fa fa-file-text-o"></i>&nbsp;View</button>';
+                            }
+                            else
+                            {
+                                return '<a href="{{ URL::to("external_trainings") }}/'+data+'" class="btn btn-primary"><i class="fa fa-file-text-o"></i>&nbsp;View</button>';
+                            }
                         }
                     }
                 ],
                   "aoColumnDefs": [
                   { "sWidth": "30%", "aTargets": [ 0 ] },
-                  { "sWidth": '45%', "aTargets": [ 1 ] },
-                  { "sWidth": '20%', "aTargets": [ 2 ] },
-                  { "sWidth": '5%', "aTargets": [ 3 ] }
+                  { "sWidth": '5%', "aTargets": [ 1 ] },
+                  { "sWidth": '40%', "aTargets": [ 2 ] },
+                  { "sWidth": '20%', "aTargets": [ 3 ] },
+                  { "sWidth": '5%', "aTargets": [ 4 ] }
                 ]
             });
 		});

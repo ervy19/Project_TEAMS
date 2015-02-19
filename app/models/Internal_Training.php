@@ -8,7 +8,12 @@ class Internal_Training extends Eloquent {
 
 	protected $guarded = 'training_id';
 
-	protected $appends = array('training_title');
+	protected $appends = array('training_type','training_title');
+
+	public function getTrainingTypeAttribute()
+	{
+		return 'Internal';
+	}
 
 	public function getTrainingTitleAttribute()
 	{

@@ -25,7 +25,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create($training_id, $type)
+	public function create($type)
 	{
 		if($type=="pta")
 		{
@@ -273,6 +273,8 @@ class TrainingAssessmentsController extends \BaseController {
 								->where('internal_trainings.training_id','=',$id)
 								->where('internal_trainings.isActive', '=', true)
 								->first();
+
+			$training_id = $id;
 
 			return View::make('training_assessments.accomplish')
 				->with('internaltraining', $internaltraining)

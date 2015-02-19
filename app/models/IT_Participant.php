@@ -6,7 +6,17 @@ class IT_Participant extends Eloquent {
 
 	protected $fillable = array('id', 'employee_id', 'employee_designation_id', 'internal_training_id', 'isActive');
 
-	protected $appends = array('employee_name','position_title','supervisor_name','has_pta','attended','has_pte','requirement_statuses','training_scs');
+	protected $appends = array('training_id','training_type','employee_name','position_title','supervisor_name','training_title','has_pta','attended','has_pte','requirement_statuses','training_scs');
+
+	public function getTrainingIdAttribute()
+	{
+		return $this->internal_training_id;
+	}	
+
+	public function getTrainingTypeAttribute()
+	{
+		return 'Internal';
+	}
 
 	public function getEmployeeNameAttribute()
 	{
@@ -55,6 +65,20 @@ class IT_Participant extends Eloquent {
 		}
 	}
 
+	public function getTrainingTitleAttribute()
+	{
+		$training = Training::find($this->internal_training_id);
+
+		if($training)
+		{
+			return $training->title;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
 	public function getHasPtaAttribute()
 	{
 		$pta = Participant_Assessment::where('type','=','pta')
@@ -75,6 +99,7 @@ class IT_Participant extends Eloquent {
 	public function getAttendedAttribute()
 	{
 		$attendance = Participant_Attendance::where('it_participant_id','=',$this->id)
+						->where('isActive','=',true)
 						->first();
 
 		if($attendance)
