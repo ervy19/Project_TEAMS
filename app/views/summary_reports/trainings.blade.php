@@ -25,30 +25,10 @@
 	       <li role="presentation" class="active"><a>Trainings</a></li>
 	       <li role="presentation"><a href="{{ URL::to('summary_report/skills_competencies') }}">Skills and Competencies</a></li>
 	   </ul>
-       <div class="col-sm-12 col-md-12">
-            <div class="row">
-                <div class="col-sm-3 col-md-3">
-                    <h4 class="filter-label">Filter from:&nbsp;&nbsp;</h4>
-                    {{ Form::select('sc-filter', ['Select Filter','Skill/Competency','Department','Position'], null, array('id' => 'dd-sc-filter', 'class' => 'form-control')) }}
-                </div>
-                <div class="col-sm-4 col-md-4">
-                    <div class="col-sm-1 col-md-1">
-                        <h4 class="filter-label">to</h4>
-                    </div>
-                    <div class="col-sm-7 col-md-7">
-                        {{ Form::select('sc-filter-options', [], null, array('id' => 'dd-sc-options', 'class' => 'form-control')) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br><br><br>
-    </div>
-</div>
-
-<div class="col-sm-12 col-md-12 training-data">
-    <div class="row panel">
+       <br>
        <div id="trainingcount-barchart" style="min-width: 310px; max-width: 1000px; height: 125px; margin: 0 auto"></div>
-       <div class="col-sm-18 col-md-8">
+       <br>
+       <div class="col-sm-8 col-md-8">
            <div id="trainingcount-linechart" style="min-width: 310px; margin: 0 auto"></div>
         </div>
     </div>
@@ -217,13 +197,16 @@
 
             function lineChart(element)
             {
+                var thisYear = new Date().getFullYear();
+                var nextYear = thisYear + 1;
+
                 $(element).highcharts({
                     title: {
                         text: null
                     },
                     xAxis: {
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                        categories: ['Apr ' + thisYear, 'May ' + thisYear, 'Jun ' + thisYear, 'Jul ' + thisYear, 
+                        'Aug ' + thisYear, 'Sep ' + thisYear, 'Oct ' + thisYear, 'Nov ' + thisYear, 'Dec ' + thisYear, 'Jan '+ nextYear, 'Feb ' + nextYear, 'Mar ' + nextYear]
                     },
                     yAxis: {
                         title: {

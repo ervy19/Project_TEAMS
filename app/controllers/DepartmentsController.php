@@ -266,5 +266,4 @@ class DepartmentsController extends \BaseController {
 			return Response::json(['success' => true,'data' => $needed_scs]);
 		}
 	}
-
 }

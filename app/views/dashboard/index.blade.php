@@ -164,6 +164,33 @@
 	<script type="text/javascript">
 		$(document).ready( function () {
 		    $('#calendar').fullCalendar({
+		    	events: [
+		    		@foreach($consecutive_trainings as $key => $value)
+		    			{
+		    				id: '{{ $value->id }}',
+		    				title: "{{ $value->title }}",
+		    				start: '{{ $value->start_date }}',
+		    				end: '{{ $value->end_date }}'
+		    			},
+		    		@endforeach
+		    		@foreach($separated_trainings as $k => $v)
+		    			{
+		    				id: "{{ $v['id'] }}",
+		    				title: "{{ $v['title'] }}",
+		    				start: "{{ $v['start'] }}"
+		    			},
+		    		@endforeach
+		    	],
+    			eventClick: function(event) {
+			        if (event.id) {
+			            window.location = "./internal_trainings/" + event.id;
+			        }
+			    },
+			    eventRender: function(event, element) {
+			        element
+			            .attr('title', event.title)
+			            .tooltip();
+			    },
 		    	header: false,
 		    	height: "auto",
 		    	contentHeight: "auto"

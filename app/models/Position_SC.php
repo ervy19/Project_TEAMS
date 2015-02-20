@@ -8,7 +8,7 @@ class Position_SC extends Eloquent {
 
 	protected $guarded = 'id';
 
-	protected $appends = array('name');
+	protected $appends = array('name','position_needs');
 
 	public function position() {
 		return $this->hasOne('Position');
@@ -32,6 +32,14 @@ class Position_SC extends Eloquent {
 		}
 	}
 	
+	public function getPositionNeedsAttribute()
+	{
+		$position_needs = Employee_Designation::where('position_id','=',$this->position_id)
+							->where('isActive','=',true)
+							->count();
+
+		return $position_needs;
+	}
 }
 
 ?>

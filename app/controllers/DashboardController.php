@@ -16,6 +16,27 @@ class DashboardController extends \BaseController {
 						->leftJoin('departments','department_supervisors.department_id','=','departments.id')
 						->where('users.id','=',Auth::user()->id)
 						->first();*/
+		$trainings = Training::select(DB::raw('id, title'))
+							->where('isActive','=',true)
+							->where('isInternalTraining','=',true)
+							->where('isTrainingPlan','=',true)
+							->get();
+
+		$consecutive_trainings = array();
+		$separated_trainings = array();
+
+		foreach ($trainings as $key => $value) {
+			if($value->is_consecutive)
+			{
+				array_push($consecutive_trainings, $value);
+			}
+			else
+			{
+				foreach ($value->all_date as $k => $v) {
+					array_push($separated_trainings, array('id' => $value->id, 'title' => $value->title, 'start' => $v->date_scheduled));
+				}				
+			}
+		}
 
 		if(Auth::user()->hasRole('Admin'))
 		{
@@ -80,7 +101,9 @@ class DashboardController extends \BaseController {
 		return View::make('dashboard.index')
 			->with('role',$role)
 			->with('name',$name)
-			->with('notifications',$notifications);
+			->with('notifications',$notifications)
+			->with('consecutive_trainings',$consecutive_trainings)
+			->with('separated_trainings',$separated_trainings);
 	}
 
 

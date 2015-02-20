@@ -232,6 +232,10 @@ class PositionsController extends \BaseController {
 			array_push($needed_scs, $sc);
 		}
 
+		$totalNeeds_Position = Employee_Designation::where('position_id','=',$id)
+							->where('isActive','=',true)
+							->count();
+
 		if(Request::ajax()){
 			return Response::json(['success' => true, 'data' => $needed_scs]);
 		}

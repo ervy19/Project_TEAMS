@@ -34,15 +34,35 @@ class SummaryReportsController extends \BaseController {
 
 	public function trainingsReport()
 	{
-		$it_count = Internal_Training::where('isActive','=',true)->count();
-		$et_count = External_Training::where('isActive','=',true)->count();
+		$start_date = new DateTime('04/01/'.date("Y"));
+		$end_date = new DateTime('03/31/'.(date("Y")+1));
+
+		$it_count = Internal_Training::where('created_at','>=',$start_date)
+						->where('created_at','<=',$end_date)
+						->where('isActive','=',true)
+						->count();
+
+		$et_count = External_Training::where('created_at','>=',$start_date)
+						->where('created_at','<=',$end_date)
+						->where('isActive','=',true)
+						->count();
 
 		$trainings_count = $it_count + $et_count;
+
+
+		$itCountPerMonth = Internal_Training::select(DB::raw('COUNT(*'))
+						->where('created_at','>=',$start_date)
+						->where('created_at','<=',$end_date)
+						->where('isActive','=',true)
+						->groupBy('MONTH(record_date)')
+						->get();
+
 
 		return View::make('summary_reports.trainings')
 					->with('itCount',$it_count)
 					->with('etCount',$et_count)
-					->with('trainingsCount',$trainings_count);
+					->with('trainingsCount',$trainings_count)
+					->with('itPerMonth',$itCountPerMonth);
 	}
 
 	public function scsReport()
@@ -68,12 +88,13 @@ class SummaryReportsController extends \BaseController {
 
     	$scPerPosition = Position_SC::where('isActive','=',true)->count() / Position::where('isActive','=',true)->count();
 
+
     	return View::make('summary_reports.scs')
             				->with('scs',$scs)
             				->with('sc_count',$sc_count)
-            				->with('sctraining',$scPerTraining)
-            				->with('scdepartment',$scPerDepartment)
-            				->with('scposition',$scPerPosition);
+            				->with('sctraining',round($scPerTraining,0,PHP_ROUND_HALF_UP))
+            				->with('scdepartment',round($scPerDepartment,0,PHP_ROUND_HALF_UP))
+            				->with('scposition',round($scPerPosition,0,PHP_ROUND_HALF_UP));
 	}
 
 	/**
