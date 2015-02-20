@@ -356,12 +356,15 @@ class InternalTrainingsController extends \BaseController {
 	{
         $internal_training = Training::where('id', '=', $id)->first();
         $activityevaluation = Activity_Evaluation::where('internal_training_id', '=', $id)->first();
+        $speakerevaluation = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->get();
+
         $attendees = IT_Participant::join('participant_attendances','it_participants.id','=','participant_attendances.it_participant_id')
-                        ->where('it_participants.internal_training_id','=',$id)
-                        ->first();
+            ->where('it_participants.internal_training_id','=',$id)
+            ->first();
 
-        //dd($attendees);
-
+        $speakersid = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->lists('id');
+        $speakers = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->get();
+        
         $isAdminHR = false;
         $existsAE = false;
         $hasAttendees = false;
@@ -379,6 +382,15 @@ class InternalTrainingsController extends \BaseController {
                     $isAdminHR = true;
                 }
 
+                $speakerevaluation = array();
+
+                foreach($speakersid as $value)
+                {
+                    $speval = Speaker_Evaluation::where('isActive','=',true)->where('speaker_id','=',$value)->first();
+                    $name = Speaker::where('isActive','=',true)->where('id','=',$value)->pluck('name');
+                    array_push($speakerevaluation, array( 'name' => $name, 'id' => $speval->speaker_id, "evaluation_criterion1_".$speval->speaker_id => $speval->evaluation_criterion1, "evaluation_criterion2_".$speval->speaker_id => $speval->evaluation_criterion2, "evaluation_criterion3_".$speval->speaker_id => $speval->evaluation_criterion3));
+                }
+
                 //$speaker = Speaker::where('internal_training_id', '=', $id)->pluck('id');
                 //$speakerevaluation = Speaker_Evaluation::where('speaker_id', '=', $speaker)->first();
                 
@@ -387,7 +399,9 @@ class InternalTrainingsController extends \BaseController {
                     ->with('activityevaluation', $activityevaluation)
                     ->with('existsAE',$existsAE)
                     ->with('hasAttendees',$hasAttendees)
-                    ->with('isAdminHR',$isAdminHR);
+                    ->with('isAdminHR',$isAdminHR)
+                    ->with('speakers', $speakers)
+                    ->with('speakerevaluation', $speakerevaluation);
 
             }
             else
@@ -401,7 +415,8 @@ class InternalTrainingsController extends \BaseController {
                     ->with('internal_training', $internal_training)
                     ->with('existsAE',$existsAE)
                     ->with('hasAttendees',$hasAttendees)
-                    ->with('isAdminHR',$isAdminHR);
+                    ->with('isAdminHR',$isAdminHR)
+                    ->with('speakers', $speakers);
             }
         }
         else
@@ -464,12 +479,17 @@ class InternalTrainingsController extends \BaseController {
             $activityevaluation->save();
 
             //Speaker_Evaluation Table
-            $speakerevaluation = new Speaker_Evaluation;
-            $speakerevaluation->evaluation_criterion1 = Input::get('evaluation_criterion1');
-            $speakerevaluation->evaluation_criterion2 = Input::get('evaluation_criterion2');
-            $speakerevaluation->evaluation_criterion3 = Input::get('evaluation_criterion3');
-            $speakerevaluation->speaker_id = 1;
-            $speakerevaluation->save(); 
+            $speakers = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->lists('id');
+            foreach($speakers as $value)
+            {
+                $speakerevaluation = new Speaker_Evaluation;
+                $speakerevaluation->evaluation_criterion1 = Input::get("evaluation_criterion1_" . $value);
+                $speakerevaluation->evaluation_criterion2 = Input::get("evaluation_criterion2_" . $value);
+                $speakerevaluation->evaluation_criterion3 = Input::get("evaluation_criterion3_" . $value);
+                $speakerevaluation->speaker_id = $value;
+                $speakerevaluation->save(); 
+            }
+            
 
             // redirect
             Session::flash('message', 'Successfully recorded After Activity Evaluation!');
