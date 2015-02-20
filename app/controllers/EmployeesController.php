@@ -298,6 +298,7 @@ class EmployeesController extends \BaseController {
 					$employee_designation[$i-1]->save();
 				}
 			}
+
             // redirect
             Session::flash('message', 'Successfully updated the Employee!');
             return Redirect::to('employees');

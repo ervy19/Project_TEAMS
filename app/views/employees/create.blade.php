@@ -106,7 +106,10 @@
 			univID = univID + 8;
 		    document.getElementById(divName).appendChild(newdiv);
 		    document.getElementById('count').value = count;
-		    $("#" + (univID-3)).select2();
+
+		    for (var i = univID-1; i >= univID-6; i--) {
+		    	$("#" + i).select2();
+		    };
 		}
 
 		function removeInput(parentDiv, childDiv) {

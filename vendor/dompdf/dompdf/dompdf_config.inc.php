@@ -195,7 +195,7 @@ def("DOMPDF_DEFAULT_MEDIA_TYPE", "screen");
  *
  * @see CPDF_Adapter::PAPER_SIZES for valid sizes
  */
-def("DOMPDF_DEFAULT_PAPER_SIZE", "letter");
+def("DOMPDF_DEFAULT_PAPER_SIZE", "legal");
 
 /**
  * The default font family
@@ -252,7 +252,7 @@ def("DOMPDF_DPI", 96);
  *
  * @var bool
  */
-def("DOMPDF_ENABLE_PHP", false);
+def("DOMPDF_ENABLE_PHP", true);
 
 /**
  * Enable inline Javascript
@@ -307,7 +307,7 @@ def("DOMPDF_ENABLE_CSS_FLOAT", false);
  *
  * @var bool
  */
-def("DOMPDF_ENABLE_AUTOLOAD", true);
+def("DOMPDF_ENABLE_AUTOLOAD", false);
 
 /**
  * Prepend the DOMPDF autoload function to the spl_autoload stack
