@@ -14,7 +14,6 @@
 @section('content')
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
-		
 	{{ Form::model($internaltraining, array('route' => array('internal_trainings.store-participants', $internaltraining[0]->id), 'method' => 'POST', 'files' => 'true')) }}
 		<div>
 			<input type="radio" id="1" name="isIndividual" value="individual" onClick="onChoice()" checked>Individual
@@ -35,32 +34,4 @@
 	{{ Form::close() }}
 	</div>
 </div>
-@stop
-
-@section('page_js')
-	<script type="text/javascript">
-	/**
-		(function autoGray() {
-			if(document.getElementById('1').checked) {
-				$('div.batch').block({});
-				$('div.individual').unblockUI();
-			}
-			else {
-				$('div.individual').block({});
-				$('div.batch').unblockUI();
-			}
-		})()
-
-		function onChoice() {
-			if(document.getElementById('1').checked) {
-				$('div.batch').block({});
-				$('div.individual').unblockUI();
-			}
-			else {
-				$('div.individual').block({});
-				$('div.batch').unblockUI();
-			}
-		}
-	**/
-	</script>
 @stop

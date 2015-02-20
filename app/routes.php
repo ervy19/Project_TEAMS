@@ -121,6 +121,11 @@ Route::group(array('before' => 'auth'), function()
 	| Different application routes for Internal Training components
 	|
 	*/
+	Route::get('internal_trainings/{internal_trainings}/participants/add-attendance', array('as' => 'internal_trainings.upload-attendance', 'uses' => 'UploadsController@showUploadAttendance'));
+	Route::post('internal_trainings/{internal_trainings}/participants/add-attendance', array('as' => 'internal_trainings.store-upload-attendance', 'uses' => 'UploadsController@batchAttendance'));
+
+	Route::get('internal_trainings/{internal_trainings}/participants/add-participant', array('as' => 'internal_trainings.upload-participant', 'uses' => 'UploadsController@createParticipant'));
+	Route::post('internal_trainings/{internal_trainings}/participants/add-participant', array('as' => 'internal_trainings.store-upload-participant', 'uses' => 'UploadsController@storeParticipant'));
 
 	/*Speaker Routes under Internal Trainings*/
 	Route::get('internal_trainings/{internal_trainings}/speakers', array('as' => 'internal_trainings.speakers', 'uses' => 'SpeakersController@index'));
@@ -160,15 +165,6 @@ Route::group(array('before' => 'auth'), function()
 
 	//Used for getting specific employee designation
 	Route::get('internal_trainings/participants/{employee_id}', array('as' => 'participant.employee_designation', 'uses' => 'EmployeesController@getEmployeeDesignation'));
-
-
-	//Upload Excel File Routes
-	Route::get('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.participants', 'uses' => 'UploadsController@create'));
-
-	Route::post('internal_trainings/{internal_trainings}/participants/add', array('as' => 'internal_trainings.store-participants', 'uses' => 'UploadsController@store'));
-	//End Upload Excel File Routes
-
-
 
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
@@ -217,11 +213,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('departments/{department_id}/needed-skills-competencies', array('as' => 'departments.needed_skills_competencies', 'uses' => 'DepartmentsController@neededSkillsCompetencies'));
 
 	Route::get('positions/{position_id}/needed-skills-competencies', array('as' => 'positions.needed_skills_competencies', 'uses' => 'PositionsController@neededSkillsCompetencies'));
-
-	Route::get('internal_trainings/{internal_trainings}/participants/upload', array('as' => 'internal_trainings.upload-participants', 'uses' => 'UploadsController@createParticipant'));
-
-	Route::post('internal_trainings/{internal_trainings}/participants/upload', array('as' => 'internal_trainings.participants-store', 'uses' => 'UploadsController@storeParticipant'));
-
 
 	Route::post('upload',array('as'=>'upload', 'before'=>'auth','uses'=>'UploadController@index'));
 

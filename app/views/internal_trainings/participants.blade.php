@@ -33,12 +33,12 @@
 				<button type="button" id="btn-add-participant" class="btn btn-primary" data-toggle="modal" data-target="#addParticipant">
 					Add Participant<i class="fa fa-plus fa-lg add-plus"></i>
 				</button>
-				<button type="button" id="btn-add-participant" class="btn btn-primary">
+				<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants/add-participant" type="button" id="btn-add-participant" class="btn btn-primary">
 					Upload List of Participants
-				</button>
-				<button type="button" id="btn-add-participant" class="btn btn-primary">
+				</a>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants/add-attendance" type="button" id="btn-add-participant" class="btn btn-primary">
 					Upload Attendees
-				</button>
+				</a>
 				<br><br>
 			@endif
 				<div class="message-log"></div>
