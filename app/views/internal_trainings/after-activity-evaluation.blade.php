@@ -99,19 +99,21 @@
 							<tr>
 								<td colspan="3">6. Speaker/s</td>
 							</tr>
+							@foreach ($speakers as $value)
 							<tr>
-								<td rowspan="3">6.1 Speaker 1</td>
+								<td rowspan="3">6.1 {{ $value->name }}</td>
 								<td>6.1.1 Subject matter mastery</td>
-								<td>{{ Form::number('evaluation_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::number("evaluation_criterion1_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.2 Contribution to the attainment of the objectives</td>
-								<td>{{ Form::number('evaluation_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::number("evaluation_criterion2_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.3 Interaction/Rapport with participants</td>
-								<td>{{ Form::number('evaluation_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::number("evaluation_criterion3_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
+							@endforeach
 							<tr>
 								<td rowspan="3">7. Open Forum</td>
 								<td>7.1 Time allotment</td>
@@ -210,7 +212,19 @@
 							<td>5.3 Appropriateness of date</td>
 							<td>{{ $activityevaluation->schedule_criterion3 }}</td>
 						</tr>
-						<tr>
+						@foreach ($speakerevaluation as $value )
+							<tr>
+								<td rowspan="3">6.1 {{ $value["name"] }}</td>
+								<td>6.1.1 Subject matter mastery</td>
+								<td>{{ $value["evaluation_criterion1_" . $value["id"]] }}</td>
+							</tr>
+							<tr>
+								<td>6.1.2 Contribution to the attainment of the objectives</td>
+								<td>{{ $value["evaluation_criterion2_" . $value["id"]] }}</td>						
+							<tr>
+								<td>6.1.3 Interaction/Rapport with participants</td>
+								<td>{{ $value["evaluation_criterion3_" . $value["id"]] }}</td>						
+						@endforeach
 						<tr>
 							<td rowspan="3">7. Open Forum</td>
 							<td>7.1 Time allotment</td>
