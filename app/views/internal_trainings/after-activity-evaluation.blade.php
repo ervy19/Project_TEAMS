@@ -46,55 +46,55 @@
 							<tr>
 								<td rowspan="2">1. Planning</td>
 								<td>1.1 Preparedness of Participants</td>
-								<td>{{ Form::number('planning_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('planning_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>1.2 Coordination of Committees</td>
-								<td>{{ Form::number('planning_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('planning_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="3">2. Objectives</td>
 								<td>2.1 Clarity</td>
-								<td>{{ Form::number('objectives_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>2.2 Timeliness</td>
-								<td>{{ Form::number('objectives_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>2.3 Relevance</td>
-								<td>{{ Form::number('objectives_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2">3. Content/Activities</td>
 								<td>3.1 Relevance</td>
-								<td>{{ Form::number('content_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('content_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>3.2 Organization/Logic</td>
-								<td>{{ Form::number('content_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('content_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2">4. Materials</td>
 								<td>4.1 Handouts</td>
-								<td>{{ Form::number('materials_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('materials_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>4.2 Audio-Visual/Devices</td>
-								<td>{{ Form::number('materials_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('materials_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="3">5. Schedule of Activities</td>
 								<td>5.1 Time allotment</td>
-								<td>{{ Form::number('schedule_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>5.2 Flexibility</td>
-								<td>{{ Form::number('schedule_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>5.3 Appropriateness of date</td>
-								<td>{{ Form::number('schedule_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td colspan="3">6. Speaker/s</td>
@@ -102,37 +102,37 @@
 							<tr>
 								<td rowspan="3">6.1 Speaker 1</td>
 								<td>6.1.1 Subject matter mastery</td>
-								<td>{{ Form::number('evaluation_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('evaluation_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.2 Contribution to the attainment of the objectives</td>
-								<td>{{ Form::number('evaluation_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('evaluation_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.3 Interaction/Rapport with participants</td>
-								<td>{{ Form::number('evaluation_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('evaluation_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="3">7. Open Forum</td>
 								<td>7.1 Time allotment</td>
-								<td>{{ Form::number('openForum_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>7.2 Extent of audience participation</td>
-								<td>{{ Form::number('openForum_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>7.3 Moderator's effectiveness</td>
-								<td>{{ Form::number('openForum_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2">8. Venue/Facilities</td>
 								<td>8.1 Acoustics</td>
-								<td>{{ Form::number('venue_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('venue_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>8.2 Appropriateness</td>
-								<td>{{ Form::number('venue_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('venue_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
 							</tr>
 							<tr>
 								<td>Comments/Recommendations:</td>

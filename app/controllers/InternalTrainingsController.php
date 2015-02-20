@@ -11,7 +11,7 @@ class InternalTrainingsController extends \BaseController {
 	{
 		//$internaltrainings = Training::where('isActive', '=', true)->where('isInternalTraining', '=', 1)->get();
         $internaltrainings = Internal_Training::select(DB::raw('*'))
-                                ->leftJoin('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->leftJoin('departments','internal_trainings.organizer_department_id','=','departments.id')
                                 ->leftJoin('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->leftJoin('training_schedules','internal_trainings.training_id','=','training_schedules.training_id')
                                 ->where('internal_trainings.isActive', '=', true)
@@ -201,7 +201,7 @@ class InternalTrainingsController extends \BaseController {
 
                 for($i = 0; $i < count($scidArray); $i++){
                     $ITsc = new IT_Addressed_SC;
-                    $selectedid = SkillsCompetencies::where('isActive',true)->where('name', "=", $scidArray[$i])->pluck('id');
+                    $selectedid = SkillsCompetencies::where('isActive','=',true)->where('name', '=', $scidArray[$i])->pluck('id');
                     $ITsc->skills_competencies_id = $selectedid;
                     $ITsc->internal_training_id = $trainings->id;
                     $ITsc->save();
@@ -594,6 +594,10 @@ class InternalTrainingsController extends \BaseController {
 		$schoolcollege = School_College::where('isActive', true)->lists('name','id');
 		$department = Department::where('isActive', true)->lists('name','id');
 
+        //selected values
+        $sschoolcollege = Internal_Training::where('isActive','=',true)->where('training_id','=',$training_id)->pluck('organizer_schools_colleges_id');
+        $sdepartment = Internal_Training::where('isActive','=',true)->where('training_id','=',$training_id)->pluck('organizer_department_id');
+
         $dateschedule = Training_Schedule::where('isActive','=',true)->where('training_id','=',$training_id)->lists('id');
         $count = 1;
         $totalcount = 0;
@@ -634,7 +638,9 @@ class InternalTrainingsController extends \BaseController {
             ->with('schedules', $schedules)
             ->with('totalcount', $totalcount)
             ->with('selectedschoolcollege', $selectedschoolcollege)
-            ->with('selecteddepartment', $selecteddepartment);
+            ->with('selecteddepartment', $selecteddepartment)
+            ->with('sschoolcollege', $sschoolcollege)
+            ->with('sdepartment', $sdepartment);
 
 	}
 
@@ -681,14 +687,23 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
             
-            /**$internaltrainings->organizer_schools_colleges_id = Input::get('schoolcollege');
-            $internaltrainings->organizer_department_id = Input::get('department');
+            //$internaltrainings->organizer_schools_colleges_id = Input::get('schoolcollege');
+            //$internaltrainings->organizer_department_id = Input::get('department');
             
-            if ($schoolcollege == "")
+            //$schoolcollege = Input::get('schoolcollege');
+            //$department = Input::get('department');
+
+            $internaltraining = Internal_Training::where('isActive','=',true)->where('training_id','=',$id)
+            ->update(array(
+                    'organizer_schools_colleges_id' => Input::get('schoolcollege'),
+                    'organizer_department_id' => Input::get('department')
+                ));
+
+            /**if ($schoolcollege == "")
             {}
             else
             {
-                $internaltrainings->organizer_schools_colleges_id = Input::get('schoolcollege');
+                $internaltrainings->organizer_schools_colleges_id = 3;
             }
 
             $department = Input::get('department');

@@ -88,7 +88,7 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_schools_colleges_id','Organizing School/College: ') }}
 						</div>
-						{{ Form::select('schoolcollege', withEmpty($schoolcollege), 'Select a School or College Organizer', array('id' => 'dd-schoolscolleges', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('schoolcollege', withEmpty($schoolcollege), 'Select a School or College Organizer', array('id' => 'schoolcollege', 'class' => 'col-sm-6 col-md-6')) }}
 						
 					</div>
 
@@ -96,7 +96,7 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_department_id','Organizing Department: ') }}
 						</div>
-						{{ Form::select('department', withEmpty($department), 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('department', withEmpty($department), 'Select a Department Organizer', array('id' => 'department', 'class' => 'col-sm-6 col-md-6')) }}
 					
 					</div>
 
@@ -142,6 +142,7 @@
     {{ HTML::script('assets/js/jquery.timepicker.js'); }}
 
 <script>
+	//Set values of form elements
 	var pausecontent = new Array();
 	    <?php foreach($currentscs as $key => $val){ ?>
 	        pausecontent.push('<?php echo $val; ?>');
@@ -158,11 +159,20 @@
 		iteditsc.value = $(itscedit).val();
 	});	
 
-	$("#dd-schoolscolleges").select2({
+	var schcol = {{$sschoolcollege}};
+	var schbox = document.getElementById("schoolcollege");
+	schbox.value = schcol;
+
+	var sdept = {{$sdepartment}};
+	var deptbox = document.getElementById("department");
+	deptbox.value = sdept;
+
+	//layouts
+	$("#schoolcollege").select2({
 	    allowClear: true
 	});
 
-	$("#dd-departments").select2({
+	$("#department").select2({
 	    allowClear: true
 	});
 
@@ -186,6 +196,7 @@
 		$("#timeend"+i).timepicker();
 	}
 
+	//Functions
 		function addInput(divName){
 			
 			count++;

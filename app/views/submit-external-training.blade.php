@@ -178,12 +178,6 @@
 		var venue = document.getElementById("venue");
 		venue.value = {{$venue}};
 
-		var date_start = document.getElementById("date_start");
-		date_start.value = {{$date_start}};
-
-		var date_end = document.getElementById("date_end");
-		date_end.value = {{$date_end}};
-
 		var sc = $('#external-training-on-queue');
 		$(sc).change(function() {
 			var elem = document.getElementById("selected");
