@@ -41,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ URL::to('/') }}"><img src="{{asset('assets/img/CEU_logo.jpg')}}" alt="logo" class="img-responsive"></a>
+          <a class="navbar-brand" href="{{ URL::to('dashboard') }}"><img src="{{asset('assets/img/CEU_logo.jpg')}}" alt="logo" class="img-responsive"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
 

@@ -134,12 +134,13 @@
   						if(data.success)
   						{
   							$('#employee-number').find('h2').append(data.result.employee_number);
-  							$('#employee-name').find('h2').append(data.result.given_name + " " + data.result.middle_initial + " "+ data.result.last_name);
+  							$('#employee-name').find('h2').append(data.result.full_name);
                 $('input[name="employee_number"]').val("");
   						}
   						else
   						{
-  							$('#error-employee_number').append(data.errors.employee_number);
+  							$('#error-employee_number').append('Error with the employee number');
+                $('input[name="employee_number"]').val("");
   						}
   					}
   				});

@@ -42,11 +42,12 @@
 						<td>{{ $value->email }}</td>
 						<td>{{ $value->tenure }}</td>
 						<td>
-							<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('employees/' . $value->id) }}">View</a>
+							&nbsp;
+							<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('employees/' . $value->id) }}"><i class="fa fa-file-text-o"></i>&nbsp;View</a>
 							@if($isAdminHR)
-							<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('employees/' . $value->id . '/edit') }}">Edit</a>
+							<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('employees/' . $value->id . '/edit') }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
 						   {{ Form::open(array('route' => array('employees.destroy', $value->id), 'method' => 'delete', 'class' => 'form-archive')) }}
-						   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
+						   	<button type="submit" class="btn btn-small btn-danger"><i class="fa fa-trash"></i>&nbsp;Archive</button>
 						   {{ Form::close() }}
 						   @endif
 						</td>
@@ -66,17 +67,17 @@
 		    $('#tb-employees').DataTable({
 		    	"aoColumnDefs": [
 		    	@if($isAdminHR)
-			      { "sWidth": "17%", "aTargets": [ 0 ] },
+			      { "sWidth": "13%", "aTargets": [ 0 ] },
 			      { "sWidth": '30%', "aTargets": [ 1 ] },
 			      { "sWidth": '25%', "aTargets": [ 2 ] },
 			      { "sWidth": '10%', "aTargets": [ 3 ] },
-			      { "sWidth": '18%', "aTargets": [ 4 ] }
+			      { "sWidth": '22%', "aTargets": [ 4 ] }
 			    @else
-			      { "sWidth": "17%", "aTargets": [ 0 ] },
+			      { "sWidth": "13%", "aTargets": [ 0 ] },
 			      { "sWidth": '35%', "aTargets": [ 1 ] },
 			      { "sWidth": '25%', "aTargets": [ 2 ] },
 			      { "sWidth": '15%', "aTargets": [ 3 ] },
-			      { "sWidth": '8%', "aTargets": [ 4 ] }
+			      { "sWidth": '12%', "aTargets": [ 4 ] }
 			    @endif
 			    ]
 		    });

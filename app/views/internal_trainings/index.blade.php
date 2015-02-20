@@ -13,7 +13,7 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h1>Internal Trainings</h1>
+			<h1>Trainings</h1>
 			@if($isAdminHR)
 				<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
 				<br><br>
@@ -54,11 +54,11 @@
 											<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
 											<td>{{ $value->name }}</td>
 											<td>
-												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->training_id) }}">View</a>
+												<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('internal_trainings/' . $value->training_id) }}"><i class="fa fa-file-text-o"></i>&nbsp;View</a>
 												@if($isAdminHR)
-												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->training_id . '/edit') }}">Edit</a>
+												<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('internal_trainings/' . $value->training_id . '/edit') }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
 											   {{ Form::open(array('route' => array('internal_trainings.destroy', $value->training_id), 'class' => 'form-archive', 'method' => 'delete')) }}
-											   	<button type="submit" class="btn btn-small btn-danger">Archive</button>
+											   	<button type="submit" class="btn btn-small btn-danger"><i class="fa fa-trash"></i>&nbsp;Archive</button>
 											   {{ Form::close() }}
 											   @endif
 											</td>

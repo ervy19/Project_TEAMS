@@ -8,7 +8,7 @@ class External_Training extends Eloquent {
 
 	protected $guarded = 'training_id';
 
-	protected $appends = array('training_type','training_title','requirement_statuses','training_scs');
+	protected $appends = array('attended_by', 'training_type','training_info','requirement_statuses','training_scs');
 
 	public function training() {
 		return $this->hasOne('Training');
@@ -23,14 +23,30 @@ class External_Training extends Eloquent {
 		return 'External';
 	}
 
+	public function getAttendedByAttribute()
+	{
+		$employee = Employee_Designation::join('employees','employee_designations.employee_id','=','employees.id')
+						->where('employee_designations.id','=',$this->designation_id)
+						->first();
+		
+		if($employee)
+		{
+			return $employee->employee_name;
+		}
+		else
+		{
+			return '';
+		}
 
-	public function getTrainingTitleAttribute()
+	}
+
+	public function getTrainingInfoAttribute()
 	{
 		$training = Training::find($this->training_id);
 
 		if($training)
 		{
-			return $training->title;
+			return $training;
 		}
 		else
 		{

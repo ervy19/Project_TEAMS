@@ -124,7 +124,7 @@
 	      		</div>
 	    		<div class="modal-footer">
 	        		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-	        		<button type="button" id="btn-archive-campus" class="btn btn-danger ">Delete</button>
+	        		<button type="button" id="btn-archive-participant" class="btn btn-danger ">Delete</button>
 	      		</div>
 	    	</div>
 		</div>
@@ -185,7 +185,7 @@
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-							            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
 											}
 							        	}
 							        ],
@@ -294,7 +294,7 @@
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-							            	 return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
 											}
 							        	}
 							        ],
@@ -315,6 +315,120 @@
 						}
 					});
 				});
+
+				$('#tb-it_participants').on('click', '.btn-delete-participant', function (e) {
+				
+					var id = $(this).attr('data-id');
+					var url = "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants";
+					
+				    $('#deleteParticipant').on('hidden.bs.modal', function (e) {
+						id = '';
+					});
+					
+					$('.message-log').empty();
+
+
+				    $('#deleteParticipant').modal({ backdrop: 'static', keyboard: false })
+				        .one('click', '#btn-archive-participant', function() {
+				            deleteParticipant(id,url);
+				    });
+				});
+
+				clearAllFields('#addParticipant','#add-participant');
+				//clearAllFields('#editParticipant','#update-participant');
+
+				function clearAllFields(modal,form) {
+					$(modal).on('hide.bs.modal', function (e) {
+						$('.error-message').empty();
+						$(':input',form)
+						  .not(':button, :submit, :reset, :hidden')
+						  .val('')
+						  .removeAttr('checked')
+						  .removeAttr('selected');
+					});
+				}	
+
+				function deleteParticipant(id,url) {
+
+				$.ajax({
+					type: 'DELETE',
+					url: url + '/' + id,
+					data: id,
+					success: function(data) {
+						if(data.success)
+						{		
+							$('#deleteParticipant').modal('hide');
+
+							$('.message-log').append('<div class="note note-success">Participant successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								
+								table.fnDestroy();
+
+								table = $('#tb-it_participants').dataTable({
+								    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
+								    "columns": [
+								        { "data": "employee_name" },
+								        { "data": "position_title" },
+								        { "data": "supervisor_name" },
+								        { "data": "requirement_statuses",
+									        "render": function ( data, type, full, meta ) {
+							              	if(data)
+							              	{
+							              		var status = '';
+							              		if(data[0])
+							              		{
+							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+							              		}
+
+							              		if(data[1])
+							              		{
+							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+							              		}
+
+							              		if(data[2])
+							              		{
+							              			status += '<span class="label label-success">Has PTE</span>';
+							              		}
+							              		else
+							              		{
+							              			status += '<span class="label label-danger">No PTE Yet</span>';
+							              		}
+
+							              		return status;
+							              	}
+							              	else
+							              	{
+							              		return '';
+							              	}
+							              } 
+							        	},
+							            { 
+							            	"data": "id",
+							            	"render": function ( data, type, full, meta ) {
+							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+											}
+							        	}
+							        ],
+							          "aoColumnDefs": [
+								      { "sWidth": "25%", "aTargets": [ 0 ] },
+								      { "sWidth": '18%', "aTargets": [ 1 ] },
+								      { "sWidth": '20%', "aTargets": [ 2 ] },
+								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
+								      { "sWidth": '15%', "aTargets": [ 4 ] }
+								    ]
+								});
+						}
+					}
+
+				});
+			}
 
 		});
 	</script>

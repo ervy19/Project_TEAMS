@@ -22,6 +22,7 @@
 			<thead>
 				<tr>
 					<th>Username</th>
+					<th>Name</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -47,14 +48,15 @@
 		        "ajax": "{{ URL::to('users') }}",
 		        "columns": [
 		            { "data": "username" },
+		            { "data": "full_name"},
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
-					      return '<button type="button" class="btn btn-info btn-edit-sc" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-sc" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+					      return '<button type="button" class="btn btn-primary btn-viewc" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-sc" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 					    }
 		        	}
 		        ]
 			});
-
+		});
 	</script>
 @stop

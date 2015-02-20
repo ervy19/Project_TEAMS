@@ -260,6 +260,7 @@ class InternalTrainingsController extends \BaseController {
         $isAdminHR = false;
         $isOrganizer = false;
         $hasSpeakers = false;
+        $hasParticipants = false;
 
         if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
         {
@@ -269,11 +270,59 @@ class InternalTrainingsController extends \BaseController {
 
             $speakers = Speaker::where('internal_training_id', '=', $id)->first();
 
-            //dd($speakers);
-
             if($speakers)
             {
                 $hasSpeakers = true;
+            }
+
+            $participants = IT_Participant::where('internal_training_id','=',$id)
+                                ->where('isActive','=',true)
+                                ->get();
+
+            $countComplete = 0;
+            $countPTAttendance = 0;
+            $countPTAOnly = 0;
+            $countAttendedOnly = 0;
+            $countNoReq = 0;
+
+            if(!$participants->isEmpty())
+            {
+                $hasParticipants = true;
+                
+                $a = 0; $b = 0; $c = 0; $d = 0; $e = 0;
+
+                foreach ($participants as $key => $value) {
+                    if($value->has_pta && $value->attended && $value->has_pte)
+                    {
+                        //Complete requirements
+                        $a++;
+                    }
+                    else if ($value->has_pta && $value->attended)
+                    {
+                        //PTA and Attendance only
+                        $b++;
+                    }
+                    else if ($value->has_pta)
+                    {
+                        //Has PTA only
+                        $c++;
+                    }
+                    else if ($value->attended)
+                    {
+                        //Has attended only
+                        $d++;
+                    }
+                    else
+                    {
+                        $e++;
+                    }
+                }
+
+                $countComplete = round($a/count($participants),2);
+                $countPTAttendance = round($b/count($participants),2);
+                $countPTAOnly = round($c/count($participants),2);
+                $countAttendedOnly = round($d/count($participants),2);
+                $countNoReq = round($e/count($participants),2);
             }
 
             return View::make('internal_trainings.show')
@@ -285,7 +334,13 @@ class InternalTrainingsController extends \BaseController {
                 ->with('scs',$scs)
                 ->with('isAdminHR',$isAdminHR)
                 ->with('isOrganizer',$isOrganizer)
-                ->with('hasSpeakers',$hasSpeakers);
+                ->with('hasSpeakers',$hasSpeakers)
+                ->with('hasParticipants',$hasParticipants)
+                ->with('countComplete',$countComplete)
+                ->with('countPTAttendance',$countPTAttendance)
+                ->with('countPTAOnly',$countPTAOnly)
+                ->with('countAttendedOnly',$countAttendedOnly)
+                ->with('countNoReq',$countNoReq);
         }
         else
         {

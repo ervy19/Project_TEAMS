@@ -29,16 +29,6 @@
 							</div>
 						</div>
 					</a>
-					<a href="{{ URL::to('roles') }}">
-						<div class="tile">
-							<div class="tile-body">
-								<i class="fa fa-user fa-lg"></i>
-							</div>
-							<div class="tile-object">
-								<h4>Roles</h4>
-							</div>
-						</div>
-					</a>
 				@endif
 				@if($role == 1 || $role == 2)
 					<a href="{{ URL::to('campuses') }}">

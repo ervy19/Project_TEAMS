@@ -128,10 +128,13 @@ class ExternalTrainingsController extends \BaseController {
      */
     public function show($id)
     {
-        $externaltrainings = External_Training::where('isActive', '=', true)->where('training_id', '=', $id)->first();
+        $externaltraining = External_Training::where('isActive', '=', true)->where('training_id', '=', $id)->first();
+
+        $isAdminHR = false;
 
         return View::make('external_trainings.show')
-            ->with('externaltrainings', $externaltrainings);
+            ->with('externaltraining', $externaltraining)
+            ->with('isAdminHR',$isAdminHR);
     }
 
 
@@ -471,7 +474,8 @@ class ExternalTrainingsController extends \BaseController {
             ->first();
 
         $schoolcollege = School_College::where('isActive', '=', true)->lists('name');
-        $designations = Employee_Designation::where('isActive','=',true)->where('employee_id', '=', $externaltraining->employee_id)->lists('title','id');
+        $designations = Employee_Designation::where('isActive','=',true)->where('employee_id', '=', $externaltraining->employee_id)->lists('title','id');;
+
         $sc = SkillsCompetencies::where('isActive', true)->lists('name');
 
         if ($externaltraining)

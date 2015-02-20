@@ -9,7 +9,7 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h1>External Trainings</h1>
+			<h1>Trainings</h1>
 		</div>
 	</div>
 </div>
@@ -34,7 +34,6 @@
 									<th>Theme/Topic</th>
 									<th>Participation</th>
 									<th>Organizer</th>
-									<th>Venue</th>
 									<th>Date</th>
 									<th>Action</th>
 								</tr>
@@ -46,13 +45,15 @@
 									<td>{{ $value->theme_topic }}</td>
 									<td>{{ $value->participation }}</td>
 									<td>{{ $value->organizer }}</td>
-									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
 									<td>
-										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->training_id . '/edit') }}">Edit</a>
+										<a class="btn btn-small btn-primary btn-view" href="{{ URL::to('external_trainings/' . $value->training_id) }}"><i class="fa fa-file-text-o"></i>&nbsp;View</a>
+										@if($isAdminHR)
+										<a class="btn btn-small btn-info btn-edit" href="{{ URL::to('external_trainings/' . $value->training_id . '/edit') }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
 									   	{{ Form::model($externaltrainings, array('route' => array('external_trainings.destroy', $value->training_id), 'method' => 'delete')) }}
-									    <button type="submit" class="btn btn-small btn-danger">Archive</button>
+									    <button type="submit" class="btn btn-small btn-danger"><i class="fa fa-trash"></i>&nbsp;Archive</button>
 									   {{ Form::close() }}
+									   @endif
 									</td>
 								</tr>
 								@endforeach

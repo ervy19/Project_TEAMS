@@ -9,7 +9,7 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h1>External Trainings in Queue</h1>
+			<h1>Trainings</h1>
 		</div>
 	</div>
 </div>
@@ -50,10 +50,10 @@
 									<td>{{ $value->venue }}</td>
 									<td>{{ $value->date_scheduled . " (" . $value->timeslot . ")" }}</td>
 									<td>
-										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/credit-external-training') }}">Credit</a>
+										<a class="btn btn-small btn-info" href="{{ URL::to('external_trainings/' . $value->id . '/credit-external-training') }}"><i class="fa fa-check"></i>&nbsp;Credit</a>
 										<br><br>
 									   {{ Form::model($externaltrainingsqueue, array('route' => array('external_trainings.destroyQueue', $value->id), 'method' => 'delete')) }}
-										<button type="submit" class="btn btn-small btn-danger">Reject</button>
+										<button type="submit" class="btn btn-small btn-danger"><i class="fa fa-remove"></i>&nbsp;Reject</button>
 										{{ Form::close() }}
 									</td>
 								</tr>

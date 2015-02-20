@@ -22,6 +22,7 @@ class ParticipantsController extends \BaseController {
 
 		if(Request::ajax()){
 			$participants = IT_Participant::where('internal_training_id', '=', $internal_training_id)
+							->where('isActive','=',true)
 							->get();
 
 			return Response::json(['data' => $participants]);
@@ -145,9 +146,11 @@ class ParticipantsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$it_participant = IT_Participant::find($id);
+		$it_participant = IT_Participant::where('internal_training_id','=',$id)->first();
 		$it_participant->isActive = false;
-		$it_participant->save();		
+		$it_participant->save();	
+
+		return Response::json(['success' => true]);
 	}
 
 

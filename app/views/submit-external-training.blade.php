@@ -109,28 +109,32 @@
 						</div>
 
 						<div class="form-group row">
-							<div class="col-sm-5 col-md-5">
+							<div class="col-sm-6 col-md-6">
 								{{ Form::label('datelabel','Date: ') }}
 								<input class="form-control" type="text" id="date1" name="date1">
 								{{ $errors->first('date1','<div class="error-message">:message</div>') }}
 							</div>
-							<div class="col-sm-2 col-md-2">
+							<div class="col-sm-3 col-md-3">
 								{{ Form::label('timestartlabel','Time Start: ') }}
 								<input class="form-control" type="text" id="timestart1" name="timestart1">
 								{{ $errors->first('timestart1','<div class="error-message">:message</div>') }}
 							</div>
-							<div class="col-sm-2 col-md-2">
+							<div class="col-sm-3 col-md-3">
 								{{ Form::label('timeendlabel','Time End: ') }}
 								<input class="form-control" type="text" id="timeend1" name="timeend1">
 								{{ $errors->first('timeend1','<div class="error-message">:message</div>') }}
 							</div>
 						</div>
-						<div class="form-group row" id="dynamicInput">
-					     
+						<div class="form-group row" id="dynamicInput"></div>
+						<div class="form-group row">
+							<div class="col-sm-3 col-md-3 pull-right">
+								<input type="button" value="Remove Date" onclick="removeInput('dynamicInput');" class="btn btn-primary">
+							</div>
+							<div class="col-sm-3 col-md-3 pull-right">
+								<input type="button" value="Add Date" onClick="addInput('dynamicInput');" class="btn btn-primary">
+							</div>
 						</div>
-						<br>
-							<input type="button" value="Add Date" onClick="addInput('dynamicInput');" class="btn btn-primary">
-							<input type="button" value="Remove Date" onclick="removeInput('dynamicInput');" class="btn btn-primary">
+						
 							<input type="hidden" name="countbox" id="countbox">
 						{{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
@@ -201,7 +205,7 @@
 			count++;
 		    var newdiv = document.createElement('div');
 		    newdiv.setAttribute('id', count);
-		    newdiv.innerHTML = "<div class='form-group row'><div class='col-sm-5 col-md-5'><b>Date: </b><input class='form-control' type='text' id='date" + count + "' " + "name='date" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time Start: </b><input class='form-control' type='text' id='timestart" + count + "' " + "name='timestart" + count + "'></div><div class='col-sm-2 col-md-2'><b>Time End: </b><input class='form-control' type='text' id='timeend" + count + "' " + "name='timeend" + count + "'></div></div>";
+		    newdiv.innerHTML = "<div class='form-group row'><div class='col-sm-6 col-md-6'><b>Date: </b><input class='form-control' type='text' id='date" + count + "' " + "name='date" + count + "'></div><div class='col-sm-3 col-md-3'><b>Time Start: </b><input class='form-control' type='text' id='timestart" + count + "' " + "name='timestart" + count + "'></div><div class='col-sm-3 col-md-3'><b>Time End: </b><input class='form-control' type='text' id='timeend" + count + "' " + "name='timeend" + count + "'></div></div>";
 
 			document.getElementById(divName).appendChild(newdiv);
 			
@@ -230,8 +234,7 @@
 		          	          
 		     }
 		     else {
-		          alert("Child div has already been removed or does not exist.");
-		          return false;
+		           return false;
 		     }
 		}
 

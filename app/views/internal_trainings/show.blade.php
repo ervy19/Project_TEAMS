@@ -158,7 +158,7 @@
 				@if($hasSpeakers)
 					<a href="{{ URL::to('') }}/{{ $encrypted_training_id }}" target="_blank" class="btn btn-primary">Register Attendees</a>
 				@else
-					<p>Register speakers before you can record attendance</p>
+					<p style="margin-bottom:-10px;"><b>Register speakers before you can record attendance</b></p>
 				@endif
 				</div>
 			</div>
@@ -234,7 +234,7 @@
 			        	enabled: false
 			        },
 			        tooltip: {
-			            pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'
+			            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 			        },
 			        plotOptions: {
 			            pie: {
@@ -257,10 +257,15 @@
 			            name: 'Participant Data',
 			            innerSize: '50%',
 			            data: [
-			                ['With PTA only',   45.0],
-			                ['Attended and with PTA',       26.8],
-			                ['Attended only', 15.8],
-			                ['Attended and with both PTA and PTE',    12.4]
+			            	@if($hasParticipants)	
+			            		['Not attended and without both PTA and PTE',   {{ $countNoReq }}],
+			            		['With PTA only',   {{ $countPTAOnly }}],
+				                ['Attended and with PTA',       {{ $countPTAttendance }}],
+				                ['Attended only', {{ $countAttendedOnly }}],
+				                ['Attended and with both PTA and PTE',    {{ $countComplete }}]
+				            @else
+				            	['No Participants', 100.0]
+			            	@endif			                
 			            ]
 			        }]
 			    });
