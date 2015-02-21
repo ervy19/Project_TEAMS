@@ -75,8 +75,6 @@ class ITAttendanceController extends \BaseController {
         	$employee = Employee::where('employee_number','=',Input::get('employee_number'))
         					->first();
 
-
-
         	if($employee)
         	{
         		$training_id = Crypt::decrypt($encrypted_training_id);
@@ -91,8 +89,6 @@ class ITAttendanceController extends \BaseController {
         			$new_attendance->time = date('h:i:s', time());
         			$new_attendance->it_participant_id = $participant->id;
         			$new_attendance->save();
-
-
         		}
         		else
         		{
@@ -100,6 +96,8 @@ class ITAttendanceController extends \BaseController {
         			$new_participant->employee_id = $employee->id;
         			$new_participant->internal_training_id = $training_id;
         			$new_participant->save();
+
+
 
         			$new_attendance = new Participant_Attendance;
         			date_default_timezone_set('Asia/Manila');

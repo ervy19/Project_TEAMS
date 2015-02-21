@@ -8,7 +8,7 @@ class Employee extends Eloquent {
 
 	protected $guarded = 'id';
 
-	protected $appends = array('full_name','designations');
+	protected $appends = array('full_name');
 
 	public function getFullNameAttribute()
     {

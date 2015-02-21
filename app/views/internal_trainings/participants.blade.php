@@ -39,6 +39,8 @@
 				<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants/add-attendance" type="button" id="btn-add-participant" class="btn btn-primary">
 					Upload Attendees
 				</a>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants/download-pta" class="btn btn-primary">Download PTA</a>
+				<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants/download-pte" class="btn btn-primary">Download PTE</a>
 				<br><br>
 			@endif
 				<div class="message-log"></div>

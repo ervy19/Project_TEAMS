@@ -119,7 +119,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function show($id) 
 	{
-		$employee = Employee::find($id);
+		$employees = Employee::find($id);
 
 		$designations = Employee_Designation::where('isActive', '=', true)
 								->where('employee_id','=',$id)
@@ -143,9 +143,9 @@ class EmployeesController extends \BaseController {
         			->where('trainings.isInternalTraining', '=', 0)
         			->get();*/
         //dd($designations);
-
+//dd($designations->department_scs);
 		return View::make('employees.show')
-			->with('employees', $employee )
+			->with('employees', $employees )
 			->with('designations', $designations);
 
 			//->with('employees', $employee )

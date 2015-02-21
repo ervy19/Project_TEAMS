@@ -39,14 +39,14 @@
                     <table style="width: 100%" border="1">
                         <thead>
                             <tr>
-                                <th rowspan="2" style="width: 50%">Criterion</th>
-                                <th colspan="4" style="width: 50%">N = 14</th>
+                                <th rowspan="2" style="width: 50%; background-color:#CFCFCF;">Criterion</th>
+                                <th colspan="4" style="width: 50%; background-color:#CFCFCF;">N = 14</th>
                             </tr>
                             <tr>
-                                <th>Mean</th>
-                                <th>S.D.</th>
-                                <th>Verbal Interpretation</th>
-                                <th>Rank</th>
+                                <th style="background-color:#CFCFCF;">Mean</th>
+                                <th style="background-color:#CFCFCF;">S.D.</th>
+                                <th style="background-color:#CFCFCF;">Verbal Interpretation</th>
+                                <th style="background-color:#CFCFCF;">Rank</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="left" style="margin-left: 500px">
+                <td colspan="2" align="left">
                     <br><br>
                     4.5 - 5   Very Extensive Knowledge/ Very Skillful/ Highly Positive Attitude<br>
                     3.5 - 4 Extensive Knowledge/ Skillful/ Positive Attitude<br>
@@ -83,7 +83,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><u><b>Summary of comments/suggestions:</b></u></td>
+                <td colspan="2" style="background-color:#CFCFCF;"><u><b>Summary of comments/suggestions:</b></u></td>
             </tr>
             <tr>
                 <td colspan="6">
