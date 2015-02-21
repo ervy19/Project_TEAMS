@@ -52,6 +52,7 @@
       				@endif
 	      		</div>
 		      	@else
+		      		<a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report/download" class="btn btn-primary">Download Training Effectiveness Report</a>
 					<h4><b>Evaluation Narrative</b></h4>
 					<p>{{ $internal_training->evaluation_narrative}}</p>
 					<br>

@@ -846,9 +846,14 @@ class ReportsController extends \BaseController {
             'emp_desig_details' => $emp_desig_details
             );
 
+        date_default_timezone_set('Asia/Manila');
+        $currentTimeDate = date("Y-m-d H:i:s"); 
+        $currentTime = date("H:i:s");
+        $currentDate = date("Y-m-d");
+
         $pdf = PDF::loadView('reports.training-log-download', $data);
         $pdf->setOrientation('landscape');
-        return $pdf->download('Employee Training Log.pdf');
+        return $pdf->download($currentDate . ' ' . $emp_details[0]->last_name . ', ' . $emp_details[0]->given_name . ' ' . $emp_details[0]->middle_initial . ' Training Log.pdf');
     }
 
     public function downloadPtaReport($training_id)
@@ -1013,8 +1018,13 @@ class ReportsController extends \BaseController {
             'date_end' => $date_end
             );
 
+        date_default_timezone_set('Asia/Manila');
+        $currentTimeDate = date("Y-m-d H:i:s"); 
+        $currentTime = date("H:i:s");
+        $currentDate = date("Y-m-d");
+
         $pdf = PDF::loadView('reports.pta-report-download', $data);
-        return $pdf->download('Pre-Training Assessment.pdf');
+        return $pdf->download($currentDate . ' ' . $internaltraining->title .' Pre-Training Assessment.pdf');
     }
 
     public function downloadPteReport($training_id)
@@ -1179,8 +1189,13 @@ class ReportsController extends \BaseController {
             'date_end' => $date_end
             );
 
+        date_default_timezone_set('Asia/Manila');
+        $currentTimeDate = date("Y-m-d H:i:s"); 
+        $currentTime = date("H:i:s");
+        $currentDate = date("Y-m-d");
+
         $pdf = PDF::loadView('reports.pte-report-download', $data);
-        return $pdf->download('Post Training Evaluation.pdf');
+        return $pdf->download($currentDate . ' ' . $internaltraining->title . ' Post Training Evaluation.pdf');
     }
 
     public function downloadTerReport($training_id)
@@ -1500,7 +1515,12 @@ class ReportsController extends \BaseController {
             'overallaveratings' => $overallaveratings
             );
 
+        date_default_timezone_set('Asia/Manila');
+        $currentTimeDate = date("Y-m-d H:i:s"); 
+        $currentTime = date("H:i:s");
+        $currentDate = date("Y-m-d");
+
         $pdf = PDF::loadView('reports.ter-report-download', $data);
-        return $pdf->download('Training Effectiveness Report.pdf');
+        return $pdf->download($currentDate . ' ' . $internaltrainings->title . ' Training Effectiveness Report.pdf');
     }
 }

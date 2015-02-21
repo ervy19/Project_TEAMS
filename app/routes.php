@@ -127,6 +127,11 @@ Route::group(array('before' => 'auth'), function()
 	| Different application routes for Internal Training components
 	|
 	*/
+	/*Download Reports (PTA, PTE, TER) Routes*/
+	Route::get('internal_trainings/{internal_trainings}/training-effectiveness-report/download', array('as' => 'internal_training.download-ter', 'uses' => 'ReportsController@downloadTerReport'));
+	Route::get('internal_trainings/{internal_trainings}/participants/download-pta', array('as' => 'internal_training.download-pta', 'uses' => 'ReportsController@downloadPtaReport'));
+	Route::get('internal_trainings/{internal_trainings}/participants/download-pte', array('as' => 'internal_training.download-pte', 'uses' => 'ReportsController@downloadPteReport'));
+
 	Route::get('internal_trainings/{internal_trainings}/participants/add-attendance', array('as' => 'internal_trainings.upload-attendance', 'uses' => 'UploadsController@showUploadAttendance'));
 	Route::post('internal_trainings/{internal_trainings}/participants/add-attendance', array('as' => 'internal_trainings.store-upload-attendance', 'uses' => 'UploadsController@batchAttendance'));
 
