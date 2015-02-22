@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/favicon.ico">
 
-    <title>CEU HR TEAMS | Training Evaluation and Monitoring System</title>
+    <title>CEU HR TEAMS | Search Trainings </title>
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     {{ HTML::style('assets/css/bootstrap.min.css'); }}
@@ -17,7 +17,7 @@
     <!-- BEGIN THEME STYLES -->
     {{ HTML::style('assets/css/general-style.css'); }}
     {{ HTML::style('assets/css/pages-style.css'); }}
-
+    {{ HTML::style('assets/css/fullcalendar.min.css'); }}
 	{{ HTML::style('assets/css/datepicker.css'); }}
 	{{ HTML::style('assets/css/jquery.timepicker.css'); }}
 
@@ -25,7 +25,7 @@
 
   <body>
 
-    <!-- Fixed navbar -->
+      <!-- Fixed navbar -->
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -46,45 +46,50 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
-		<div class="col-sm-12 col-md-12">
-			<div class="panel submit-et">
-				<div class="row">
-				  <div class="col-sm-12 col-md-12 pta-form">
-					 <h2 class="panel-header">Training Evaluation and Monitoring System</h2>
-  					<div class="col-sm-12 col-md-12 landing-group">
-  						<h4>For employees:</h4>
-                <div class="col-sm-6 col-md-6">
-  						    <a href="{{ URL::to('submit-external-training') }}" class="btn btn-primary">Submit External Training Data</a>
-                </div>
-                <div class="col-sm-6 col-md-6">
-                  <a href="{{ URL::to('search-trainings') }}" class="btn btn-primary">Search for Internal Trainings</a>
-                </div>
-            </div>
-  					
-            <div class="col-sm-12 col-md-12 landing-group">
-              <h4>For supervisors:</h4>
-              <a href="{{ URL::to('login') }}" class="btn btn-primary">Login</a>
-            </div>
-					</div>
-				</div>
+<div class="col-sm-12 col-md-12">
+	<div class="panel">
+		<div class="row">
+			<div class="panel-heading">
+				<h1 class="panel-header">Search for Trainings</h1>			
 			</div>
+			<div id="calendar" class="calendar-tp"></div>
 		</div>
 	</div>
+</div>
 
-    <footer class="footer">
-      <div class="container-fluid">
-        <p class="text-muted">© 2015 Centro Escolar University Human Resources | Training Evaluation and Monitoring System</p>
-      </div>
-    </footer>
-
-    <!-- BEGIN CORE JS -->
-
-    {{ HTML::script('assets/js/jquery.min.js'); }}
+	{{ HTML::script('assets/js/jquery.min.js'); }}
 
     {{ HTML::script('assets/js/bootstrap.min.js'); }}
-    {{ HTML::script('assets/js/bootstrap-datepicker.js'); }}
-    {{ HTML::script('assets/js/jquery.timepicker.js'); }}
 
-  </body>
-</html>
+	{{ HTML::script('assets/js/moment.min.js'); }}
+	{{ HTML::script('assets/js/fullcalendar.min.js'); }}
+
+	<script type="text/javascript">
+		$(document).ready( function () {
+		    $('#calendar').fullCalendar({
+		    	events: [
+		    		@foreach($consecutive_trainings as $key => $value)
+		    			{
+		    				id: '{{ $value->id }}',
+		    				title: "{{ $value->title }}",
+		    				start: '{{ $value->start_date }}',
+		    				end: '{{ $value->end_date }}'
+		    			},
+		    		@endforeach
+		    		@foreach($separated_trainings as $k => $v)
+		    			{
+		    				id: "{{ $v['id'] }}",
+		    				title: "{{ $v['title'] }}",
+		    				start: "{{ $v['start'] }}"
+		    			},
+		    		@endforeach
+		    	],
+    			eventClick: function(event) {
+			        if (event.id) {
+			            window.location = "./internal_trainings/" + event.id;
+			        }
+			    }
+
+    		});
+		});
+	</script>

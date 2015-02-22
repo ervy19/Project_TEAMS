@@ -9,13 +9,6 @@ class DashboardController extends \BaseController {
 	 */
 	public function index()
 	{
-
-		/*$supervisor = DB::table('users')->select(DB::raw('*'))
-						->leftJoin('supervisors','users.id','=','supervisors.user_id')
-						->rightJoin('department_supervisors','department_supervisors.supervisor_id', '=', 'supervisors.id')
-						->leftJoin('departments','department_supervisors.department_id','=','departments.id')
-						->where('users.id','=',Auth::user()->id)
-						->first();*/
 		$trainings = Training::select(DB::raw('id, title'))
 							->where('isActive','=',true)
 							->where('isInternalTraining','=',true)
@@ -95,8 +88,8 @@ class DashboardController extends \BaseController {
 
 		$notifications = Notification::where('user_id','=',Auth::user()->id)
 							->get();
-		
-		$name = Auth::user()->username;
+
+		$name = Auth::user()->name;
 		//View::share('name',$name);
 		return View::make('dashboard.index')
 			->with('role',$role)

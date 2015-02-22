@@ -261,8 +261,9 @@ class TrainingAssessmentsController extends \BaseController {
 
 			$participant = IT_Participant::find($participant_id);
 			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->get();
-			$assessmentresponse = Assessment_Response::where('isActive', '=', true)->where('participant_assessment_id', '=', $participant_id)->get();
-			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('id', '=', $participant_id)->first();
+			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('type', '=', $type)->where('it_participant_id', '=', $participant_id)->first();
+			$assessmentresponse = Assessment_Response::where('participant_assessment_id', '=', $participantassessment->id)->where('isActive', '=', true)->get();
+
 			$itemcount = count($assessmentitems);
 
 			$intent = "accomplish";
@@ -307,8 +308,9 @@ class TrainingAssessmentsController extends \BaseController {
 
 			$participant = IT_Participant::find($participant_id);
 			$assessmentitems = Assessment_Item::where('isActive', '=', true)->where('internal_training_id', '=', $id)->lists('name');
-			$assessmentresponse = Assessment_Response::where('isActive', '=', true)->where('participant_assessment_id', '=', $participant_id)->get();
 			$participantassessment = Participant_Assessment::where('isActive', '=', true)->where('type', '=', $type)->where('it_participant_id', '=', $participant_id)->first();
+			$assessmentresponse = Assessment_Response::where('participant_assessment_id', '=', $participantassessment->id)->where('isActive', '=', true)->get();
+			
 			$itemcount = count($assessmentitems);
 
 	        $intent = "show";

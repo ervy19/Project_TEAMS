@@ -76,7 +76,7 @@ class DepartmentsController extends \BaseController {
 			
             $newdepartment = Department::where('name', $ndepartment)->pluck('id');
 
-            $selectedsc = Input::get('selected_dept');
+            /*$selectedsc = Input::get('selected_dept');
             $scidArray = explode(",", $selectedsc);
 
             for($i = 0; $i < count($scidArray); $i++){
@@ -85,7 +85,24 @@ class DepartmentsController extends \BaseController {
 	            $departmentsc->skills_competencies_id = $selectedid;
 	            $departmentsc->department_id = $newdepartment;
 	            $departmentsc->save();
-	        }
+	        }*/
+
+	        //Tagged Skills and Competencies
+            $selectedsc = Input::get('selected_dept');
+            if($selectedsc == "")
+            {}
+            else 
+            {
+                $scidArray = explode(",", $selectedsc);
+
+                for($i = 0; $i < count($scidArray); $i++){
+                    $departmentsc = new Department_SC;
+                    $selectedid = SkillsCompetencies::where('isActive','=',true)->where('name', '=', $scidArray[$i])->pluck('id');
+                    $departmentsc->skills_competencies_id = $selectedid;
+		            $departmentsc->department_id = $newdepartment;
+		            $departmentsc->save();
+                }
+            }
 
             // redirect
             Session::flash('message', 'Successfully created Department!');

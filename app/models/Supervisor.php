@@ -4,7 +4,7 @@ class Supervisor extends Eloquent {
 
 	protected $table ='supervisors';
 
-	protected $fillable = array('name', 'title', 'supervisor_type', 'isActive');
+	protected $fillable = array('name', 'title', 'supervisor_type', 'user_id', 'isActive');
 
 	protected $guarded = 'id';
 	

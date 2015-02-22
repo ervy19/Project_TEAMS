@@ -16,7 +16,8 @@
 					<div class="col-sm-12 col-md-12">
 						<div class="panel">
 
-						<h2 class="panel-header">Submit External Training Details</h2>
+						<h2 class="panel-header">Account Settings</h2>
+						<p>{{ $user->id or '---' }}</p>
 							
 
 

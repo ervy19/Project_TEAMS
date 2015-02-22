@@ -38,9 +38,9 @@ Route::post('confirm-external-training', array('as' => 'external_trainings.confi
 Route::post('submit-external-training', array('as' => 'external_trainings.storeQueue', 'uses' => 'ExternalTrainingsController@storeQueue'));
 
 Route::post('back-external-training', array('as' => 'external_trainings.backDetails', 'uses' => 'ExternalTrainingsController@backDetails'));
-Route::DELETE('external_trainings/index/{external_trainings}', array('as' => 'external_trainings.destroy', 'uses' => 'ExternalTrainingsController@destroy'));
+Route::delete('external_trainings/index/{external_trainings}', array('as' => 'external_trainings.destroy', 'uses' => 'ExternalTrainingsController@destroy'));
 
-
+Route::get('search-trainings', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@publicIndex'));
 
 /*
 |--------------------------------------------------------------------------
@@ -168,9 +168,9 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('internal_trainings/{id}/{type}/show/{participant_id}', array('as' => 'training_assessment.show', 'uses' => 'TrainingAssessmentsController@showAccomplished'));
 
-	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
+	Route::get('internal_trainings/{id}/{type}/accomplish/{participant_id}', array('before' => 'accomplish-ta', 'as' => 'training_assessment.accomplish', 'uses' => 'TrainingAssessmentsController@accomplish'));
 
-	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
+	Route::post('internal_trainings/{training_id}/{type}/{participant_id}', array('before' => 'accomplish-ta', 'as' => 'training_response.store', 'uses' => 'TrainingResponsesController@store'));
 
 
 
@@ -182,9 +182,14 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
 
 
-	Route::get('users/create', 'UsersController@create');
-	Route::get('users', 'UsersController@index');
-	Route::post('users', 'UsersController@store');
+	Route::get('users', array('as' => 'users.index', 'uses' => 'UsersController@index'));
+	Route::get('users/create', array('as' => 'users.create', 'uses' => 'UsersController@create'));
+	Route::post('users', array('as' => 'users.store', 'uses' => 'UsersController@store'));
+	Route::get('users/{user_id}/edit', array('before' => 'update-user-account', 'as' => 'users.edit', 'uses' => 'UsersController@edit'));
+	Route::put('users/{user_id}',  array('before' => 'update-user-account', 'as' => 'users.update', 'uses' => 'UsersController@update'));
+	Route::patch('users/{user_id}', array('before' => 'update-user-account', 'uses' => 'UsersController@update'));
+	Route::delete('users/{user_id}', array('as' => 'users.destroy', 'uses' => 'UsersController@destroy'));
+
 
 	Route::resource('roles','RolesController');
 

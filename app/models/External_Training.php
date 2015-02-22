@@ -8,7 +8,7 @@ class External_Training extends Eloquent {
 
 	protected $guarded = 'training_id';
 
-	protected $appends = array('attended_by', 'training_type','training_info','requirement_statuses','training_scs');
+	protected $appends = array('attended_by', 'training_type','training_info','training_title','requirement_statuses','training_scs');
 
 	public function training() {
 		return $this->hasOne('Training');
@@ -47,6 +47,20 @@ class External_Training extends Eloquent {
 		if($training)
 		{
 			return $training;
+		}
+		else
+		{
+			return '';
+		}
+	}
+
+	public function getTrainingTitleAttribute()
+	{
+		$training = Training::find($this->training_id);
+
+		if($training)
+		{
+			return $training->title;
 		}
 		else
 		{

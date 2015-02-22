@@ -13,11 +13,12 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
+		<div class="panel-heading">
 			<h1>Trainings</h1>
 			@if($isAdminHR)
-				<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
-				<br><br>
+				<a href="{{ URL::to('internal_trainings/create') }}" class="btn btn-primary pull-right">Add Internal Training<i class="fa fa-plus fa-lg add-plus"></i></a>
 			@endif
+		</div>
 		</div>
 	</div>
 </div>

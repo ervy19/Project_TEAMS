@@ -23,6 +23,7 @@
 				<tr>
 					<th>Username</th>
 					<th>Name</th>
+					<th>Role</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -48,14 +49,37 @@
 		        "ajax": "{{ URL::to('users') }}",
 		        "columns": [
 		            { "data": "username" },
-		            { "data": "full_name"},
+		            { "data": "name"},
+		            { "data": "all_roles",
+		            	"render": function ( data, type, full, meta ) {
+		            		var roles = '';
+                            if(data)
+                            {
+                                $.each(data, function(element, index){
+                                	roles += '<span class="tags label label-primary">'+index.role_name+'</span>&nbsp;';
+                                });
+                            }
+                            else
+                            {
+                                roles += 'No roles tagged'
+                            }
+
+                            return roles;
+		            	}
+		        	},
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
-					      return '<button type="button" class="btn btn-primary btn-viewc" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-sc" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+					      return '<button type="submit" class="btn btn-small btn-danger btn-delete-sc" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 					    }
 		        	}
-		        ]
+		        ],
+		       	"aoColumnDefs": [
+			      { "sWidth": "30%", "aTargets": [ 0 ] },
+			      { "sWidth": '32%', "aTargets": [ 1 ] },
+			      { "sWidth": '30%', "aTargets": [ 2 ] },
+			      { "sWidth": '8%', "aTargets": [ 3 ] }
+			    ]
 			});
 		});
 	</script>

@@ -161,7 +161,7 @@
             var table = $('#tb-trainings-scs').dataTable({
                 "ajax": "{{ URL::to('employees') }}/{{ $employee->id }}/individual-training-data",
                 "columns": [
-                    { "data": "training_title" },
+                    { "data": "training_title"},
                     { "data": "training_type" },
                     { "data": "training_scs",
                         "render": function ( data, type, full, meta ) {

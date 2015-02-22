@@ -133,10 +133,6 @@ span.tags {
   background: rgba(255,57,235,0.6);
 }
 
-.label:hover {
-  background: rgba(255,57,235,0.45);
-}
-
 .label-success, .alert-success {
   color: #FFF;
   background: #2ecc71;
@@ -189,7 +185,6 @@ span.tags {
 .note-danger {
   border-left-color: #e74c3c;
 }
-
 
 /**************************************
     Statistic Tiles

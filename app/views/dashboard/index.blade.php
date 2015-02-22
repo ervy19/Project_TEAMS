@@ -22,10 +22,20 @@
 					<a href="{{ URL::to('users') }}">
 						<div class="tile">
 							<div class="tile-body">
-								<i class="fa fa-user fa-lg"></i>
+								<i class="fa fa-users fa-lg"></i>
 							</div>
 							<div class="tile-object">
 								<h4>User Accounts</h4>
+							</div>
+						</div>
+					</a>
+					<a href="{{ URL::to('roles') }}">
+						<div class="tile">
+							<div class="tile-body">
+								<i class="fa fa-user fa-lg"></i>
+							</div>
+							<div class="tile-object">
+								<h4>Roles</h4>
 							</div>
 						</div>
 					</a>

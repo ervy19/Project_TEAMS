@@ -11,16 +11,12 @@
 @stop
 
 @section('content')
-
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-			<h2>Add Internal Training</h2>
-		</div>
-	</div>
-	<div class="panel">
-		<div class="row">
-			<div class="col-sm-12 col-md-12">
+			<div class="panel-heading">
+				<h2>Add Internal Training</h2>
+			</div>
 
 				{{ Form::open(array('url' => 'internal_trainings', 'class' => 'form-horizontal')) }}
 
@@ -124,13 +120,9 @@
 					<a href="{{ URL::to('internal_trainings') }}" class="btn btn-primary btn-back pull-right">Back</a>
 					<br><br>
 				{{ Form::close() }}
-
-			</div>
 		</div>
 	</div>
-
 </div>
-
 @stop
 
 @section('page_js')

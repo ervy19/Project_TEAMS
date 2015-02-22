@@ -87,7 +87,7 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;{{ $name or '---' }}</a></li>
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-cog fa-lg"></i>&nbsp;&nbsp;Account Settings</a></li>
+                <li><a href="{{ URL::to('users') }}/1/edit"><i class="fa fa-cog fa-lg"></i>&nbsp;&nbsp;Account Settings</a></li>
                 <li><a href="{{ URL::to('logout') }}"><i class="fa fa-unlock-alt fa-lg"></i>&nbsp;&nbsp;Logout</a></li>
               </ul>
             </li>
@@ -108,9 +108,7 @@
     </div>
     
     <div class="container-fluid">
-
         @yield('content')
-
     </div>
 
     <footer class="footer">

@@ -16,10 +16,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $admin_users = User::where('users.confirmed','=',true)
+                        ->get();
 
         if(Request::ajax()){
-            return Response::json(['data' => $users]);
+            return Response::json(['data' => $admin_users]);
         }
         else
         {
@@ -70,6 +71,20 @@ class UsersController extends Controller
                 ->withInput(Input::except('password'))
                 ->with('error', $error);
         }
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $user = User::find($id);
+
+        return View::make('user_accounts.account-settings')
+                ->with('user',$user);
     }
 
     /**
@@ -153,10 +168,14 @@ class UsersController extends Controller
     {
         if (Confide::forgotPassword(Input::get('email'))) {
             $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
+
+            Log::info($notice_msg);
+
             return Redirect::action('UsersController@login')
                 ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
+            Log::error($error_msg);
             return Redirect::action('UsersController@doForgotPassword')
                 ->withInput()
                 ->with('error', $error_msg);
@@ -213,5 +232,28 @@ class UsersController extends Controller
         Confide::logout();
 
         return Redirect::to('login');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        try
+        {
+            $user = User::find($id);
+            $user->isConfirmed = false;
+            $user->save();
+
+            return Response::json(['success' => true]);
+        }
+        catch (Exception $e)
+        {
+            Log::error($e);
+            return Response::json(['success' => true, 'error' => $e]);
+        }
     }
 }

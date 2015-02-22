@@ -499,7 +499,24 @@ class InternalTrainingsController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'planning_criterion1' => 'required'
+            'planning_criterion1' => 'required|numeric',
+            'planning_criterion2' => 'required|numeric',
+            'objectives_criterion1' => 'required|numeric',
+            'objectives_criterion2' => 'required|numeric',
+            'objectives_criterion3' => 'required|numeric',
+            'content_criterion1' => 'required|numeric',
+            'content_criterion2' => 'required|numeric',
+            'materials_criterion1' => 'required|numeric',
+            'materials_criterion2' => 'required|numeric',
+            'schedule_criterion1' => 'required|numeric',
+            'schedule_criterion2' => 'required|numeric',
+            'schedule_criterion3' => 'required|numeric',
+            'openForum_criterion1' => 'required|numeric',
+            'openForum_criterion2' => 'required|numeric',
+            'openForum_criterion3' => 'required|numeric',
+            'venue_criterion1' => 'required|numeric',
+            'venue_criterion2' => 'required|numeric',
+            'comments' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 

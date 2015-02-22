@@ -13,16 +13,12 @@
 <div class="col-sm-12 col-md-12">
 	<div class="panel">
 		<div class="row">
-
-			<h1>Employees</h1>
-
+		<div class="panel-heading">
+			<h1 class="panel-header">Employees</h1>
 			@if($isAdminHR)
-
-			<a href="{{ URL::to('employees/create') }}" class="btn btn-primary">Add Employee<i class="fa fa-plus fa-lg add-plus"></i></a>
-
-			<br><br>
-
+			<a href="{{ URL::to('employees/create') }}" class="btn btn-primary pull-right">Add Employee<i class="fa fa-plus fa-lg add-plus"></i></a>
 			@endif
+		</div>
 
 			<table id="tb-employees" class="table table-bordered">
 				<thead>

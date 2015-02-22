@@ -36,6 +36,40 @@ class TrainingPlanController extends \BaseController {
 					->with('separated_trainings',$separated_trainings);
 	}
 
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function publicIndex()
+	{
+		$trainings = Training::select(DB::raw('id, title'))
+							->where('isActive','=',true)
+							->where('isInternalTraining','=',true)
+							->where('isTrainingPlan','=',true)
+							->get();
+
+		$consecutive_trainings = array();
+		$separated_trainings = array();
+
+		foreach ($trainings as $key => $value) {
+			if($value->is_consecutive)
+			{
+				array_push($consecutive_trainings, $value);
+			}
+			else
+			{
+				foreach ($value->all_date as $k => $v) {
+					array_push($separated_trainings, array('id' => $value->id, 'title' => $value->title, 'start' => $v->date_scheduled));
+				}				
+			}
+		}
+
+		return View::make('search-trainings')
+					->with('consecutive_trainings',$consecutive_trainings)
+					->with('separated_trainings',$separated_trainings);
+	}
+
 
 	/**
 	 * Show the form for creating a new resource.

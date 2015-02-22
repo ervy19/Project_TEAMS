@@ -48,7 +48,6 @@
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Position</th>
 							<th>Assessor</th>
 							<th>Participation Status</th>
 							<th>Action</th>
@@ -56,7 +55,6 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -142,63 +140,82 @@
 			    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
 			    "columns": [
 			        { "data": "employee_name" },
-			        { "data": "position_title" },
 			        { "data": "supervisor_name" },
 			        { "data": "requirement_statuses",
 				        "render": function ( data, type, full, meta ) {
-							              	if(data)
-							              	{
-							              		var status = '';
-							              		if(data[0])
-							              		{
-							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
-							              		}
+							if(data)
+							{
+								var status = '';
+							    if(data[0])
+							    {
+							    	status += '<span class="label label-success">Has PTA</span>&nbsp;';
+					      		}
+							    else
+							    {
+							    	status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+							    }
+							    
+							    if(data[1])
+							    {
+							    	status += '<span class="label label-success">Has Attended</span>&nbsp;';
+							    }
+							    else
+							    {
+							    	status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+							    }
 
-							              		if(data[1])
-							              		{
-							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
-							              		}
+							    if(data[2])
+							    {
+							    	status += '<span class="label label-success">Has PTE</span>';
+							    }
+							    else
+							    {
+							    	status += '<span class="label label-danger">No PTE Yet</span>';
+							    }
 
-							              		if(data[2])
-							              		{
-							              			status += '<span class="label label-success">Has PTE</span>';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTE Yet</span>';
-							              		}
-
-							              		return status;
-							              	}
-							              	else
-							              	{
-							              		return '';
-							              	}
+								return status;
+							}
+							else
+							{
+								return '';
+							}
 							              } 
 							        	},
-							            { 
-							            	"data": "id",
-							            	"render": function ( data, type, full, meta ) {
-							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
-											}
-							        	}
-							        ],
-							          "aoColumnDefs": [
-								      { "sWidth": "25%", "aTargets": [ 0 ] },
-								      { "sWidth": '18%', "aTargets": [ 1 ] },
-								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
-								      { "sWidth": '15%', "aTargets": [ 4 ] }
-								    ]
-								});
+					{ "data": "id",
+						"render": function ( data, type, row, meta ) {
+							var content = '';
+							
+							if(row.has_pta)
+							{
+								content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+							}
+							else
+							{
+								content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+							}
+
+							if(row.has_pte)
+							{
+								content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+							}
+							else
+							{
+								content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+							}
+
+							content += '<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>'
+
+							return content;
+						}
+					}
+				],
+				"aoColumnDefs": [
+					{ "sWidth": "25%", "aTargets": [ 0 ] },
+					{ "sWidth": '23%', "aTargets": [ 1 ] },
+					{ "sWidth": '25%', "bSortable": false, "aTargets": [ 2 ] },
+					{ "sWidth": '27%', "aTargets": [ 3 ] }
+				]
+			});
 
 		    $("#dd-employees").select2({
 			    allowClear: true
@@ -251,62 +268,81 @@
 								    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
 								    "columns": [
 								        { "data": "employee_name" },
-								        { "data": "position_title" },
 								        { "data": "supervisor_name" },
 								        { "data": "requirement_statuses",
 									        "render": function ( data, type, full, meta ) {
-							              	if(data)
-							              	{
-							              		var status = '';
-							              		if(data[0])
-							              		{
-							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
-							              		}
+												if(data)
+												{
+													var status = '';
+												    if(data[0])
+												    {
+												    	status += '<span class="label label-success">Has PTA</span>&nbsp;';
+										      		}
+												    else
+												    {
+												    	status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+												    }
+												    
+												    if(data[1])
+												    {
+												    	status += '<span class="label label-success">Has Attended</span>&nbsp;';
+												    }
+												    else
+												    {
+												    	status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+												    }
 
-							              		if(data[1])
-							              		{
-							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
-							              		}
+												    if(data[2])
+												    {
+												    	status += '<span class="label label-success">Has PTE</span>';
+												    }
+												    else
+												    {
+												    	status += '<span class="label label-danger">No PTE Yet</span>';
+												    }
 
-							              		if(data[2])
-							              		{
-							              			status += '<span class="label label-success">Has PTE</span>';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTE Yet</span>';
-							              		}
+													return status;
+												}
+												else
+												{
+													return '';
+												}
+												              } 
+												        	},
+										{ "data": "id",
+											"render": function ( data, type, row, meta ) {
+												var content = '';
+												
+												if(row.has_pta)
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+												}
+												else
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+												}
 
-							              		return status;
-							              	}
-							              	else
-							              	{
-							              		return '';
-							              	}
-							              } 
-							        	},
-							            { 
-							            	"data": "id",
-							            	"render": function ( data, type, full, meta ) {
-							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+												if(row.has_pte)
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+												}
+												else
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+												}
+
+												content += '<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>'
+
+												return content;
 											}
-							        	}
-							        ],
-							          "aoColumnDefs": [
-								      { "sWidth": "25%", "aTargets": [ 0 ] },
-								      { "sWidth": '18%', "aTargets": [ 1 ] },
-								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
-								      { "sWidth": '15%', "aTargets": [ 4 ] }
-								    ]
+										}
+									],
+									"aoColumnDefs": [
+										{ "sWidth": "25%", "aTargets": [ 0 ] },
+										{ "sWidth": '23%', "aTargets": [ 1 ] },
+										{ "sWidth": '25%', "bSortable": false, "aTargets": [ 2 ] },
+										{ "sWidth": '27%', "aTargets": [ 3 ] }
+									]
 								});
 							}
 							else
@@ -369,62 +405,81 @@
 								    "ajax": "{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/participants",
 								    "columns": [
 								        { "data": "employee_name" },
-								        { "data": "position_title" },
 								        { "data": "supervisor_name" },
 								        { "data": "requirement_statuses",
 									        "render": function ( data, type, full, meta ) {
-							              	if(data)
-							              	{
-							              		var status = '';
-							              		if(data[0])
-							              		{
-							              			status += '<span class="label label-success">Has PTA</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
-							              		}
+												if(data)
+												{
+													var status = '';
+												    if(data[0])
+												    {
+												    	status += '<span class="label label-success">Has PTA</span>&nbsp;';
+										      		}
+												    else
+												    {
+												    	status += '<span class="label label-danger">No PTA Yet</span>&nbsp;';
+												    }
+												    
+												    if(data[1])
+												    {
+												    	status += '<span class="label label-success">Has Attended</span>&nbsp;';
+												    }
+												    else
+												    {
+												    	status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
+												    }
 
-							              		if(data[1])
-							              		{
-							              			status += '<span class="label label-success">Has Attended</span>&nbsp;';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">Has Not Attended</span>&nbsp;';
-							              		}
+												    if(data[2])
+												    {
+												    	status += '<span class="label label-success">Has PTE</span>';
+												    }
+												    else
+												    {
+												    	status += '<span class="label label-danger">No PTE Yet</span>';
+												    }
 
-							              		if(data[2])
-							              		{
-							              			status += '<span class="label label-success">Has PTE</span>';
-							              		}
-							              		else
-							              		{
-							              			status += '<span class="label label-danger">No PTE Yet</span>';
-							              		}
+													return status;
+												}
+												else
+												{
+													return '';
+												}
+												              } 
+												        	},
+										{ "data": "id",
+											"render": function ( data, type, row, meta ) {
+												var content = '';
+												
+												if(row.has_pta)
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+												}
+												else
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pta/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTA</a>&nbsp;';
+												}
 
-							              		return status;
-							              	}
-							              	else
-							              	{
-							              		return '';
-							              	}
-							              } 
-							        	},
-							            { 
-							            	"data": "id",
-							            	"render": function ( data, type, full, meta ) {
-							            	 return '<button type="button" class="btn btn-info btn-edit-participant" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Delete</button>';
+												if(row.has_pte)
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info"><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+												}
+												else
+												{
+													content += '<a href="{{ URL::to('internal_trainings') }}/{{ $internal_training->id }}/pte/show/'+data+'" class="btn btn-info" disabled><i class="fa fa-file-text-o"></i>&nbsp;View PTE</a>&nbsp;';
+												}
+
+												content += '<button type="submit" class="btn btn-small btn-danger btn-delete-participant" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>'
+
+												return content;
 											}
-							        	}
-							        ],
-							          "aoColumnDefs": [
-								      { "sWidth": "25%", "aTargets": [ 0 ] },
-								      { "sWidth": '18%', "aTargets": [ 1 ] },
-								      { "sWidth": '20%', "aTargets": [ 2 ] },
-								      { "sWidth": '22%', "bSortable": false, "aTargets": [ 3 ] },
-								      { "sWidth": '15%', "aTargets": [ 4 ] }
-								    ]
+										}
+									],
+									"aoColumnDefs": [
+										{ "sWidth": "25%", "aTargets": [ 0 ] },
+										{ "sWidth": '23%', "aTargets": [ 1 ] },
+										{ "sWidth": '25%', "bSortable": false, "aTargets": [ 2 ] },
+										{ "sWidth": '27%', "aTargets": [ 3 ] }
+									]
 								});
 						}
 					}

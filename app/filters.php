@@ -112,3 +112,60 @@ Entrust::routeNeedsRole( 'positions*', array('Admin','HR Admin'), Redirect::to('
 Entrust::routeNeedsRole( 'ranks*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
 
 Entrust::routeNeedsRole( 'skills_competencies*', array('Admin','HR Admin'), Redirect::to('dashboard'), false );
+
+
+
+
+Route::filter('update-user-account', function($route)
+{
+	if(!(Auth::user()->id == $route->getParameter('user_id')))
+	{
+		return Redirect::to('dashboard');
+	}
+});
+
+Route::filter('accomplish-ta', function($route)
+{
+	$supervisor = Supervisor::where('user_id','=',Auth::user()->id)->first();
+	$it_participant =  IT_Participant::find($route->getParameter('participant_id'));
+
+	$participant_designation = Employee_Designation::join('supervisors','employee_designations.supervisor_id','=','supervisors.id')
+								->where('employee_designations.id','=',$it_participant->employee_designation_id)
+								->where('employee_designations.isActive','=',true)
+								->first();
+
+	if($supervisor && $it_participant && $participant_designation)
+	{
+		if ($supervisor->id !== $participant_designation->supervisor_id)
+		{
+			return Redirect::to('dashboard');
+		}
+	}
+	else
+	{
+		return Redirect::to('dashboard');
+	}
+});
+
+Route::filter('show-accomplishedta', function($route)
+{
+	$supervisor = Supervisor::where('user_id','=',Auth::user()->id)->first();
+	$it_participant =  IT_Participant::find($route->getParameter('participant_id'));
+
+	$participant_designation = Employee_Designation::join('supervisors','employee_designations.supervisor_id','=','supervisors.id')
+								->where('employee_designations.id','=',$it_participant->employee_designation_id)
+								->where('employee_designations.isActive','=',true)
+								->first();
+
+	if($supervisor && $it_participant && $participant_designation)
+	{
+		if ($supervisor->id !== $participant_designation->supervisor_id)
+		{
+			return Redirect::to('dashboard');
+		}
+	}
+	else
+	{
+		return Redirect::to('dashboard');
+	}
+});

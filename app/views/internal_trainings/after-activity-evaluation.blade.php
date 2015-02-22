@@ -44,100 +44,100 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td rowspan="2">1. Planning</td>
+								<td rowspan="2"><b>1. Planning</b></td>
 								<td>1.1 Preparedness of Participants</td>
-								<td>{{ Form::number('planning_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('planning_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>1.2 Coordination of Committees</td>
-								<td>{{ Form::number('planning_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('planning_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td rowspan="3">2. Objectives</td>
+								<td rowspan="3"><b>2. Objectives</b></td>
 								<td>2.1 Clarity</td>
-								<td>{{ Form::number('objectives_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('objectives_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>2.2 Timeliness</td>
-								<td>{{ Form::number('objectives_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('objectives_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>2.3 Relevance</td>
-								<td>{{ Form::number('objectives_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('objectives_criterion3', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td rowspan="2">3. Content/Activities</td>
+								<td rowspan="2"><b>3. Content/Activities</b></td>
 								<td>3.1 Relevance</td>
-								<td>{{ Form::number('content_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('content_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>3.2 Organization/Logic</td>
-								<td>{{ Form::number('content_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('content_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td rowspan="2">4. Materials</td>
+								<td rowspan="2"><b>4. Materials</b></td>
 								<td>4.1 Handouts</td>
-								<td>{{ Form::number('materials_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('materials_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>4.2 Audio-Visual/Devices</td>
-								<td>{{ Form::number('materials_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('materials_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td rowspan="3">5. Schedule of Activities</td>
+								<td rowspan="3"><b>5. Schedule of Activities</b></td>
 								<td>5.1 Time allotment</td>
-								<td>{{ Form::number('schedule_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('schedule_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>5.2 Flexibility</td>
-								<td>{{ Form::number('schedule_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('schedule_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>5.3 Appropriateness of date</td>
-								<td>{{ Form::number('schedule_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('schedule_criterion3', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td colspan="3">6. Speaker/s</td>
+								<td colspan="3"><b>6. Speaker/s</b></td>
 							</tr>
 							@foreach ($speakers as $value)
 							<tr>
-								<td rowspan="3">6.1 {{ $value->name }}</td>
+								<td rowspan="3"><b>6.1 {{ $value->name }}</b></td>
 								<td>6.1.1 Subject matter mastery</td>
-								<td>{{ Form::number("evaluation_criterion1_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text("evaluation_criterion1_" . $value->id, '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.2 Contribution to the attainment of the objectives</td>
-								<td>{{ Form::number("evaluation_criterion2_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text("evaluation_criterion2_" . $value->id, '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.3 Interaction/Rapport with participants</td>
-								<td>{{ Form::number("evaluation_criterion3_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text("evaluation_criterion3_" . $value->id, '',array('class' => 'form-control')) }}</td>
 							</tr>
 							@endforeach
 							<tr>
-								<td rowspan="3">7. Open Forum</td>
+								<td rowspan="3"><b>7. Open Forum</b></td>
 								<td>7.1 Time allotment</td>
-								<td>{{ Form::number('openForum_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('openForum_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>7.2 Extent of audience participation</td>
-								<td>{{ Form::number('openForum_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('openForum_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>7.3 Moderator's effectiveness</td>
-								<td>{{ Form::number('openForum_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('openForum_criterion3', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td rowspan="2">8. Venue/Facilities</td>
+								<td rowspan="2"><b>8. Venue/Facilities</b></td>
 								<td>8.1 Acoustics</td>
-								<td>{{ Form::number('venue_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('venue_criterion1', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
 								<td>8.2 Appropriateness</td>
-								<td>{{ Form::number('venue_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5)) }}</td>
+								<td>{{ Form::text('venue_criterion2', '',array('class' => 'form-control')) }}</td>
 							</tr>
 							<tr>
-								<td>Comments/Recommendations:</td>
+								<td><b>Comments/Recommendations:</b></td>
 								<td colspan="2">{{ Form::textarea('comments', '',array('class' => 'form-control', 'rows' => '3')) }}</td>
 							</tr>
 						</tbody>
@@ -160,7 +160,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td rowspan="2">1. Planning</td>
+							<td rowspan="2"><b>1. Planning</b></td>
 							<td>1.1 Preparedness of Participants</td>
 							<td>{{ $activityevaluation->planning_criterion1 }}</td>
 						</tr>
@@ -169,7 +169,7 @@
 							<td>{{ $activityevaluation->planning_criterion2 }}</td>
 						</tr>
 						<tr>
-							<td rowspan="3">2. Objectives</td>
+							<td rowspan="3"><b>2. Objectives</b></td>
 							<td>2.1 Clarity</td>
 							<td>{{ $activityevaluation->objectives_criterion1 }}</td>
 						</tr>
@@ -182,7 +182,7 @@
 							<td>{{ $activityevaluation->objectives_criterion3 }}</td>
 						</tr>
 						<tr>
-							<td rowspan="2">3. Content/Activities</td>
+							<td rowspan="2"><b>3. Content/Activities</b></td>
 							<td>3.1 Relevance</td>
 							<td>{{ $activityevaluation->content_criterion1 }}</td>
 						</tr>
@@ -191,7 +191,7 @@
 							<td>{{ $activityevaluation->content_criterion2 }}</td>
 						</tr>
 						<tr>
-							<td rowspan="2">4. Materials</td>
+							<td rowspan="2"><b>4. Materials</b></td>
 							<td>4.1 Handouts</td>
 							<td>{{ $activityevaluation->materials_criterion1 }}</td>
 						</tr>
@@ -200,7 +200,7 @@
 							<td>{{ $activityevaluation->materials_criterion2 }}</td>
 						</tr>
 						<tr>
-							<td rowspan="3">5. Schedule of Activities</td>
+							<td rowspan="3"><b>5. Schedule of Activities</b></td>
 							<td>5.1 Time allotment</td>
 							<td>{{ $activityevaluation->schedule_criterion1 }}</td>
 						</tr>
@@ -212,9 +212,12 @@
 							<td>5.3 Appropriateness of date</td>
 							<td>{{ $activityevaluation->schedule_criterion3 }}</td>
 						</tr>
+						<tr>
+							<td colspan="3"><b>6. Speaker/s</b></td>
+						</tr>
 						@foreach ($speakerevaluation as $value )
 							<tr>
-								<td rowspan="3">6.1 {{ $value["name"] }}</td>
+								<td rowspan="3"><b>6.1 {{ $value["name"] }}</b></td>
 								<td>6.1.1 Subject matter mastery</td>
 								<td>{{ $value["evaluation_criterion1_" . $value["id"]] }}</td>
 							</tr>
@@ -226,7 +229,7 @@
 								<td>{{ $value["evaluation_criterion3_" . $value["id"]] }}</td>						
 						@endforeach
 						<tr>
-							<td rowspan="3">7. Open Forum</td>
+							<td rowspan="3"><b>7. Open Forum</b></td>
 							<td>7.1 Time allotment</td>
 							<td>{{ $activityevaluation->openForum_criterion1 }}</td>
 						</tr>
@@ -239,7 +242,7 @@
 							<td>{{ $activityevaluation->openForum_criterion3 }}</td>
 						</tr>
 						<tr>
-							<td rowspan="2">8. Venue/Facilities</td>
+							<td rowspan="2"><b>8. Venue/Facilities</b></td>
 							<td>8.1 Acoustics</td>
 							<td>{{ $activityevaluation->venue_criterion1 }}</td>
 						</tr>
@@ -248,7 +251,7 @@
 							<td>{{ $activityevaluation->venue_criterion2 }}</td>
 						</tr>
 						<tr>
-							<td>Comments/Recommendations:</td>
+							<td><b>Comments/Recommendations:</b></td>
 							<td colspan="2">{{ $activityevaluation->comments }}</td>
 						</tr>
 					</tbody>
