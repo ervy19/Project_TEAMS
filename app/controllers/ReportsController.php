@@ -854,32 +854,10 @@ class ReportsController extends \BaseController {
 
     public function downloadPtaReport($training_id)
     {
-        $internaltraining = Internal_Training::select(DB::raw('*'))
+        $internaltrainings = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
-                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
                                 ->first();
-
-        //Get School/College and Department
-        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $did)->pluck('name');
-
-        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
-
-        //Get Schedule
-        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
-
-        //Get Participant Ratings
-        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('participant_assessments.type', '=', "pta")
-                        ->distinct()
-                        ->get();
 
         $oneItem = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('name');
         $oneResponse = Assessment_Response::where('isActive','=',true)->where('name', '=', $oneItem)->pluck('id');
@@ -887,16 +865,58 @@ class ReportsController extends \BaseController {
         $itpart = IT_Participant::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('id');
         $partassess = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pta")->pluck('id');
         
-        if($partassess == NULL)
+        if($oneItem == NULL)
+        {
+            $strerror = "There are no assessment items yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($itpart == NULL)
+        {
+            $strerror = "There are no training participants yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($partassess == NULL || $oneResponse == NULL)
         {
             $strerror = "PTA has not been accomplished yet.";
             return View::make('reports.error-page')
-            ->with('internaltraining', $internaltraining)
+            ->with('internaltrainings', $internaltrainings)
             ->with('strerror', $strerror);
         }           
         else
         {
+            $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
+                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+            //Get School/College and Department
+            $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+            $department = Department::where('id', '=', $did)->pluck('name');
+
+            $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+            $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+
+            //Get Schedule
+            $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+            $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+
+            //Get Participant Ratings
+            $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->distinct()
+                            ->get();
+
             $assessment_items = array();
+
             foreach ($assessment_item_names as $key => $value) {
                 //GET THE MEAN
                 $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
@@ -1190,50 +1210,70 @@ class ReportsController extends \BaseController {
 
     public function downloadPteReport($training_id)
     {
-        $internaltraining = Internal_Training::select(DB::raw('*'))
+        $internaltrainings = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
-                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
                                 ->first();
-
-        //Get School/College and Department
-        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $did)->pluck('name');
-
-        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
-
-        //Get schedule
-        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
-
-        //Get Participant Ratings
-        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('participant_assessments.type', '=', "pte")
-                        ->distinct()
-                        ->get();
 
         $oneItem = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('name');
         $oneResponse = Assessment_Response::where('isActive','=',true)->where('name', '=', $oneItem)->pluck('id');
 
         $itpart = IT_Participant::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('id');
         $partassess = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pte")->pluck('id');
-        
-        if($partassess == NULL)
+
+        if($oneItem == NULL)
+        {
+            $strerror = "There are no assessment items yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($itpart == NULL)
+        {
+            $strerror = "There are no training participants yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($partassess == NULL || $oneResponse == NULL)
         {
             $strerror = "PTE has not been accomplished yet.";
             return View::make('reports.error-page')
-            ->with('internaltraining', $internaltraining)
+            ->with('internaltrainings', $internaltrainings)
             ->with('strerror', $strerror);
-        }
+        }           
         else
         {
+            $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
+                                ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
+                                ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+            //Get School/College and Department
+            $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+            $department = Department::where('id', '=', $did)->pluck('name');
+
+            $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+            $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+
+            //Get schedule
+            $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+            $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+
+            //Get Participant Ratings
+            $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('participant_assessments.type', '=', "pte")
+                            ->distinct()
+                            ->get();
+
             $assessment_items = array();
-        foreach ($assessment_item_names as $key => $value) {
+
+            foreach ($assessment_item_names as $key => $value) {
             //GET THE MEAN
             $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
                         ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
