@@ -20,6 +20,7 @@
 				{{ HTML::ul($errors->all()) }}
 
 				{{ Form::open(array('url' => 'pta', 'class' => 'form-horizontal')) }}
+				{{ Form::model($internaltrainings, array('route' => array('training_assessment.store', $type), 'method' => 'POST')) }}
 
 				      	<div class="form-group row">
 							<div class="col-sm-12 col-md-12">
