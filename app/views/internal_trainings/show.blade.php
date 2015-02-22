@@ -33,8 +33,11 @@
 					<h6>Schedule:</h6>
 				</div>
 				<div class="col-sm-11 col-md-11">
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->venue or '---' }}</h5>
-					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->date_scheduled or '---' }}</h5>
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $internaltrainings->venue or '---' }}
+					<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						@foreach($schedArray as $value)
+						<h5>{{ $value["date_scheduled"] . " (" . $value["timeslot"] . ") " }}</h5>
+						@endforeach
 				</div>
 
 				<div class="col-sm-1 col-md-1">

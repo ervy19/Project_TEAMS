@@ -76,8 +76,7 @@ Route::get('reports/pta-report/{internal_training}', array('as' => 'reports.pta-
 
 Route::get('reports/pte-report/{internal_training}', array('as' => 'reports.pte-report', 'uses' => 'ReportsController@pteReport'));
 
-
-
+Route::get('reports/error/{internal_training}', array('as' => 'reports.error-page', 'uses' => 'ReportsController@errorPage'));
 
 Route::get('employees/{id}/training-log-download', array('as' => 'employees.training-log-download', 'uses' => 'ReportsController@downloadTrainingLog'));
 

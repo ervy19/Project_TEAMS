@@ -45,17 +45,17 @@
 							<div class="col-sm-4 col-md-4">
 								{{ Form::label('date_startlabel','Date: ') }}
 								<input class="form-control" type="text" id="date1" name="date1">
-								{{ $errors->first('date_start','<div class="error-message">:message</div>') }}
+								{{ $errors->first('date1','<div class="error-message">The date field is required.</div>') }}
 							</div>
 							<div class="col-sm-2 col-md-2">
 								{{ Form::label('time','Time Start: ') }}
 								<input class="form-control" type="text" id="timestart1" name="timestart1">
-								{{ $errors->first('time_start_s','<div class="error-message">:message</div>') }}
+								{{ $errors->first('timestart1','<div class="error-message">The time start field is required.</div>') }}
 							</div>
 							<div class="col-sm-2 col-md-2">
 								{{ Form::label('time','Time End: ') }}
 								<input class="form-control" type="text" id="timeend1" name="timeend1">
-								{{ $errors->first('time_end_s','<div class="error-message">:message</div>') }}
+								{{ $errors->first('timeend1','<div class="error-message">The time end field is required.</div>') }}
 							</div>
 							<br>
 							<input type="button" value="Add Date" onClick="addInput('dynamicInput');" class="btn btn-primary">
@@ -124,7 +124,7 @@
 					<a href="{{ URL::to('internal_trainings') }}" class="btn btn-primary btn-back pull-right">Back</a>
 					<br><br>
 				{{ Form::close() }}
-
+					<br><br>
 			</div>
 		</div>
 	</div>

@@ -62,7 +62,10 @@ class InternalTrainingsController extends \BaseController {
             'objectives' => 'required',
             'isTrainingPlan' => 'required',
             'schoolcollege' => 'required_without:department',
-            'department' => 'required_without:schoolcollege'
+            'department' => 'required_without:schoolcollege',
+            'date1' => 'required',
+            'timestart1' => 'required',
+            'timeend1' => 'required'
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -224,9 +227,60 @@ class InternalTrainingsController extends \BaseController {
 	{
         //Get the details of the specified internal training
         $internaltrainings = Training::join('internal_trainings','trainings.id','=','internal_trainings.training_id')
-                                ->join('training_schedules','internal_trainings.training_id','=','training_schedules.training_id')
                                 ->where('trainings.id','=',$id)
                                 ->first();
+
+        $sched = Training_Schedule::where('isActive','=',true)->where('training_id','=',$id)->lists('id');
+        $schedCount = Training_Schedule::where('isActive','=',true)->where('training_id','=',$id)->count();
+        $schedArray = array();
+
+        if($sched)
+        {
+            foreach($sched as $value)
+            {
+                if($schedCount == 1)
+                {
+                    $datesched = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('date_scheduled');
+                    $timeslot = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('timeslot');
+                    $dateformat = new DateTime($datesched);
+                    $date_start = DATE_FORMAT($dateformat,'F d, Y');
+                    array_push($schedArray, array('date_scheduled' => $date_start, 'timeslot' => $timeslot));
+                } 
+                else if($schedCount == 2)
+                {
+                    $schedid1 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isStartDate','=',1)->pluck('date_scheduled');
+                    $timeslot1 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isStartDate','=',1)->pluck('timeslot');
+
+                    $schedid2 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isEndDate','=',1)->pluck('date_scheduled');
+                    $timeslot2 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isEndDate','=',1)->pluck('timeslot');
+
+                    $dateformat1 = new DateTime($schedid1);
+                    $date_start = DATE_FORMAT($dateformat1,'F d, Y');
+
+                    $dateformat2 = new DateTime($schedid2);
+                    $date_end = DATE_FORMAT($dateformat2,'F d, Y');
+
+                    array_push($schedArray, array('date_scheduled' => $date_start, 'timeslot' => $timeslot1));
+                    array_push($schedArray, array('date_scheduled' => $date_end, 'timeslot' => $timeslot2));
+                }
+                else
+                {
+                    $sched = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('date_scheduled');
+                    $timeslot = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('timeslot');
+                    
+                    $dateformat = new DateTime($sched);
+                    $date_sched = DATE_FORMAT($dateformat,'F d, Y');
+
+                    array_push($schedArray, array('date_scheduled' => $date_sched, 'timeslot' => $timeslot));
+                    
+                }
+            }
+        }
+        else
+        {
+
+        }
+
         //for format, objectives, and outcome
         $internaltraining = Training::with('internal_training')->find($id);
 
@@ -340,7 +394,8 @@ class InternalTrainingsController extends \BaseController {
                 ->with('countPTAttendance',$countPTAttendance)
                 ->with('countPTAOnly',$countPTAOnly)
                 ->with('countAttendedOnly',$countAttendedOnly)
-                ->with('countNoReq',$countNoReq);
+                ->with('countNoReq',$countNoReq)
+                ->with('schedArray', $schedArray);
         }
         else
         {
