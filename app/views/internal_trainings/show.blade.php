@@ -302,6 +302,7 @@
 						success: function(data) {
 							if(data.success)
 							{
+								$('#assessmentItems').modal('hide');
 								$.get('{{ URL::to('') }}/internal_trainings/'+id+'/assessment-items', function(data){
 									if(data.success)
 									{

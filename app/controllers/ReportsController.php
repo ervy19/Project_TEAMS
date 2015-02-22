@@ -1022,8 +1022,6 @@ class ReportsController extends \BaseController {
     {
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
@@ -1200,8 +1198,6 @@ class ReportsController extends \BaseController {
         //Internal Training Details
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
