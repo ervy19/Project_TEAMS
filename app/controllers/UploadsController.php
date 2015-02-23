@@ -226,7 +226,7 @@ class UploadsController extends \BaseController {
 						$it_attendances->time = $currentTime; //Check this please
 					}
 					$it_attendances->it_participant_id = $partid;
-					//$it_attendances->save();
+					$it_attendances->save();
 				}
 				else
 				{
@@ -349,7 +349,7 @@ class UploadsController extends \BaseController {
 			for ($i = 0; $i < count($results[0]["employee_number"]) ; $i++) { 
 				$it_participant = new IT_Participant;
 				$x = Employee::where('employee_number', '=', $results[$i]["employee_number"])->where('isActive', '=', 1)->pluck('id');
-				dd($x);
+
 				$it_participant->employee_id = $x;
 
 				$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[$i]->employee_number)->pluck('id'))->first();
