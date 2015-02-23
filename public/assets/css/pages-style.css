@@ -180,6 +180,39 @@
 	display: inline-block;
 }
 
+
+/**************************************
+  	Departments
+**************************************/
+.dept-header-info {
+	margin-bottom: 10px;
+}
+
+#view-department-name {
+	margin-bottom: 0px;
+}
+
+#view-department-head {
+	margin-top: 5px;
+}
+
+#view-department-name, #view-department-head {
+	font-weight: bold;
+}
+
+#view-department-head {
+	font-style: italic;
+}
+
+#viewDepartment h4 {
+	margin-bottom: 5px;
+}
+
+#department-sc-tags h3 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 /**************************************
   	Employees
 **************************************/

@@ -48,28 +48,22 @@
 		<div class="modal-content">
 			<div class="modal-header">
         		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        		<h4 class="modal-title" id="viewDepartmentLabel"><i class="fa fa-building-o fa-lg"></i>&nbsp;&nbsp;Department Name Information</h4>
+        		<h4 class="modal-title" id="viewDepartmentLabel"><i class="fa fa-building-o fa-lg"></i>&nbsp;&nbsp;Department Information</h4>
       		</div>
       		<div class="modal-body">
       			<div class="container">
       				<div class="col-sm-12 col-md-12">
-      					<div class="row">
-							<div class="col-sm-2 col-md-2">
-								<h5>Department Name: </h5>
-								<h5>Department Head:</h5>
-							</div>
-							<div class="col-sm-4 col-md-4">
-								<h4 id="view-department-name"></h4>
+      					<div class="row dept-header-info">
+							<div class="col-sm-6 col-md-6">
+								<h3 id="view-department-name"></h3>
 								<h4 id="view-department-head"></h4>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-6 col-md-6">
-								<h5>Needed Skills and Competencies:</h5>
-							</div>
-							<div class="col-sm-6 col-md-6">
-								<div class="tags">
-									<h3><span id="tag" class="label label-default"></span></h3>
+								<h4>Needed Skills and Competencies:</h4>
+								<div id="department-sc-tags" class="tags">
+									
 								</div>
 							</div>
 						</div>
@@ -244,6 +238,7 @@
 		    
 		    var table = $('#tb-departments').dataTable({
 		        "ajax": "{{ URL::to('departments') }}",
+		        "bSort": false,
 		        "columns": [
 		            { "data": "name" },
 		            { "data": "supervisor"},
@@ -261,6 +256,8 @@
 			    ]
 			});
 
+		    $('#dd-departments-add').select2(); 
+
 		    $('#dd-departments-scs').select2(); 
 
 			$('#department-schoolcollege').hide(); 
@@ -271,18 +268,6 @@
 		            $('#department-schoolcollege').hide(); 
 		        } 
 		    });
-
-		    $('#tb-departments').on('click', '.btn-view-department', function (e) {
-				var id = $(this).attr('data-id');
-
-				$('#viewDepartment').on('hidden.bs.modal', function (e) {
-					id = '';
-				});
-
-				viewCampusInformation(id);
-
-				//$('#viewDepartment').modal({ backdrop: 'static', keyboard: false });
-			});
 
 		    $('form[data-add]').on('submit', function (e) {
 
@@ -301,36 +286,38 @@
 						success: function(data) {
 							if(data.success)
 							{
-								//RefreshTable('#tb-campuses',url);
-								$('#addCampus').modal('hide');
-								$('.message-log').append('<div class="note note-success">Campus successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								$('#addDepartment').modal('hide');
+								$('.message-log').append('<div class="note note-success">Department successfully added.</div>').fadeIn(300).delay(3000).fadeOut(300);
 		
 								table.fnDestroy();
 
-								table = $('#tb-campuses').dataTable({
-							        "ajax": "{{ URL::to('campuses') }}",
+								table = $('#tb-departments').dataTable({
+							        "ajax": "{{ URL::to('departments') }}",
+							        "bSort": false,
 							        "columns": [
 							            { "data": "name" },
-							            { "data": "address" },
+							            { "data": "supervisor"},
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-info btn-edit-campus" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-campus" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
-						}
+							            	 return '&nbsp;<button type="button" class="btn btn-primary btn-view-department" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View Information</button>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-info btn-edit-department" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-department" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+											}
 							        	}
 							        ],
-							        "aoColumnDefs": [
-								      { "sWidth": "20%", "aTargets": [ 0 ] },
-								      { "sWidth": '65%', "aTargets": [ 1 ] },
-								      { "sWidth": '15%', "aTargets": [ 2 ] }
+							          "aoColumnDefs": [
+								      { "sWidth": "30%", "aTargets": [ 0 ] },
+								      { "sWidth": '40%', "aTargets": [ 1 ] },
+								      { "sWidth": '30%', "aTargets": [ 2 ] }
 								    ]
 								});
 							}
 							else
 							{
 								$('.error-message').empty();
-								$('#error-addcampus-name').append(data.errors.name);
-								$('#error-addcampus-address').append(data.errors.address);
+								$('#error-adddepartment-name').append(data.errors.name);
+								$('#error-adddepartment-type').append(data.errors.type);
+								$('#error-adddepartment-schoolcollege').append(data.errors.schoolcollege);
+								$('#error-adddepartment-scs').append(data.errors.scs);
 							}
 						}
 					});
@@ -338,6 +325,40 @@
 
 			$('#viewDepartment').on('hide.bs.modal', function (e) {
 				$('#view-department-name').empty();
+				$('#view-department-head').empty();
+				$('#department-sc-tags').empty();
+			});
+
+			$('#tb-departments').on('click', '.btn-view-department', function (e) {
+
+				var id = $(this).attr('data-id');
+				var url = "{{ URL::to('departments') }}/"+id;
+
+				$('.message-log').empty();
+
+				viewDepartmentInformation(url);
+
+				$('#viewDepartment').modal('show');
+
+				$('#viewDepartment').on('hidden.bs.modal', function (e) {
+					id = '';
+				});
+			});
+
+			$('#tb-departments').on('click', '.btn-delete-department', function (e) {
+
+				var id = $(this).attr('data-id');
+				var url = "{{ URL::to('departments') }}";
+				$('.message-log').empty();
+
+			    $('#deleteDepartment').modal({ backdrop: 'static', keyboard: false })
+			        .one('click', '#btn-archive-department', function() {
+			            deleteDepartment(id,url);
+			    });
+
+			    $('#deleteDepartment').on('hidden.bs.modal', function (e) {
+					id = '';
+				});
 			});
 
 			clearAllFields('#addDepartment','#add-department');
@@ -357,25 +378,66 @@
 				});
 			}
 
-			function viewCampusInformation(id) {
+			function viewDepartmentInformation(url) {
 				$.ajax({
 					type: 'GET',
-					url: "{{ URL::to('departments') }}/" + id,
-					data: id,
-					dataType: "json",
+					url: url,
 					success: function(data) {
 						if(data.result)
-						{					
-							//$('#view-department-name').append(data.result.name);
-							//$('#view-department-head').append(data.result.supervisor.name);
+						{
+							$('#view-department-name').append(data.data.name);			
+							$('#view-department-head').append(data.data.supervisor);
 
-							 $.getJSON(data.tags, function(data) {
-						        $.each(data, function(index) {
-						            alert(data[index].name);
-						        });
-						    });
+							if(data.scs[0])
+							{
+								$.each(data.scs, function(element, index){
+									$('#department-sc-tags').append('<h3><span id="tag" class="label label-default">'+index.name+'</span></h3>&nbsp;');
+								});							
+							}
+							else
+							{
+								$('#department-sc-tags').append('<h3><span id="tag" class="label label-default">No Skills/Competencies tagged</span></h3>');
+							}
+						}
+					}
+				});
+			}
 
-							
+			function deleteDepartment(id,url) {
+
+				$.ajax({
+					type: 'DELETE',
+					url: url + '/' + id,
+					data: id,
+					success: function(data) {
+						if(data.success)
+						{		
+							$('#deleteDepartment').modal('hide');
+							$('.message-log').append('<div class="note note-success">Department successfully archived.</div>').fadeIn(300).delay(3000).fadeOut(300);
+								
+							table.fnDestroy();
+
+							table = $('#tb-departments').dataTable({
+						        "ajax": "{{ URL::to('departments') }}",
+						        "bSort": false,
+						        "columns": [
+						            { "data": "name" },
+						            { "data": "supervisor"},
+						            { 
+						            	"data": "id",
+						            	"render": function ( data, type, full, meta ) {
+						            	 return '&nbsp;<button type="button" class="btn btn-primary btn-view-department" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View Information</button>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-info btn-edit-department" data-id="'+data+'"><i class="fa fa-edit"></i>&nbsp;Edit</button>&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-department" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+										}
+						        	}
+						        ],
+						          "aoColumnDefs": [
+							      { "sWidth": "30%", "aTargets": [ 0 ] },
+							      { "sWidth": '40%', "aTargets": [ 1 ] },
+							      { "sWidth": '30%', "aTargets": [ 2 ] }
+							    ]
+							});
+
+								
 						}
 					}
 				});

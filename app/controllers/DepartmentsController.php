@@ -9,7 +9,7 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$departments = Department::where('isActive', '=', true)->get();
+		$departments = Department::where('isActive', '=', true)->orderBy('created_at', 'DESC')->get();
 
 		$schoolscolleges = School_College::where('isActive', '=', true)->lists('name','id');
 
@@ -62,19 +62,20 @@ class DepartmentsController extends \BaseController {
 
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('departments/create')
-                ->withErrors($validator)
-                ->withInput();
+            return Response::json([
+        		'success' => false,
+        		'errors' => $validator->errors()->toArray()]
+        		);
         } else {
             // store to departments table
-            $departments = new Department;
-            $departments->name = Input::get('name');
-            $school_college = Input::get('selected_sch_dept');
-            $departments->schools_colleges_id = School_College::where('name', '=', $school_college)->pluck('id');
-            $ndepartment = Input::get('name');
-            $departments->save();
-			
-            $newdepartment = Department::where('name', $ndepartment)->pluck('id');
+            $department = new Department;
+            $department->name = Input::get('name');
+            if(Input::get('type') == 1)
+            {
+            	$department->schools_colleges_id = Input::get('schoolcollege');
+            }
+
+            $department->save();
 
             /*$selectedsc = Input::get('selected_dept');
             $scidArray = explode(",", $selectedsc);
@@ -88,7 +89,7 @@ class DepartmentsController extends \BaseController {
 	        }*/
 
 	        //Tagged Skills and Competencies
-            $selectedsc = Input::get('selected_dept');
+            $selectedsc = Input::get('scs');
             if($selectedsc == "")
             {}
             else 
@@ -97,17 +98,13 @@ class DepartmentsController extends \BaseController {
 
                 for($i = 0; $i < count($scidArray); $i++){
                     $departmentsc = new Department_SC;
-                    $selectedid = SkillsCompetencies::where('isActive','=',true)->where('name', '=', $scidArray[$i])->pluck('id');
-                    $departmentsc->skills_competencies_id = $selectedid;
-		            $departmentsc->department_id = $newdepartment;
+                    $departmentsc->skills_competencies_id = $scidArray[$i];
+		            $departmentsc->department_id = $department->id;
 		            $departmentsc->save();
                 }
             }
 
-            // redirect
-            Session::flash('message', 'Successfully created Department!');
-            return Redirect::to('departments')
-            	->with('departments', $departments );
+            return Response::json(['success' => true]);
         }
 	}
 
@@ -120,20 +117,17 @@ class DepartmentsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		/*$department = DB::table('departments')
-						->join('department_supervisors','departments.id','=','department_supervisors.department_id')
-						->where('departments.isActive',true)
-						->first();*/
+		$department = Department::find($id);
 
-		$tags = DB::table('departments')
-						->join('department_sc','departments.id','=','department_sc.department_id')
-						->join('skills_competencies','department_sc.skills_competencies_id','=','skills_competencies.id')
-						->where('departments.id',$id)
-						->where('department_sc.isActive',true)
-						->get();
+		$department_scs = Department_SC::where('department_id','=',$id)->get();
 
-		if(Request::ajax()){
-			return Response::json(['tags' => $tags]);
+		if($department)
+		{
+			return Response::json(['result' => true, 'data' => $department, 'scs' => $department_scs]);
+		}
+		else
+		{
+			return Response::json(['result' => false]);
 		}
 	}
 
@@ -261,9 +255,7 @@ class DepartmentsController extends \BaseController {
         $departments->isActive = false;
         $departments->save();
 
-        // redirect
-        Session::flash('message', 'Successfully deleted Department!');
-        return Redirect::to('departments');
+        return Response::json(['success' => true]);
 	}
 
 	public function neededSkillsCompetencies($id)

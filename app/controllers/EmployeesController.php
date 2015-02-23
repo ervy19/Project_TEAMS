@@ -9,7 +9,7 @@ class EmployeesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$employees = Employee::where('isActive', '=', true)->get();
+		$employees = Employee::where('isActive', '=', true)->orderBy('created_at', 'DESC')->get();
 
 		$isAdminHR = false;
 

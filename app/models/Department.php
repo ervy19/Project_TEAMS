@@ -23,7 +23,7 @@ class Department extends Eloquent {
 		}
 		else
 		{
-			return '';
+			return 'No Supervisor tagged';
 		}
 	}
 

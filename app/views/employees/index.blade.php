@@ -75,7 +75,8 @@
 			      { "sWidth": '15%', "aTargets": [ 3 ] },
 			      { "sWidth": '12%', "aTargets": [ 4 ] }
 			    @endif
-			    ]
+			    ],
+			    "bSort": false
 		    });
 		} );
 	</script>
