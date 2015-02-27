@@ -143,7 +143,7 @@
 		            { 
 		            	"data": "id",
 		            	"render": function ( data, type, full, meta ) {
-					      return '<button type="button" class="btn btn-primary btn-viewc" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-user-acccount" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+					      return '<button type="button" class="btn btn-primary btn-view" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-user-acccount" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 					    }
 		        	}
 		        ]
@@ -162,7 +162,7 @@
 
 					$.ajax({
 						type: method,
-						url: '/users',
+						url: url + '/users',
 						data: form.serialize(),
 						success: function(data) {
 							if(data.success)
@@ -204,8 +204,22 @@
 						}
 					});
 				});
+	
+			clearAllFields('#addUserAccount','#add-UserAccount');
+			/*clearAllFields('#editSpeaker','#update-speaker');*/
 
-			/* $('#tb-user-accounts').on('click', '.btn-delete-user-acccount', function (e) {
+			function clearAllFields(modal,form) {
+				$(modal).on('hide.bs.modal', function (e) {
+					$('.error-message').empty();
+					$(':input',form)
+					  .not(':button, :submit, :reset, :hidden')
+					  .val('')
+					  .removeAttr('checked')
+					  .removeAttr('selected');
+				});
+			}		
+
+			 $('#tb-user-accounts').on('click', '.btn-delete-user-acccount', function (e) {
 
 				var id = $(this).attr('data-id');
 				var url = "{{ URL::to('users') }}";
@@ -248,7 +262,7 @@
 							            { 
 							            	"data": "id",
 							            	"render": function ( data, type, full, meta ) {
-										      return '<button type="button" class="btn btn-primary btn-viewc" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-user-acccount" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
+										      return '<button type="button" class="btn btn-primary btn-view" data-id="'+data+'"><i class="fa fa-file-text-o"></i>&nbsp;View</button>&nbsp;<button type="submit" class="btn btn-small btn-danger btn-delete-user-acccount" data-id="'+data+'"><i class="fa fa-trash"></i>&nbsp;Archive</button>';
 										    }
 							        	}
 							        ]
@@ -258,7 +272,5 @@
 
 				});
 			}
-
-		}); */
 	</script>
 @stop

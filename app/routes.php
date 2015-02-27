@@ -117,6 +117,18 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('summary_report/skills_competencies', array('as' => 'summary_report.skills_competencies', 'uses' => 'SummaryReportsController@scsReport'));
 
+	/*
+	|--------------------------------------------------------------------------
+	| User Accounts Routes
+	|--------------------------------------------------------------------------
+	|
+	| Different application routes for User Accounts components
+	|
+	*/
+	Route::get('users/create', 'UsersController@create');
+	Route::get('users', 'UsersController@index');
+	Route::post('users', 'UsersController@store');
+	Route::delete('users/{users}', array('uses' => 'UserController@destroy'));
 
 	/*
 	|--------------------------------------------------------------------------
@@ -179,11 +191,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('external_trainings/queue', array('as' => 'external_trainings.queue', 'uses' => 'ExternalTrainingsController@indexQueue'));
 
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
-
-
-	Route::get('users/create', 'UsersController@create');
-	Route::get('users', 'UsersController@index');
-	Route::post('users', 'UsersController@store');
 
 	Route::resource('roles','RolesController');
 

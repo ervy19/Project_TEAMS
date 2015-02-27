@@ -44,7 +44,7 @@ class UsersController extends Controller
      */
     public function store()
     {
-        $repo = App::make('UserRepository');
+        /**$repo = App::make('UserRepository');
         $user = $repo->signup(Input::all());
 
         if ($user->id) {
@@ -69,11 +69,11 @@ class UsersController extends Controller
             return Redirect::action('UsersController@create')
                 ->withInput(Input::except('password'))
                 ->with('error', $error);
-        }
+        }*/
 
         // validate
         // read more on validation at http://laravel.com/docs/validation
-        /**$rules = array(
+        $rules = array(
             'username' => 'required|max:255', 
             'email' => 'required|max:255',
             'password' => 'required',
@@ -90,22 +90,33 @@ class UsersController extends Controller
             /*return Redirect::to('campuses')
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));*/
-        /**} else {
+        } else {
             // store
             $useraccount = new User;
-            $useraccount->username = Input::get('username');
+            /**$useraccount->username = Input::get('username');
             $useraccount->email = Input::get('email');
             $useraccount->password = Input::get('password');
             $useraccount->confirmation_code = Input::get('confirmation_code');
             $useraccount->remember_token = Input::get('remember_token');
             $useraccount->confirmed = Input::get('confirmed');
-            $useraccount->save();
+            $useraccount->save();*/
+
+            $username = Input::get('username');
+            $email = Input::get('email');
+            $password = Input::get('password');
+            $confirmation_code = Input::get('confirmation_code');
+            $remember_token = Input::get('remember_token');
+            $confirmed = Input::get('confirmed');
+            $array = array();
+            array_push($array, array($username, $email, $password, $confirmation_code, $remember_token, $confirmed));
+
+            dd($array);
 
             return Response::json(['success' => true]);
             // redirect
             //Session::flash('message', 'Successfully created Campus!');
             //return Redirect::to('campuses')->with('message', '<div class="alert alert-success">Campus successfully added.</div>');
-        }*/
+        }
     }
 
     /**
@@ -249,5 +260,19 @@ class UsersController extends Controller
         Confide::logout();
 
         return Redirect::to('login');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($user_id)
+    {
+        $useraccount = User::find($user_id);
+        $useraccount->delete();
+
+        return Response::json(['success' => true]);
     }
 }
