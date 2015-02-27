@@ -93,24 +93,13 @@ class UsersController extends Controller
         } else {
             // store
             $useraccount = new User;
-            /**$useraccount->username = Input::get('username');
+            $useraccount->username = Input::get('username');
             $useraccount->email = Input::get('email');
             $useraccount->password = Input::get('password');
             $useraccount->confirmation_code = Input::get('confirmation_code');
             $useraccount->remember_token = Input::get('remember_token');
             $useraccount->confirmed = Input::get('confirmed');
-            $useraccount->save();*/
-
-            $username = Input::get('username');
-            $email = Input::get('email');
-            $password = Input::get('password');
-            $confirmation_code = Input::get('confirmation_code');
-            $remember_token = Input::get('remember_token');
-            $confirmed = Input::get('confirmed');
-            $array = array();
-            array_push($array, array($username, $email, $password, $confirmation_code, $remember_token, $confirmed));
-
-            dd($array);
+            $useraccount->save();
 
             return Response::json(['success' => true]);
             // redirect
