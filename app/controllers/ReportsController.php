@@ -44,12 +44,15 @@ class ReportsController extends \BaseController {
         
 	}
 
+    public function errorPage($training_id)
+    {
+        return View::make('reports.error-page');
+    }
+
 	public function ptaReport($training_id)
 	{
 		$internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
@@ -63,8 +66,8 @@ class ReportsController extends \BaseController {
         $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
 
         //Get Schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
         //Get Participant Ratings
         $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
@@ -75,7 +78,16 @@ class ReportsController extends \BaseController {
                         ->distinct()
                         ->get();
 
-        $assessment_items = array();
+        if ($assessment_item_names == NULL)
+        {
+             $strerror = "PTA has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltraining', $internaltraining)
+            ->with('strerror', $strerror);
+        }
+        else
+        {
+             $assessment_items = array();
         foreach ($assessment_item_names as $key => $value) {
             //GET THE MEAN
             $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
@@ -193,6 +205,12 @@ class ReportsController extends \BaseController {
         $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
         $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
 
+        $dateformat_start = new DateTime($date_start_tmp);
+        $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+        $dateformat_end = new DateTime($date_end_tmp);
+        $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
+
         return View::make('reports.pta-report')
             ->with('internaltraining', $internaltraining)
             ->with('department', $department)
@@ -204,14 +222,13 @@ class ReportsController extends \BaseController {
             ->with('evaluation_and_recomendations_array', $evaluation_and_recomendations_array)
             ->with('date_start', $date_start)
             ->with('date_end', $date_end);
+        }
 	}
 
     public function pteReport($training_id)
     {
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
@@ -225,8 +242,8 @@ class ReportsController extends \BaseController {
         $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
 
         //Get schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
         //Get Participant Ratings
         $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
@@ -354,6 +371,12 @@ class ReportsController extends \BaseController {
         //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
         $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
         $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+
+        $dateformat_start = new DateTime($date_start_tmp);
+        $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+        $dateformat_end = new DateTime($date_end_tmp);
+        $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
 
         return View::make('reports.pte-report')
             ->with('internaltraining', $internaltraining)
@@ -373,8 +396,6 @@ class ReportsController extends \BaseController {
         //Internal Training Details
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
@@ -406,8 +427,8 @@ class ReportsController extends \BaseController {
         }
 
         //schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
         
         $start_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $training_id)->where('isStartDate', '=', 1)->pluck('timeslot');
         $timeArray_start = explode("-", $start_time_sched);
@@ -659,7 +680,13 @@ class ReportsController extends \BaseController {
         $overallaveratings = array();
         array_push($overallaveratings, array('overallpta' => $overallpta, 'overallptaverbal' => $overallptaverbal, 'overallpte' => $overallpte, 'overallpteverbal' => $overallpteverbal));
 
-        /**return View::make('reports.ter-report')
+        $dateformat_start = new DateTime($date_start_tmp);
+        $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+        $dateformat_end = new DateTime($date_end_tmp);
+        $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
+
+        return View::make('reports.ter-report')
             ->with('internaltraining', $internaltraining)
             ->with('internaltrainings', $internaltrainings)
             ->with('department', $department)
@@ -682,38 +709,7 @@ class ReportsController extends \BaseController {
             ->with('time_start_e', $time_start_e)
             ->with('time_end_e', $time_end_e)
             ->with('participants', $participants)
-            ->with('overallaveratings', $overallaveratings);*/
-
-            $data = array(
-            'internaltraining' => $internaltraining,
-            'internaltrainings'=> $internaltrainings,
-            'department'=> $department,
-            'schoolcollege' => $schoolcollege,
-            'speakerstring' => $speakerstring,
-            'eval_narrative' => $eval_narrative,
-            'recommendations' => $recommendations,
-            'scnames' => $scnames,
-            'count' => $count,
-            'aae_average' => $aae_average,
-            'pta_average' => $pta_average,
-            'pte_average' => $pte_average,
-            'aae_verbal' => $aae_verbal,
-            'pte_verbal' => $pte_verbal,
-            'pta_verbal' => $pta_verbal,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
-            'time_start_s' => $time_start_s,
-            'time_end_s' => $time_end_s,
-            'time_start_e' => $time_start_e,
-            'time_end_e' => $time_end_e,
-            'participants' => $participants,
-            'overallaveratings' => $overallaveratings
-            );
-        
-        //$route = 
-
-        $pdf = PDF::loadView('ter-report', $data);
-        return $pdf->download('ter-report.pdf');
+            ->with('overallaveratings', $overallaveratings);
     }
 
 
@@ -858,208 +854,426 @@ class ReportsController extends \BaseController {
 
     public function downloadPtaReport($training_id)
     {
-        $internaltraining = Internal_Training::select(DB::raw('*'))
+        $internaltrainings = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+        $oneItem = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('name');
+        $oneResponse = Assessment_Response::where('isActive','=',true)->where('name', '=', $oneItem)->pluck('id');
+
+        $itpart = IT_Participant::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('id');
+        $partassess = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pta")->pluck('id');
+        
+        if($oneItem == NULL)
+        {
+            $strerror = "There are no assessment items yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($itpart == NULL)
+        {
+            $strerror = "There are no training participants yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($partassess == NULL || $oneResponse == NULL)
+        {
+            $strerror = "PTA has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }           
+        else
+        {
+            $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
                                 ->first();
 
-        //Get School/College and Department
-        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $did)->pluck('name');
+            //Get School/College and Department
+            $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+            $department = Department::where('id', '=', $did)->pluck('name');
 
-        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+            $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+            $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
 
-        //Get Schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+            //Get Schedule
+            $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+            $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
-        //Get Participant Ratings
-        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('participant_assessments.type', '=', "pta")
-                        ->distinct()
-                        ->get();
+            //Get Participant Ratings
+            $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->distinct()
+                            ->get();
 
-        $assessment_items = array();
-        foreach ($assessment_item_names as $key => $value) {
-            //GET THE MEAN
-            $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('assessment_responses.name', '=', $value->name)
-                        ->where('participant_assessments.type', '=', "pta")
-                        ->avg('assessment_responses.rating');
+            $assessment_items = array();
 
-            //GET THE STANDARD DEVIATION
-            $ratings = Assessment_Response::select(DB::raw('assessment_responses.rating'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('assessment_responses.name', '=', $value->name)
-                        ->where('participant_assessments.type', '=', "pta")
-                        ->get();
+            foreach ($assessment_item_names as $key => $value) {
+                //GET THE MEAN
+                $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('assessment_responses.name', '=', $value->name)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->avg('assessment_responses.rating');
 
-            $stddev_tmp = array();
-            foreach ($ratings as $key2 => $value2) {
-                $tmp = pow($value2->rating - $mean, 2);
-                array_push($stddev_tmp, $tmp);
+                //GET THE STANDARD DEVIATION
+                $ratings = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('assessment_responses.name', '=', $value->name)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->get();
+
+                $stddev_tmp = array();
+                foreach ($ratings as $key2 => $value2) {
+                    $tmp = pow($value2->rating - $mean, 2);
+                    array_push($stddev_tmp, $tmp);
+                }
+
+                if(count($stddev_tmp)-1 != 0)
+                {
+                    $variance = array_sum($stddev_tmp) / (count($stddev_tmp) - 1);
+                    $stddev = sqrt($variance);
+                }
+                else
+                {
+                    $stddev = 0;
+                }
+
+                //VERBAL INTERPRETATION
+                if($mean <= 1)
+                {
+                    $verbalinterpretation = "No Knowledge";
+                }
+                else if(1 < $mean && $mean <= 2)
+                {
+                    $verbalinterpretation = "Inadequate Knowledge";
+                }
+                else if(2 < $mean && $mean <= 3)
+                {
+                    $verbalinterpretation = "Adequate Knowledge";
+                }
+                else if(3 < $mean && $mean <= 4)
+                {
+                    $verbalinterpretation = "Extensive Knowledge";
+                }
+                else if(4 < $mean && $mean <= 5)
+                {
+                    $verbalinterpretation = "Very Extensive Knowledge";
+                }
+
+                array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev, 'verbalinterpretation' => $verbalinterpretation));
             }
 
-            if(count($stddev_tmp)-1 != 0)
+            //OVERALLS
+            //OVERALL MEAN
+            $mean_sum = array();
+            foreach ($assessment_items as $key3 => $value3) {
+                array_push($mean_sum, $value3["mean"]);
+            }
+            $overall_mean = array_sum($mean_sum) / count($mean_sum);
+
+            //OVERALL SD (SD OF SD)
+            $sd_mean_array = array();
+            foreach ($assessment_items as $key4 => $value4) {
+                array_push($sd_mean_array, $value4["stddev"]);
+            }
+            $sd_mean = array_sum($sd_mean_array) / count($sd_mean_array);
+
+            $stddev_tmp2 = array();
+            foreach ($sd_mean_array as $key5 => $value5) {
+                $tmp2 = pow($value5 - $sd_mean, 2);
+                array_push($stddev_tmp2, $tmp2);
+            }
+
+            if(count($stddev_tmp2)-1 != 0)
             {
-                $variance = array_sum($stddev_tmp) / (count($stddev_tmp) - 1);
-                $stddev = sqrt($variance);
+                $overall_variance = array_sum($stddev_tmp2) / (count($stddev_tmp2) - 1);
+                $overall_stddev = sqrt($overall_variance);
             }
             else
             {
-                $stddev = 0;
+                $overall_stddev = 0;
             }
 
-            //VERBAL INTERPRETATION
-            if($mean <= 1)
+            //OVERALL VERBAL INTERPRETATION
+            if($overall_mean <= 1)
             {
-                $verbalinterpretation = "No Knowledge";
+                $overall_verbalinterpretation = "No Knowledge";
             }
-            else if(1 < $mean && $mean <= 2)
+            else if(1 < $overall_mean && $overall_mean <= 2)
             {
-                $verbalinterpretation = "Inadequate Knowledge";
+                $overall_verbalinterpretation = "Inadequate Knowledge";
             }
-            else if(2 < $mean && $mean <= 3)
+            else if(2 < $overall_mean && $overall_mean <= 3)
             {
-                $verbalinterpretation = "Adequate Knowledge";
+                $overall_verbalinterpretation = "Adequate Knowledge";
             }
-            else if(3 < $mean && $mean <= 4)
+            else if(3 < $overall_mean && $overall_mean <= 4)
             {
-                $verbalinterpretation = "Extensive Knowledge";
+                $overall_verbalinterpretation = "Extensive Knowledge";
             }
-            else if(4 < $mean && $mean <= 5)
+            else if(4 < $overall_mean && $overall_mean <= 5)
             {
-                $verbalinterpretation = "Very Extensive Knowledge";
+                $overall_verbalinterpretation = "Very Extensive Knowledge";
             }
 
-            array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev, 'verbalinterpretation' => $verbalinterpretation));
-        }
+            //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
+            $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
+            $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
 
-        //OVERALLS
-        //OVERALL MEAN
-        $mean_sum = array();
-        foreach ($assessment_items as $key3 => $value3) {
-            array_push($mean_sum, $value3["mean"]);
-        }
-        $overall_mean = array_sum($mean_sum) / count($mean_sum);
+            $dateformat_start = new DateTime($date_start_tmp);
+            $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
 
-        //OVERALL SD (SD OF SD)
-        $sd_mean_array = array();
-        foreach ($assessment_items as $key4 => $value4) {
-            array_push($sd_mean_array, $value4["stddev"]);
-        }
-        $sd_mean = array_sum($sd_mean_array) / count($sd_mean_array);
+            $dateformat_end = new DateTime($date_end_tmp);
+            $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
 
-        $stddev_tmp2 = array();
-        foreach ($sd_mean_array as $key5 => $value5) {
-            $tmp2 = pow($value5 - $sd_mean, 2);
-            array_push($stddev_tmp2, $tmp2);
-        }
+            $data = array(
+                'internaltraining' => $internaltraining,
+                'department' => $department,
+                'schoolcollege' => $schoolcollege,
+                'assessment_items' => $assessment_items,
+                'overall_mean' => $overall_mean,
+                'overall_stddev' => $overall_stddev,
+                'overall_verbalinterpretation' => $overall_verbalinterpretation,
+                'evaluation_and_recomendations_array' => $evaluation_and_recomendations_array,
+                'date_start' => $date_start,
+                'date_end' => $date_end
+                );
 
-        if(count($stddev_tmp2)-1 != 0)
-        {
-            $overall_variance = array_sum($stddev_tmp2) / (count($stddev_tmp2) - 1);
-            $overall_stddev = sqrt($overall_variance);
-        }
-        else
-        {
-            $overall_stddev = 0;
-        }
+            date_default_timezone_set('Asia/Manila');
+            $currentTimeDate = date("Y-m-d H:i:s"); 
+            $currentTime = date("H:i:s");
+            $currentDate = date("Y-m-d");
 
-        //OVERALL VERBAL INTERPRETATION
-        if($overall_mean <= 1)
-        {
-            $overall_verbalinterpretation = "No Knowledge";
-        }
-        else if(1 < $overall_mean && $overall_mean <= 2)
-        {
-            $overall_verbalinterpretation = "Inadequate Knowledge";
-        }
-        else if(2 < $overall_mean && $overall_mean <= 3)
-        {
-            $overall_verbalinterpretation = "Adequate Knowledge";
-        }
-        else if(3 < $overall_mean && $overall_mean <= 4)
-        {
-            $overall_verbalinterpretation = "Extensive Knowledge";
-        }
-        else if(4 < $overall_mean && $overall_mean <= 5)
-        {
-            $overall_verbalinterpretation = "Very Extensive Knowledge";
-        }
+            $pdf = PDF::loadView('reports.pta-report-download', $data);
+            return $pdf->download($currentDate . ' ' . $internaltraining->title .' Pre-Training Assessment.pdf');         
+            }
 
-        //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
-        $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
-        $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+            $assessment_items = array();
+            foreach ($assessment_item_names as $key => $value) {
+                //GET THE MEAN
+                $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('assessment_responses.name', '=', $value->name)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->avg('assessment_responses.rating');
 
-        $data = array(
-            'internaltraining' => $internaltraining,
-            'department' => $department,
-            'schoolcollege' => $schoolcollege,
-            'assessment_items' => $assessment_items,
-            'overall_mean' => $overall_mean,
-            'overall_stddev' => $overall_stddev,
-            'overall_verbalinterpretation' => $overall_verbalinterpretation,
-            'evaluation_and_recomendations_array' => $evaluation_and_recomendations_array,
-            'date_start' => $date_start,
-            'date_end' => $date_end
-            );
+                //GET THE STANDARD DEVIATION
+                $ratings = Assessment_Response::select(DB::raw('assessment_responses.rating'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('assessment_responses.name', '=', $value->name)
+                            ->where('participant_assessments.type', '=', "pta")
+                            ->get();
 
-        date_default_timezone_set('Asia/Manila');
-        $currentTimeDate = date("Y-m-d H:i:s"); 
-        $currentTime = date("H:i:s");
-        $currentDate = date("Y-m-d");
+                $stddev_tmp = array();
+                foreach ($ratings as $key2 => $value2) {
+                    $tmp = pow($value2->rating - $mean, 2);
+                    array_push($stddev_tmp, $tmp);
+                }
 
-        $pdf = PDF::loadView('reports.pta-report-download', $data);
-        return $pdf->download($currentDate . ' ' . $internaltraining->title .' Pre-Training Assessment.pdf');
+                if(count($stddev_tmp)-1 != 0)
+                {
+                    $variance = array_sum($stddev_tmp) / (count($stddev_tmp) - 1);
+                    $stddev = sqrt($variance);
+                }
+                else
+                {
+                    $stddev = 0;
+                }
+
+                //VERBAL INTERPRETATION
+                if($mean <= 1)
+                {
+                    $verbalinterpretation = "No Knowledge";
+                }
+                else if(1 < $mean && $mean <= 2)
+                {
+                    $verbalinterpretation = "Inadequate Knowledge";
+                }
+                else if(2 < $mean && $mean <= 3)
+                {
+                    $verbalinterpretation = "Adequate Knowledge";
+                }
+                else if(3 < $mean && $mean <= 4)
+                {
+                    $verbalinterpretation = "Extensive Knowledge";
+                }
+                else if(4 < $mean && $mean <= 5)
+                {
+                    $verbalinterpretation = "Very Extensive Knowledge";
+                }
+
+                array_push($assessment_items, array('name' => $value->name, 'mean' => $mean, 'stddev' => $stddev, 'verbalinterpretation' => $verbalinterpretation));
+            }
+
+            //OVERALLS
+            //OVERALL MEAN
+            $mean_sum = array();
+            foreach ($assessment_items as $key3 => $value3) {
+                array_push($mean_sum, $value3["mean"]);
+            }
+            $overall_mean = array_sum($mean_sum) / count($mean_sum);
+
+            //OVERALL SD (SD OF SD)
+            $sd_mean_array = array();
+            foreach ($assessment_items as $key4 => $value4) {
+                array_push($sd_mean_array, $value4["stddev"]);
+            }
+            $sd_mean = array_sum($sd_mean_array) / count($sd_mean_array);
+
+            $stddev_tmp2 = array();
+            foreach ($sd_mean_array as $key5 => $value5) {
+                $tmp2 = pow($value5 - $sd_mean, 2);
+                array_push($stddev_tmp2, $tmp2);
+            }
+
+            if(count($stddev_tmp2)-1 != 0)
+            {
+                $overall_variance = array_sum($stddev_tmp2) / (count($stddev_tmp2) - 1);
+                $overall_stddev = sqrt($overall_variance);
+            }
+            else
+            {
+                $overall_stddev = 0;
+            }
+
+            //OVERALL VERBAL INTERPRETATION
+            if($overall_mean <= 1)
+            {
+                $overall_verbalinterpretation = "No Knowledge";
+            }
+            else if(1 < $overall_mean && $overall_mean <= 2)
+            {
+                $overall_verbalinterpretation = "Inadequate Knowledge";
+            }
+            else if(2 < $overall_mean && $overall_mean <= 3)
+            {
+                $overall_verbalinterpretation = "Adequate Knowledge";
+            }
+            else if(3 < $overall_mean && $overall_mean <= 4)
+            {
+                $overall_verbalinterpretation = "Extensive Knowledge";
+            }
+            else if(4 < $overall_mean && $overall_mean <= 5)
+            {
+                $overall_verbalinterpretation = "Very Extensive Knowledge";
+            }
+
+            //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
+            $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
+            $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+
+            $dateformat_start = new DateTime($date_start_tmp);
+            $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+            $dateformat_end = new DateTime($date_end_tmp);
+            $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
+
+            $data = array(
+                'internaltraining' => $internaltraining,
+                'department' => $department,
+                'schoolcollege' => $schoolcollege,
+                'assessment_items' => $assessment_items,
+                'overall_mean' => $overall_mean,
+                'overall_stddev' => $overall_stddev,
+                'overall_verbalinterpretation' => $overall_verbalinterpretation,
+                'evaluation_and_recomendations_array' => $evaluation_and_recomendations_array,
+                'date_start' => $date_start,
+                'date_end' => $date_end
+                );
+
+            date_default_timezone_set('Asia/Manila');
+            $currentTimeDate = date("Y-m-d H:i:s"); 
+            $currentTime = date("H:i:s");
+            $currentDate = date("Y-m-d");
+
+            $pdf = PDF::loadView('reports.pta-report-download', $data);
+            return $pdf->download($currentDate . ' ' . $internaltraining->title .' Pre-Training Assessment.pdf');
     }
 
     public function downloadPteReport($training_id)
     {
-        $internaltraining = Internal_Training::select(DB::raw('*'))
+        $internaltrainings = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
+                                ->where('training_id', '=', $training_id)
+                                ->first();
+
+        $oneItem = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('name');
+        $oneResponse = Assessment_Response::where('isActive','=',true)->where('name', '=', $oneItem)->pluck('id');
+
+        $itpart = IT_Participant::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('id');
+        $partassess = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pte")->pluck('id');
+
+        if($oneItem == NULL)
+        {
+            $strerror = "There are no assessment items yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($itpart == NULL)
+        {
+            $strerror = "There are no training participants yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }
+        else if($partassess == NULL || $oneResponse == NULL)
+        {
+            $strerror = "PTE has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltrainings', $internaltrainings)
+            ->with('strerror', $strerror);
+        }           
+        else
+        {
+            $internaltraining = Internal_Training::select(DB::raw('*'))
+                                ->join('trainings','internal_trainings.training_id','=','trainings.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
                                 ->first();
 
-        //Get School/College and Department
-        $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
-        $department = Department::where('id', '=', $did)->pluck('name');
+            //Get School/College and Department
+            $did = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_department_id');
+            $department = Department::where('id', '=', $did)->pluck('name');
 
-        $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
-        $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
+            $sid = Internal_Training::where('training_id', '=', $training_id)->pluck('organizer_schools_colleges_id');
+            $schoolcollege = School_College::where('id', '=', $sid)->pluck('name');
 
-        //Get schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+            //Get schedule
+            $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+            $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
 
-        //Get Participant Ratings
-        $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
-                        ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
-                        ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
-                        ->where('it_participants.internal_training_id', '=', $training_id)
-                        ->where('participant_assessments.type', '=', "pte")
-                        ->distinct()
-                        ->get();
+            //Get Participant Ratings
+            $assessment_item_names = Assessment_Response::select(DB::raw('assessment_responses.name'))
+                            ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
+                            ->join('it_participants', 'it_participants.id', '=', 'participant_assessments.it_participant_id')
+                            ->where('it_participants.internal_training_id', '=', $training_id)
+                            ->where('participant_assessments.type', '=', "pte")
+                            ->distinct()
+                            ->get();
 
-        $assessment_items = array();
-        foreach ($assessment_item_names as $key => $value) {
+            $assessment_items = array();
+
+            foreach ($assessment_item_names as $key => $value) {
             //GET THE MEAN
             $mean = Assessment_Response::select(DB::raw('assessment_responses.rating'))
                         ->join('participant_assessments', 'participant_assessments.id', '=', 'assessment_responses.participant_assessment_id')
@@ -1175,6 +1389,12 @@ class ReportsController extends \BaseController {
         //GET INTERNAL TRAINING EVAL NARRATIVE & RECCOMENDATIONS
         $training_narratives = Internal_Training::where('training_id', '=', $training_id)->first();
         $evaluation_and_recomendations_array = array('evaluation' => $training_narratives->evaluation_narrative, 'recommendation' => $training_narratives->recommendations);
+
+        $dateformat_start = new DateTime($date_start_tmp);
+        $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+        $dateformat_end = new DateTime($date_end_tmp);
+        $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
 
         $data = array(
             'internaltraining' => $internaltraining,
@@ -1196,6 +1416,7 @@ class ReportsController extends \BaseController {
 
         $pdf = PDF::loadView('reports.pte-report-download', $data);
         return $pdf->download($currentDate . ' ' . $internaltraining->title . ' Post Training Evaluation.pdf');
+        }                 
     }
 
     public function downloadTerReport($training_id)
@@ -1203,8 +1424,6 @@ class ReportsController extends \BaseController {
         //Internal Training Details
         $internaltraining = Internal_Training::select(DB::raw('*'))
                                 ->join('trainings','internal_trainings.training_id','=','trainings.id')
-                                ->join('departments','internal_trainings.organizer_department_id','=','departments.id')
-                                ->join('schools_colleges','internal_trainings.organizer_schools_colleges_id','=','schools_colleges.id')
                                 ->join('it_participants','internal_trainings.training_id','=','it_participants.internal_training_id')
                                 ->join('assessment_items', 'internal_trainings.training_id', '=', 'assessment_items.internal_training_id')
                                 ->where('training_id', '=', $training_id)
@@ -1236,8 +1455,8 @@ class ReportsController extends \BaseController {
         }
 
         //schedule
-        $date_start = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
-        $date_end = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
+        $date_start_tmp = Training_Schedule::where('isActive', '=', true)->where('isStartDate', '=', 1)->pluck('date_scheduled');
+        $date_end_tmp = Training_Schedule::where('isActive', '=', true)->where('isEndDate', '=', 1)->pluck('date_scheduled');
         
         $start_time_sched = Training_Schedule::where('isActive', '=', true)->where('training_id', '=', $training_id)->where('isStartDate', '=', 1)->pluck('timeslot');
         $timeArray_start = explode("-", $start_time_sched);
@@ -1266,7 +1485,46 @@ class ReportsController extends \BaseController {
                         ->where('participant_assessments.type','=',"pte")
                         ->avg('participant_assessments.rating');
 
-        //VERBAL INTERPRETATION FOR OVERALL AVERAGE RATINGS
+        //Test
+        $oneItem = Assessment_Item::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('name');
+        $oneResponse = Assessment_Response::where('isActive','=',true)->where('name', '=', $oneItem)->pluck('id');
+
+        $itpart = IT_Participant::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('id');
+        $partassesspta = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pte")->pluck('id');
+        $partassesspte = Participant_Assessment::where('isActive','=',true)->where('it_participant_id','=',$itpart)->where('type','=',"pte")->pluck('id');
+        $aae_test = Activity_Evaluation::where('isActive','=',true)->where('internal_training_id','=',$training_id)->pluck('planning_criterion1');
+        
+        if($partassesspte == NULL && $partassesspta == NULL)
+        {
+            $strerror = "PTA and PTE have not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltraining', $internaltraining)
+            ->with('strerror', $strerror);
+        }
+        else if($partassesspta == NULL)
+        {
+            $strerror = "PTA has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltraining', $internaltraining)
+            ->with('strerror', $strerror);
+        }
+        else if($partassesspte == NULL)
+        {
+            $strerror = "PTE has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltraining', $internaltraining)
+            ->with('strerror', $strerror);
+        }
+        else if($aae_test == NULL)
+        {
+            $strerror = "After Activity Evaluation has not been accomplished yet.";
+            return View::make('reports.error-page')
+            ->with('internaltraining', $internaltraining)
+            ->with('strerror', $strerror);
+        }
+        else
+        {
+            //VERBAL INTERPRETATION FOR OVERALL AVERAGE RATINGS
         //after activity evaluation
         if($aae_average >= 4.5 && $aae_average <= 5)
         {
@@ -1489,6 +1747,12 @@ class ReportsController extends \BaseController {
         $overallaveratings = array();
         array_push($overallaveratings, array('overallpta' => $overallpta, 'overallptaverbal' => $overallptaverbal, 'overallpte' => $overallpte, 'overallpteverbal' => $overallpteverbal));
 
+        $dateformat_start = new DateTime($date_start_tmp);
+        $date_start = DATE_FORMAT($dateformat_start,'F d, Y');
+
+        $dateformat_end = new DateTime($date_end_tmp);
+        $date_end = DATE_FORMAT($dateformat_end,'F d, Y');
+
         $data = array(
             'internaltraining' => $internaltraining,
             'internaltrainings'=> $internaltrainings,
@@ -1522,5 +1786,8 @@ class ReportsController extends \BaseController {
 
         $pdf = PDF::loadView('reports.ter-report-download', $data);
         return $pdf->download($currentDate . ' ' . $internaltrainings->title . ' Training Effectiveness Report.pdf');
+    }
+        
+
     }
 }

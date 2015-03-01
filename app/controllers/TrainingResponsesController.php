@@ -58,13 +58,19 @@ class TrainingResponsesController extends \BaseController {
 	            	$participant_assessment->save();
 	            }
 
+	            if($type=='pta')
+	            {
+	            	$participant_assessment = new Participant_Assessment;
+	            	$participant_assessment->type = 'pta';
+	            	$participant_assessment->it_participant_id = $participant_id;
+	            	$participant_assessment->save();
+	            }
+
 	            $participant_assessment = Participant_Assessment::where('it_participant_id','=',$participant_id)
 	            								->where('type','=',$type)
 	            								->first();
 	        	
 	        	$totalRating = 0;
-
-	        	//dd($itemname);
 
 	        	foreach ($itemname as $key => $value)
 	        	{	        		

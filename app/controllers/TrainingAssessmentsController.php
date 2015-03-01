@@ -97,7 +97,7 @@ class TrainingAssessmentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store($training_id, $type)
+	public function store($type)
 	{
 		if($type=="pta")
 			{
@@ -129,7 +129,7 @@ class TrainingAssessmentsController extends \BaseController {
 
 	            // redirect
 	            Session::flash('message', 'Successfully accomplished PTA!');
-	            return Redirect::to('dashboard');
+	            return Redirect::to('internal_trainings');
 			}
 		}
 
@@ -163,7 +163,7 @@ class TrainingAssessmentsController extends \BaseController {
 
 	            // redirect
 	            Session::flash('message', 'Successfully created Assessment Items!');
-	            return Redirect::to('dashboard');
+	            return Redirect::to('internal_trainings');
 			}
 		}
 	}

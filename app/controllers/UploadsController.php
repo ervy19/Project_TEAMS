@@ -209,7 +209,7 @@ class UploadsController extends \BaseController {
 			$results = Excel::load(Input::file('file'))->get();
 
 			//save the contents to the it_attendance table
-			for ($i = 0; $i < count($results) ; $i++) { 
+			for ($i = 0; $i < count($results[0]["employee_number"]) ; $i++) { 
 				$it_attendances = new Participant_Attendance;
 				$empid = Employee::where('isActive','=',true)->where('employee_number','=',$results[$i]["employee_number"])->pluck('id');
 				$exists = IT_Participant::where('employee_id', '=', $empid)->where('internal_training_id', '=', $internal_training_id)->count();
@@ -237,8 +237,8 @@ class UploadsController extends \BaseController {
 						$it_participant = new IT_Participant;
 						$it_participant->employee_id = Employee::where('employee_number', '=', $results[$i]["employee_number"])->where('isActive', '=', 1)->pluck('id');
 
-						/**$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[i]->employee_number)->pluck('id'))->first();
-						$it_participant->employee_designation_id = Employee_Designation::where('')*/
+						$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[$i]->employee_number)->pluck('id'))->first();
+						$it_participant->employee_designation_id = $emp_desig_temp;
 
 						$it_participant->internal_training_id = $internal_training_id;
 						$it_participant->save();
@@ -346,13 +346,14 @@ class UploadsController extends \BaseController {
 		if(file_exists(Input::file('file'))) {
 			$results = Excel::load(Input::file('file'))->get();
 
-			//save the contents to the it_attendance table
-			for ($i = 0; $i < count($results) ; $i++) { 
+			for ($i = 0; $i < count($results[0]["employee_number"]) ; $i++) { 
 				$it_participant = new IT_Participant;
-				$it_participant->employee_id = Employee::where('employee_number', '=', $results[$i]["employee_number"])->where('isActive', '=', 1)->pluck('id');
+				$x = Employee::where('employee_number', '=', $results[$i]["employee_number"])->where('isActive', '=', 1)->pluck('id');
+				dd($x);
+				$it_participant->employee_id = $x;
 
-				/**$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[i]->employee_number)->pluck('id'))->first();
-				$it_participant->employee_designation_id = Employee_Designation::where('')*/
+				$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[$i]->employee_number)->pluck('id'))->first();
+				$it_participant->employee_designation_id = $emp_desig_temp;
 
 				$it_participant->internal_training_id = $internal_training_id;
 				$it_participant->save();

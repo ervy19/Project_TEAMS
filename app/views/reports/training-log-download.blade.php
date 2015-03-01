@@ -6,12 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/php">
-        if ( isset($pdf) ) {
-            $font = Font_Metrics::get_font("helvetica", "bold");
-            $pdf->page_text(72, 18, "{PAGE_NUM} of {PAGE_COUNT}", $font, 6, array(255,0,0));
-        }
-    </script>
 </head>
 <body>
 	<table style="width: 100%" border="1">
@@ -84,7 +78,7 @@
 					<tbody>
 						@foreach($it_attended as $key => $value)
 							<tr>
-								<td>{{$value->date_scheduled}}</td>
+								<td>{{DATE_FORMAT(new DateTime($value->date_scheduled), 'F d, Y')}}</td>
 								<td>{{$value->theme_topic}}</td>
 								<td></td>
 								<td>{{$value->name}}</td>
@@ -95,7 +89,7 @@
 
 						@foreach($et_attended as $key => $value)
 							<tr>
-								<td>{{$value->date_scheduled}}</td>
+								<td>{{DATE_FORMAT(new DateTime($value->date_scheduled), 'F d, Y')}}</td>
 								<td>{{$value->theme_topic}}</td>
 								<td></td>
 								<td>{{$value->organizer}}</td>
