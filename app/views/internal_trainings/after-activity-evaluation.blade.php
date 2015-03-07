@@ -24,7 +24,8 @@
 		<div class="panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/speakers">Speakers</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants Information</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/assessment-items">Assessment Items</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants</a></li>
 				<li role="presentation" class="active"><a href="#">After Activity Evaluation</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>

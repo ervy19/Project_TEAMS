@@ -65,7 +65,6 @@ class AssessmentItemsController extends \BaseController {
 	 */
 	public function create_pte($id)
 	{
-		 $id = "3";''
 		 $internaltrainings = Internal_Training::where('id', '=', $id)->get();
 		 $title = Internal_Training::where('isActive', '=', true)->where('id', '=', $id)->pluck('title');
 		 $theme_topic = Internal_Training::where('id', '=', $id)->pluck('theme_topic');
@@ -139,7 +138,6 @@ class AssessmentItemsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		 $id = "3";
 		 $internaltrainings = Internal_Training::where('id', '=', $id)->get();
 		 $title = Internal_Training::where('id', '=', $id)->pluck('title');
 		 $theme_topic = Internal_Training::where('id', '=', $id)->pluck('theme_topic');
@@ -191,6 +189,34 @@ class AssessmentItemsController extends \BaseController {
 			->with('internaltrainings', $internaltrainings);
 	}
 
+	public function assessmentItemsIndex($id)
+	{
+		$internal_training = Training::where('id', '=', $id)->where('isActive', '=', true)->first();
 
+		$isAdminHR = false;
 
+        if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
+        {
+            $isAdminHR = true;       
+        }
+
+		return View::make('internal_trainings.assessment-items')
+			->with('internal_training', $internal_training)
+			->with('isAdminHR', $isAdminHR);
+	}
+
+	public function assessmentItemsEdit($id)
+	{
+		dd('edit');
+	}
+
+	public function assessmentItemsUpdate($id)
+	{
+		dd('update');
+	}
+
+	public function assessmentItemsDestroy($id)
+	{
+		dd('destroy');
+	}
 }
