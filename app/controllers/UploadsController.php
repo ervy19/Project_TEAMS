@@ -353,12 +353,36 @@ class UploadsController extends \BaseController {
 				$it_participant->employee_id = $x;
 
 				$emp_desig_temp = Employee_Designation::where('employee_id', '=', Employee::where('employee_number', '=', $results[$i]->employee_number)->pluck('id'))->first();
-				$it_participant->employee_designation_id = $emp_desig_temp;
+				$it_participant->employee_designation_id = $emp_desig_temp->id;
 
 				$it_participant->internal_training_id = $internal_training_id;
 				$it_participant->save();
 			}
 		}
+
+        $training_title = Training::where('id', '=', $internal_training_id)->pluck('title');
+
+		Mail::send('mail.accomplish-pta', array('training_title' => $training_title), 
+            function($message)
+            {
+            	$results = Excel::load(Input::file('file'))->get();
+            	$emails = array();
+
+				for ($i = 0; $i < count($results[0]["employee_number"]) ; $i++) { 
+					$x = Employee::where('employee_number', '=', $results[$i]["employee_number"])->where('isActive', '=', 1)->pluck('id');
+
+					$desigs = Employee_Designation::where('employee_id', '=', $x)->get();
+					foreach ($desigs as $key => $value) {
+	                    $init = User::where('id', '=', $value->supervisor->user_id)->first();
+	                    array_push($emails, $init->email);
+                	}
+				}   
+
+                foreach ($emails as $key1 => $value1) {
+                    $message->to($value1, 'CEU HR Admin')->subject('Your Employee will Attend a Training');
+                }
+            }
+        );
 
 		return Redirect::to('/internal_trainings/'.$internal_training_id.'/participants');
 	}

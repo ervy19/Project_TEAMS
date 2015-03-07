@@ -92,10 +92,22 @@ class ParticipantsController extends \BaseController {
             $notification->user_id = $supervisor->supervisor->user_id;
             $notification->save();
 
-            /*Mail::send('emails.welcome', array('key' => 'value'), function($message)
-			{
-			    $message->to('test@ceu.edu.ph', 'Juan Dela Cruz')->subject('Answer PTA!');
-			});*/
+            $training_title = Training::where('id', '=', $internal_training_id)->pluck('title');
+			Mail::send('mail.accomplish-pta', array('training_title' => $training_title), 
+                function($message)
+                {
+                    $desigs = Employee_Designation::where('employee_id', '=', Input::get('employee'))->get();
+                    $emails = array();
+                    foreach ($desigs as $key => $value) {
+                        $init = User::where('id', '=', $value->supervisor->user_id)->first();
+                        array_push($emails, $init->email);
+                    }
+
+                    foreach ($emails as $key1 => $value1) {
+                        $message->to($value1, 'CEU HR Admin')->subject('Your Employee will Attend a Training');
+                    }
+                }
+            );        
 
             return Response::json(['success' => true]);
         }
