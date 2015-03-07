@@ -186,7 +186,7 @@
 
 					$.ajax({
 						type: method,
-						url: url + '/users',
+						url: url,
 						data: form.serialize(),
 						success: function(data) {
 							if(data.success)

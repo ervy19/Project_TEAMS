@@ -85,6 +85,11 @@
 		var count = 0;
 		var univID = 10;
 		document.getElementById('count').value = count;
+
+		(function autofill() {
+				addInput('dynamicInput');
+		})()
+
 		function addInput(divName) {	
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
@@ -124,7 +129,7 @@
 		          univID = univID -	8;	          
 		     }
 		     else {
-		          alert("Child div has already been removed or does not exist.");
+		          alert("Designation has already been removed or does not exist.");
 		          return false;
 		     }
 		}

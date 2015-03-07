@@ -70,7 +70,7 @@
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
 			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput');" class="btn btn-primary">
-			    <input type="hidden" id="count" name="count" />
+			    <input type="text" id="count" name="count" />
 				
 				{{ Form::submit('Save') }}
 
@@ -107,7 +107,6 @@
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
 		    count++;
-		    document.getElementById('count').value = count;
 		    newdiv.setAttribute('id', count);
 		    newdiv.innerHTML = 	"<table id='employee_designation_" + count + " class='table'>" +
 		    					"<thead> <tr> <td colspan='2'><h3>Employee Designation " + count + "</h3></td> </tr> </thead>" +
@@ -124,6 +123,8 @@
 								;
 			univID = univID + 8;
 		    document.getElementById(divName).appendChild(newdiv);
+		    document.getElementById('count').value = count;
+
 		    for (var i = univID-1; i >= univID-6; i--) {
 		    	$("#" + i).select2();
 		    };
@@ -141,7 +142,7 @@
 		          univID = univID -	8;	          
 		     }
 		     else {
-		          alert("Child div has already been removed or does not exist.");
+		          alert("Designation has already been removed or does not exist.");
 		          return false;
 		     }
 		}

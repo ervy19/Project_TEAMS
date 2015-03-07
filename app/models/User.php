@@ -59,4 +59,5 @@ class User extends Eloquent implements ConfideUserInterface
 
 	protected $fillable = array('id', 'username', 'email', 'password', 'confirmation_code', 'remember_token', 'confirmed');
 
+	protected $guarded = 'id';
 }

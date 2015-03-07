@@ -490,16 +490,28 @@ class InternalTrainingsController extends \BaseController {
                 if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('HR'))
                 {
                     $isAdminHR = true;
+
+                    $speakerevaluation = array();
+
+                    foreach($speakersid as $key)
+                    {
+                        $evalsExist = Speaker_Evaluation::where('isActive', '=', true)->where('speaker_id','=',$key)->first();
+                    }
+                    
+
+                    if($evalsExist)
+                    {
+                        foreach($speakersid as $value)
+                        {
+                            $speval = Speaker_Evaluation::where('isActive','=',true)->where('speaker_id','=',$value)->first();
+                            $name = Speaker::where('isActive','=',true)->where('id','=',$value)->pluck('name');
+                            array_push($speakerevaluation, array( 'name' => $name, 'id' => $speval->speaker_id, "evaluation_criterion1_".$speval->speaker_id => $speval->evaluation_criterion1, "evaluation_criterion2_".$speval->speaker_id => $speval->evaluation_criterion2, "evaluation_criterion3_".$speval->speaker_id => $speval->evaluation_criterion3));
+                        }
+                    }
+                    
                 }
 
-                $speakerevaluation = array();
-
-                foreach($speakersid as $value)
-                {
-                    $speval = Speaker_Evaluation::where('isActive','=',true)->where('speaker_id','=',$value)->first();
-                    $name = Speaker::where('isActive','=',true)->where('id','=',$value)->pluck('name');
-                    array_push($speakerevaluation, array( 'name' => $name, 'id' => $speval->speaker_id, "evaluation_criterion1_".$speval->speaker_id => $speval->evaluation_criterion1, "evaluation_criterion2_".$speval->speaker_id => $speval->evaluation_criterion2, "evaluation_criterion3_".$speval->speaker_id => $speval->evaluation_criterion3));
-                }
+                
 
                 //$speaker = Speaker::where('internal_training_id', '=', $id)->pluck('id');
                 //$speakerevaluation = Speaker_Evaluation::where('speaker_id', '=', $speaker)->first();
@@ -807,7 +819,7 @@ class InternalTrainingsController extends \BaseController {
             'objectives' => 'required',
             'isTrainingPlan' => 'required',
             'schoolcollege' => 'required_without:department',
-            'department' => 'required_without:schoolcollege'
+            'department' => 'required_without:schoolcollege',
         );
         $validator = Validator::make(Input::all(), $rules);
 
@@ -834,16 +846,29 @@ class InternalTrainingsController extends \BaseController {
             $internaltrainings->objectives = Input::get('objectives');
             $internaltrainings->expected_outcome = Input::get('expected_outcome');
             
-            //$internaltrainings->organizer_schools_colleges_id = Input::get('schoolcollege');
-            //$internaltrainings->organizer_department_id = Input::get('department');
-            
-            //$schoolcollege = Input::get('schoolcollege');
-            //$department = Input::get('department');
+            $schoolcollege = Input::get('schoolcollege');
+            if ($schoolcollege == "")
+            {
+                $schools_colleges_id = NULL;
+            }
+            else
+            {
+                $schools_colleges_id = $schoolcollege;
+            }
 
+            $department = Input::get('department');
+            if ($department == "")
+            {
+                 $departments_id = NULL;
+            }
+            else
+            {
+                $departments_id = $department;
+            }
             $internaltraining = Internal_Training::where('isActive','=',true)->where('training_id','=',$id)
             ->update(array(
-                    'organizer_schools_colleges_id' => Input::get('schoolcollege'),
-                    'organizer_department_id' => Input::get('department')
+                    'organizer_schools_colleges_id' => $schools_colleges_id,
+                    'organizer_department_id' => $departments_id
                 ));
 
             /**if ($schoolcollege == "")
