@@ -36,7 +36,7 @@ class EmployeesController extends \BaseController {
 		$schools_colleges = School_College::where('isActive', '=', true)->get();
 		$departments = Department::where('isActive', '=', true)->get();
 		$campuses = Campus::where('isActive', '=', true)->get();
-		$supervisors = Supervisor::where('isActive', '=', true)->get(); 
+		$supervisors = Supervisor::where('isActive', '=', true)->get();
 
 		return View::make('employees.create')
 			->with('positions', $positions)
@@ -58,7 +58,7 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employee_number' => 'required|integer',
+            'employee_number' => 'required',
             'last_name' => 'required',
             'given_name' => 'required',
             'middle_initial' => 'required',
@@ -232,7 +232,7 @@ class EmployeesController extends \BaseController {
 		// validate
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
-            'employee_number' => 'required|integer',
+            'employee_number' => 'required',
             'last_name' => 'required',
             'given_name' => 'required',
             'middle_initial' => 'required',
