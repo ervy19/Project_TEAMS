@@ -17,8 +17,25 @@
 						<div class="panel">
 
 						<h2 class="panel-header">Account Settings</h2>
-						<p>{{ $user->id or '---' }}</p>
+						{{ $error->all }}
+						{{ Form::open(array('url' => 'users/reset_password', 'class' => 'form-horizontal')) }}
+
+							<div class="form-group row">
+								{{ Form::label('password','New Password: ') }}
+								{{ Form::password('password', '', array( 'class' => 'form-control')) }}
+								{{ $errors->first('password') }}
+							</div>
+
+							<div class="form-group row">
+								{{ Form::label('password_confirmation','Confirm New Password: ') }}
+								{{ Form::password('password_confirmation', '', array( 'class' => 'form-control')) }}
+								{{ $errors->first('password_confirmation') }}
+							</div>
+
 							
+							{{ Form::submit('Change Password', array('class' => 'btn btn-primary pull-right')) }}
+
+						{{ Form::close() }}							
 
 
 						</div>

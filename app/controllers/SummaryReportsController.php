@@ -50,19 +50,21 @@ class SummaryReportsController extends \BaseController {
 		$trainings_count = $it_count + $et_count;
 
 
-		/*$itCountPerMonth = Internal_Training::select(DB::raw('COUNT(*'))
-						->where('created_at','>=',$start_date)
-						->where('created_at','<=',$end_date)
-						->where('isActive','=',true)
-						->groupBy('MONTH(record_date)')
-						->get();*/
+		$itCountPerMonth = Training::select(DB::raw('DISTINCT MONTH(training_schedules.date_scheduled) AS month, COUNT(training_schedules.training_id) AS count_month'))
+						->join('training_schedules','trainings.id','=','training_schedules.training_id')
+						->where('training_schedules.date_scheduled','>=',$start_date)
+						->orWhere('training_schedules.date_scheduled','<=',$end_date)
+						->where('trainings.isActive','=',true)
+						->groupBy('training_schedules.date_scheduled')
+						->get();
 
+		//dd($itCountPerMonth);
 
 		return View::make('summary_reports.trainings')
 					->with('itCount',$it_count)
 					->with('etCount',$et_count)
-					->with('trainingsCount',$trainings_count);
-					//->with('itPerMonth',$itCountPerMonth);
+					->with('trainingsCount',$trainings_count)
+					->with('itPerMonth',$itCountPerMonth);
 	}
 
 	public function scsReport()

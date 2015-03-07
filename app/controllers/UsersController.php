@@ -45,7 +45,7 @@ class UsersController extends Controller
      */
     public function store()
     {
-        $repo = App::make('UserRepository');
+        /**$repo = App::make('UserRepository');
         $user = $repo->signup(Input::all());
 
         if ($user->id) {
@@ -70,6 +70,42 @@ class UsersController extends Controller
             return Redirect::action('UsersController@create')
                 ->withInput(Input::except('password'))
                 ->with('error', $error);
+        }*/
+
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'username' => 'required|max:255', 
+            'email' => 'required|max:255',
+            'password' => 'required',
+            'confirmation_code' => 'required|max:255'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Response::json([
+                'success' => false,
+                'errors' => $validator->errors()->toArray()]
+            );
+            /*return Redirect::to('campuses')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));*/
+        } else {
+            // store
+            $useraccount = new User;
+            $useraccount->username = Input::get('username');
+            $useraccount->email = Input::get('email');
+            $useraccount->password = Input::get('password');
+            $useraccount->confirmation_code = Input::get('confirmation_code');
+            $useraccount->remember_token = Input::get('remember_token');
+            $useraccount->confirmed = Input::get('confirmed');
+            $useraccount->save();
+
+            return Response::json(['success' => true]);
+            // redirect
+            //Session::flash('message', 'Successfully created Campus!');
+            //return Redirect::to('campuses')->with('message', '<div class="alert alert-success">Campus successfully added.</div>');
         }
     }
 

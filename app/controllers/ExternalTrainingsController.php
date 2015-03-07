@@ -466,15 +466,19 @@ class ExternalTrainingsController extends \BaseController {
     public function getQueue($id)
     {        
         $externaltraining = DB::table('et_queues')
+            ->select('employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','training_schedules.date_scheduled','training_schedules.timeslot','training_schedules.et_id','employee_designations.employee_id','et_queues.id')
             ->join('employees','et_queues.employee_id','=','employees.id')
             ->join('employee_designations','employees.id','=','employee_designations.employee_id')
             ->join('training_schedules','et_queues.id','=','training_schedules.et_id')
-            ->select('employees.last_name','employees.given_name','employees.middle_initial','et_queues.title','et_queues.theme_topic','et_queues.participation','et_queues.organizer','et_queues.venue','training_schedules.date_scheduled','training_schedules.timeslot','training_schedules.et_id','employee_designations.employee_id','et_queues.id')
             ->where('et_queues.id', '=', $id)
             ->first();
 
+            dd($externaltraining);
+
         $schoolcollege = School_College::where('isActive', '=', true)->lists('name');
-        $designations = Employee_Designation::where('isActive','=',true)->where('employee_id', '=', $externaltraining->employee_id)->lists('title','id');;
+        $designations = Employee_Designation::where('isActive','=',true)->where('employee_id', '=', $externaltraining->employee_id)->lists('title','id');
+
+        dd($designations);
 
         $sc = SkillsCompetencies::where('isActive', true)->lists('name');
 

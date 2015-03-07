@@ -134,6 +134,7 @@
                 <div class="col-sm-9 col-md-9">
                     <div id="externaltraining-stackedchart" style="min-width: 310px; margin: 0 auto"></div>
                 </div>
+
             </div>
     </div>
 </div>
@@ -229,10 +230,10 @@
                     },
                     series: [{
                         name: 'Internal Trainings',
-                        data: [10,15,26,23,27,12,21,19,10,5,2,1]
+                        data: [ 0,0,0,0,0,0,0,0,0,0,0,0]
                     }, {
                         name: 'External Trainings',
-                        data: [5,3,10,16,32,22,17,16,12,21,18,19]
+                        data: [0,3,10,16,32,22,17,16,12,21,18,19]
                     }]
                 });
             }

@@ -117,6 +117,18 @@ Route::group(array('before' => 'auth'), function()
 
 	Route::get('summary_report/skills_competencies', array('as' => 'summary_report.skills_competencies', 'uses' => 'SummaryReportsController@scsReport'));
 
+	/*
+	|--------------------------------------------------------------------------
+	| User Accounts Routes
+	|--------------------------------------------------------------------------
+	|
+	| Different application routes for User Accounts components
+	|
+	*/
+	Route::get('users/create', 'UsersController@create');
+	Route::get('users', 'UsersController@index');
+	Route::post('users', 'UsersController@store');
+	Route::delete('users/{users}', array('uses' => 'UserController@destroy'));
 
 	/*
 	|--------------------------------------------------------------------------
@@ -181,6 +193,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('training_plan', array('as' => 'training_plan', 'uses' => 'TrainingPlanController@index'));
 
 
+
 	Route::get('users', array('as' => 'users.index', 'uses' => 'UsersController@index'));
 	Route::get('users/create', array('as' => 'users.create', 'uses' => 'UsersController@create'));
 	Route::post('users', array('as' => 'users.store', 'uses' => 'UsersController@store'));
@@ -188,6 +201,7 @@ Route::group(array('before' => 'auth'), function()
 	Route::put('users/{user_id}',  array('before' => 'update-user-account', 'as' => 'users.update', 'uses' => 'UsersController@update'));
 	Route::patch('users/{user_id}', array('before' => 'update-user-account', 'uses' => 'UsersController@update'));
 	Route::delete('users/{user_id}', array('as' => 'users.destroy', 'uses' => 'UsersController@destroy'));
+
 
 
 	Route::resource('roles','RolesController');
