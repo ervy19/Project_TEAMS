@@ -70,7 +70,7 @@
 			    </div>
 			    <input type="button" value="Add an Employee Designation" onClick="addInput('dynamicInput');" class="btn btn-primary">
 			    <input type="button" value="Remove Employee Designation" onclick="removeInput('dynamicInput');" class="btn btn-primary">
-			    <input type="hidden" id="count" name="count" />
+			    <input type="text" id="count" name="count" />
 				
 				{{ Form::submit('Save') }}
 
@@ -107,23 +107,24 @@
 			//http://www.randomsnippets.com/2008/02/21/how-to-dynamically-add-form-elements-via-javascript/
 		    var newdiv = document.createElement('div');
 		    count++;
-		    document.getElementById('count').value = count;
 		    newdiv.setAttribute('id', count);
 		    newdiv.innerHTML = 	"<table id='employee_designation_" + count + " class='table'>" +
 		    					"<thead> <tr> <td colspan='2'><h3>Employee Designation " + count + "</h3></td> </tr> </thead>" +
 		    					"<tbody>" +
-		    					"<tr><td><label>Classification:&nbsp</label></td><td><select id=" + (univID) + " name='myInputs" + count + "[]'><option value='Faculty'>Faculty</option><option value='Non-Teaching'>Non-Teaching</option> </select><br></td></tr>" +
-		    					"<tr><td><label>Title:&nbsp</label></td><td><input type='text' id=" + (univID+1) + " name='myInputs" + count + "[]'><br></td></tr>" +
-		    					"<tr><td><label>Campus:&nbsp</label></td><td><select id=" + (univID+2) + " name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>School/College:&nbsp</label></td><td><select id=" + (univID+3) + " name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>Department:&nbsp</label></td><td><select id=" + (univID+4) + " name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-								"<tr><td><label>Supervisor:&nbsp</label></td><td><select id=" + (univID+5) + " name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
-		    					"<tr><td><label>Position:&nbsp</label></td><td><select id=" + (univID+6) + " name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br></td></tr>" +
-								"<tr><td><label>Rank:&nbsp</label></td><td><select id=" + (univID+7) + " name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Classification:&nbsp</label></td><td><select id=" + (univID) + " class='form-control' name='myInputs" + count + "[]'><option value='Faculty'>Faculty</option><option value='Non-Teaching'>Non-Teaching</option> </select><br></td></tr>" +
+		    					"<tr><td><label>Title:&nbsp</label></td><td><input type='text' id=" + (univID+1) + " class='form-control' name='myInputs" + count + "[]'><br></td></tr>" +
+		    					"<tr><td><label>Campus:&nbsp</label></td><td><select id=" + (univID+2) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($campuses as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>School/College:&nbsp</label></td><td><select id=" + (univID+3) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($schools_colleges as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Department:&nbsp</label></td><td><select id=" + (univID+4) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($departments as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+								"<tr><td><label>Supervisor:&nbsp</label></td><td><select id=" + (univID+5) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($supervisors as $key => $value): ?> <option value='<?php echo $value->name ?>'><?php echo $value->name ?></option><?php endforeach; ?></select><br></td></tr>" +
+		    					"<tr><td><label>Position:&nbsp</label></td><td><select id=" + (univID+6) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($positions as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option> <?php endforeach; ?> </select><br></td></tr>" +
+								"<tr><td><label>Rank:&nbsp</label></td><td><select id=" + (univID+7) + " class='form-control' name='myInputs" + count + "[]'><?php foreach($ranks as $key => $value): ?> <option value='<?php echo $value->title ?>'><?php echo $value->title ?></option><?php endforeach; ?></select><br></td></tr>" +
 								"</tbody></table>"
 								;
 			univID = univID + 8;
 		    document.getElementById(divName).appendChild(newdiv);
+		    document.getElementById('count').value = count;
+
 		    for (var i = univID-1; i >= univID-6; i--) {
 		    	$("#" + i).select2();
 		    };
@@ -141,7 +142,7 @@
 		          univID = univID -	8;	          
 		     }
 		     else {
-		          alert("Child div has already been removed or does not exist.");
+		          alert("Designation has already been removed or does not exist.");
 		          return false;
 		     }
 		}

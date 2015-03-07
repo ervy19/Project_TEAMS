@@ -264,38 +264,58 @@ class EmployeesController extends \BaseController {
 
             $limit = Input::get('count');
             //update employees designation
-			for($i = 1; $i <= $limit; $i++)
-			{
-				if($i > $count) {
-					$myInputs = Input::get("myInputs".$i);
-					$new_desig = new Employee_Designation;
+            if($limit < $count) //REMOVED AN EMPLOYEE DESIGNATION
+            {
+            	try
+            	{
+            		$var = Employee_Designation::where('employee_id', '=', $id)->where('isActive', '=', true)->get();
+            		for($y = $count; $y > $limit; $y--)
+            		{
+            			$var[$y-1]->delete();
+            		}
+            	}
+            	catch(Exception $e)
+            	{
+            		//CUSTOM ERROR MESSAGE HERE
+            		$message = "Cannot delete a designation that is connected to an external training";
+					echo "<script type='text/javascript'>alert('$message');</script>";
+            	}
+            }
+            else
+            {
+				for($i = 1; $i <= $limit; $i++)
+				{
+					if($i > $count) {
+						$myInputs = Input::get("myInputs".$i);
+						$new_desig = new Employee_Designation;
 
-					$new_desig->classifications = array_get($myInputs, '0');
-					$new_desig->title = array_get($myInputs, '1');
-					$new_desig->employee_id = $employees->id;
-					$new_desig->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
-					$new_desig->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
-					$new_desig->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
-					$new_desig->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
-					$new_desig->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
-					$new_desig->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
+						$new_desig->classifications = array_get($myInputs, '0');
+						$new_desig->title = array_get($myInputs, '1');
+						$new_desig->employee_id = $employees->id;
+						$new_desig->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
+						$new_desig->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
+						$new_desig->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
+						$new_desig->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
+						$new_desig->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+						$new_desig->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
 
-					$new_desig->save();
-				}
-				else {
-					$myInputs = Input::get("myInputs".$i);
-					$employee_designation = Employee_Designation::where('employee_id', '=', $id)->where('isActive', '=', true)->get();
-					
-					$employee_designation[$i-1]->classifications = array_get($myInputs, '0');
-					$employee_designation[$i-1]->title = array_get($myInputs, '1');
-					$employee_designation[$i-1]->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
-					$employee_designation[$i-1]->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
-					$employee_designation[$i-1]->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
-					$employee_designation[$i-1]->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
-					$employee_designation[$i-1]->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
-					$employee_designation[$i-1]->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
-					
-					$employee_designation[$i-1]->save();
+						$new_desig->save();
+					}
+					else {
+						$myInputs = Input::get("myInputs".$i);
+						$employee_designation = Employee_Designation::where('employee_id', '=', $id)->where('isActive', '=', true)->get();
+						
+						$employee_designation[$i-1]->classifications = array_get($myInputs, '0');
+						$employee_designation[$i-1]->title = array_get($myInputs, '1');
+						$employee_designation[$i-1]->campus_id = Campus::where('name', '=', array_get($myInputs, '2'))->pluck('id');
+						$employee_designation[$i-1]->schools_colleges_id = School_College::where('name', '=', array_get($myInputs, '3'))->pluck('id');
+						$employee_designation[$i-1]->department_id = Department::where('name', '=', array_get($myInputs, '4'))->pluck('id');
+						$employee_designation[$i-1]->supervisor_id = Supervisor::where('name', '=', array_get($myInputs, '5'))->pluck('id');
+						$employee_designation[$i-1]->position_id = Position::where('title', '=', array_get($myInputs, '6'))->pluck('id');
+						$employee_designation[$i-1]->rank_id = Rank::where('title', '=', array_get($myInputs, '7'))->pluck('id');
+						
+						$employee_designation[$i-1]->save();
+					}
 				}
 			}
 
