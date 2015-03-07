@@ -22,10 +22,10 @@
 
 	<div class="col-sm-12 col-md-12 training-data">
 		<div class="panel">
-			<ul class="nav nav-tabs nav-justified">
-				
+			<ul class="nav nav-tabs nav-justified">	
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/speakers">Speakers</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants Information</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/assessment-items">Assessment Items</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/after-activity-evaluation">After Activity Evaluation</a></li>
 				<li role="presentation" class="active"><a href="#">Training Effectiveness Report</a></li>
 			</ul>

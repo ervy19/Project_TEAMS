@@ -157,6 +157,13 @@ Route::group(array('before' => 'auth'), function()
 	Route::patch('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@update'));
 	Route::delete('internal_trainings/{internal_trainings}/speakers/{speaker}', array('uses' => 'SpeakersController@destroy'));
 
+	/*Assessment Items under Internal Trainings*/
+	Route::get('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'AssessmentItemsController@assessmentItemsIndex'));
+	Route::get('internal_trainings/{training_id}/assessment-items/{assessment-item}/edit', array('as' => 'internal_trainings.assessment-items', 'uses' => 'AssessmentItemsController@assessmentItemsEdit'));
+	Route::put('internal_trainings/{training_id}/assessment-items/{assessment-item}', array('as' => 'assessment-items.update', 'uses' => 'AssessmentItemsController@assessmentItemsUpdate'));
+	Route::patch('internal_trainings/{training_id}/assessment-items/{assessment-item}', array('uses' => 'AssessmentItemsController@assessmentItemsUpdate'));
+	Route::delete('internal_trainings/{training_id}/assessment-items/{assessment-item}', array('uses' => 'AssessmentItemsController@assessmentItemsDestroy'));
+
 	/*Participant Routes under Internal Trainings*/
 	Route::get('internal_trainings/{internal_trainings}/participants', array('as' => 'participants.index', 'uses' => 'ParticipantsController@index'));
 	Route::get('internal_trainings/{internal_trainings}/participants/{participant}/edit', array('as' => 'participants.edit', 'uses' => 'ParticipantsController@edit'));
@@ -225,10 +232,6 @@ Route::group(array('before' => 'auth'), function()
 	Route::resource('skills_competencies','SkillsCompetenciesController');
 
 	Route::resource('uploads','UploadsController');
-
-
-	Route::get('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@index'));
-	Route::post('internal_trainings/{training_id}/assessment-items', array('as' => 'internal_trainings.assessment_items', 'uses' => 'TrainingAssessmentsController@storeAI'));
 
 	Route::get('employees/{employee_id}/individual-training-report', array('as' => 'employees.individual_training_report', 'uses' => 'EmployeesController@showTrainingReport'));
 	Route::get('employees/{employee_id}/individual-training-data', array('as' => 'employees.individual_training_data', 'uses' => 'SummaryReportsController@individualTrainingReport'));

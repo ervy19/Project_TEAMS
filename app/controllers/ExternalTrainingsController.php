@@ -361,7 +361,7 @@ class ExternalTrainingsController extends \BaseController {
         } else {
 
             $employee = DB::table('employees')
-                ->where('employee_number',Input::get('employee_number'))
+                ->where('employee_number', '=', Input::get('employee_number'))
                 ->pluck('id');
 
             if (is_null($employee))
@@ -456,6 +456,29 @@ class ExternalTrainingsController extends \BaseController {
                         }
                     }
                 }
+
+                $ext_employee = Employee::where('employee_number', '=', Input::get('employee_number'))->first();
+                $external_training_title = Input::get('title');
+                
+                Mail::send('mail.external-training-submit-success', array('ext_employee' => $ext_employee, 'external_training_title' => $external_training_title), 
+                    function($message)
+                    {
+                        $employee = DB::table('employees')
+                            ->where('employee_number', '=', Input::get('employee_number'))
+                            ->pluck('id');
+
+                        $desigs = Employee_Designation::where('employee_id', '=', $employee)->get();
+                        $emails = array();
+                        foreach ($desigs as $key => $value) {
+                            $init = User::where('id', '=', $value->supervisor->user_id)->first();
+                            array_push($emails, $init->email);
+                        }
+
+                        foreach ($emails as $key1 => $value1) {
+                            $message->to($value1, 'CEU HR Admin')->subject('Your Employee Submitted an External Training');
+                        }
+                    }
+                );
 
                 return View::make('success-external-training')
                     ->with('employee_number',$employee_number);

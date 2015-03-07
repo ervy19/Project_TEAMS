@@ -474,7 +474,9 @@ class InternalTrainingsController extends \BaseController {
 
         $speakersid = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->lists('id');
         $speakers = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->get();
-        
+        $onespeakersid = Speaker::where('isActive','=',true)->where('internal_training_id','=',$id)->pluck('id');
+
+
         $isAdminHR = false;
         $existsAE = false;
         $hasAttendees = false;
@@ -498,6 +500,7 @@ class InternalTrainingsController extends \BaseController {
                         $evalsExist = Speaker_Evaluation::where('isActive', '=', true)->where('speaker_id','=',$key)->first();
                     }
                     
+                    $evalsExist = Speaker_Evaluation::where('isActive', '=', true)->where('speaker_id','=',$onespeakersid)->first();
 
                     if($evalsExist)
                     {
@@ -596,7 +599,8 @@ class InternalTrainingsController extends \BaseController {
             // store
             //Activity_Evaluation Table
             $activityevaluation = new Activity_Evaluation;
-            $activityevaluation->planning_criterion1 = Input::get('planning_criterion1');
+            $items = (string)Input::get('planning_criterion1');
+            $activityevaluation->planning_criterion1 = $items;
             $activityevaluation->planning_criterion2 = Input::get('planning_criterion2');
             $activityevaluation->objectives_criterion1 = Input::get('objectives_criterion1');
             $activityevaluation->objectives_criterion2 = Input::get('objectives_criterion2');
@@ -800,7 +804,6 @@ class InternalTrainingsController extends \BaseController {
             ->with('selecteddepartment', $selecteddepartment)
             ->with('sschoolcollege', $sschoolcollege)
             ->with('sdepartment', $sdepartment);
-
 	}
 
 

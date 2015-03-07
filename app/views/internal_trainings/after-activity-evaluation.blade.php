@@ -24,7 +24,8 @@
 		<div class="panel">
 			<ul class="nav nav-tabs nav-justified">
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/speakers">Speakers</a></li>
-				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants Information</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/assessment-items">Assessment Items</a></li>
+				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/participants">Participants</a></li>
 				<li role="presentation" class="active"><a href="#">After Activity Evaluation</a></li>
 				<li role="presentation"><a href="{{ URL::to('internal_trainings') }}/{{$internal_training->id}}/training-effectiveness-report">Training Effectiveness Report</a></li>
 			</ul>
@@ -46,55 +47,55 @@
 							<tr>
 								<td rowspan="2"><b>1. Planning</b></td>
 								<td>1.1 Preparedness of Participants</td>
-								<td>{{ Form::text('planning_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('planning_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>1.2 Coordination of Committees</td>
-								<td>{{ Form::text('planning_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('planning_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="3"><b>2. Objectives</b></td>
 								<td>2.1 Clarity</td>
-								<td>{{ Form::text('objectives_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>2.2 Timeliness</td>
-								<td>{{ Form::text('objectives_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>2.3 Relevance</td>
-								<td>{{ Form::text('objectives_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('objectives_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2"><b>3. Content/Activities</b></td>
 								<td>3.1 Relevance</td>
-								<td>{{ Form::text('content_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('content_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>3.2 Organization/Logic</td>
-								<td>{{ Form::text('content_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('content_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2"><b>4. Materials</b></td>
 								<td>4.1 Handouts</td>
-								<td>{{ Form::text('materials_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('materials_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>4.2 Audio-Visual/Devices</td>
-								<td>{{ Form::text('materials_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('materials_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="3"><b>5. Schedule of Activities</b></td>
 								<td>5.1 Time allotment</td>
-								<td>{{ Form::text('schedule_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>5.2 Flexibility</td>
-								<td>{{ Form::text('schedule_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>5.3 Appropriateness of date</td>
-								<td>{{ Form::text('schedule_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('schedule_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td colspan="3"><b>6. Speaker/s</b></td>
@@ -103,38 +104,38 @@
 							<tr>
 								<td rowspan="3"><b>6.1 {{ $value->name }}</b></td>
 								<td>6.1.1 Subject matter mastery</td>
-								<td>{{ Form::text("evaluation_criterion1_" . $value->id, '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number("evaluation_criterion1_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.2 Contribution to the attainment of the objectives</td>
-								<td>{{ Form::text("evaluation_criterion2_" . $value->id, '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number("evaluation_criterion2_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>6.1.3 Interaction/Rapport with participants</td>
-								<td>{{ Form::text("evaluation_criterion3_" . $value->id, '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number("evaluation_criterion3_" . $value->id, '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							@endforeach
 							<tr>
 								<td rowspan="3"><b>7. Open Forum</b></td>
 								<td>7.1 Time allotment</td>
-								<td>{{ Form::text('openForum_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>7.2 Extent of audience participation</td>
-								<td>{{ Form::text('openForum_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>7.3 Moderator's effectiveness</td>
-								<td>{{ Form::text('openForum_criterion3', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('openForum_criterion3', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td rowspan="2"><b>8. Venue/Facilities</b></td>
 								<td>8.1 Acoustics</td>
-								<td>{{ Form::text('venue_criterion1', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('venue_criterion1', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td>8.2 Appropriateness</td>
-								<td>{{ Form::text('venue_criterion2', '',array('class' => 'form-control')) }}</td>
+								<td>{{ Form::number('venue_criterion2', '',array('class' => 'form-control', 'min' => 0, 'max' => 5, 'step' => 0.0001)) }}</td>
 							</tr>
 							<tr>
 								<td><b>Comments/Recommendations:</b></td>
