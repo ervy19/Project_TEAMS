@@ -83,7 +83,7 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_schools_colleges_id','Organizing School/College: ') }}
 						</div>
-						{{ Form::select('schoolcollege', withEmpty($schoolcollege), 'Select a School or College Organizer', array('id' => 'dd-schoolscolleges', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('schoolcollege', $schoolcollege, 'Select a School or College Organizer', array('id' => 'dd-schoolscolleges', 'class' => 'col-sm-6 col-md-6')) }}
 						
 					</div>
 
@@ -91,7 +91,7 @@
 						<div class="col-sm-12 col-md-12">
 						{{ Form::label('organizer_department_id','Organizing Department: ') }}
 						</div>
-						{{ Form::select('department', withEmpty($department), 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
+						{{ Form::select('department', $department, 'Select a Department Organizer', array('id' => 'dd-departments', 'class' => 'col-sm-6 col-md-6')) }}
 					
 					</div>
 

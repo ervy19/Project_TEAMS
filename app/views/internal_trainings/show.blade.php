@@ -282,7 +282,7 @@
 						if(data.success)
 						{
 							$.each(data.data, function(element, index){
-				            	$('#assessmentItems').find('.tags').append('<h3><span class="label label-default">'+index.name+'</span></h3>&nbsp;');
+				            	$('#assessmentItems').find('.tags').append('<h3><span class="label label-default">'+index.name+'</span></h3>&nbsp;<br>');
 				          	});
 						}
 					},'json');

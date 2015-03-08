@@ -248,36 +248,33 @@ class InternalTrainingsController extends \BaseController {
                 } 
                 else if($schedCount == 2)
                 {
-                    $schedid1 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isStartDate','=',1)->pluck('date_scheduled');
-                    $timeslot1 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isStartDate','=',1)->pluck('timeslot');
+                    $schedid1 = Training_Schedule::where('isActive','=',true)->where('training_id','=',$id)->where('id','=',$value)->pluck('date_scheduled');
+                    $timeslot1 = Training_Schedule::where('isActive','=',true)->where('training_id','=',$id)->where('id','=',$value)->pluck('timeslot');
 
-                    $schedid2 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isEndDate','=',1)->pluck('date_scheduled');
-                    $timeslot2 = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->where('isEndDate','=',1)->pluck('timeslot');
-
+                    //$schedid2 = Training_Schedule::where('training_id','=',$id)->where('id','=',$value)->where('isEndDate','=',1)->where('isStartDate','=',0)->where('isActive','=',true)->pluck('date_scheduled');
+                    //$timeslot2 = Training_Schedule::where('isActive','=',true)->where('training_id','=',$id)->where('id','=',$value)->where('isEndDate','=',1)->where('isStartDate','=',0)->pluck('timeslot');
                     $dateformat1 = new DateTime($schedid1);
-                    $date_start = DATE_FORMAT($dateformat1,'F d, Y');
+                    $date_start1 = DATE_FORMAT($dateformat1,'F d, Y');
 
-                    $dateformat2 = new DateTime($schedid2);
-                    $date_end = DATE_FORMAT($dateformat2,'F d, Y');
+                    //$dateformat2 = new DateTime($schedid2);
+                    //$date_end2 = DATE_FORMAT($dateformat2,'F d, Y');
 
-                    array_push($schedArray, array('date_scheduled' => $date_start, 'timeslot' => $timeslot1));
-                    array_push($schedArray, array('date_scheduled' => $date_end, 'timeslot' => $timeslot2));
+                    array_push($schedArray, array('date_scheduled' => $date_start1, 'timeslot' => $timeslot1));
+                    //array_push($schedArray, array('date_scheduled' => $date_end2, 'timeslot' => $timeslot2));
+
                 }
                 else
                 {
-                    $sched = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('date_scheduled');
+                    $schedd = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('date_scheduled');
                     $timeslot = Training_Schedule::where('isActive','=',true)->where('id','=',$value)->pluck('timeslot');
                     
-                    $dateformat = new DateTime($sched);
+                    $dateformat = new DateTime($schedd);
                     $date_sched = DATE_FORMAT($dateformat,'F d, Y');
 
                     array_push($schedArray, array('date_scheduled' => $date_sched, 'timeslot' => $timeslot));
                     
                 }
             }
-        }
-        else
-        {
 
         }
 
